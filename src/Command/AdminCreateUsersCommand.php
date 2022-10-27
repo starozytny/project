@@ -2,8 +2,9 @@
 
 namespace App\Command;
 
-use App\Entity\User;
-use App\Services\DatabaseService;
+use App\Entity\Main\User;
+use App\Service\Data\DataMain;
+use App\Service\DatabaseService;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -19,13 +20,15 @@ class AdminCreateUsersCommand extends Command
 {
     private DatabaseService $databaseService;
     private ObjectManager $em;
+    private DataMain $dataMain;
 
-    public function __construct(DatabaseService $databaseService)
+    public function __construct(DatabaseService $databaseService, DataMain $dataMain)
     {
         parent::__construct();
 
         $this->databaseService = $databaseService;
         $this->em = $databaseService->getDefaultManager();
+        $this->dataMain = $dataMain;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -36,6 +39,7 @@ class AdminCreateUsersCommand extends Command
         $this->databaseService->resetTable($io, "default", [
             User::class,
         ]);
+
         $users = [
             [
                 'username' => 'shanbo',
@@ -61,18 +65,18 @@ class AdminCreateUsersCommand extends Command
 
         $io->title('Création des utilisateurs');
         foreach ($users as $user) {
-            $new = (new User())
-                ->setUsername($user['username'])
-                ->setRoles($user['roles'])
-                ->setPassword($password)
-            ;
+            $obj = $this->dataMain->setData(new User(), json_decode(json_encode($user)));
+            $obj->setPassword($password);
 
-            $this->em->persist($new);
+            $this->em->persist($obj);
+
             $io->text('USER : ' . $user['username'] . ' créé' );
         }
 
         $this->em->flush();
 
+        $io->newLine();
+        $io->comment('--- [FIN DE LA COMMANDE] ---');
         return Command::SUCCESS;
     }
 }
