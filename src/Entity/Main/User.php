@@ -11,6 +11,14 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 class User extends DataEntity implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    const FOLDER = "avatars";
+
+    const USER_READ = ['user:read'];
+
+    const CODE_ROLE_USER = 0;
+    const CODE_ROLE_DEVELOPER = 1;
+    const CODE_ROLE_ADMIN = 2;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -101,6 +109,39 @@ class User extends DataEntity implements UserInterface, PasswordAuthenticatedUse
         $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
+    }
+
+    /**
+     * Get label of the high role
+     *
+     * @return string
+     */
+    public function getHighRole(): string
+    {
+        $rolesSortedByImportance = ['ROLE_DEVELOPER', 'ROLE_ADMIN', 'ROLE_USER'];
+        $rolesLabel = ['Développeur', 'Administrateur', 'Utilisateur'];
+        $i = 0;
+        foreach ($rolesSortedByImportance as $role)
+        {
+            if (in_array($role, $this->roles)) return $rolesLabel[$i];
+            $i++;
+        }
+
+        return "Utilisateur";
+    }
+
+    /**
+     * Get code of the high role
+     *
+     * @return int
+     */
+    public function getHighRoleCode(): int
+    {
+        return match ($this->getHighRole()) {
+            'Développeur' => self::CODE_ROLE_DEVELOPER,
+            'Administrateur' => self::CODE_ROLE_ADMIN,
+            default => self::CODE_ROLE_USER,
+        };
     }
 
     public function setRoles(array $roles): self

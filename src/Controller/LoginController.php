@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -13,8 +14,12 @@ class LoginController extends AbstractController
     #[Route('/connexion', name: 'app_login')]
     public function index(AuthenticationUtils $authenticationUtils): Response
     {
-        $error = $authenticationUtils->getLastAuthenticationError();
+        if ($this->getUser()) {
+            if($this->isGranted('ROLE_ADMIN')) return $this->redirectToRoute('admin_homepage');
+            if($this->isGranted('ROLE_USER')) return $this->redirectToRoute('user_homepage');
+        }
 
+        $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
 
         return $this->render('app/pages/security/index.html.twig', [
@@ -22,6 +27,17 @@ class LoginController extends AbstractController
             'last_username' => $lastUsername,
             'error' => $error
         ]);
+    }
+
+    #[Route('/connected', name: 'app_logged')]
+    public function logged(): RedirectResponse
+    {
+        if ($this->getUser()) {
+            if($this->isGranted('ROLE_ADMIN')) return $this->redirectToRoute('admin_homepage');
+            if($this->isGranted('ROLE_USER')) return $this->redirectToRoute('user_homepage');
+        }
+
+        return $this->redirectToRoute('app_login');
     }
 
     /**
