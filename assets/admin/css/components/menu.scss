@@ -158,14 +158,57 @@
   }
 }
 
-//                      __   _  ___ ____   ___    __
-//                     | _| / |/ _ \___ \ / _ \  |_ |
-//    _____ _____ _____| |  | | (_) |__) | | | |  | |_____ _____ _____
-//   |_____|_____|_____| |  | |\__, / __/| |_| |  | |_____|_____|_____|
-//                     | |  |_|  /_/_____|\___/   | |
+//                      __   _ ____  ___   ___    __
+//                     | _| / |___ \( _ ) / _ \  |_ |
+//    _____ _____ _____| |  | | __) / _ \| | | |  | |_____ _____ _____
+//   |_____|_____|_____| |  | |/ __/ (_) | |_| |  | |_____|_____|_____|
+//                     | |  |_|_____\___/ \___/   | |
 //                     |__|                      |__|
-@media (min-width: 1920px){
+@media (min-width:1280px) {
   .nav-container{
-    @include maxscreen();
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 1.8rem 1.2rem;
+    height: calc(100% - 3.6rem);
+  }
+
+  .nav-logo{
+    margin: 0 auto 48px auto;
+  }
+
+  .nav-content{
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 100%; height: 100%;
+    margin: 0;
+    gap: 24px;
+  }
+
+  .nav-header{
+    flex-direction: column;
+    text-align: center;
+    width: 100%;
+  }
+
+  .nav-header-infos{
+    & > div{
+      max-width: 180px;
+    }
+  }
+
+  .nav-header-actions{
+    margin-left: 0;
+  }
+
+  .nav-menu{
+    flex-direction: column;
+    width: 100%;
+    gap: 8px;
+
+    .nav-item{
+      width: calc(100% - 24px);
+    }
   }
 }
