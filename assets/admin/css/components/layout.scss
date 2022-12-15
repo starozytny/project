@@ -2,6 +2,21 @@ nav{
   background-color: var(--color0);
 }
 
+.page-title-container{
+  padding: 1.2rem;
+
+  h1{
+    margin-bottom: 4px;
+  }
+
+  .page-subtitle{
+    opacity: 0.8;
+  }
+}
+
+.main-content{
+  min-height: 80vh;
+}
 
 //                      __   _  ___ ____   ___    __
 //                     | _| / |/ _ \___ \ / _ \  |_ |
@@ -10,7 +25,7 @@ nav{
 //                     | |  |_|  /_/_____|\___/   | |
 //                     |__|                      |__|
 @media (min-width: 1920px){
-  main{
+  .page-title-container, .main-content{
     @include maxscreen();
   }
 }
