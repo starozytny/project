@@ -1,0 +1,26 @@
+@mixin flex($direction: row, $align: center, $justify: center) {
+  display: flex;flex-direction: $direction;
+  align-items: $align;justify-content: $justify;
+}
+
+@mixin scrollbar(){
+  /* width */
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    background: var(--fondScroll);
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: #888;
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+}

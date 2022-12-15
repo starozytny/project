@@ -22,6 +22,15 @@ Encore
         '@nodeModulesFolder': path.resolve(__dirname, './node_modules'),
     })
 
+    .copyFiles({
+        from: './assets/admin/fonts',
+        to: 'admin/fonts/[path][name].[ext]',
+    })
+    .copyFiles({
+        from: './assets/admin/images',
+        to: 'admin/images/[path][name].[ext]',
+    })
+
     .configureFilenames({
         css: !Encore.isProduction() ? 'css/[name].css' : 'css/[name].[hash:8].css',
         js: !Encore.isProduction() ? 'js/[name].js' : 'js/[name].[hash:8].js'
@@ -36,6 +45,8 @@ Encore
     .addEntry('common_app', './assets/common/js/app.js')
 
     .addEntry('app_app', './assets/app/js/app.js')
+
+    .addEntry('admin_app', './assets/admin/js/app.js')
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     .enableStimulusBridge('./assets/controllers.json')

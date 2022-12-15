@@ -4,13 +4,56 @@
 
 {% block stylesheets %}
     {{ parent() }}
-{#    {{ encore_entry_link_tags('dashboard') }}#}
+    {{ encore_entry_link_tags('admin_app') }}
 {% endblock %}
 
 {% block body %}
     <div class="body">
         <nav>
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="{{ path('app_homepage') }}">
+                        <img src="{{ asset('build/admin/images/logo.png') }}" alt="Logo societe">
+                    </a>
+                </div>
 
+                <div class="nav-mobile">
+                    <span class="icon-menu"></span>
+                </div>
+
+                <div class="nav-content">
+                    <div class="nav-header">
+                        <div class="avatar">
+                            <img src="{{ asset('build/admin/images/logo.png') }}" alt="Avatar utilisateur">
+                        </div>
+                        <div class="nav-header-infos">
+                            <div>{{ app.user.userIdentifier }}</div>
+                            <div>{{ app.user.email }}</div>
+                        </div>
+                        <div class="nav-header-actions">
+                            <a href="{{ path('app_homepage') }}" class="btn-icon btn-icon-outline">
+                                <span class="icon-settings"></span>
+                            </a>
+                            <a href="{{ path('app_logout') }}" class="btn-icon btn-icon-outline">
+                                <span class="icon-logout"></span>
+                            </a>
+                        </div>
+                    </div>
+
+
+                    <div class="nav-menu">
+                        {% for item in menu %}
+                            <a class="nav-item {{- app.request.get('_route') == item.nameRoute ? " active" : "" -}}"
+                               href="{{ path(item.nameRoute) }}"
+                            >
+                                <span class="icon-{{ item.icon }}"></span>
+                                <span>{{ item.name }}</span>
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+
+            </div>
         </nav>
 
         <main>
@@ -28,5 +71,5 @@
 
 {% block javascripts %}
     {{ parent() }}
-{#    {{ encore_entry_script_tags('dashboard') }}#}
+    {{ encore_entry_script_tags('admin_app') }}
 {% endblock %}

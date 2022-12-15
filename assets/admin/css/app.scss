@@ -1,0 +1,28 @@
+@import "vars/fonts";
+@import "vars/vars";
+
+@import "./components/colors";
+
+@import "./components/layout";
+@import "./components/menu";
+
+@import "./components/avatar";
+
+@import "./components/button";
+
+html{
+  background-color: var(--color1);
+}
+
+body {
+  color: var(--alpha);
+  @include fontRegular();
+}
+
+h1{
+  @include fontBold();
+}
+
+h2{
+  @include fontSemibold();
+}

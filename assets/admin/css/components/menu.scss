@@ -1,0 +1,171 @@
+.nav-container{
+  position: relative;
+  @include flex(row, stretch, space-between);
+}
+
+.nav-logo{
+  @include flex(row, center, center);
+  width: 100px;
+  padding: 1.2rem;
+
+  a {
+    @include flex(row, center, center);
+  }
+}
+
+.nav-mobile{
+  @include flex(row, center, center);
+  padding: 1.2rem;
+  font-size: 2.6rem;
+}
+
+.nav-header{
+  @include flex(column, center, center);
+  text-align: center;
+  margin-bottom: 2.4rem;
+}
+
+.nav-header-infos{
+  margin: 0.8rem 0;
+}
+
+.nav-header-actions{
+  @include flex(row, center, flex-start);
+  gap: 0.8rem;
+}
+
+.nav-content{
+  position: absolute;
+  top: -200.0rem; left: 0;
+  padding: 2.4rem 0;
+  background-color: var(--color2);
+  opacity: 0;
+  z-index: -1;
+
+  &.active{
+    top: 5.5rem;
+    opacity: 1;
+    z-index: 100;
+    width: 100%;
+  }
+}
+
+.nav-menu{
+  .nav-item{
+    @include flex(row, center, flex-start);
+    gap: 8px;
+    color: var(--alpha);
+    padding: 12px;
+    transition: all 0.2s ease-in-out;
+
+    [class^="icon-"]{
+      display: inline-block;
+      transform: translateY(-2px);
+    }
+
+    &.active{
+      background-color: var(--primary);
+    }
+
+    &:not(&.active):hover{
+      background-color: var(--color2);
+    }
+  }
+}
+
+//                      __   _____ __    ___    __
+//                     | _| |___  / /_  ( _ )  |_ |
+//    _____ _____ _____| |     / / '_ \ / _ \   | |_____ _____ _____
+//   |_____|_____|_____| |    / /| (_) | (_) |  | |_____|_____|_____|
+//                     | |   /_/  \___/ \___/   | |
+//                     |__|                    |__|
+@media (min-width:768px) {
+  .nav-header{
+    align-items: flex-end;
+    text-align: right;
+  }
+
+  .nav-content{
+    @include flex(row-reverse, center, space-between);
+    gap: 0.8rem;
+    padding-right: 1.2rem;
+
+    &.active{
+      width: calc(100% - 1.2rem);
+    }
+  }
+}
+
+//                      __   _  ___ ____  _  _     __
+//                     | _| / |/ _ \___ \| || |   |_ |
+//    _____ _____ _____| |  | | | | |__) | || |_   | |_____ _____ _____
+//   |_____|_____|_____| |  | | |_| / __/|__   _|  | |_____|_____|_____|
+//                     | |  |_|\___/_____|  |_|    | |
+//                     |__|                       |__|
+@media (min-width: 1024px) {
+  .nav-container{
+    padding: 1.2rem;
+  }
+
+  .nav-mobile{
+    display: none;
+  }
+
+  .nav-logo{
+    padding: 0;
+  }
+
+  .nav-header{
+    flex-direction: row;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 0;
+  }
+
+  .nav-header-infos{
+    margin: 0;
+
+    & > div{
+      max-width: 100px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .nav-header-actions{
+    margin-left: 12px;
+  }
+
+  .nav-content{
+    position: relative;
+    background-color: transparent;
+    top: 0;opacity: 1;z-index: 1;
+    padding: 0;
+    width: calc(100% - 10rem - 24px);
+    margin-left: 24px;
+
+    &.active{ top: 0;opacity: 1;z-index: 1; }
+  }
+
+  .nav-menu{
+    @include flex(row, flex-start, flex-start);
+    gap: 0.8rem;
+
+    .nav-item{
+      border-radius: 4px;
+    }
+  }
+}
+
+//                      __   _  ___ ____   ___    __
+//                     | _| / |/ _ \___ \ / _ \  |_ |
+//    _____ _____ _____| |  | | (_) |__) | | | |  | |_____ _____ _____
+//   |_____|_____|_____| |  | |\__, / __/| |_| |  | |_____|_____|_____|
+//                     | |  |_|  /_/_____|\___/   | |
+//                     |__|                      |__|
+@media (min-width: 1920px){
+  .nav-container{
+    @include maxscreen();
+  }
+}

@@ -1,0 +1,17 @@
+.btn-icon {
+  @include flex(row, center, center);
+  padding: 6px;
+  border-radius: 4px;
+  width: auto;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-icon-outline{
+  border: 1px solid var(--grey);
+  background-color: var(--alpha);
+
+  &:hover{
+    border-color: var(--color2);
+  }
+}
