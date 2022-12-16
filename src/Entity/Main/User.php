@@ -125,11 +125,7 @@ class User extends DataEntity implements UserInterface, PasswordAuthenticatedUse
         return array_unique($roles);
     }
 
-    /**
-     * Get label of the high role
-     *
-     * @return string
-     */
+    #[Groups(['user_list'])]
     public function getHighRole(): string
     {
         $rolesSortedByImportance = ['ROLE_DEVELOPER', 'ROLE_ADMIN', 'ROLE_USER'];
@@ -144,11 +140,7 @@ class User extends DataEntity implements UserInterface, PasswordAuthenticatedUse
         return "Utilisateur";
     }
 
-    /**
-     * Get code of the high role
-     *
-     * @return int
-     */
+    #[Groups(['user_list'])]
     public function getHighRoleCode(): int
     {
         return match ($this->getHighRole()) {
@@ -310,6 +302,12 @@ class User extends DataEntity implements UserInterface, PasswordAuthenticatedUse
         $this->avatar = $avatar;
 
         return $this;
+    }
+
+    #[Groups(['user_list'])]
+    public function getAvatarFile(): string
+    {
+        return $this->getFileOrDefault($this->avatar, self::FOLDER, "https://robohash.org/" . $this->username);
     }
 
     public function getManager(): ?string

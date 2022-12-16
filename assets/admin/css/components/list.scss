@@ -1,6 +1,29 @@
 @import "../../../common/css/components/list";
 
 .list-table{
-  background-color: var(--color0);
+  background-color: var(--color0Opacity4);
   border-radius: 8px;
+
+  .item:not(:last-child){
+    border-color: var(--color3);
+  }
+
+  .item:not(.item-header){
+    &:hover{
+      background-color: var(--color0);
+    }
+  }
+
+  //                      __   _____ __    ___    __
+  //                     | _| |___  / /_  ( _ )  |_ |
+  //    _____ _____ _____| |     / / '_ \ / _ \   | |_____ _____ _____
+  //   |_____|_____|_____| |    / /| (_) | (_) |  | |_____|_____|_____|
+  //                     | |   /_/  \___/ \___/   | |
+  //                     |__|                    |__|
+  @media (min-width:768px) {
+    .item-header{
+      background-color: var(--color2);
+      border-radius: 8px 8px 0 0;
+    }
+  }
 }

@@ -1,0 +1,7 @@
+.badge{
+  display: inline-block;
+  padding: 4px 8px 2px 8px;
+  border-radius: 4px;
+  font-size: 13px;
+  @include overflowText();
+}

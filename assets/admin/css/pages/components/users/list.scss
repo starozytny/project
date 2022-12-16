@@ -1,0 +1,62 @@
+.list-table{
+  $data:
+          "0" var(--grey) var(--txt),
+          "1" var(--primaryOpacity4) var(--primary),
+          "2" var(--dangerOpacity4) var(--danger),
+;
+
+  @each $name, $bg, $txt in $data {
+    .badge-#{$name} {
+      background: $bg;
+      color: $txt;
+    }
+  }
+
+  .item{
+    .image{
+      background-color: var(--grey);
+      border-radius: 4px;
+    }
+  }
+
+  //                      __   _____ __    ___    __
+  //                     | _| |___  / /_  ( _ )  |_ |
+  //    _____ _____ _____| |     / / '_ \ / _ \   | |_____ _____ _____
+  //   |_____|_____|_____| |    / /| (_) | (_) |  | |_____|_____|_____|
+  //                     | |   /_/  \___/ \___/   | |
+  //                     |__|                    |__|
+  @media (min-width:768px) {
+    .item-infos{
+      & > .col-1{
+        width: calc(100% - 180px - 120px - 80px - 16px);
+      }
+      & > .col-2{
+        width: 180px;
+      }
+      & > .col-3{
+        width: 120px;
+      }
+      & > .col-4{
+        width: 80px;
+      }
+    }
+  }
+
+  //                      __   _  ___ ____  _  _     __
+  //                     | _| / |/ _ \___ \| || |   |_ |
+  //    _____ _____ _____| |  | | | | |__) | || |_   | |_____ _____ _____
+  //   |_____|_____|_____| |  | | |_| / __/|__   _|  | |_____|_____|_____|
+  //                     | |  |_|\___/_____|  |_|    | |
+  //                     |__|                       |__|
+  @media (min-width: 1024px) {
+    .item-infos{
+      & > .col-1{
+        width: calc(100% - 280px - 120px - 80px - 16px);
+      }
+      & > .col-2{
+        width: 280px;
+      }
+    }
+  }
+
+}

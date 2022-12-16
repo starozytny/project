@@ -24,3 +24,9 @@
     background: #555;
   }
 }
+
+@mixin overflowText() {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}

@@ -20,4 +20,9 @@ class DataEntity
     {
         return bin2hex(random_bytes(32));
     }
+
+    public function getFileOrDefault($file, $folder, $default = "/placeholders/placeholder.jpg")
+    {
+        return $file ? "/" . $folder . "/" . $file : $default;
+    }
 }

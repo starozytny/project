@@ -1,0 +1,5 @@
+@import "../../../common/css/components/badge";
+
+.badge{
+  @include fontSemibold();
+}

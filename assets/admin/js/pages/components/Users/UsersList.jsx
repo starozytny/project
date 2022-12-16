@@ -14,7 +14,8 @@ export function UsersList ({ data }) {
                         <div className="item-infos">
                             <div className="col-1">Utilisateur</div>
                             <div className="col-2">Identifiant</div>
-                            <div className="col-3 actions" />
+                            <div className="col-3">Rôle</div>
+                            <div className="col-4 actions" />
                         </div>
                     </div>
                 </div>
