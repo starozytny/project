@@ -5,6 +5,7 @@
 /.env.*.local
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
+/public/js/
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
@@ -28,4 +29,9 @@ error_log
 /public/build/
 npm-debug.log
 yarn-error.log
+winpty.exe.stackdump
 ###< symfony/webpack-encore-bundle ###
+
+/.idea/*
+/public/error_log
+/bin/backup/*

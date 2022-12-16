@@ -23,7 +23,7 @@ class UserController extends AbstractController
         return $this->render('admin/pages/users/index.html.twig', ['objs' => $objs]);
     }
 
-    #[Route('/utilisateur/{id}/modifier', name: 'update')]
+    #[Route('/utilisateur/{id}/modifier', name: 'update', options: ['expose' => true])]
     public function update($id, ManagerRegistry $doctrine, SerializerInterface $serializer): Response
     {
         $em = $doctrine->getManager();
