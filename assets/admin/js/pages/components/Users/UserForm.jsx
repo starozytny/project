@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
+import {Input} from "@commonComponents/Elements/Fields";
+import {Button} from "@commonComponents/Elements/Button";
 
 const URL_CREATE_ELEMENT = "api_users_create";
 const URL_UPDATE_GROUP   = "api_users_update";
@@ -57,6 +59,12 @@ class Form extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
+
+        this.setState({ errors: [
+            {
+                name: "firstname", message: "Erreur"
+            }
+        ] })
     }
 
     render () {
@@ -68,9 +76,26 @@ class Form extends Component {
             { value: 'ROLE_USER',       label: 'Utilisateur',    identifiant: 'utilisateur' },
         ]
 
+        let params = { errors: errors }
+        let paramsInput0 = {...params, ...{ onChange: this.handleChange }}
+
         return <>
             <form onSubmit={this.handleSubmit}>
-                ok
+                <div className="line line-2">
+                    <Input identifiant="username" valeur={username} {...paramsInput0}>Nom utilisateur</Input>
+                    <Input identifiant="email"    valeur={email}    {...paramsInput0} type="email">Adresse e-mail</Input>
+                </div>
+                <div className="line line-3">
+                    <Input identifiant="firstname"  valeur={firstname}  {...paramsInput0}>Prénom</Input>
+                    <Input identifiant="lastname"   valeur={lastname}   {...paramsInput0}>Nom</Input>
+                    <Input identifiant="passwordConfirm"   valeur={passwordConfirm}   {...paramsInput0}>Nom</Input>
+                </div>
+                <div className="line">
+                    <Input identifiant="password"  valeur={password}  {...paramsInput0}>Mot de passe</Input>
+                </div>
+                <div className="line line-buttons">
+                    <Button isSubmit={true}>Ajouter l'utilisateur</Button>
+                </div>
             </form>
         </>
     }

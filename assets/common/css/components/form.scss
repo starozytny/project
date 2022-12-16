@@ -1,0 +1,139 @@
+.line.line-critere{
+  position: absolute;
+  width: 0;
+  top: 0; left: 0;
+  opacity: 0;
+  z-index: -100;
+}
+
+.input-show{
+  position: absolute;
+  top: 30px;
+  right: 8px;
+  cursor: pointer;
+}
+
+.line{
+  @include flex(column, stretch, flex-start);
+  width: 100%;
+
+  &.line-buttons{
+    margin-top: 12px;
+  }
+
+  &.line-2{
+    flex-direction: row;
+    gap: 8px;
+
+    & > .form-group{
+      width: 50%;
+    }
+  }
+
+  label{
+    display: inline-block;
+    font-size: 14px;
+    margin-bottom: 2px;
+  }
+
+  .form-group {
+    @include flex(column, flex-start, flex-start);
+    margin-bottom: 8px;
+    width: 100%;
+  }
+}
+
+input, textarea, select{
+  border: 1px solid var(--grey);
+  padding: 8px 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  width: calc(100% - 20px);
+  outline: none;
+  background-color: var(--alpha);
+  color: var(--txt);
+
+  &:focus{
+    border: 1px solid var(--txt);
+  }
+}
+
+.form-group-error {
+  label {
+    color: var(--error);
+  }
+
+  input, textarea, select{
+    border-color: var(--error);
+    color: var(--error);
+    background-color: var(--errorBackground);
+
+    &::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+      color: var(--error);
+      opacity: 1; /* Firefox */
+    }
+
+    &:-ms-input-placeholder,   /* Internet Explorer 10-11 */
+    &::-ms-input-placeholder { /* Microsoft Edge */
+      color: var(--error);
+    }
+  }
+
+  .error{
+    @include flex(row, center, flex-start);
+    color: var(--error);
+    padding-top: 4px;
+    font-size: 14px;
+
+    [class^="icon-"]{
+      margin-right: 4px;
+    }
+  }
+}
+
+//                      __   _____ __    ___    __
+//                     | _| |___  / /_  ( _ )  |_ |
+//    _____ _____ _____| |     / / '_ \ / _ \   | |_____ _____ _____
+//   |_____|_____|_____| |    / /| (_) | (_) |  | |_____|_____|_____|
+//                     | |   /_/  \___/ \___/   | |
+//                     |__|                    |__|
+@media (min-width:768px) {
+  .line{
+    flex-direction: row;
+    gap: 8px;
+
+    $data:
+      "3" 33%,
+      "4" 25%,
+      "5" 20%
+    ;
+
+    @each $name, $dimension in $data {
+      &.line-#{$name}{
+        & > .form-group{
+          width: $dimension;
+        }
+      }
+    }
+  }
+}
+
+//                      __   _  ___ ____  _  _     __
+//                     | _| / |/ _ \___ \| || |   |_ |
+//    _____ _____ _____| |  | | | | |__) | || |_   | |_____ _____ _____
+//   |_____|_____|_____| |  | | |_| / __/|__   _|  | |_____|_____|_____|
+//                     | |  |_|\___/_____|  |_|    | |
+//                     |__|                       |__|
+@media (min-width: 1024px) {
+  .line {
+    gap: 12px;
+
+    &.line-2 {
+      gap: 12px;
+    }
+
+    .form-group{
+      margin-bottom: 12px;
+    }
+  }
+}
