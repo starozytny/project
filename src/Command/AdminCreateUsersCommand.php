@@ -42,19 +42,19 @@ class AdminCreateUsersCommand extends Command
 
         $users = [
             [
-                'username' => 'shanbo', 'manager' => 'default',
+                'username' => 'shanbo',
                 'firstname' => 'Dev', 'lastname' => 'Shanbora',
                 'email' => 'chanbora.chhun@outlook.fr',
                 'roles' => ['ROLE_USER','ROLE_ADMIN', 'ROLE_DEVELOPER']
             ],
             [
-                'username' => 'staro', 'manager' => 'default',
+                'username' => 'staro',
                 'firstname' => 'Admin', 'lastname' => 'Starozytny',
                 'email' => 'starozytny@hotmail.fr',
                 'roles' => ['ROLE_USER','ROLE_ADMIN']
             ],
             [
-                'username' => 'shanks', 'manager' => 'default',
+                'username' => 'shanks',
                 'firstname' => 'User', 'lastname' => 'Shanks',
                 'email' => 'shanks@hotmail.fr',
                 'roles' => ['ROLE_USER']
@@ -67,6 +67,7 @@ class AdminCreateUsersCommand extends Command
         foreach ($users as $user) {
             $obj = $this->dataMain->setData(new User(), json_decode(json_encode($user)));
             $obj->setPassword($password);
+            $obj->setManager("default");
 
             $this->em->persist($obj);
 

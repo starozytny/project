@@ -12,15 +12,15 @@ const URL_UPDATE_GROUP   = "api_users_update";
 
 export function UserFormulaire ({ context, element })
 {
-    // let url = Routing.generate(URL_CREATE_ELEMENT);
-    //
-    // if(context === "update"){
-    //     url = Routing.generate(URL_UPDATE_GROUP, {'id': element.id});
-    // }
+    let url = Routing.generate(URL_CREATE_ELEMENT);
+
+    if(context === "update"){
+        url = Routing.generate(URL_UPDATE_GROUP, {'id': element.id});
+    }
 
     let form = <Form
         context={context}
-        url={"null"}
+        url={url}
         username={element ? element.username : ""}
         firstname={element ? element.firstname : ""}
         lastname={element ? element.lastname : ""}
