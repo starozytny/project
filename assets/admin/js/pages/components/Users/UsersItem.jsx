@@ -1,12 +1,18 @@
 import React from "react";
 import PropTypes from 'prop-types';
+import Routing   from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
 import moment from "moment";
 import 'moment/locale/fr';
 
 import { ButtonIcon } from "@commonComponents/Elements/Button";
 
-export function UsersItem ({ elem }) {
+const URL_UPDATE_PAGE = "admin_users_update"
+
+export function UsersItem ({ elem })
+{
+    let urlUpdate = Routing.generate(URL_UPDATE_PAGE, {'id': elem.id});
+
     let lastLoginAt = elem.lastLoginAt ? moment(elem.lastLoginAt) : null;
 
     return <div className="item">
@@ -30,7 +36,7 @@ export function UsersItem ({ elem }) {
                     <div className={"badge badge-" + (elem.highRoleCode)}>{elem.highRole}</div>
                 </div>
                 <div className="col-4 actions">
-                    <ButtonIcon outline={true} icon="pencil">Modifier</ButtonIcon>
+                    <ButtonIcon outline={true} icon="pencil" onClick={urlUpdate} element="a">Modifier</ButtonIcon>
                     <ButtonIcon outline={true} icon="trash">Supprimer</ButtonIcon>
                 </div>
             </div>

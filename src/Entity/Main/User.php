@@ -15,7 +15,8 @@ class User extends DataEntity implements UserInterface, PasswordAuthenticatedUse
 {
     const FOLDER = "avatars";
 
-    const USER_READ = ['user_list'];
+    const USER_LIST = ['user_list'];
+    const USER_FORM = ['user_form'];
 
     const CODE_ROLE_USER = 0;
     const CODE_ROLE_DEVELOPER = 1;
@@ -24,14 +25,15 @@ class User extends DataEntity implements UserInterface, PasswordAuthenticatedUse
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['user_list'])]
+    #[Groups(['user_list', 'user_form'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
-    #[Groups(['user_list'])]
+    #[Groups(['user_list', 'user_form'])]
     private ?string $username = null;
 
     #[ORM\Column]
+    #[Groups(['user_form'])]
     private array $roles = [];
 
     /**
@@ -41,15 +43,15 @@ class User extends DataEntity implements UserInterface, PasswordAuthenticatedUse
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['user_list'])]
+    #[Groups(['user_list', 'user_form'])]
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['user_list'])]
+    #[Groups(['user_list', 'user_form'])]
     private ?string $lastname = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['user_list'])]
+    #[Groups(['user_list', 'user_form'])]
     private ?string $firstname = null;
 
     #[ORM\Column]
@@ -305,7 +307,7 @@ class User extends DataEntity implements UserInterface, PasswordAuthenticatedUse
         return $this;
     }
 
-    #[Groups(['user_list'])]
+    #[Groups(['user_list', 'user_form'])]
     public function getAvatarFile(): string
     {
         return $this->getFileOrDefault($this->avatar, self::FOLDER, "https://robohash.org/" . $this->username);

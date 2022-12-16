@@ -18,7 +18,7 @@ class UserController extends AbstractController
         $em = $doctrine->getManager();
 
         $objs = $em->getRepository(User::class)->findAll();
-        $objs = $serializer->serialize($objs, 'json', ['groups' => User::USER_READ]);
+        $objs = $serializer->serialize($objs, 'json', ['groups' => User::USER_LIST]);
 
         return $this->render('admin/pages/users/index.html.twig', ['objs' => $objs]);
     }
@@ -29,7 +29,7 @@ class UserController extends AbstractController
         $em = $doctrine->getManager();
 
         $elem = $em->getRepository(User::class)->find($id);
-        $obj  = $serializer->serialize($elem, 'json', ['groups' => User::USER_READ]);
+        $obj  = $serializer->serialize($elem, 'json', ['groups' => User::USER_FORM]);
 
         return $this->render('admin/pages/users/update.html.twig', ['elem' => $elem, 'obj' => $obj]);
     }
