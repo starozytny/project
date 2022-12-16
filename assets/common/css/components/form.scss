@@ -47,21 +47,6 @@
   }
 }
 
-input, textarea, select{
-  border: 1px solid var(--grey);
-  padding: 8px 10px;
-  border-radius: 4px;
-  font-size: 14px;
-  width: calc(100% - 20px);
-  outline: none;
-  background-color: var(--alpha);
-  color: var(--txt);
-
-  &:focus{
-    border: 1px solid var(--txt);
-  }
-}
-
 .form-group-error {
   label {
     color: var(--error) !important;
@@ -94,6 +79,72 @@ input, textarea, select{
     }
   }
 }
+
+
+
+input, textarea, select{
+  border: 1px solid var(--grey);
+  padding: 8px 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  width: calc(100% - 20px);
+  outline: none;
+  background-color: var(--alpha);
+  color: var(--txt);
+
+  &:focus{
+    border: 1px solid var(--txt);
+  }
+}
+
+.checkbox-items, .radiobox-items{
+  @include flex(row, stretch, flex-start);
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.checkbox-item, .radiobox-item{
+  position: relative;
+
+  &.checked > label{
+    border: 1px solid var(--primary);
+    background-color: var(--alpha);
+    color: var(--primary);
+    opacity: 1;
+  }
+
+  label{
+    padding: 5px 8px 3px 8px;
+    border: 1px dashed var(--grey);
+    background: var(--alpha);
+    color: var(--txt);
+    cursor: pointer;
+    border-radius: 3px;
+    transition: all 0.2s ease-in-out;
+
+    &:hover{
+      opacity: 1;
+      border-color: var(--txt);
+    }
+  }
+
+  .item-selected{
+    position: absolute;
+    top: -8px; right: -4px;
+
+    [class^="icon-"]{
+      display: inline-block;
+      background-color: var(--primary);
+      border-radius: 20px;
+      font-size: 12px;
+    }
+  }
+
+  input{
+    display: none;
+  }
+}
+
 
 //                      __   _____ __    ___    __
 //                     | _| |___  / /_  ( _ )  |_ |

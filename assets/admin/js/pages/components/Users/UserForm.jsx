@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
-import {Input} from "@commonComponents/Elements/Fields";
-import {Button} from "@commonComponents/Elements/Button";
+import { Checkbox, Input } from "@commonComponents/Elements/Fields";
+import { Button } from "@commonComponents/Elements/Button";
+
+import Formulaire from "@commonFunctions/formulaire";
 
 const URL_CREATE_ELEMENT = "api_users_create";
 const URL_UPDATE_GROUP   = "api_users_update";
@@ -55,7 +57,18 @@ class Form extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleChange = (e) => { this.setState({[e.currentTarget.name]: e.currentTarget.value}) }
+    handleChange = (e) => {
+        const { roles } = this.state
+
+        let name = e.currentTarget.name;
+        let value = e.currentTarget.value;
+
+        if(name === "roles"){
+            value = Formulaire.updateValueCheckbox(e, roles, value);
+        }
+
+        this.setState({[name]: value})
+    }
 
     handleSubmit = (e) => {
         e.preventDefault();
@@ -102,6 +115,18 @@ class Form extends Component {
                             <div className="line line-2">
                                 <Input identifiant="firstname"  valeur={firstname}  {...paramsInput0}>Prénom</Input>
                                 <Input identifiant="lastname"   valeur={lastname}   {...paramsInput0}>Nom</Input>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="line">
+                        <div className="line-col-1">
+                            <div className="title">Profil utilisateur</div>
+                        </div>
+                        <div className="line-col-2">
+                            <div className="line line-fat-box">
+                                <Checkbox items={rolesItems} identifiant="roles" valeur={roles} {...paramsInput0}>
+                                    Rôles
+                                </Checkbox>
                             </div>
                         </div>
                     </div>

@@ -19,6 +19,7 @@ Encore
         '@publicFolder': path.resolve(__dirname, './public'),
         '@commonFolder': path.resolve(__dirname, './assets/common/js'),
         '@commonComponents': path.resolve(__dirname, './assets/common/js/components'),
+        '@commonFunctions': path.resolve(__dirname, './assets/common/js/functions'),
         '@appFolder': path.resolve(__dirname, './assets/app/js'),
         '@adminPages': path.resolve(__dirname, './assets/admin/js/pages/components'),
         '@nodeModulesFolder': path.resolve(__dirname, './node_modules'),
