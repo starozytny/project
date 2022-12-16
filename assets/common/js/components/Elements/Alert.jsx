@@ -39,6 +39,6 @@ Alert.propTypes = {
     title: PropTypes.string,
     withIcon: PropTypes.bool,
     iconCustom: PropTypes.bool,
-    content: PropTypes.element,
-    children: PropTypes.element,
+    content: PropTypes.node,
+    children: PropTypes.node,
 }
