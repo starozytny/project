@@ -16,7 +16,38 @@
 
   &:hover{
     label{
-      color: var(--primary);
+      color: var(--grey);
+      border-color: var(--primary);
+    }
+  }
+}
+
+.line-fat-box {
+  .checkbox-item, .radiobox-item {
+    overflow: hidden;
+    border-radius: 6px;
+
+    label{
+      border-radius: 6px;
+      padding: 20px 12px;
+      border-style: solid;
+      min-width: 120px;
+      text-align: center;
+    }
+
+    .item-selected{
+      position: absolute;
+      top: -4px;
+      right: -10px;
+      background: var(--primary);
+      transform: rotate(45deg) translateY(-5px);
+      width: 40px;
+      padding-top: 8px;
+      text-align: center;
+
+      [class^="icon-"]{
+        transform: rotate(-45deg);
+      }
     }
   }
 }

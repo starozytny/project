@@ -107,7 +107,7 @@ input, textarea, select{
   position: relative;
 
   &.checked > label{
-    border: 1px solid var(--primary);
+    border: 2px solid var(--primary);
     background-color: var(--alpha);
     color: var(--primary);
     opacity: 1;
@@ -115,11 +115,11 @@ input, textarea, select{
 
   label{
     padding: 5px 8px 3px 8px;
-    border: 1px dashed var(--grey);
+    border: 2px dashed var(--grey);
     background: var(--alpha);
     color: var(--txt);
     cursor: pointer;
-    border-radius: 3px;
+    border-radius: 4px;
     transition: all 0.2s ease-in-out;
 
     &:hover{
@@ -131,6 +131,7 @@ input, textarea, select{
   .item-selected{
     position: absolute;
     top: -8px; right: -4px;
+    transition: all 0.2s ease-in-out;
 
     [class^="icon-"]{
       display: inline-block;
