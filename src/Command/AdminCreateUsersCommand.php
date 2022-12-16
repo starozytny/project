@@ -6,9 +6,11 @@ use App\Entity\Main\User;
 use App\Service\Data\DataMain;
 use App\Service\DatabaseService;
 use Doctrine\Persistence\ObjectManager;
+use Faker\Factory;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -29,6 +31,13 @@ class AdminCreateUsersCommand extends Command
         $this->databaseService = $databaseService;
         $this->em = $databaseService->getDefaultManager();
         $this->dataMain = $dataMain;
+    }
+
+    protected function configure(): void
+    {
+        $this
+            ->addOption('fake', "f", InputOption::VALUE_NONE, 'Option shit values')
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -72,6 +81,27 @@ class AdminCreateUsersCommand extends Command
             $this->em->persist($obj);
 
             $io->text('USER : ' . $user['username'] . ' créé' );
+        }
+
+        if ($input->getOption('fake')) {
+            $io->title('Création de 110 utilisateurs lambdas');
+
+            $fake = Factory::create();
+            for($i=0; $i<110 ; $i++) {
+                $user =  [
+                    'username' => $fake->userName,
+                    'firstname' => $fake->firstName, 'lastname' => $fake->lastName,
+                    'email' => $fake->email,
+                    'roles' => ['ROLE_USER']
+                ];
+
+                $obj = $this->dataMain->setData(new User(), json_decode(json_encode($user)));
+                $obj->setPassword($password);
+                $obj->setManager("default");
+
+                $this->em->persist($obj);
+            }
+            $io->text('USER : Utilisateurs fake créés' );
         }
 
         $this->em->flush();
