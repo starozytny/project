@@ -7,12 +7,26 @@ import { UsersItem } from "@adminPages/Users/UsersItem";
 
 export function UsersList ({ data }) {
     return <div className="list">
-        {data.length > 0
-            ? data.map((elem) => {
-                return <UsersItem key={elem.id} elem={elem} />;
-            })
-            : <Alert>Aucune donnée enregistrée.</Alert>
-        }
+        <div className="list-table">
+            <div className="items">
+                <div className="item item-header">
+                    <div className="item-content">
+                        <div className="item-infos">
+                            <div className="col-1">Utilisateur</div>
+                            <div className="col-2">Identifiant</div>
+                            <div className="col-3 actions" />
+                        </div>
+                    </div>
+                </div>
+
+                {data.length > 0
+                    ? data.map((elem) => {
+                        return <UsersItem key={elem.id} elem={elem} />;
+                    })
+                    : <Alert>Aucune donnée enregistrée.</Alert>
+                }
+            </div>
+        </div>
     </div>
 }
 

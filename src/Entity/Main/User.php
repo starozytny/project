@@ -5,6 +5,7 @@ namespace App\Entity\Main;
 use App\Entity\DataEntity;
 use App\Repository\Main\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Exception;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -40,12 +41,15 @@ class User extends DataEntity implements UserInterface, PasswordAuthenticatedUse
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['user_list'])]
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['user_list'])]
     private ?string $lastname = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['user_list'])]
     private ?string $firstname = null;
 
     #[ORM\Column]
@@ -70,8 +74,12 @@ class User extends DataEntity implements UserInterface, PasswordAuthenticatedUse
     private ?string $avatar = null;
 
     #[ORM\Column(length: 40)]
+    #[Groups(['user_list'])]
     private ?string $manager = "default";
 
+    /**
+     * @throws Exception
+     */
     public function __construct()
     {
         $this->createdAt = $this->initNewDateImmutable();
