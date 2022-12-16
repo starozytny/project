@@ -66,6 +66,9 @@ class User extends DataEntity implements UserInterface, PasswordAuthenticatedUse
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $avatar = null;
 
+    #[ORM\Column(length: 40)]
+    private ?string $manager = "default";
+
     public function __construct()
     {
         $this->createdAt = $this->initNewDateImmutable();
@@ -294,6 +297,18 @@ class User extends DataEntity implements UserInterface, PasswordAuthenticatedUse
     public function setAvatar(?string $avatar): self
     {
         $this->avatar = $avatar;
+
+        return $this;
+    }
+
+    public function getManager(): ?string
+    {
+        return $this->manager;
+    }
+
+    public function setManager(string $manager): self
+    {
+        $this->manager = $manager;
 
         return $this;
     }

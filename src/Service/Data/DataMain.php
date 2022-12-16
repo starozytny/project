@@ -20,6 +20,7 @@ class DataMain
             ->setFirstname($this->sanitizeData->sanitizeString($data->firstname))
             ->setLastname($this->sanitizeData->sanitizeString($data->lastname))
             ->setEmail($data->email)
+            ->setManager($data->default)
         ;
     }
 }

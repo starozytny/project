@@ -42,19 +42,19 @@ class AdminCreateUsersCommand extends Command
 
         $users = [
             [
-                'username' => 'shanbo',
+                'username' => 'shanbo', 'manager' => 'default',
                 'firstname' => 'Dev', 'lastname' => 'Shanbora',
                 'email' => 'chanbora.chhun@outlook.fr',
                 'roles' => ['ROLE_USER','ROLE_ADMIN', 'ROLE_DEVELOPER']
             ],
             [
-                'username' => 'staro',
+                'username' => 'staro', 'manager' => 'default',
                 'firstname' => 'Admin', 'lastname' => 'Starozytny',
                 'email' => 'starozytny@hotmail.fr',
                 'roles' => ['ROLE_USER','ROLE_ADMIN']
             ],
             [
-                'username' => 'shanks',
+                'username' => 'shanks', 'manager' => 'default',
                 'firstname' => 'User', 'lastname' => 'Shanks',
                 'email' => 'shanks@hotmail.fr',
                 'roles' => ['ROLE_USER']
