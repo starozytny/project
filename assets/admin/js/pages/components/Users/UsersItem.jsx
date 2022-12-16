@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import moment from "moment";
 import 'moment/locale/fr';
+import {ButtonIcon} from "@commonComponents/Elements/Button";
 
 export function UsersItem ({ elem }) {
     let lastLoginAt = elem.lastLoginAt ? moment(elem.lastLoginAt) : null;
@@ -28,7 +29,8 @@ export function UsersItem ({ elem }) {
                     <div className={"badge badge-" + (elem.highRoleCode)}>{elem.highRole}</div>
                 </div>
                 <div className="col-4 actions">
-                    <button>ok</button>
+                    <ButtonIcon outline={true} icon="pencil">Modifier</ButtonIcon>
+                    <ButtonIcon outline={true} icon="trash">Supprimer</ButtonIcon>
                 </div>
             </div>
         </div>

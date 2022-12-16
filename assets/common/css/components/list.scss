@@ -43,7 +43,7 @@
       }
     }
 
-    & > [class^="col-"]{
+    & > [class^="col-"]:not(.actions){
       @include overflowText();
     }
 

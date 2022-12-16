@@ -1,16 +1,22 @@
-.btn-icon {
-  @include flex(row, center, center);
-  padding: 6px;
-  border-radius: 4px;
-  width: auto;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
+@import "../../../common/css/components/button";
+
+$data:
+        "default" var(--alpha) var(--txt) var(--grey) var(--color2),
+;
+
+@each $name, $bg, $txt, $border, $hBorder in $data {
+  .btn-icon-outline-#{$name} {
+    background-color: $bg;
+    color: $txt;
+    border: 1px solid $border;
+
+    &:hover{
+      border-color: $hBorder;
+    }
+  }
 }
 
-.btn-icon-outline{
-  border: 1px solid var(--grey);
-  background-color: var(--alpha);
-
+.btn-icon{
   &:hover{
     border-color: var(--color2);
   }
