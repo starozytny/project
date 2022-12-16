@@ -22,4 +22,15 @@ class UserController extends AbstractController
 
         return $this->render('admin/pages/users/index.html.twig', ['objs' => $objs]);
     }
+
+    #[Route('/utilisateur/{id}/modifier', name: 'update')]
+    public function update($id, ManagerRegistry $doctrine, SerializerInterface $serializer): Response
+    {
+        $em = $doctrine->getManager();
+
+        $elem = $em->getRepository(User::class)->find($id);
+        $obj  = $serializer->serialize($elem, 'json', ['groups' => User::USER_READ]);
+
+        return $this->render('admin/pages/users/update.html.twig', ['elem' => $elem, 'obj' => $obj]);
+    }
 }

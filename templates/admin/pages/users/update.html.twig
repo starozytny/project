@@ -1,0 +1,12 @@
+{% extends 'admin/pages/users/template.html.twig' %}
+
+{% set page_title %}Modifier {{ elem.username }}{% endset %}
+{% set page_subtitle %}Modifier les informations relatives à {{ elem.lastname }} {{ elem.firstname }}.{% endset %}
+
+{% block main_content %}
+    <div id="users_update"
+         data-obj="{{ obj }}"
+    >
+        {% include "layout/components/loader.html.twig" %}
+    </div>
+{% endblock %}
