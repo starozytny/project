@@ -16,12 +16,12 @@ export class Input extends Component {
     handleShow = () => { this.setState({ showValue: !this.state.showValue }) }
 
     render () {
-        const { type="text", identifiant, valeur, onChange, children, placeholder="", password=false } = this.props;
+        const { type="text", identifiant, valeur, onChange, children, placeholder="", autocomplete="on", password=false } = this.props;
         const { showValue } = this.state;
 
         let content = <>
             <input type={showValue ? "text" : type} name={identifiant} id={identifiant} value={valeur}
-                   placeholder={placeholder} onChange={onChange} />
+                   placeholder={placeholder} onChange={onChange} autoComplete={autocomplete} />
             {password && <div className="input-show" onClick={this.handleShow}>
                 <span className={showValue ? "icon-vision-not" : "icon-vision"}></span>
             </div>}
@@ -38,6 +38,7 @@ Input.propTypes = {
     errors: PropTypes.array.isRequired,
     children: PropTypes.node.isRequired,
     onChange: PropTypes.func.isRequired,
+    autocomplete: PropTypes.string,
     placeholder: PropTypes.string,
     password: PropTypes.bool,
 }
