@@ -1,34 +1,44 @@
 import React from "react";
+import PropTypes from 'prop-types';
 
 export function Alert(props){
-    const { type, title, withIcon = true, iconCustom=null, content=null, children } = props;
+    const { type, title, withIcon = true, icon=null, content=null, children } = props;
 
-    let icon, alert;
+    let iconRender, alert;
     switch (type){
         case "danger":
             alert = "danger";
-            icon = iconCustom ? iconCustom : "warning";
+            iconRender = icon ? icon : "warning";
             break;
         case "warning":
             alert = "warning";
-            icon = iconCustom ? iconCustom : "warning";
+            iconRender = icon ? icon : "warning";
             break;
         case "info":
             alert = "primary";
-            icon = iconCustom ? iconCustom : "exclamation";
+            iconRender = icon ? icon : "exclamation";
             break;
         default:
             alert = "default";
-            icon = iconCustom ? iconCustom : "question";
+            iconRender = icon ? icon : "question";
             break;
     }
 
     return <div className={`alert alert-${alert}`}>
-        {withIcon && <span className={`icon-${icon}`} />}
+        {withIcon && <span className={`icon-${iconRender}`} />}
         {content}
         {children && <p>
             {title && <span className="title">{title}</span>}
             {children}
         </p>}
     </div>
+}
+
+Alert.propTypes = {
+    type: PropTypes.string,
+    title: PropTypes.string,
+    withIcon: PropTypes.bool,
+    iconCustom: PropTypes.bool,
+    content: PropTypes.element,
+    children: PropTypes.element,
 }
