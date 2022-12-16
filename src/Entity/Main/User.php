@@ -59,6 +59,7 @@ class User extends DataEntity implements UserInterface, PasswordAuthenticatedUse
     private ?\DateTime $updatedAt = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['user_list'])]
     private ?\DateTime $lastLoginAt = null;
 
     #[ORM\Column(length: 255, nullable: true)]
