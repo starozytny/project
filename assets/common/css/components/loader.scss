@@ -1,0 +1,46 @@
+$bg: #171f30;
+$c-01: #5389a6;
+$c-02: #a6dcee;
+
+.loader-content{
+  width: 100%;
+  background-color: $bg;
+  @include flex(row, flex-start, flex-start);
+}
+
+.loader-simple {
+  padding: 1.2rem;
+  @include fontSemibold();
+
+  p{
+    span{
+      display: inline-block;
+    }
+    span:nth-child(1){
+      animation: 0.5s linear 0.5s infinite alternate load;
+    }
+    span:nth-child(2){
+      animation: 0.5s linear 0s infinite alternate load;
+    }
+    span:nth-child(3){
+      animation: 0.5s linear 0.25s infinite alternate load;
+    }
+
+    @keyframes load {
+      from{ transform: translateY(0px); }
+      to{ transform: translateY(-4px); }
+    }
+  }
+}
+
+//                      __   _ ____  ___   ___    __
+//                     | _| / |___ \( _ ) / _ \  |_ |
+//    _____ _____ _____| |  | | __) / _ \| | | |  | |_____ _____ _____
+//   |_____|_____|_____| |  | |/ __/ (_) | |_| |  | |_____|_____|_____|
+//                     | |  |_|_____\___/ \___/   | |
+//                     |__|                      |__|
+@media (min-width:1280px) {
+  .loader-simple {
+    padding: 1.8rem;
+  }
+}
