@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="main-content">
+        <div class="exception-page">
+            <div class="exception-content">
+                <h1>{{ status_code }}</h1>
+
+                {% if custom_status_text is defined %}
+                    <h2>{{ custom_status_text }}</h2>
+                {% else %}
+                    <h2>{{ status_text }}</h2>
+                {% endif %}
+                <p>
+                    {{ explication }}<br>
+                    Vous pouvez cliquer sur le bouton ci-dessous pour revenir à la page d'accueil.
+                </p>
+                <div class="exceptions-actions">
+                    <a href="{{ path("app_homepage") }}" class="btn btn-primary">Revenir à la page d'accueil</a>
+                </div>
+            </div>
+            <div class="exception-illu">
+                {% if custom_illu is defined %}
+                    <img src="{{ asset('build/app/images/' ~ custom_illu) }}" alt="illustration erreur">
+                {% else %}
+                    <img src="{{ asset('build/app/images/error.svg') }}" alt="illustration erreur">
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -26,6 +26,10 @@ Encore
     })
 
     .copyFiles({
+        from: './assets/app/images',
+        to: 'app/images/[path][name].[ext]',
+    })
+    .copyFiles({
         from: './assets/admin/fonts',
         to: 'admin/fonts/[path][name].[ext]',
     })

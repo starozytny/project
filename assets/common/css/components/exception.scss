@@ -1,0 +1,49 @@
+.exception-page{
+  h1{
+    font-size: 4em;
+  }
+  h2{
+    margin-bottom: 12px;
+  }
+
+  h2 + p {
+    margin-bottom: 24px;
+  }
+}
+
+.exceptions-actions{
+  .btn{
+    width: calc(100% - 48px);
+    margin-bottom: 12px;
+  }
+}
+
+//                      __   _  ___ ____  _  _     __
+//                     | _| / |/ _ \___ \| || |   |_ |
+//    _____ _____ _____| |  | | | | |__) | || |_   | |_____ _____ _____
+//   |_____|_____|_____| |  | | |_| / __/|__   _|  | |_____|_____|_____|
+//                     | |  |_|\___/_____|  |_|    | |
+//                     |__|                       |__|
+@media (min-width: 1024px) {
+  .exception-page{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 72px;
+
+    .exception-content{
+      width: 50%;
+    }
+    .exception-illu{
+      margin-left: 10%;
+      width: calc(50% - 10%);
+    }
+  }
+  .exceptions-actions{
+    .btn{
+      width: auto;
+      margin-right: 12px;
+      margin-bottom: 0;
+    }
+  }
+}

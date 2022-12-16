@@ -1,6 +1,8 @@
 @import "~normalize.css";
 @import "~toastr";
 
+@import "./components/exception";
+
 html, body{
   scroll-behavior: smooth;
 }
