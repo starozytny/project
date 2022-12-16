@@ -3,8 +3,18 @@
 {% set page_title %}Dashboard{% endset %}
 {% set page_subtitle %}Raccourcis{% endset %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('admin_homepage') }}
+{% endblock %}
+
 {% block main_content %}
 <div class="main-content">
 
 </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('admin_homepage') }}
 {% endblock %}

@@ -7,13 +7,14 @@ use App\Repository\Main\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 class User extends DataEntity implements UserInterface, PasswordAuthenticatedUserInterface
 {
     const FOLDER = "avatars";
 
-    const USER_READ = ['user:read'];
+    const USER_READ = ['user_list'];
 
     const CODE_ROLE_USER = 0;
     const CODE_ROLE_DEVELOPER = 1;
@@ -22,9 +23,11 @@ class User extends DataEntity implements UserInterface, PasswordAuthenticatedUse
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['user_list'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
+    #[Groups(['user_list'])]
     private ?string $username = null;
 
     #[ORM\Column]
