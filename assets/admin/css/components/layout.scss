@@ -14,9 +14,27 @@ nav{
   }
 }
 
+.page-toolbar{
+  padding: 0 1.2rem;
+  margin-bottom: 1.2rem;
+}
+
 .main-content{
   min-height: 80vh;
   padding: 1.2rem;
+}
+
+//                      __   _____ __    ___    __
+//                     | _| |___  / /_  ( _ )  |_ |
+//    _____ _____ _____| |     / / '_ \ / _ \   | |_____ _____ _____
+//   |_____|_____|_____| |    / /| (_) | (_) |  | |_____|_____|_____|
+//                     | |   /_/  \___/ \___/   | |
+//                     |__|                    |__|
+@media (min-width:768px) {
+  .page-toolbar{
+    @include flex(row, flex-start, space-between);
+    gap: 8px;
+  }
 }
 
 //                      __   _ ____  ___   ___    __
@@ -42,6 +60,11 @@ nav{
 
   .page-title-container {
     padding: 1.8rem;
+  }
+
+  .page-toolbar{
+    padding: 0 1.8rem;
+    margin-bottom: 1.8rem;
   }
 
   .main-content{

@@ -25,7 +25,7 @@ export function UserFormulaire ({ context, element })
         roles={element ? element.roles : []}
     />
 
-    return <>{form}</>;
+    return <div className="formulaire">{form}</div>;
 }
 
 UserFormulaire.propTypes = {
@@ -70,7 +70,7 @@ class Form extends Component {
 
         return <>
             <form onSubmit={this.handleSubmit}>
-
+                ok
             </form>
         </>
     }

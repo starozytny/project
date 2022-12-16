@@ -13,5 +13,9 @@
 }
 
 .btn{
-  padding: 12px 24px;
+  padding: 10px 20px;
+
+  & > [class^="icon-"]{
+    margin-right: 6px;
+  }
 }

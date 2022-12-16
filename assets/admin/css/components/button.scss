@@ -5,7 +5,7 @@ $data:
 ;
 
 @each $name, $bg, $txt, $border, $hBorder in $data {
-  .btn-icon-outline-#{$name} {
+  .btn-outline-#{$name}, .btn-icon-outline-#{$name} {
     background-color: $bg;
     color: $txt;
     border: 1px solid $border;
