@@ -1,7 +1,74 @@
 .formulaire{
   padding: 1.8rem 1.2rem;
-  background-color: var(--color0);
+  background-color: var(--color0Opacity4);
+
+  .line:not(:last-child){
+    border-bottom: 1px solid var(--color3);
+    margin-bottom: 1.2rem;
+    padding-bottom: 0.4rem;
+  }
+
+  .line-col-1{
+    margin-bottom: 0.4rem;
+
+    .title{
+      @include fontSemibold();
+      font-size: 18px;
+    }
+
+    .subtitle{
+      color: var(--grey);
+      font-size: 14px;
+    }
+  }
 }
+
+//                      __   _____ __    ___    __
+//                     | _| |___  / /_  ( _ )  |_ |
+//    _____ _____ _____| |     / / '_ \ / _ \   | |_____ _____ _____
+//   |_____|_____|_____| |    / /| (_) | (_) |  | |_____|_____|_____|
+//                     | |   /_/  \___/ \___/   | |
+//                     |__|                    |__|
+@media (min-width:768px) {
+  .formulaire{
+    .line-col-1{
+      width: 320px;
+
+      .title, .subtitle{
+        max-width: 320px;
+      }
+    }
+
+    .line-col-2{
+      width: calc(100% - 320px - 24px);
+      margin-left: 24px;
+    }
+  }
+}
+
+//                      __   _  ___ ____  _  _     __
+//                     | _| / |/ _ \___ \| || |   |_ |
+//    _____ _____ _____| |  | | | | |__) | || |_   | |_____ _____ _____
+//   |_____|_____|_____| |  | | |_| / __/|__   _|  | |_____|_____|_____|
+//                     | |  |_|\___/_____|  |_|    | |
+//                     |__|                       |__|
+@media (min-width: 1024px) {
+  .formulaire{
+    margin: 0 1.2rem;
+    border-radius: 12px;
+    border: 1px solid var(--color0);
+
+    .line-col-1{
+      width: 420px;
+    }
+
+    .line-col-2{
+      width: calc(100% - 420px - 24px);
+    }
+  }
+}
+
+
 
 //                      __   _ ____  ___   ___    __
 //                     | _| / |___ \( _ ) / _ \  |_ |
@@ -12,6 +79,23 @@
 @media (min-width:1280px) {
   .formulaire{
     margin: 0 1.8rem;
-    border-radius: 12px;
+
+    .line:not(:last-child){
+      margin-bottom: 1.4rem;
+      padding-bottom: 0.8rem;
+    }
+
+    .line-col-1{
+      .title{
+        font-size: 22px;
+      }
+      .subtitle{
+        font-size: 16px;
+      }
+    }
+
+    .line-buttons{
+      margin-top: 24px;
+    }
   }
 }

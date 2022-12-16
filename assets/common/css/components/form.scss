@@ -8,22 +8,25 @@
 
 .input-show{
   position: absolute;
-  top: 30px;
-  right: 8px;
+  top: 26px; right: 6px;
   cursor: pointer;
+  color: var(--txt);
+}
+
+.line,
+.line-buttons{
+  @include flex(column, stretch, flex-start);
+  gap: 8px;
+  width: 100%;
+}
+
+.line-buttons{
+  margin-top: 12px;
 }
 
 .line{
-  @include flex(column, stretch, flex-start);
-  width: 100%;
-
-  &.line-buttons{
-    margin-top: 12px;
-  }
-
   &.line-2{
     flex-direction: row;
-    gap: 8px;
 
     & > .form-group{
       width: 50%;
@@ -37,6 +40,7 @@
   }
 
   .form-group {
+    position: relative;
     @include flex(column, flex-start, flex-start);
     margin-bottom: 8px;
     width: 100%;
@@ -100,7 +104,6 @@ input, textarea, select{
 @media (min-width:768px) {
   .line{
     flex-direction: row;
-    gap: 8px;
 
     $data:
       "3" 33%,

@@ -47,7 +47,7 @@ class Form extends Component {
             roles: props.roles,
             avatar: props.avatar,
             password: '',
-            passwordConfirm: '',
+            password2: '',
             errors: []
         }
 
@@ -69,7 +69,7 @@ class Form extends Component {
 
     render () {
         const { context } = this.props;
-        const { errors, username, firstname, lastname, email, password, passwordConfirm, roles, avatar } = this.state;
+        const { errors, username, firstname, lastname, email, password, password2, roles, avatar } = this.state;
 
         let rolesItems = [
             { value: 'ROLE_ADMIN',      label: 'Admin',          identifiant: 'admin' },
@@ -81,19 +81,54 @@ class Form extends Component {
 
         return <>
             <form onSubmit={this.handleSubmit}>
-                <div className="line line-2">
-                    <Input identifiant="username" valeur={username} {...paramsInput0}>Nom utilisateur</Input>
-                    <Input identifiant="email"    valeur={email}    {...paramsInput0} type="email">Adresse e-mail</Input>
+                <div className="line-container">
+                    <div className="line">
+                        <div className="line-col-1">
+                            <div className="title">Identifiants</div>
+                            <div className="subtitle">Les deux informations peuvent être utilisées pour se connecter.</div>
+                        </div>
+                        <div className="line-col-2">
+                            <div className="line line-2">
+                                <Input identifiant="username" valeur={username} {...paramsInput0}>Nom utilisateur</Input>
+                                <Input identifiant="email"    valeur={email}    {...paramsInput0} type="email">Adresse e-mail</Input>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="line">
+                        <div className="line-col-1">
+                            <div className="title">Informations personnelles</div>
+                        </div>
+                        <div className="line-col-2">
+                            <div className="line line-2">
+                                <Input identifiant="firstname"  valeur={firstname}  {...paramsInput0}>Prénom</Input>
+                                <Input identifiant="lastname"   valeur={lastname}   {...paramsInput0}>Nom</Input>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="line">
+                        <div className="line-col-1">
+                            <div className="title">Mot de passe</div>
+                            <div className="subtitle">
+                                {context === "create"
+                                    ? "Laisser les champs vides pour générer un mot de passe aléatoire."
+                                    : "Laisser les champs vides pour ne pas modifier le mot de passe."
+                                }
+                            </div>
+                        </div>
+                        <div className="line-col-2">
+                            <div className="line line-2">
+                                <Input identifiant="password"  valeur={password}  {...paramsInput0} password={true} type="password">
+                                    Mot de passe
+                                </Input>
+                                <Input identifiant="password2" valeur={password2} {...paramsInput0} password={true} type="password">
+                                    Confirmer le mot de passe
+                                </Input>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div className="line line-3">
-                    <Input identifiant="firstname"  valeur={firstname}  {...paramsInput0}>Prénom</Input>
-                    <Input identifiant="lastname"   valeur={lastname}   {...paramsInput0}>Nom</Input>
-                    <Input identifiant="passwordConfirm"   valeur={passwordConfirm}   {...paramsInput0}>Nom</Input>
-                </div>
-                <div className="line">
-                    <Input identifiant="password"  valeur={password}  {...paramsInput0}>Mot de passe</Input>
-                </div>
-                <div className="line line-buttons">
+
+                <div className="line-buttons">
                     <Button isSubmit={true}>Ajouter l'utilisateur</Button>
                 </div>
             </form>

@@ -53,13 +53,6 @@ function Structure({ identifiant, content, errors, label, classForm="" }){
         {content}
         <div className="error">{error ? <><span className='icon-error'/>{error}</> : null}</div>
     </div>
-
-    // return <div className={classForm + 'form-group form-group-error'}>
-    //     <label htmlFor={identifiant}>{label}</label>
-    //     {content}
-    //     <div className="error"><span className='icon-error'/> <span>Il y a une erreur</span></div>
-    // </div>
-
 }
 
 Structure.propTypes = {
