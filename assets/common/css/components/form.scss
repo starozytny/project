@@ -60,7 +60,7 @@ input, textarea, select{
 
 .form-group-error {
   label {
-    color: var(--error);
+    color: var(--error) !important;
   }
 
   input, textarea, select{

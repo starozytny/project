@@ -1,5 +1,6 @@
 .formulaire{
-  padding: 0 1.2rem;
+  padding: 1.8rem 1.2rem;
+  background-color: var(--color0);
 }
 
 //                      __   _ ____  ___   ___    __
@@ -10,6 +11,7 @@
 //                     |__|                      |__|
 @media (min-width:1280px) {
   .formulaire{
-    padding: 0 1.8rem;
+    margin: 0 1.8rem;
+    border-radius: 12px;
   }
 }

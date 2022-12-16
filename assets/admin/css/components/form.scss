@@ -1,1 +1,10 @@
 @import "../../../common/css/components/form";
+
+.line{
+  label{
+    text-transform: uppercase;
+    color: var(--grey);
+    @include fontSemibold();
+    font-size: 13px;
+  }
+}
