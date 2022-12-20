@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ page_title }} | {{ page_prefix }} {% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('admin_app') }}
+{% endblock %}
+
+{% block body %}
+    {% include "layout/components/page-loader.html.twig" %}
+
+    <div class="body">
+        <nav>
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="{{ path('app_homepage') }}">
+                        <img src="{{ asset('build/admin/images/logo.png') }}" alt="Logo societe">
+                    </a>
+                </div>
+
+                <div class="nav-mobile">
+                    <span class="icon-menu"></span>
+                </div>
+
+                <div class="nav-content">
+                    <div class="nav-menu">
+                        {% for item in menu %}
+                            <a class="nav-item {{- app.request.get('_route') == item.nameRoute ? " active" : "" -}}"
+                               href="{{ path(item.nameRoute) }}"
+                            >
+                                <span class="icon-{{ item.icon }}"></span>
+                                <span>{{ item.name }}</span>
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+
+            </div>
+        </nav>
+
+        <main>
+
+            {% include "layout/components/admin/page_title.html.twig" %}
+
+            <div>
+                {% block main_content %}{% endblock %}
+            </div>
+
+            {% block footer %}{% endblock %}
+        </main>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('admin_app') }}
+{% endblock %}

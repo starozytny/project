@@ -1,0 +1,11 @@
+{% extends 'layout/layout_user.html.twig' %}
+
+{% set page_prefix = "Espace membre" %}
+
+{% set menu = [
+    { name: "Dashboard",        icon: "home",    nameRoute: 'user_homepage' },
+    { name: "Utilisateurs",     icon: "group",   nameRoute: 'admin_homepage' },
+] %}
+
+{% block footer %}
+{% endblock %}
