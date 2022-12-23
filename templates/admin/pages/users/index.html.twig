@@ -4,18 +4,15 @@
 {% set page_subtitle %}Ajouter et gérez les utilisateurs du site.{% endset %}
 
 {% block main_content %}
+    <div class="users-body">
+        {% include "admin/layout/components/pagination.html.twig" with { orientation: "navigation-top" } %}
 
-    <div class="navigation">
-        {{ knp_pagination_render(pagination) }}
-    </div>
+        <div id="users_list"
+             data-objs="{{ objs }}"
+        >
+            {% include "layout/components/loader.html.twig" %}
+        </div>
 
-    <div id="users_list"
-         data-objs="{{ objs }}"
-    >
-        {% include "layout/components/loader.html.twig" %}
-    </div>
-
-    <div class="navigation">
-        {{ knp_pagination_render(pagination) }}
+        {% include "admin/layout/components/pagination.html.twig" with { orientation: "navigation-bottom" } %}
     </div>
 {% endblock %}
