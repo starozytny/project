@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %} {{ page_title }} | {{ page_prefix }} {% endblock %}
+{% block title %}{{ page_title }} | {{ page_prefix }} {% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -42,16 +42,27 @@
                         </div>
                     </div>
 
-
                     <div class="nav-menu">
-                        {% for item in menu %}
-                            <a class="nav-item {{- app.request.get('_route') == item.nameRoute ? " active" : "" -}}"
-                               href="{{ path(item.nameRoute) }}"
-                            >
-                                <span class="icon-{{ item.icon }}"></span>
-                                <span>{{ item.name }}</span>
-                            </a>
-                        {% endfor %}
+                        <div class="nav-items">
+                            {% for item in menu %}
+                                <a class="nav-item {{- app.request.get('_route') == item.nameRoute ? " active" : "" -}}"
+                                   href="{{ path(item.nameRoute) }}"
+                                >
+                                    <span class="icon-{{ item.icon }}"></span>
+                                    <span>{{ item.name }}</span>
+                                </a>
+                            {% endfor %}
+                        </div>
+                        <div class="nav-items">
+                            {% for item in menu_bottom %}
+                                <a class="nav-item {{- app.request.get('_route') == item.nameRoute ? " active" : "" -}}"
+                                   href="{{ path(item.nameRoute) }}"
+                                >
+                                    <span class="icon-{{ item.icon }}"></span>
+                                    <span>{{ item.name }}</span>
+                                </a>
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
 

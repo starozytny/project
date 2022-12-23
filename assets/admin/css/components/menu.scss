@@ -150,7 +150,11 @@
 
   .nav-menu{
     @include flex(row, flex-start, flex-start);
-    gap: 0.8rem;
+
+    .nav-items{
+      @include flex(row, flex-start, flex-start);
+      gap: 0.8rem;
+    }
 
     .nav-item{
       border-radius: 4px;
@@ -203,9 +207,11 @@
   }
 
   .nav-menu{
-    flex-direction: column;
-    width: 100%;
-    gap: 8px;
+    .nav-items{
+      flex-direction: column;
+      width: 100%;
+      gap: 8px;
+    }
 
     .nav-item{
       width: calc(100% - 24px);
