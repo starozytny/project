@@ -20,7 +20,6 @@ if(el){
     createRoot(el).render(<UserFormulaire context="update" element={JSON.parse(el.dataset.obj)} />)
 }
 
-
 el = document.getElementById("users_create");
 if(el){
     createRoot(el).render(<UserFormulaire context="create" element={null} />)

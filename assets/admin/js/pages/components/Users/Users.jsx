@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from 'prop-types';
 
 import { UsersList } from "./UsersList";
+import {Search} from "@commonComponents/Elements/Search";
 
 export class Users extends Component {
     constructor(props) {
@@ -13,7 +14,17 @@ export class Users extends Component {
     }
 
     render () {
-        return <UsersList {...this.state} />
+        return <>
+            <div className="toolbar">
+                <div className="col-1">
+                    <div className="filters">
+                        <div className="filter"><span className="icon-filter" /></div>
+                    </div>
+                    <Search placeholder="Rechercher pas identifiant, nom ou prénom.."/>
+                </div>
+            </div>
+            <UsersList {...this.state} />
+        </>
     }
 }
 
