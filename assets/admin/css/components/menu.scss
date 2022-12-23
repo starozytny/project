@@ -207,6 +207,10 @@
   }
 
   .nav-menu{
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+
     .nav-items{
       flex-direction: column;
       width: 100%;
