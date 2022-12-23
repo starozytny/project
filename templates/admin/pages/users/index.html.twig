@@ -5,20 +5,17 @@
 
 {% block main_content %}
 
-    {% for article in pagination %}
-        <tr>
-            <td>{{ article.id }}</td>
-            <td>{{ article.username }}</td>
-        </tr>
-    {% endfor %}
-
     <div class="navigation">
         {{ knp_pagination_render(pagination) }}
     </div>
 
-{#    <div id="users_list"#}
-{#         data-objs="{{ objs }}"#}
-{#    >#}
-{#        {% include "layout/components/loader.html.twig" %}#}
-{#    </div>#}
+    <div id="users_list"
+         data-objs="{{ objs }}"
+    >
+        {% include "layout/components/loader.html.twig" %}
+    </div>
+
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
 {% endblock %}

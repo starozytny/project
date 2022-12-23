@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Main\User;
+use App\Service\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,18 +17,13 @@ class UserController extends AbstractController
 {
     #[Route('/', name: 'index')]
     public function index(Request $request, ManagerRegistry $doctrine,
-                          SerializerInterface $serializer, PaginatorInterface $paginator
-    ): Response
+                          SerializerInterface $serializer, Paginator $paginator): Response
     {
         $em = $doctrine->getManager();
 
         $objs = $em->getRepository(User::class)->findAll();
 
-        $pagination = $paginator->paginate($objs,
-            $request->query->getInt('page', 1),
-            20
-        );
-
+        $pagination = $paginator->paginate($request, $objs);
         $objs = $serializer->serialize($pagination->getItems(), 'json', ['groups' => User::USER_LIST]);
 
         return $this->render('admin/pages/users/index.html.twig', ['objs' => $objs, 'pagination' => $pagination]);
