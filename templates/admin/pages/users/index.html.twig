@@ -4,9 +4,21 @@
 {% set page_subtitle %}Ajouter et gérez les utilisateurs du site.{% endset %}
 
 {% block main_content %}
-    <div id="users_list"
-         data-objs="{{ objs }}"
-    >
-        {% include "layout/components/loader.html.twig" %}
+
+    {% for article in pagination %}
+        <tr>
+            <td>{{ article.id }}</td>
+            <td>{{ article.username }}</td>
+        </tr>
+    {% endfor %}
+
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
     </div>
+
+{#    <div id="users_list"#}
+{#         data-objs="{{ objs }}"#}
+{#    >#}
+{#        {% include "layout/components/loader.html.twig" %}#}
+{#    </div>#}
 {% endblock %}

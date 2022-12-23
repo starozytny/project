@@ -4,7 +4,9 @@ namespace App\Controller\Admin;
 
 use App\Entity\Main\User;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -13,14 +15,22 @@ use Symfony\Component\Serializer\SerializerInterface;
 class UserController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function index(ManagerRegistry $doctrine, SerializerInterface $serializer): Response
+    public function index(Request $request, ManagerRegistry $doctrine,
+                          SerializerInterface $serializer, PaginatorInterface $paginator
+    ): Response
     {
         $em = $doctrine->getManager();
 
         $objs = $em->getRepository(User::class)->findAll();
-        $objs = $serializer->serialize($objs, 'json', ['groups' => User::USER_LIST]);
 
-        return $this->render('admin/pages/users/index.html.twig', ['objs' => $objs]);
+        $pagination = $paginator->paginate($objs,
+            $request->query->getInt('page', 1),
+            20
+        );
+
+        $objs = $serializer->serialize($pagination->getItems(), 'json', ['groups' => User::USER_LIST]);
+
+        return $this->render('admin/pages/users/index.html.twig', ['objs' => $objs, 'pagination' => $pagination]);
     }
 
     #[Route('/utilisateur/{id}/modifier', name: 'update', options: ['expose' => true])]
