@@ -1,5 +1,25 @@
 @import "../../../common/css/components/pagination";
 
+.pagination{
+
+  a, .current {
+    color: var(--alpha);
+  }
+
+  a{
+    background-color: var(--color0);
+    transition: background-color 0.2s ease-in-out;
+
+    &:hover{
+      background-color: var(--color3);
+    }
+  }
+
+  .current{
+    background-color: var(--color2);
+  }
+}
+
 .pagination-container-top{
   margin-bottom: 12px;
 }

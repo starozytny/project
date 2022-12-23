@@ -1,0 +1,9 @@
+.pagination{
+  @include flex(row, center, flex-start);
+  gap: 6px;
+
+  a, .current{
+    padding: 4px 8px;
+    border-radius: 4px;
+  }
+}
