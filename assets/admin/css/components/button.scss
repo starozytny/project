@@ -1,7 +1,14 @@
 @import "../../../common/css/components/button";
 
+.btn{
+  &:hover{
+    opacity: 0.9;
+  }
+}
+
 $data:
         "default" var(--alpha) var(--txt) var(--grey) var(--color2),
+        "primary" var(--primary) var(--alpha) var(--grey) var(--color2),
 ;
 
 @each $name, $bg, $txt, $border, $hBorder in $data {
@@ -13,6 +20,11 @@ $data:
     &:hover{
       border-color: $hBorder;
     }
+  }
+
+  .btn-#{$name}{
+    background-color: $bg;
+    color: $txt;
   }
 }
 

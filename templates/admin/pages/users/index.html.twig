@@ -4,6 +4,12 @@
 {% set page_subtitle %}Ajouter et gérez les utilisateurs du site.{% endset %}
 
 {% block main_content %}
+    <div class="page-actions">
+        <div class="col-1">
+            <a href="{{ path('admin_users_index') }}" class="btn btn-primary">Créer un nouvel utilisateur</a>
+        </div>
+    </div>
+
     {% include "admin/layout/components/pagination.html.twig" with { orientation: "top" } %}
 
     <div id="users_list"

@@ -1,0 +1,58 @@
+.page-title-container{
+  padding: 1.8rem 1.2rem;
+
+  h1{
+    margin-bottom: 4px;
+  }
+
+  .page-subtitle{
+    opacity: 0.8;
+  }
+}
+
+.page-toolbar,
+.page-actions{
+  padding: 0 1.2rem;
+  margin-bottom: 1.2rem;
+}
+
+.page-actions{
+
+  & > .col-1{
+    .btn{
+      display: inline-block;
+      width: auto;
+    }
+  }
+}
+
+//                      __   _____ __    ___    __
+//                     | _| |___  / /_  ( _ )  |_ |
+//    _____ _____ _____| |     / / '_ \ / _ \   | |_____ _____ _____
+//   |_____|_____|_____| |    / /| (_) | (_) |  | |_____|_____|_____|
+//                     | |   /_/  \___/ \___/   | |
+//                     |__|                    |__|
+@media (min-width:768px) {
+  .page-toolbar{
+    @include flex(row, flex-start, space-between);
+    gap: 8px;
+  }
+}
+
+//                      __   _ ____  ___   ___    __
+//                     | _| / |___ \( _ ) / _ \  |_ |
+//    _____ _____ _____| |  | | __) / _ \| | | |  | |_____ _____ _____
+//   |_____|_____|_____| |  | |/ __/ (_) | |_| |  | |_____|_____|_____|
+//                     | |  |_|_____\___/ \___/   | |
+//                     |__|                      |__|
+@media (min-width:1280px) {
+  .page-title-container {
+    padding: 1.8rem;
+  }
+
+  .page-toolbar,
+  .page-actions{
+    padding: 0 1.8rem;
+    margin-bottom: 1.8rem;
+  }
+}
