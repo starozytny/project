@@ -4,10 +4,7 @@
 {% set page_subtitle %}Ajouter et gérez les utilisateurs du site.{% endset %}
 
 {% block main_content %}
-
-    <div class="navigation">
-        {{ knp_pagination_render(pagination) }}
-    </div>
+    {% include "admin/layout/components/pagination.html.twig" with { orientation: "top" } %}
 
     <div id="users_list"
          data-objs="{{ objs }}"
@@ -15,7 +12,5 @@
         {% include "layout/components/loader.html.twig" %}
     </div>
 
-    <div class="navigation">
-        {{ knp_pagination_render(pagination) }}
-    </div>
+    {% include "admin/layout/components/pagination.html.twig" with { orientation: "bottom" } %}
 {% endblock %}
