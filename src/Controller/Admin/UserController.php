@@ -29,7 +29,7 @@ class UserController extends AbstractController
         return $this->render('admin/pages/users/index.html.twig', ['objs' => $objs, 'pagination' => $pagination]);
     }
 
-    #[Route('/utilisateur/{id}/modifier', name: 'update', options: ['expose' => true])]
+    #[Route('/utilisateur/modifier/{id}', name: 'update', options: ['expose' => true])]
     public function update($id, ManagerRegistry $doctrine, SerializerInterface $serializer): Response
     {
         $em = $doctrine->getManager();
@@ -38,5 +38,11 @@ class UserController extends AbstractController
         $obj  = $serializer->serialize($elem, 'json', ['groups' => User::USER_FORM]);
 
         return $this->render('admin/pages/users/update.html.twig', ['elem' => $elem, 'obj' => $obj]);
+    }
+
+    #[Route('/utilisateur/ajouter', name: 'create', options: ['expose' => true])]
+    public function create(): Response
+    {
+        return $this->render('admin/pages/users/create.html.twig');
     }
 }

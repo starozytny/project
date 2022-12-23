@@ -39,7 +39,7 @@ export function UserFormulaire ({ context, element })
 
 UserFormulaire.propTypes = {
     context: PropTypes.string.isRequired,
-    element: PropTypes.object.isRequired,
+    element: PropTypes.object,
 }
 
 class Form extends Component {
@@ -211,6 +211,6 @@ Form.propTypes = {
     username: PropTypes.string.isRequired,
     firstname: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired,
-    avatar: PropTypes.string.isRequired,
+    avatar: PropTypes.string,
     roles: PropTypes.array.isRequired,
 }
