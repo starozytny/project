@@ -39,7 +39,7 @@ export class Users extends Component {
         this.handleUpdateData = this.handleUpdateData.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
         this.handleFilters = this.handleFilters.bind(this);
-        this.handleDelete = this.handleDelete.bind(this);
+        this.handleModal = this.handleModal.bind(this);
         this.handleDeleteUser = this.handleDeleteUser.bind(this);
     }
 
@@ -84,8 +84,10 @@ export class Users extends Component {
         return newData;
     }
 
-    handleDelete = (elem) => {
-        this.delete.current.handleClick();
+    handleModal = (identifiant, elem) => {
+        let ref;
+        if(identifiant === "delete") ref = this.delete;
+        ref.current.handleClick();
         this.setState({ element: elem })
     }
 
@@ -115,7 +117,7 @@ export class Users extends Component {
                             <Search onSearch={this.handleSearch} placeholder="Rechercher pas identifiant, nom ou prénom.."/>
                         </div>
                     </div>
-                    <UsersList data={currentData} onDelete={this.handleDelete} />
+                    <UsersList data={currentData} onDelete={this.handleModal} />
                     <Pagination sessionName={sessionName} items={data} taille={data.length}
                                 perPage={perPage} onUpdate={this.handleUpdateData} />
 

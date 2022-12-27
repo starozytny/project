@@ -37,7 +37,7 @@ export function UsersItem ({ elem, onDelete })
                 </div>
                 <div className="col-4 actions">
                     <ButtonIcon outline={true} icon="pencil" onClick={urlUpdate} element="a">Modifier</ButtonIcon>
-                    <ButtonIcon outline={true} icon="trash" onClick={() => onDelete(elem.id)}>Supprimer</ButtonIcon>
+                    <ButtonIcon outline={true} icon="trash" onClick={() => onDelete("delete", elem.id)}>Supprimer</ButtonIcon>
                 </div>
             </div>
         </div>
