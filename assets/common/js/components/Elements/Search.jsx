@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 
 export class Search extends Component {
     constructor(props) {
@@ -11,7 +12,11 @@ export class Search extends Component {
         this.handleChange = this.handleChange.bind(this);
     }
 
-    handleChange = (e) => { this.setState({ [e.currentTarget.name]: e.currentTarget.value }) }
+    handleChange = (e) => {
+        let value = e.currentTarget.value;
+        this.setState({ [e.currentTarget.name]: value });
+        this.props.onSearch(value);
+    }
 
     render () {
         const { placeholder } = this.props;
@@ -23,4 +28,8 @@ export class Search extends Component {
             <label htmlFor="search" className="search-icon"><span className="icon-search"></span></label>
         </div>
     }
+}
+
+Search.propTypes = {
+    placeholder: PropTypes.string.isRequired
 }

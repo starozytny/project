@@ -19,6 +19,14 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/api/users', name: 'api_users_')]
 class UserController extends AbstractController
 {
+    #[Route('/list', name: 'list', options: ['expose' => true], methods: 'GET')]
+    public function listRange(ManagerRegistry $doctrine, ApiResponse $apiResponse): Response
+    {
+        $em = $doctrine->getManager();
+        $objs = $em->getRepository(User::class)->findAll();
+        return $apiResponse->apiJsonResponse($objs, User::USER_LIST);
+    }
+
     public function submitForm($type, ObjectManager $em, User $obj, Request $request, ApiResponse $apiResponse,
                                ValidatorService $validator, DataMain $dataEntity,
                                UserPasswordHasherInterface $passwordHasher): JsonResponse
