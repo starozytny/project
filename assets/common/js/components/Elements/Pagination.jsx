@@ -20,6 +20,7 @@ export class Pagination extends Component {
         }
 
         this.handleClick = this.handleClick.bind(this);
+        this.handlePageOne = this.handlePageOne.bind(this);
     }
 
     handleClick = (e) => {
@@ -32,6 +33,13 @@ export class Pagination extends Component {
             updateData(this, selectedPage, offset, items, perPage);
             sessionStorage.setItem(sessionName, selectedPage);
         }
+    }
+
+    handlePageOne = () => {
+        const { perPage, items, sessionName } = this.props;
+
+        updateData(this, 0, 0, items, perPage);
+        sessionStorage.setItem(sessionName, "0")
     }
 
     render () {

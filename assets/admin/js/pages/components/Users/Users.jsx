@@ -36,6 +36,7 @@ export class Users extends Component {
             element: null
         }
 
+        this.pagination = React.createRef();
         this.delete = React.createRef();
 
         this.handleGetData = this.handleGetData.bind(this);
@@ -83,6 +84,7 @@ export class Users extends Component {
             newData.sort(SORTER);
         }
 
+        this.pagination.current.handlePageOne();
         this.setState({ data: newData, currentData: newData.slice(0, perPage), filters: filters });
         return newData;
     }
@@ -135,7 +137,7 @@ export class Users extends Component {
                         </div>
                     </div>
                     <UsersList data={currentData} onDelete={this.handleModal} />
-                    <Pagination sessionName={sessionName} items={data} taille={data.length}
+                    <Pagination ref={this.pagination} sessionName={sessionName} items={data} taille={data.length}
                                 perPage={perPage} onUpdate={this.handleUpdateData} />
 
                     <Modal ref={this.delete} identifiant="delete" maxWidth={414} title="Supprimer un utilisateur"
