@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 
 import axios      from "axios";
+import toastr     from "toastr";
 import Routing    from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
 import Formulaire       from "@commonFunctions/formulaire";
@@ -14,10 +15,11 @@ import { Search }           from "@commonComponents/Elements/Search";
 import { Filter }           from "@commonComponents/Elements/Filter";
 import { Pagination }       from "@commonComponents/Elements/Pagination";
 import { LoaderElements }   from "@commonComponents/Elements/Loader";
-import {Modal} from "@commonComponents/Elements/Modal";
-import {Button} from "@commonComponents/Elements/Button";
+import { Modal }            from "@commonComponents/Elements/Modal";
+import { Button }           from "@commonComponents/Elements/Button";
 
-const URL_GET_DATA = "api_users_list";
+const URL_GET_DATA       = "api_users_list";
+const URL_DELETE_ELEMENT = "api_users_delete";
 
 let SORTER = Sort.compareLastname;
 
@@ -93,7 +95,14 @@ export class Users extends Component {
 
     handleDeleteUser = () => {
         const { element } = this.state;
-        console.log("in")
+
+        let self = this;
+        axios({ method: "DELETE", url: Routing.generate(URL_DELETE_ELEMENT, {'id': element.id}), data: {} })
+            .then(function (response) {
+                toastr.info("Utilisateur supprimé !");
+            })
+            .catch(function (error) { Formulaire.displayErrors(self, error); })
+        ;
     }
 
     render () {

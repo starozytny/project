@@ -75,4 +75,12 @@ class UserController extends AbstractController
         $em = $doctrine->getManager();
         return $this->submitForm("update", $em, new User(), $request, $apiResponse, $validator, $dataEntity, $passwordHasher);
     }
+
+    #[Route('/delete/{id}', name: 'delete', options: ['expose' => true], methods: 'DELETE')]
+    #[IsGranted('ROLE_ADMIN')]
+    public function delete(Request $request, ManagerRegistry $doctrine, ApiResponse $apiResponse,
+                           ValidatorService $validator, DataMain$dataEntity, UserPasswordHasherInterface $passwordHasher): Response
+    {
+        return $apiResponse->apiJsonResponseSuccessful("ok");
+    }
 }
