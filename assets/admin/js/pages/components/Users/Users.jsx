@@ -6,6 +6,7 @@ import Routing    from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
 import Formulaire from "@commonFunctions/formulaire";
 import Sort       from "@commonFunctions/sort";
+import SearchFunction from "@commonFunctions/search";
 
 import { UsersList } from "./UsersList";
 import { Search }    from "@commonComponents/Elements/Search";
@@ -22,8 +23,6 @@ export class Users extends Component {
         super(props);
 
         this.state = {
-            data: [],
-            currentData: [],
             perPage: 20,
             sessionName: "local.users.list.pagination",
             loadingData: true,
@@ -41,7 +40,7 @@ export class Users extends Component {
             .then(function (response) {
                 let data = response.data; data.sort(SORTER);
                 let currentData = data.slice(0, self.state.perPage);
-                self.setState({ data: data, currentData: currentData, loadingData: false })
+                self.setState({ data: data, dataImmuable: data, currentData: currentData, loadingData: false })
             })
             .catch(function (error) { Formulaire.displayErrors(self, error); })
         ;
@@ -50,7 +49,15 @@ export class Users extends Component {
     handleUpdateData = (currentData) => { this.setState({ currentData }) }
 
     handleSearch = (search) => {
+        const { dataImmuable, perPage } = this.state;
 
+        if(search !== ""){
+            let newData = SearchFunction.search("user", dataImmuable, search);
+            if(SORTER){
+                newData.sort(SORTER)
+            }
+            this.setState({ data: newData, currentData: newData.slice(0, perPage) });
+        }
     }
 
     render () {
