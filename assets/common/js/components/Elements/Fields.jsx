@@ -91,13 +91,32 @@ Checkbox.propTypes = {
 /***************************************
  * SELECT Classique
  ***************************************/
+function useArrows (e, self) {
+    let cursor = self.state.cursor;
+    if(e.key === "ArrowDown"){
+        if(cursor < self.props.items.length){
+            cursor++;
+        }
+    }
+    if(e.key === "ArrowUp"){
+        if(cursor > 0){
+            cursor--;
+        }
+    }
+    self.setState({ cursor: cursor })
+
+    let element = document.getElementById("item-" + self.props.identifiant + "-" + cursor);
+    element.scrollIntoView({ block: 'end' })
+}
+
 export class Select extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
             displayValeur: props.displayValeur,
-            isOpen: false
+            isOpen: false,
+            cursor: -1
         }
 
         this.input = React.createRef();
@@ -105,19 +124,35 @@ export class Select extends Component {
         this.handleFocus = this.handleFocus.bind(this);
         this.handleClose = this.handleClose.bind(this);
         this.handleBlur = this.handleBlur.bind(this);
+        this.handleUseArrows = this.handleUseArrows.bind(this);
     }
 
-    handleFocus = () => { this.setState({ isOpen: true }) }
+    handleUseArrows = (e) => { useArrows(e, this) }
+
+    handleFocus = () => {
+        this.setState({ isOpen: true, cursor: -1 })
+
+        window.addEventListener("keydown", this.handleUseArrows)
+    }
 
     handleClose = (e, value) => {
         const { identifiant, items } = this.props;
+        const { cursor } = this.state;
 
         if(e !== null){ // from this
             let possibilities = [];
-            items.forEach(item => {
-                let rank = Search.selectSearch(this.state.displayValeur, item.label)
-                if(rank === 1) possibilities.push(item);
-            })
+            if(cursor !== -1){
+                items.forEach((item, index) => {
+                    if(index === cursor){
+                        possibilities.push(item);
+                    }
+                })
+            }else{
+                items.forEach(item => {
+                    let rank = Search.selectSearch(this.state.displayValeur, item.label)
+                    if(rank === 1) possibilities.push(item);
+                })
+            }
 
             if(possibilities.length === 1){
                 let item = possibilities[0];
@@ -125,10 +160,11 @@ export class Select extends Component {
             }else{
                 this.props.onClick(identifiant, "", "")
             }
-
         }else{ // from parent
             this.setState({ isOpen: false, displayValeur: value })
         }
+
+        window.removeEventListener("keydown", this.handleUseArrows)
     }
 
     handleChange = (e) => {
@@ -146,7 +182,7 @@ export class Select extends Component {
 
     render () {
         const { identifiant, items, onClick, children, placeholder=""} = this.props;
-        const { init, isOpen, displayValeur } = this.state;
+        const { init, isOpen, displayValeur, cursor } = this.state;
 
         items.forEach(item => {
             item.rank = Search.selectSearch(displayValeur, item.label);
@@ -157,8 +193,9 @@ export class Select extends Component {
         let nItems = [];
         items.forEach((item, index) => {
             let active = item.rank === 1 ? " possibility" : "";
+            let positionnement = cursor === index ? " highlight" : "";
 
-            nItems.push(<div className={"item" + (active)} key={index}
+            nItems.push(<div className={"item" + active + positionnement} id={"item-" + identifiant + "-" + index} key={index}
                              onClick={() => onClick(identifiant, item.value, item.inputName)}>
                 <div dangerouslySetInnerHTML={{__html: item.label }} />
             </div>)
@@ -170,7 +207,7 @@ export class Select extends Component {
                        placeholder={placeholder} onChange={this.handleChange} onKeyDown={this.handleBlur}
                        autoComplete={"new-" + identifiant} key={init} />
             </div>
-            <div className="select-choices">
+            <div className="select-choices" id={"select-choices-" + identifiant}>
                 <div className="items">{nItems}</div>
             </div>
             <div className="select-overlay" onClick={(e) => this.handleClose(e, null)}></div>

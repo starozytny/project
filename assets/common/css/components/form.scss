@@ -177,6 +177,10 @@ input, textarea, select{
         opacity: 1;
       }
 
+      &.highlight{
+        background-color: var(--grey);
+      }
+
       &:last-child{
         border-radius: 0 0 0 4px;
       }
