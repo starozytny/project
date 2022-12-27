@@ -14,6 +14,8 @@ import { Search }           from "@commonComponents/Elements/Search";
 import { Filter }           from "@commonComponents/Elements/Filter";
 import { Pagination }       from "@commonComponents/Elements/Pagination";
 import { LoaderElements }   from "@commonComponents/Elements/Loader";
+import {Modal} from "@commonComponents/Elements/Modal";
+import {Button} from "@commonComponents/Elements/Button";
 
 const URL_GET_DATA = "api_users_list";
 
@@ -28,12 +30,17 @@ export class Users extends Component {
             sessionName: "local.users.list.pagination",
             loadingData: true,
             filters: [],
+            element: null
         }
+
+        this.delete = React.createRef();
 
         this.handleGetData = this.handleGetData.bind(this);
         this.handleUpdateData = this.handleUpdateData.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
         this.handleFilters = this.handleFilters.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
+        this.handleDeleteUser = this.handleDeleteUser.bind(this);
     }
 
     componentDidMount = () => { this.handleGetData(); }
@@ -77,6 +84,16 @@ export class Users extends Component {
         return newData;
     }
 
+    handleDelete = (elem) => {
+        this.delete.current.handleClick();
+        this.setState({ element: elem })
+    }
+
+    handleDeleteUser = () => {
+        const { element } = this.state;
+        console.log("in")
+    }
+
     render () {
         const { sessionName, data, currentData, loadingData, perPage, filters } = this.state;
 
@@ -98,9 +115,19 @@ export class Users extends Component {
                             <Search onSearch={this.handleSearch} placeholder="Rechercher pas identifiant, nom ou prénom.."/>
                         </div>
                     </div>
-                    <UsersList data={currentData} />
+                    <UsersList data={currentData} onDelete={this.handleDelete} />
                     <Pagination sessionName={sessionName} items={data} taille={data.length}
                                 perPage={perPage} onUpdate={this.handleUpdateData} />
+
+                    <Modal ref={this.delete} identifiant="delete" maxWidth={414} title="Supprimer un utilisateur"
+                           content={<p>Etes-vous sûr de vouloir supprimer définitivement cet utilisateur ?</p>}
+                           footer={<>
+                               <Button onClick={this.handleDeleteUser} type="primary">Confirmer la suppression</Button>
+                               <div className="close-modal">
+                                   <Button type="cancel">Annuler</Button>
+                               </div>
+                           </>}
+                    />
                 </>
             }
         </>

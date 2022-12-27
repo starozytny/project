@@ -1,3 +1,7 @@
+button{
+  border: none;
+}
+
 .btn-icon, .btn {
   position: relative;
   @include flex(row, center, center);

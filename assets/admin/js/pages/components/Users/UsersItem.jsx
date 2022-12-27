@@ -9,7 +9,7 @@ import { ButtonIcon } from "@commonComponents/Elements/Button";
 
 const URL_UPDATE_PAGE = "admin_users_update"
 
-export function UsersItem ({ elem })
+export function UsersItem ({ elem, onDelete })
 {
     let urlUpdate = Routing.generate(URL_UPDATE_PAGE, {'id': elem.id});
 
@@ -37,7 +37,7 @@ export function UsersItem ({ elem })
                 </div>
                 <div className="col-4 actions">
                     <ButtonIcon outline={true} icon="pencil" onClick={urlUpdate} element="a">Modifier</ButtonIcon>
-                    <ButtonIcon outline={true} icon="trash">Supprimer</ButtonIcon>
+                    <ButtonIcon outline={true} icon="trash" onClick={() => onDelete(elem.id)}>Supprimer</ButtonIcon>
                 </div>
             </div>
         </div>
@@ -45,5 +45,6 @@ export function UsersItem ({ elem })
 }
 
 UsersItem.propTypes = {
-    elem: PropTypes.object.isRequired
+    elem: PropTypes.object.isRequired,
+    onDelete: PropTypes.func.isRequired,
 }

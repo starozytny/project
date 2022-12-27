@@ -44,7 +44,10 @@ Button.propTypes = {
     isSubmit: PropTypes.bool,
     outline: PropTypes.bool,
     children: PropTypes.node,
-    onClick: PropTypes.node,
+    onClick: PropTypes.oneOfType([
+        PropTypes.node,
+        PropTypes.func,
+    ]),
     element: PropTypes.string,
     target: PropTypes.string
 }
@@ -56,7 +59,10 @@ ButtonIcon.propTypes = {
     outline: PropTypes.bool,
     children: PropTypes.node,
     text: PropTypes.node,
-    onClick: PropTypes.node,
+    onClick:  PropTypes.oneOfType([
+        PropTypes.node,
+        PropTypes.func,
+    ]),
     element: PropTypes.string,
     target: PropTypes.string,
     tooltipWidth: PropTypes.number,

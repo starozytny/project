@@ -5,7 +5,7 @@ import { Alert } from "@commonComponents/Elements/Alert";
 
 import { UsersItem } from "@adminPages/Users/UsersItem";
 
-export function UsersList ({ data }) {
+export function UsersList ({ data, onDelete }) {
     return <div className="list">
         <div className="list-table">
             <div className="items">
@@ -22,7 +22,7 @@ export function UsersList ({ data }) {
 
                 {data.length > 0
                     ? data.map((elem) => {
-                        return <UsersItem key={elem.id} elem={elem} />;
+                        return <UsersItem key={elem.id} elem={elem} onDelete={onDelete} />;
                     })
                     : <Alert>Aucune donnée enregistrée.</Alert>
                 }
@@ -32,5 +32,6 @@ export function UsersList ({ data }) {
 }
 
 UsersList.propTypes = {
-    data: PropTypes.array.isRequired
+    data: PropTypes.array.isRequired,
+    onDelete: PropTypes.func.isRequired,
 }
