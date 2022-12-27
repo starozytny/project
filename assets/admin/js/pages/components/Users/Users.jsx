@@ -8,6 +8,7 @@ import Formulaire       from "@commonFunctions/formulaire";
 import Sort             from "@commonFunctions/sort";
 import SearchFunction   from "@commonFunctions/search";
 import FilterFunction   from "@commonFunctions/filter";
+import List             from "@commonFunctions/list";
 
 import { UsersList } from "./UsersList";
 
@@ -100,9 +101,16 @@ export class Users extends Component {
         axios({ method: "DELETE", url: Routing.generate(URL_DELETE_ELEMENT, {'id': element.id}), data: {} })
             .then(function (response) {
                 toastr.info("Utilisateur supprimé !");
+                self.delete.current.handleClose();
+                self.handleUpdateList(element, "delete");
             })
             .catch(function (error) { Formulaire.displayErrors(self, error); })
         ;
+    }
+
+    handleUpdateList = (element, context) => {
+        const { data, dataImmuable, currentData } = this.state;
+        List.updateListPagination(this, element, context, data, dataImmuable, currentData, SORTER)
     }
 
     render () {

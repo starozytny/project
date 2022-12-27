@@ -27,6 +27,13 @@ export class Modal extends Component {
         })
     }
 
+    handleClose = (e) => {
+        const { identifiant } = this.props;
+
+        let modal = document.getElementById(identifiant);
+        modal.style.display = "none"
+    }
+
     render () {
         const { identifiant, title, content, footer, maxWidth } = this.props;
 

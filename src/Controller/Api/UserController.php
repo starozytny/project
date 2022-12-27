@@ -78,8 +78,7 @@ class UserController extends AbstractController
 
     #[Route('/delete/{id}', name: 'delete', options: ['expose' => true], methods: 'DELETE')]
     #[IsGranted('ROLE_ADMIN')]
-    public function delete(Request $request, ManagerRegistry $doctrine, ApiResponse $apiResponse,
-                           ValidatorService $validator, DataMain$dataEntity, UserPasswordHasherInterface $passwordHasher): Response
+    public function delete(ApiResponse $apiResponse): Response
     {
         return $apiResponse->apiJsonResponseSuccessful("ok");
     }
