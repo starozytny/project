@@ -25,7 +25,9 @@ export class Search extends Component {
         return <div className="search-bar">
             <input type="search" name="search" id="search" value={search}
                    onChange={this.handleChange} placeholder={placeholder} />
-            <label htmlFor="search" className="search-icon"><span className="icon-search"></span></label>
+            <label htmlFor="search" className={"search-icon" + (search !== "" ? " active" : "")}>
+                <span className="icon-search"></span>
+            </label>
         </div>
     }
 }
