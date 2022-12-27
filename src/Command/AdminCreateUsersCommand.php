@@ -84,10 +84,10 @@ class AdminCreateUsersCommand extends Command
         }
 
         if ($input->getOption('fake')) {
-            $io->title('Création de 20000 utilisateurs lambdas');
+            $io->title('Création de 200 utilisateurs lambdas');
 
             $fake = Factory::create();
-            for($i=0; $i<20000 ; $i++) {
+            for($i=0; $i<200 ; $i++) {
                 $user =  [
                     'username' => $i . $fake->userName,
                     'firstname' => $fake->firstName, 'lastname' => $fake->lastName,

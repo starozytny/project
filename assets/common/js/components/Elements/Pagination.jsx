@@ -35,7 +35,7 @@ export class Pagination extends Component {
     }
 
     render () {
-        const { havePagination, taille } = this.props;
+        const { taille } = this.props;
         const { perPage, currentPage } = this.state;
 
         let pageCount = Math.ceil(taille / perPage);
@@ -45,14 +45,13 @@ export class Pagination extends Component {
         </>
 
         return <>
-            {havePagination && content}
+            {content}
         </>
     }
 }
 
 Pagination.propTypes = {
     sessionName: PropTypes.string.isRequired,
-    havePagination: PropTypes.bool.isRequired,
     items: PropTypes.array.isRequired,
     taille: PropTypes.number.isRequired,
     onUpdate: PropTypes.func.isRequired,
