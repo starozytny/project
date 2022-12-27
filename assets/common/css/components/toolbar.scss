@@ -22,7 +22,7 @@
 }
 
 .filters{
-  .filter{
+  .dropdown-btn{
     display: inline-block;
     border: 1px solid var(--grey);
     border-radius: 4px;
@@ -34,6 +34,11 @@
     &:hover{
       color: var(--txt);
     }
+  }
+
+  .dropdown-items{
+    right: auto;
+    left: 0;
   }
 }
 
@@ -54,12 +59,16 @@
 
   .filters{
     .filter:last-child{
-      border-radius: 0;
-      border-right: none;
+      .dropdown-btn{
+        border-radius: 0;
+        border-right: none;
+      }
     }
 
     .filter:first-child{
-      border-radius: 8px 0 0 8px;
+      .dropdown-btn{
+        border-radius: 8px 0 0 8px;
+      }
     }
   }
 
@@ -89,22 +98,5 @@
 @media (min-width: 768px) {
   .toolbar{
     flex-direction: row;
-
-    .filters{
-      .filter{
-        padding-bottom: 5px;
-      }
-    }
-  }
-}
-
-
-@media (min-width: 1024px) {
-  .toolbar{
-    .filters{
-      .filter{
-        padding-bottom: 6px;
-      }
-    }
   }
 }
