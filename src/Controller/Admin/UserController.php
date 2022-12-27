@@ -3,7 +3,6 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Main\User;
-use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,13 +18,9 @@ class UserController extends AbstractController
     }
 
     #[Route('/utilisateur/modifier/{id}', name: 'update', options: ['expose' => true])]
-    public function update($id, ManagerRegistry $doctrine, SerializerInterface $serializer): Response
+    public function update(User $elem, SerializerInterface $serializer): Response
     {
-        $em = $doctrine->getManager();
-
-        $elem = $em->getRepository(User::class)->find($id);
         $obj  = $serializer->serialize($elem, 'json', ['groups' => User::USER_FORM]);
-
         return $this->render('admin/pages/users/update.html.twig', ['elem' => $elem, 'obj' => $obj]);
     }
 

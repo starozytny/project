@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use App\Entity\Main\Society;
 use App\Entity\Main\User;
 use App\Service\Data\DataMain;
 use App\Service\DatabaseService;
@@ -46,8 +47,19 @@ class AdminCreateUsersCommand extends Command
 
         $io->title('Reset des tables');
         $this->databaseService->resetTable($io, "default", [
+            Society::class,
             User::class,
         ]);
+
+        $io->title('Création de la société Logilink');
+        $society = [ "name" => "Logilink", "code" => 999 ];
+
+        $society = $this->dataMain->setDataSociety(new Society(), json_decode(json_encode($society)));
+        $society->setManager("default");
+
+        $this->em->persist($society);
+
+        $io->text('Société : Logilink créé' );
 
         $users = [
             [
@@ -74,7 +86,7 @@ class AdminCreateUsersCommand extends Command
 
         $io->title('Création des utilisateurs');
         foreach ($users as $user) {
-            $obj = $this->dataMain->setData(new User(), json_decode(json_encode($user)));
+            $obj = $this->dataMain->setDataUser(new User(), json_decode(json_encode($user)));
             $obj->setPassword($password);
             $obj->setManager("default");
 
@@ -95,7 +107,7 @@ class AdminCreateUsersCommand extends Command
                     'roles' => ['ROLE_USER']
                 ];
 
-                $obj = $this->dataMain->setData(new User(), json_decode(json_encode($user)));
+                $obj = $this->dataMain->setDataUser(new User(), json_decode(json_encode($user)));
                 $obj->setPassword($password);
                 $obj->setManager("default");
 

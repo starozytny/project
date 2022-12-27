@@ -36,7 +36,7 @@ class UserController extends AbstractController
             return $apiResponse->apiJsonResponseBadRequest('Les données sont vides.');
         }
 
-        $obj = $dataEntity->setData($obj, $data);
+        $obj = $dataEntity->setDataUser($obj, $data);
         if($type === "create"){
             $obj->setPassword($passwordHasher->hashPassword($obj, $data->password));
         }else{
