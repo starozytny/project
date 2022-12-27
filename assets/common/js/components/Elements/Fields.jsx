@@ -100,6 +100,8 @@ export class Select extends Component {
             isOpen: false
         }
 
+        this.input = React.createRef();
+
         this.handleFocus = this.handleFocus.bind(this);
         this.handleClose = this.handleClose.bind(this);
         this.handleBlur = this.handleBlur.bind(this);
@@ -138,6 +140,7 @@ export class Select extends Component {
         if(e.key === "Enter") {
             e.preventDefault();
             this.handleClose(e, null);
+            this.input.current.blur();
         }
     }
 
@@ -163,7 +166,7 @@ export class Select extends Component {
 
         let content = <div className={"select-custom" + (isOpen ? " active" : "")} onFocus={this.handleFocus}>
             <div className="select-input">
-                <input type="text" name="displayValeur" id="displayValeur" value={displayValeur}
+                <input ref={this.input} type="text" name="displayValeur" id="displayValeur" value={displayValeur}
                        placeholder={placeholder} onChange={this.handleChange} onKeyDown={this.handleBlur}
                        autoComplete={"new-" + identifiant} key={init} />
             </div>
