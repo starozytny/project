@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import axios   from 'axios';
 import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
-import { Checkbox, Input, Select } from "@commonComponents/Elements/Fields";
+import { Checkbox, Input, InputFile, Select } from "@commonComponents/Elements/Fields";
 import { Button }         from "@commonComponents/Elements/Button";
 import { LoaderElements } from "@commonComponents/Elements/Loader";
 
@@ -17,6 +17,8 @@ const URL_CREATE_ELEMENT    = "api_users_create";
 const URL_UPDATE_GROUP      = "api_users_update";
 const TEXT_CREATE           = "Ajouter l'utilisateur";
 const TEXT_UPDATE           = "Enregistrer les modifications";
+
+let societies = [];
 
 export function UserFormulaire ({ context, element })
 {
@@ -34,7 +36,7 @@ export function UserFormulaire ({ context, element })
         firstname={element ? Formulaire.setValue(element.firstname) : ""}
         lastname={element ? Formulaire.setValue(element.lastname) : ""}
         email={element ? Formulaire.setValue(element.email) : ""}
-        avatar={element ? Formulaire.setValue(element.avatarFile) : null}
+        avatarFile={element ? Formulaire.setValue(element.avatarFile) : null}
         roles={element ? Formulaire.setValue(element.roles, []) : []}
     />
 
@@ -57,7 +59,6 @@ class Form extends Component {
             lastname: props.lastname,
             email: props.email,
             roles: props.roles,
-            avatar: props.avatar,
             password: '',
             password2: '',
             errors: [],
@@ -65,6 +66,7 @@ class Form extends Component {
         }
 
         this.select = React.createRef();
+        this.file = React.createRef();
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
@@ -80,14 +82,14 @@ class Form extends Component {
                 let data = response.data;
 
                 data.sort(Sort.compareCodeString)
-                let societyName = "", societies = [];
+                let societyName = "";
                 data.forEach(elem => {
                     let label = elem.codeString + " - " + elem.name;
                     societyName = elem.id === society ? label : societyName;
                     societies.push({ value: elem.id, label: label, inputName: label, identifiant: "so-" + elem.id})
                 })
 
-                self.setState({ societies: societies, societyName: societyName, loadData: false})
+                self.setState({ societyName: societyName, loadData: false})
             })
             .catch(function (error) { Formulaire.displayErrors(self, error); })
         ;
@@ -145,6 +147,11 @@ class Form extends Component {
             let formData = new FormData();
             formData.append("data", JSON.stringify(this.state));
 
+            let file = this.file.current;
+            if(file.state.files.length > 0){
+                formData.append("avatar", file.state.files[0]);
+            }
+
             axios({ method: "POST", url: url, data: formData, headers: {'Content-Type': 'multipart/form-data'} })
                 .then(function (response) {
                     let data = response.data;
@@ -157,8 +164,7 @@ class Form extends Component {
 
     render () {
         const { context } = this.props;
-        const { errors, username, firstname, lastname, email, password, password2, roles, avatar,
-            societies, societyName, loadData } = this.state;
+        const { errors, username, firstname, lastname, email, password, password2, roles, avatar, societyName, loadData } = this.state;
 
         let rolesItems = [
             { value: 'ROLE_ADMIN',      label: 'Admin',          identifiant: 'admin' },
@@ -217,6 +223,10 @@ class Form extends Component {
                                         Société
                                     </Select>
                                 }
+                            </div>
+
+                            <div className="line">
+                                <InputFile ref={this.file} type="simple" identifiant="avatar" {...paramsInput0}>Avatar</InputFile>
                             </div>
                         </div>
                     </div>

@@ -7,6 +7,7 @@ use App\Entity\Main\User;
 use App\Repository\Main\UserRepository;
 use App\Service\ApiResponse;
 use App\Service\Data\DataMain;
+use App\Service\FileUploader;
 use App\Service\ValidatorService;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
@@ -32,7 +33,7 @@ class UserController extends AbstractController
 
     public function submitForm($type, ObjectManager $em, User $obj, Request $request, ApiResponse $apiResponse,
                                ValidatorService $validator, DataMain $dataEntity, UserRepository $repository,
-                               UserPasswordHasherInterface $passwordHasher): JsonResponse
+                               UserPasswordHasherInterface $passwordHasher, FileUploader $fileUploader): JsonResponse
     {
         $data = json_decode($request->get('data'));
         if ($data === null) {
@@ -51,6 +52,12 @@ class UserController extends AbstractController
             }
         }
 
+        $file = $request->files->get('avatar');
+        if ($file) {
+            $fileName = $fileUploader->replaceFile($file, User::FOLDER, $obj->getAvatar());
+            $obj->setAvatar($fileName);
+        }
+
         $obj->setSociety($society);
         $obj->setManager($society->getManager());
 
@@ -66,24 +73,28 @@ class UserController extends AbstractController
     #[Route('/update/{id}', name: 'update', options: ['expose' => true], methods: 'POST')]
     #[IsGranted('ROLE_USER')]
     public function update(Request $request, User $obj, ManagerRegistry $doctrine, ApiResponse $apiResponse,
-                           ValidatorService $validator, DataMain$dataEntity, UserRepository $repository, UserPasswordHasherInterface $passwordHasher): Response
+                           ValidatorService $validator, DataMain$dataEntity, UserRepository $repository,
+                           UserPasswordHasherInterface $passwordHasher, FileUploader $fileUploader): Response
     {
         $em = $doctrine->getManager();
-        return $this->submitForm("update", $em, $obj, $request, $apiResponse, $validator, $dataEntity, $repository, $passwordHasher);
+        return $this->submitForm("update", $em, $obj, $request, $apiResponse, $validator, $dataEntity,
+            $repository, $passwordHasher, $fileUploader);
     }
 
     #[Route('/create', name: 'create', options: ['expose' => true], methods: 'GET')]
     #[IsGranted('ROLE_ADMIN')]
     public function create(Request $request, ManagerRegistry $doctrine, ApiResponse $apiResponse,
-                           ValidatorService $validator, DataMain$dataEntity, UserRepository $repository, UserPasswordHasherInterface $passwordHasher): Response
+                           ValidatorService $validator, DataMain$dataEntity, UserRepository $repository,
+                           UserPasswordHasherInterface $passwordHasher, FileUploader $fileUploader): Response
     {
         $em = $doctrine->getManager();
-        return $this->submitForm("update", $em, new User(), $request, $apiResponse, $validator, $dataEntity, $repository, $passwordHasher);
+        return $this->submitForm("update", $em, new User(), $request, $apiResponse, $validator, $dataEntity,
+            $repository, $passwordHasher, $fileUploader);
     }
 
     #[Route('/delete/{id}', name: 'delete', options: ['expose' => true], methods: 'DELETE')]
     #[IsGranted('ROLE_ADMIN')]
-    public function delete(User $obj, UserRepository $repository, ApiResponse $apiResponse): Response
+    public function delete(User $obj, UserRepository $repository, ApiResponse $apiResponse, FileUploader $fileUploader): Response
     {
         if ($obj->getHighRoleCode() === User::CODE_ROLE_DEVELOPER) {
             return $apiResponse->apiJsonResponseForbidden();
@@ -94,6 +105,8 @@ class UserController extends AbstractController
         }
 
         $repository->remove($obj, true);
+
+        $fileUploader->deleteFile($obj->getAvatar(), User::FOLDER);
         return $apiResponse->apiJsonResponseSuccessful("ok");
     }
 }

@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import PropTypes from 'prop-types';
 
+import toastr   from "toastr";
+
 import Sort     from "@commonFunctions/sort";
 import Search   from "@commonFunctions/search";
-import Sanitaze from "@commonFunctions/sanitaze";
 
 /***************************************
  * INPUT Classique
@@ -227,6 +228,56 @@ Select.propTypes = {
     placeholder: PropTypes.string,
 }
 
+/***************************************
+ * INPUT FILE Classique
+ ***************************************/
+export class InputFile extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            files: [],
+        }
+
+        this.fileInput = React.createRef();
+
+        this.handleFileInput = this.handleFileInput.bind(this);
+    }
+
+    handleFileInput = (e) => {
+        const { type } = this.props;
+
+        const file = e.target.files[0];
+        if (file.size > 5330000) {
+            toastr.error("Le fichier est trop volumineux.")
+        }else {
+            if(type === "simple"){
+                this.setState({ files: [file] })
+            }
+        }
+    }
+
+    render () {
+        const { type, identifiant, valeur, children, placeholder="" } = this.props;
+
+        let content = <div className="file-uploader">
+            <input type='file' ref={this.fileInput} name={identifiant} id={identifiant} value={valeur}
+                   placeholder={placeholder} onChange={this.handleFileInput} />
+            <button onClick={(e) => this.fileInput.current.click()} type="button">Parcourir les fichiers</button>
+        </div>
+
+        return (<Structure {...this.props} content={content} label={children} />)
+    }
+}
+
+InputFile.propTypes = {
+    type: PropTypes.string.isRequired,
+    identifiant: PropTypes.string.isRequired,
+    valeur: PropTypes.string,
+    errors: PropTypes.array.isRequired,
+    children: PropTypes.node.isRequired,
+    placeholder: PropTypes.string,
+}
 
 /***************************************
  * STRUCTURE
