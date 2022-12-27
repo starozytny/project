@@ -35,7 +35,6 @@
     @include flex(column, flex-start, flex-start);
     padding: 12px 0;
     background: var(--alpha);
-    box-shadow: 0 5px 10px var(--greyShadow);
     opacity: 0;
     z-index: -1;
     transition: all 0.2s ease-in-out;

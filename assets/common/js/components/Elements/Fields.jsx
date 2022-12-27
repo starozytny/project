@@ -85,6 +85,42 @@ Checkbox.propTypes = {
 }
 
 /***************************************
+ * SELECT Classique
+ ***************************************/
+export class Select extends Component {
+    render () {
+        const { identifiant, valeur, onChange, children, placeholder=""} = this.props;
+
+        let content = <div className="select-custom active">
+            <div className="select-input">
+                <input type="text" name={identifiant} id={identifiant} value={valeur}
+                       placeholder={placeholder} onChange={onChange} autoComplete={"new-" + identifiant} />
+            </div>
+            <div className="select-choices">
+                <div className="items">
+                    <div className="item">ok</div>
+                    <div className="item">ok</div>
+                    <div className="item">ok</div>
+                </div>
+            </div>
+            <div className="select-overlay"></div>
+        </div>
+
+        return (<Structure {...this.props} content={content} label={children} />)
+    }
+}
+
+Select.propTypes = {
+    identifiant: PropTypes.string.isRequired,
+    valeur: PropTypes.node.isRequired,
+    errors: PropTypes.array.isRequired,
+    children: PropTypes.node.isRequired,
+    onChange: PropTypes.func.isRequired,
+    placeholder: PropTypes.string,
+}
+
+
+/***************************************
  * STRUCTURE
  ***************************************/
 function Structure({ identifiant, content, errors, label, classForm="" }){

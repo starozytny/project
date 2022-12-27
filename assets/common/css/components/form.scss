@@ -146,6 +146,36 @@ input, textarea, select{
   }
 }
 
+.select-custom{
+  position: relative;
+  width: 100%;
+
+  .select-choices{
+    display: none;
+    position: absolute;
+    top: 36px; left: 0;
+    width: 100%;
+    background-color: var(--alpha);
+    border-radius: 4px;
+    z-index: -5;
+    max-height: 180px;
+    overflow-y: auto;
+    @include scrollbar();
+
+    .item{
+      color: var(--txt);
+      padding: 6px 12px;
+      cursor: pointer;
+    }
+  }
+
+  &.active{
+    .select-choices{
+      display: block;
+      z-index: 1;
+    }
+  }
+}
 
 //                      __   _____ __    ___    __
 //                     | _| |___  / /_  ( _ )  |_ |

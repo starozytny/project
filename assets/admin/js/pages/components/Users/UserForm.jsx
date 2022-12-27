@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import axios   from 'axios';
 import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
-import { Checkbox, Input } from "@commonComponents/Elements/Fields";
+import {Checkbox, Input, Select} from "@commonComponents/Elements/Fields";
 import { Button }         from "@commonComponents/Elements/Button";
 import { LoaderElements } from "@commonComponents/Elements/Loader";
 
@@ -142,7 +142,7 @@ class Form extends Component {
     render () {
         const { context } = this.props;
         const { errors, username, firstname, lastname, email, password, password2, roles, avatar,
-            societies, loadData } = this.state;
+            societies, society, loadData } = this.state;
 
         let rolesItems = [
             { value: 'ROLE_ADMIN',      label: 'Admin',          identifiant: 'admin' },
@@ -191,8 +191,11 @@ class Form extends Component {
 
                             <div className="line">
                                 {loadData
-                                    ? <LoaderElements text="Récupération des sociétés..." />
-                                    : <div>ok</div>
+                                    ? <>
+                                        <label>Société</label>
+                                        <LoaderElements text="Récupération des sociétés..." />
+                                    </>
+                                    : <Select identifiant="society" valeur={society} {...paramsInput0}>Société</Select>
                                 }
                             </div>
                         </div>
