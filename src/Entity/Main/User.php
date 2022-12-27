@@ -80,6 +80,10 @@ class User extends DataEntity implements UserInterface, PasswordAuthenticatedUse
     #[Groups(['user_list'])]
     private ?string $manager = "default";
 
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Society $society = null;
+
     /**
      * @throws Exception
      */
@@ -321,6 +325,18 @@ class User extends DataEntity implements UserInterface, PasswordAuthenticatedUse
     public function setManager(string $manager): self
     {
         $this->manager = $manager;
+
+        return $this;
+    }
+
+    public function getSociety(): ?Society
+    {
+        return $this->society;
+    }
+
+    public function setSociety(?Society $society): self
+    {
+        $this->society = $society;
 
         return $this;
     }

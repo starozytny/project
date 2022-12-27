@@ -3,6 +3,8 @@
 namespace App\Entity\Main;
 
 use App\Repository\Main\SocietyRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: SocietyRepository::class)]
@@ -27,6 +29,14 @@ class Society
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $logo = null;
+
+    #[ORM\OneToMany(mappedBy: 'society', targetEntity: User::class)]
+    private Collection $users;
+
+    public function __construct()
+    {
+        $this->users = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -103,6 +113,36 @@ class Society
     public function setLogo(?string $logo): self
     {
         $this->logo = $logo;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+            $user->setSociety($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->removeElement($user)) {
+            // set the owning side to null (unless already changed)
+            if ($user->getSociety() === $this) {
+                $user->setSociety(null);
+            }
+        }
 
         return $this;
     }

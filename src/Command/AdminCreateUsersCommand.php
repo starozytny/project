@@ -47,8 +47,8 @@ class AdminCreateUsersCommand extends Command
 
         $io->title('Reset des tables');
         $this->databaseService->resetTable($io, "default", [
-            Society::class,
             User::class,
+            Society::class,
         ]);
 
         $io->title('Création de la société Logilink');
@@ -87,8 +87,11 @@ class AdminCreateUsersCommand extends Command
         $io->title('Création des utilisateurs');
         foreach ($users as $user) {
             $obj = $this->dataMain->setDataUser(new User(), json_decode(json_encode($user)));
-            $obj->setPassword($password);
-            $obj->setManager("default");
+            $obj = ($obj)
+                ->setPassword($password)
+                ->setManager("default")
+                ->setSociety($society)
+            ;
 
             $this->em->persist($obj);
 
@@ -108,8 +111,11 @@ class AdminCreateUsersCommand extends Command
                 ];
 
                 $obj = $this->dataMain->setDataUser(new User(), json_decode(json_encode($user)));
-                $obj->setPassword($password);
-                $obj->setManager("default");
+                $obj = ($obj)
+                    ->setPassword($password)
+                    ->setManager("default")
+                    ->setSociety($society)
+                ;
 
                 $this->em->persist($obj);
             }
