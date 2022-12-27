@@ -5,15 +5,17 @@ import axios   from 'axios';
 import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
 import { Checkbox, Input } from "@commonComponents/Elements/Fields";
-import { Button } from "@commonComponents/Elements/Button";
+import { Button }         from "@commonComponents/Elements/Button";
+import { LoaderElements } from "@commonComponents/Elements/Loader";
 
 import Formulaire from "@commonFunctions/formulaire";
 import Validateur from "@commonFunctions/validateur";
 
-const URL_CREATE_ELEMENT = "api_users_create";
-const URL_UPDATE_GROUP   = "api_users_update";
-const TEXT_CREATE        = "Ajouter l'utilisateur";
-const TEXT_UPDATE        = "Enregistrer les modifications";
+const URL_SELECT_SOCIETIES  = "api_selection_societies";
+const URL_CREATE_ELEMENT    = "api_users_create";
+const URL_UPDATE_GROUP      = "api_users_update";
+const TEXT_CREATE           = "Ajouter l'utilisateur";
+const TEXT_UPDATE           = "Enregistrer les modifications";
 
 export function UserFormulaire ({ context, element })
 {
@@ -26,6 +28,7 @@ export function UserFormulaire ({ context, element })
     let form = <Form
         context={context}
         url={url}
+        society={element ? Formulaire.setValue(element.society) : ""}
         username={element ? Formulaire.setValue(element.username) : ""}
         firstname={element ? Formulaire.setValue(element.firstname) : ""}
         lastname={element ? Formulaire.setValue(element.lastname) : ""}
@@ -55,11 +58,29 @@ class Form extends Component {
             avatar: props.avatar,
             password: '',
             password2: '',
-            errors: []
+            errors: [],
+            loadData: true,
         }
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    componentDidMount = () => {
+        let self = this;
+        axios({ method: "GET", url: Routing.generate(URL_SELECT_SOCIETIES), data: {} })
+            .then(function (response) {
+                let data = response.data;
+
+                let societies = [];
+                data.forEach(elem => {
+                    societies.push({ value: elem.id, label: elem.codeString + " - " + elem.name, identifiant: "so-" + elem.id})
+                })
+
+                self.setState({ societies, loadData: false })
+            })
+            .catch(function (error) { Formulaire.displayErrors(self, error); })
+        ;
     }
 
     handleChange = (e) => {
@@ -112,19 +133,16 @@ class Form extends Component {
                 .then(function (response) {
                     let data = response.data;
                 })
-                .catch(function (error) {
-                    Formulaire.displayErrors(self, error);
-                })
-                .then(() => {
-                    Formulaire.loader(false);
-                })
+                .catch(function (error) { Formulaire.displayErrors(self, error); })
+                .then(() => { Formulaire.loader(false); })
             ;
         }
     }
 
     render () {
         const { context } = this.props;
-        const { errors, username, firstname, lastname, email, password, password2, roles, avatar } = this.state;
+        const { errors, username, firstname, lastname, email, password, password2, roles, avatar,
+            societies, loadData } = this.state;
 
         let rolesItems = [
             { value: 'ROLE_ADMIN',      label: 'Admin',          identifiant: 'admin' },
@@ -169,6 +187,13 @@ class Form extends Component {
                                 <Checkbox items={rolesItems} identifiant="roles" valeur={roles} {...paramsInput0}>
                                     Rôles
                                 </Checkbox>
+                            </div>
+
+                            <div className="line">
+                                {loadData
+                                    ? <LoaderElements text="Récupération des sociétés..." />
+                                    : <div>ok</div>
+                                }
                             </div>
                         </div>
                     </div>

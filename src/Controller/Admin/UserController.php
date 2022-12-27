@@ -20,7 +20,7 @@ class UserController extends AbstractController
     #[Route('/utilisateur/modifier/{id}', name: 'update', options: ['expose' => true])]
     public function update(User $elem, SerializerInterface $serializer): Response
     {
-        $obj  = $serializer->serialize($elem, 'json', ['groups' => User::USER_FORM]);
+        $obj  = $serializer->serialize($elem, 'json', ['groups' => User::FORM]);
         return $this->render('admin/pages/users/update.html.twig', ['elem' => $elem, 'obj' => $obj]);
     }
 

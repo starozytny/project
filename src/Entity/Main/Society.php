@@ -6,16 +6,21 @@ use App\Repository\Main\SocietyRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: SocietyRepository::class)]
 class Society
 {
+    const SELECT = ['society_select'];
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['society_select'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['society_select'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
@@ -79,6 +84,7 @@ class Society
         return $this;
     }
 
+    #[Groups(['society_select'])]
     public function getCodeString(): string
     {
         $code = $this->code;

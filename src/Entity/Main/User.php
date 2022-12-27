@@ -15,8 +15,8 @@ class User extends DataEntity implements UserInterface, PasswordAuthenticatedUse
 {
     const FOLDER = "avatars";
 
-    const USER_LIST   = ['user_list'];
-    const USER_FORM   = ['user_form'];
+    const LIST = ['user_list'];
+    const FORM = ['user_form'];
 
     const CODE_ROLE_USER = 0;
     const CODE_ROLE_DEVELOPER = 1;
@@ -82,6 +82,7 @@ class User extends DataEntity implements UserInterface, PasswordAuthenticatedUse
 
     #[ORM\ManyToOne(inversedBy: 'users')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['user_form'])]
     private ?Society $society = null;
 
     /**

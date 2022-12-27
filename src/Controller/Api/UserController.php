@@ -24,7 +24,7 @@ class UserController extends AbstractController
     {
         $em = $doctrine->getManager();
         $objs = $em->getRepository(User::class)->findAll();
-        return $apiResponse->apiJsonResponse($objs, User::USER_LIST);
+        return $apiResponse->apiJsonResponse($objs, User::LIST);
     }
 
     public function submitForm($type, UserRepository $repository, User $obj, Request $request, ApiResponse $apiResponse,
