@@ -53,8 +53,9 @@ export class Users extends Component {
     handleUpdateData = (currentData) => { this.setState({ currentData }) }
 
     handleSearch = (search) => {
-        const { dataImmuable, perPage } = this.state;
+        const { perPage, filters } = this.state;
 
+        let dataImmuable = this.handleFilters(filters);
         if(search !== ""){
             let newData = SearchFunction.search("user", dataImmuable, search);
             if(SORTER){
@@ -71,7 +72,9 @@ export class Users extends Component {
         if(SORTER){
             newData.sort(SORTER);
         }
+
         this.setState({ data: newData, currentData: newData.slice(0, perPage), filters: filters });
+        return newData;
     }
 
     render () {
