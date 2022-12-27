@@ -2,16 +2,19 @@
 
 namespace App\Controller\Api;
 
+use App\Entity\Main\Society;
 use App\Entity\Main\User;
 use App\Repository\Main\UserRepository;
 use App\Service\ApiResponse;
 use App\Service\Data\DataMain;
 use App\Service\ValidatorService;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -27,14 +30,17 @@ class UserController extends AbstractController
         return $apiResponse->apiJsonResponse($objs, User::LIST);
     }
 
-    public function submitForm($type, UserRepository $repository, User $obj, Request $request, ApiResponse $apiResponse,
-                               ValidatorService $validator, DataMain $dataEntity,
+    public function submitForm($type, ObjectManager $em, User $obj, Request $request, ApiResponse $apiResponse,
+                               ValidatorService $validator, DataMain $dataEntity, UserRepository $repository,
                                UserPasswordHasherInterface $passwordHasher): JsonResponse
     {
         $data = json_decode($request->get('data'));
         if ($data === null) {
             return $apiResponse->apiJsonResponseBadRequest('Les données sont vides.');
         }
+
+        $society = $em->getRepository(Society::class)->find($data->society);
+        if(!$society) throw new NotFoundHttpException("Society not found.");
 
         $obj = $dataEntity->setDataUser($obj, $data);
         if($type === "create"){
@@ -44,6 +50,9 @@ class UserController extends AbstractController
                 $obj->setPassword($passwordHasher->hashPassword($obj, $data->password));
             }
         }
+
+        $obj->setSociety($society);
+        $obj->setManager($society->getManager());
 
         $noErrors = $validator->validate($obj);
         if ($noErrors !== true) {
@@ -56,18 +65,20 @@ class UserController extends AbstractController
 
     #[Route('/update/{id}', name: 'update', options: ['expose' => true], methods: 'POST')]
     #[IsGranted('ROLE_USER')]
-    public function update(Request $request, User $obj, UserRepository $repository, ApiResponse $apiResponse,
-                           ValidatorService $validator, DataMain$dataEntity, UserPasswordHasherInterface $passwordHasher): Response
+    public function update(Request $request, User $obj, ManagerRegistry $doctrine, ApiResponse $apiResponse,
+                           ValidatorService $validator, DataMain$dataEntity, UserRepository $repository, UserPasswordHasherInterface $passwordHasher): Response
     {
-        return $this->submitForm("update", $repository, $obj, $request, $apiResponse, $validator, $dataEntity, $passwordHasher);
+        $em = $doctrine->getManager();
+        return $this->submitForm("update", $em, $obj, $request, $apiResponse, $validator, $dataEntity, $repository, $passwordHasher);
     }
 
     #[Route('/create', name: 'create', options: ['expose' => true], methods: 'GET')]
     #[IsGranted('ROLE_ADMIN')]
-    public function create(Request $request, UserRepository $repository,  ApiResponse $apiResponse,
-                           ValidatorService $validator, DataMain$dataEntity, UserPasswordHasherInterface $passwordHasher): Response
+    public function create(Request $request, ManagerRegistry $doctrine, ApiResponse $apiResponse,
+                           ValidatorService $validator, DataMain$dataEntity, UserRepository $repository, UserPasswordHasherInterface $passwordHasher): Response
     {
-        return $this->submitForm("update", $repository, new User(), $request, $apiResponse, $validator, $dataEntity, $passwordHasher);
+        $em = $doctrine->getManager();
+        return $this->submitForm("update", $em, new User(), $request, $apiResponse, $validator, $dataEntity, $repository, $passwordHasher);
     }
 
     #[Route('/delete/{id}', name: 'delete', options: ['expose' => true], methods: 'DELETE')]

@@ -46,6 +46,19 @@ function compareWithoutAccent(aVal, bVal) {
     return comparison(aName.toLowerCase(), bName.toLowerCase());
 }
 
+function compareCodeString(a, b){
+    return comparison(a.codeString, b.codeString);
+}
+
+function compareRankThenLabel(a, b){
+    if (a.rank > b.rank) {
+        return 1;
+    } else if (a.rank < b.rank) {
+        return -1;
+    }
+    return comparison(a.label, b.label);
+}
+
 function comparison (objA, objB){
     let comparison = 0;
     if (objA > objB) {
@@ -67,4 +80,6 @@ module.exports = {
     compareEmail,
     compareZipcode,
     compareCity,
+    compareCodeString,
+    compareRankThenLabel,
 }

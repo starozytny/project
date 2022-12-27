@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import PropTypes from 'prop-types';
 
+import Sort     from "@commonFunctions/sort";
+import Search   from "@commonFunctions/search";
+import Sanitaze from "@commonFunctions/sanitaze";
+
 /***************************************
  * INPUT Classique
  ***************************************/
@@ -88,22 +92,85 @@ Checkbox.propTypes = {
  * SELECT Classique
  ***************************************/
 export class Select extends Component {
-    render () {
-        const { identifiant, valeur, onChange, children, placeholder=""} = this.props;
+    constructor(props) {
+        super(props);
 
-        let content = <div className="select-custom active">
+        this.state = {
+            displayValeur: props.displayValeur,
+            isOpen: false
+        }
+
+        this.handleFocus = this.handleFocus.bind(this);
+        this.handleClose = this.handleClose.bind(this);
+        this.handleBlur = this.handleBlur.bind(this);
+    }
+
+    handleFocus = () => { this.setState({ isOpen: true }) }
+
+    handleClose = (e, value) => {
+        const { identifiant, items } = this.props;
+
+        if(e !== null){ // from this
+            let possibilities = [];
+            items.forEach(item => {
+                let rank = Search.selectSearch(this.state.displayValeur, item.label)
+                if(rank === 1) possibilities.push(item);
+            })
+
+            if(possibilities.length === 1){
+                let item = possibilities[0];
+                this.props.onClick(identifiant, item.value, item.inputName)
+            }else{
+                this.props.onClick(identifiant, "", "")
+            }
+
+        }else{ // from parent
+            this.setState({ isOpen: false, displayValeur: value })
+        }
+    }
+
+    handleChange = (e) => {
+        this.setState({ [e.currentTarget.name]: e.currentTarget.value })
+    }
+
+    handleBlur = (e) => {
+        if(e.key === "Tab") this.handleClose(e, null);
+        if(e.key === "Enter") {
+            e.preventDefault();
+            this.handleClose(e, null);
+        }
+    }
+
+    render () {
+        const { identifiant, items, onClick, children, placeholder=""} = this.props;
+        const { init, isOpen, displayValeur } = this.state;
+
+        items.forEach(item => {
+            item.rank = Search.selectSearch(displayValeur, item.label);
+        })
+
+        items.sort(Sort.compareRankThenLabel)
+
+        let nItems = [];
+        items.forEach((item, index) => {
+            let active = item.rank === 1 ? " possibility" : "";
+
+            nItems.push(<div className={"item" + (active)} key={index}
+                             onClick={() => onClick(identifiant, item.value, item.inputName)}>
+                <div dangerouslySetInnerHTML={{__html: item.label }} />
+            </div>)
+        })
+
+        let content = <div className={"select-custom" + (isOpen ? " active" : "")} onFocus={this.handleFocus}>
             <div className="select-input">
-                <input type="text" name={identifiant} id={identifiant} value={valeur}
-                       placeholder={placeholder} onChange={onChange} autoComplete={"new-" + identifiant} />
+                <input type="text" name="displayValeur" id="displayValeur" value={displayValeur}
+                       placeholder={placeholder} onChange={this.handleChange} onKeyDown={this.handleBlur}
+                       autoComplete={"new-" + identifiant} key={init} />
             </div>
             <div className="select-choices">
-                <div className="items">
-                    <div className="item">ok</div>
-                    <div className="item">ok</div>
-                    <div className="item">ok</div>
-                </div>
+                <div className="items">{nItems}</div>
             </div>
-            <div className="select-overlay"></div>
+            <div className="select-overlay" onClick={(e) => this.handleClose(e, null)}></div>
         </div>
 
         return (<Structure {...this.props} content={content} label={children} />)
@@ -112,10 +179,11 @@ export class Select extends Component {
 
 Select.propTypes = {
     identifiant: PropTypes.string.isRequired,
-    valeur: PropTypes.node.isRequired,
+    items: PropTypes.array.isRequired,
     errors: PropTypes.array.isRequired,
     children: PropTypes.node.isRequired,
-    onChange: PropTypes.func.isRequired,
+    onClick: PropTypes.func.isRequired,
+    displayValeur: PropTypes.node,
     placeholder: PropTypes.string,
 }
 

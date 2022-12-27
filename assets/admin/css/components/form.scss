@@ -51,3 +51,11 @@
     }
   }
 }
+
+.select-custom{
+  .item{
+    &:hover{
+      background-color: var(--color0Opacity1);
+    }
+  }
+}

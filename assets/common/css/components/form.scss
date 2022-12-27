@@ -150,6 +150,10 @@ input, textarea, select{
   position: relative;
   width: 100%;
 
+  .select-input{
+    position: relative;
+  }
+
   .select-choices{
     display: none;
     position: absolute;
@@ -166,13 +170,45 @@ input, textarea, select{
       color: var(--txt);
       padding: 6px 12px;
       cursor: pointer;
+      opacity: 0.6;
+      transition: background-color 0.1s ease-in-out;
+
+      &.possibility{
+        opacity: 1;
+      }
+
+      &:last-child{
+        border-radius: 0 0 0 4px;
+      }
+
+      &:first-child{
+        border-radius: 4px 0 0 0;
+      }
     }
   }
 
+  .select-overlay{
+    position: fixed;
+    top: 0; left: 0;
+    display: none;
+    width: 100%; height: 100%;
+    background-color: var(--overlay);
+    z-index: -5;
+  }
+
   &.active{
+    .select-input,
+    .select-choices{
+      z-index: 202;
+    }
+
     .select-choices{
       display: block;
-      z-index: 1;
+    }
+
+    .select-overlay{
+      display: block;
+      z-index: 200;
     }
   }
 }

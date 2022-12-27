@@ -32,6 +32,17 @@ function switchFunction(type, search, v) {
     }
 }
 
+function selectSearch (value, itemValue) {
+    let search = value !== "" ? value.toLowerCase() : "";
+    search = Sanitaze.removeAccents(search);
+
+    let label = itemValue.toLowerCase();
+    label = Sanitaze.removeAccents(label);
+
+    return label.includes(search) ? 1 : 2;
+}
+
 module.exports = {
-    search
+    search,
+    selectSearch,
 }

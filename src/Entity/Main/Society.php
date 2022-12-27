@@ -6,9 +6,11 @@ use App\Repository\Main\SocietyRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: SocietyRepository::class)]
+#[UniqueEntity("code", "Ce code est déjà utilisé.")]
 class Society
 {
     const SELECT = ['society_select'];
@@ -16,7 +18,7 @@ class Society
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['society_select'])]
+    #[Groups(['society_select', 'user_form'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]

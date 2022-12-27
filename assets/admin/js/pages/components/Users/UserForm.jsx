@@ -4,12 +4,13 @@ import PropTypes from 'prop-types';
 import axios   from 'axios';
 import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
-import {Checkbox, Input, Select} from "@commonComponents/Elements/Fields";
+import { Checkbox, Input, Select } from "@commonComponents/Elements/Fields";
 import { Button }         from "@commonComponents/Elements/Button";
 import { LoaderElements } from "@commonComponents/Elements/Loader";
 
 import Formulaire from "@commonFunctions/formulaire";
 import Validateur from "@commonFunctions/validateur";
+import Sort       from "@commonFunctions/sort";
 
 const URL_SELECT_SOCIETIES  = "api_selection_societies";
 const URL_CREATE_ELEMENT    = "api_users_create";
@@ -28,7 +29,7 @@ export function UserFormulaire ({ context, element })
     let form = <Form
         context={context}
         url={url}
-        society={element ? Formulaire.setValue(element.society) : ""}
+        society={element ? Formulaire.setValue(element.society.id) : ""}
         username={element ? Formulaire.setValue(element.username) : ""}
         firstname={element ? Formulaire.setValue(element.firstname) : ""}
         lastname={element ? Formulaire.setValue(element.lastname) : ""}
@@ -50,6 +51,7 @@ class Form extends Component {
         super(props);
 
         this.state = {
+            society: props.society,
             username: props.username,
             firstname: props.firstname,
             lastname: props.lastname,
@@ -62,22 +64,30 @@ class Form extends Component {
             loadData: true,
         }
 
+        this.select = React.createRef();
+
         this.handleChange = this.handleChange.bind(this);
+        this.handleSelect = this.handleSelect.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount = () => {
+        const { society } = this.props;
+
         let self = this;
         axios({ method: "GET", url: Routing.generate(URL_SELECT_SOCIETIES), data: {} })
             .then(function (response) {
                 let data = response.data;
 
-                let societies = [];
+                data.sort(Sort.compareCodeString)
+                let societyName = "", societies = [];
                 data.forEach(elem => {
-                    societies.push({ value: elem.id, label: elem.codeString + " - " + elem.name, identifiant: "so-" + elem.id})
+                    let label = elem.codeString + " - " + elem.name;
+                    societyName = elem.id === society ? label : societyName;
+                    societies.push({ value: elem.id, label: label, inputName: label, identifiant: "so-" + elem.id})
                 })
 
-                self.setState({ societies, loadData: false })
+                self.setState({ societies: societies, societyName: societyName, loadData: false})
             })
             .catch(function (error) { Formulaire.displayErrors(self, error); })
         ;
@@ -96,20 +106,26 @@ class Form extends Component {
         this.setState({[name]: value})
     }
 
+    handleSelect = (name, value, displayValue) => {
+        this.setState({ [name]: value });
+        this.select.current.handleClose(null, displayValue);
+    }
+
     handleSubmit = (e) => {
         e.preventDefault();
 
         const { context, url } = this.props;
-        const { username, firstname, lastname, password, passwordConfirm, email, roles } = this.state;
+        const { username, firstname, lastname, password, passwordConfirm, email, roles, society } = this.state;
 
-        this.setState({ errors: [], success: false })
+        this.setState({ errors: [], success: false });
 
         let paramsToValidate = [
             {type: "text",  id: 'username',  value: username},
             {type: "text",  id: 'firstname', value: firstname},
             {type: "text",  id: 'lastname',  value: lastname},
             {type: "email", id: 'email',     value: email},
-            {type: "array", id: 'roles',     value: roles}
+            {type: "array", id: 'roles',     value: roles},
+            {type: "text",  id: 'society',    value: society}
         ];
         if(context === "create"){
             if(password !== ""){
@@ -142,7 +158,7 @@ class Form extends Component {
     render () {
         const { context } = this.props;
         const { errors, username, firstname, lastname, email, password, password2, roles, avatar,
-            societies, society, loadData } = this.state;
+            societies, societyName, loadData } = this.state;
 
         let rolesItems = [
             { value: 'ROLE_ADMIN',      label: 'Admin',          identifiant: 'admin' },
@@ -151,6 +167,7 @@ class Form extends Component {
 
         let params = { errors: errors }
         let paramsInput0 = {...params, ...{ onChange: this.handleChange }}
+        let paramsInput1 = {...params, ...{ onClick: this.handleSelect }}
 
         return <>
             <form onSubmit={this.handleSubmit}>
@@ -195,7 +212,10 @@ class Form extends Component {
                                         <label>Société</label>
                                         <LoaderElements text="Récupération des sociétés..." />
                                     </>
-                                    : <Select identifiant="society" valeur={society} {...paramsInput0}>Société</Select>
+                                    : <Select ref={this.select} identifiant="society" displayValeur={societyName}
+                                              items={societies} {...paramsInput1}>
+                                        Société
+                                    </Select>
                                 }
                             </div>
                         </div>
