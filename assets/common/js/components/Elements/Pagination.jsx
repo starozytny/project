@@ -73,7 +73,6 @@ function PaginationView ({ pageCount, currentPage, onClick }) {
             containerClassName={'pagination'}
             subContainerClassName={'pages pagination'}
             activeClassName={'active'}
-            initialPage={parseInt(currentPage)}
             forcePage={parseInt(currentPage)}
         />
     }else{

@@ -1,18 +1,19 @@
 import React, { Component } from "react";
-import PropTypes from 'prop-types';
 
 import axios      from "axios";
 import Routing    from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
-import Formulaire from "@commonFunctions/formulaire";
-import Sort       from "@commonFunctions/sort";
-import SearchFunction from "@commonFunctions/search";
+import Formulaire       from "@commonFunctions/formulaire";
+import Sort             from "@commonFunctions/sort";
+import SearchFunction   from "@commonFunctions/search";
+import FilterFunction   from "@commonFunctions/filter";
 
 import { UsersList } from "./UsersList";
-import { Search }    from "@commonComponents/Elements/Search";
 
-import { Pagination } from "@commonComponents/Elements/Pagination";
-import { LoaderElements } from "@commonComponents/Elements/Loader";
+import { Search }           from "@commonComponents/Elements/Search";
+import { Filter }           from "@commonComponents/Elements/Filter";
+import { Pagination }       from "@commonComponents/Elements/Pagination";
+import { LoaderElements }   from "@commonComponents/Elements/Loader";
 
 const URL_GET_DATA = "api_users_list";
 
@@ -26,10 +27,13 @@ export class Users extends Component {
             perPage: 20,
             sessionName: "local.users.list.pagination",
             loadingData: true,
+            filters: [],
         }
 
+        this.handleGetData = this.handleGetData.bind(this);
         this.handleUpdateData = this.handleUpdateData.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
+        this.handleFilters = this.handleFilters.bind(this);
     }
 
     componentDidMount = () => { this.handleGetData(); }
@@ -54,14 +58,30 @@ export class Users extends Component {
         if(search !== ""){
             let newData = SearchFunction.search("user", dataImmuable, search);
             if(SORTER){
-                newData.sort(SORTER)
+                newData.sort(SORTER);
             }
             this.setState({ data: newData, currentData: newData.slice(0, perPage) });
         }
     }
 
+    handleFilters = (filters) => {
+        const { dataImmuable, perPage } = this.state;
+
+        let newData = FilterFunction.filter("highRoleCode", dataImmuable, filters);
+        if(SORTER){
+            newData.sort(SORTER);
+        }
+        this.setState({ data: newData, currentData: newData.slice(0, perPage), filters: filters });
+    }
+
     render () {
-        const { sessionName, data, currentData, loadingData, perPage } = this.state;
+        const { sessionName, data, currentData, loadingData, perPage, filters } = this.state;
+
+        let filtersItems = [
+            {value: 0, label: "Utilisateur", id: "f-user"},
+            {value: 1, label: "Développeur", id: "f-dev"},
+            {value: 2, label: "Administrateur", id: "f-admin"},
+        ]
 
         return <>
             {loadingData
@@ -70,7 +90,7 @@ export class Users extends Component {
                     <div className="toolbar">
                         <div className="col-1">
                             <div className="filters">
-                                <div className="filter"><span className="icon-filter" /></div>
+                                <Filter filters={filters} items={filtersItems} onFilters={this.handleFilters}/>
                             </div>
                             <Search onSearch={this.handleSearch} placeholder="Rechercher pas identifiant, nom ou prénom.."/>
                         </div>
@@ -82,8 +102,4 @@ export class Users extends Component {
             }
         </>
     }
-}
-
-Users.propTypes = {
-    objs: PropTypes.string.isRequired
 }

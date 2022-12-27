@@ -1,4 +1,4 @@
-function filter(dataImmuable, filters, property) {
+function process(property, dataImmuable, filters) {
     let newData = [];
     if(filters.length === 0) {
         newData = dataImmuable
@@ -26,22 +26,11 @@ function filter(dataImmuable, filters, property) {
     return newData;
 }
 
-function filterHighRoleCode(dataImmuable, filters){
-    return filter(dataImmuable, filters, "highRoleCode");
-}
-
-function filterStatus(dataImmuable, filters){
-    return filter(dataImmuable, filters, "status");
-}
-
-function filterType(dataImmuable, filters){
-    return filter(dataImmuable, filters, "type");
+function filter (property, dataImmuable, filters) {
+    return process(property, dataImmuable, filters);
 }
 
 
 module.exports = {
-    filter,
-    filterHighRoleCode,
-    filterStatus,
-    filterType,
+    filter
 }
