@@ -45,17 +45,11 @@ class UserController extends AbstractController
 
         $obj = $dataEntity->setDataUser($obj, $data);
         if($type === "create"){
-            $obj->setPassword($passwordHasher->hashPassword($obj, $data->password));
+            $obj->setPassword($passwordHasher->hashPassword($obj, $data->password ?: uniqid()));
         }else{
             if($data->password != ""){
                 $obj->setPassword($passwordHasher->hashPassword($obj, $data->password));
             }
-        }
-
-        $file = $request->files->get('avatar');
-        if ($file) {
-            $fileName = $fileUploader->replaceFile($file, User::FOLDER, $obj->getAvatar());
-            $obj->setAvatar($fileName);
         }
 
         $obj->setSociety($society);
@@ -64,6 +58,12 @@ class UserController extends AbstractController
         $noErrors = $validator->validate($obj);
         if ($noErrors !== true) {
             return $apiResponse->apiJsonResponseValidationFailed($noErrors);
+        }
+
+        $file = $request->files->get('avatar');
+        if ($file) {
+            $fileName = $fileUploader->replaceFile($file, User::FOLDER, $obj->getAvatar());
+            $obj->setAvatar($fileName);
         }
 
         $repository->save($obj, true);
@@ -81,14 +81,14 @@ class UserController extends AbstractController
             $repository, $passwordHasher, $fileUploader);
     }
 
-    #[Route('/create', name: 'create', options: ['expose' => true], methods: 'GET')]
+    #[Route('/create', name: 'create', options: ['expose' => true], methods: 'POST')]
     #[IsGranted('ROLE_ADMIN')]
     public function create(Request $request, ManagerRegistry $doctrine, ApiResponse $apiResponse,
                            ValidatorService $validator, DataMain$dataEntity, UserRepository $repository,
                            UserPasswordHasherInterface $passwordHasher, FileUploader $fileUploader): Response
     {
         $em = $doctrine->getManager();
-        return $this->submitForm("update", $em, new User(), $request, $apiResponse, $validator, $dataEntity,
+        return $this->submitForm("create", $em, new User(), $request, $apiResponse, $validator, $dataEntity,
             $repository, $passwordHasher, $fileUploader);
     }
 
