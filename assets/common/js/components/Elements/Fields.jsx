@@ -5,6 +5,9 @@ import toastr   from "toastr";
 
 import Sort     from "@commonFunctions/sort";
 import Search   from "@commonFunctions/search";
+import Sanitaze from "@commonFunctions/sanitaze";
+
+import { Button } from "@commonComponents/Elements/Button";
 
 /***************************************
  * INPUT Classique
@@ -258,12 +261,37 @@ export class InputFile extends Component {
     }
 
     render () {
-        const { type, identifiant, valeur, children, placeholder="" } = this.props;
+        const { identifiant, valeur, children, placeholder="" } = this.props;
+        const { files } = this.state;
+
+        console.log(files)
 
         let content = <div className="file-uploader">
             <input type='file' ref={this.fileInput} name={identifiant} id={identifiant} value={valeur}
-                   placeholder={placeholder} onChange={this.handleFileInput} />
-            <button onClick={(e) => this.fileInput.current.click()} type="button">Parcourir les fichiers</button>
+                   onChange={this.handleFileInput} />
+
+            <div className="file-uploader-container">
+                <div className="infos">
+                    {files.length > 0
+                        ? <div className="preview-files">{files.map((file, index) => {
+                            return <div className="item" key={index}>
+                                <div className="image">
+                                    <img src={URL.createObjectURL(file)} alt={file.name}/>
+                                </div>
+                                <div className="data">
+                                    <div>{file.name}</div>
+                                    <div className="sub">{Sanitaze.toFormatBytesToSize(file.size)}</div>
+                                </div>
+                            </div>
+                        })}</div>
+                        : placeholder
+                    }
+                </div>
+
+                <Button onClick={(e) => this.fileInput.current.click()} type="warning">
+                    Parcourir mes fichiers
+                </Button>
+            </div>
         </div>
 
         return (<Structure {...this.props} content={content} label={children} />)
@@ -276,7 +304,7 @@ InputFile.propTypes = {
     valeur: PropTypes.string,
     errors: PropTypes.array.isRequired,
     children: PropTypes.node.isRequired,
-    placeholder: PropTypes.string,
+    placeholder: PropTypes.string.isRequired,
 }
 
 /***************************************

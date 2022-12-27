@@ -7,9 +7,23 @@
 }
 
 $data:
+        "default" var(--alpha) var(--txt),
+        "cancel" var(--grey) var(--txt),
+        "primary" var(--primary) var(--alpha),
+        "warning" var(--warning) var(--alpha),
+;
+
+@each $name, $bg, $txt in $data {
+  .btn-#{$name}{
+    background-color: $bg;
+    color: $txt;
+  }
+}
+
+$data:
         "default" var(--alpha) var(--txt) var(--grey) var(--color2),
-        "cancel" var(--grey) var(--txt) var(--grey) var(--color2),
-        "primary" var(--primary) var(--alpha) var(--grey) var(--color2),
+        "primary" var(--alpha) var(--primary) var(--primary) var(--primary),
+        "warning" var(--alpha) var(--warning) var(--warning) var(--warning),
 ;
 
 @each $name, $bg, $txt, $border, $hBorder in $data {
@@ -21,11 +35,6 @@ $data:
     &:hover{
       border-color: $hBorder;
     }
-  }
-
-  .btn-#{$name}{
-    background-color: $bg;
-    color: $txt;
   }
 }
 

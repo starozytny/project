@@ -226,7 +226,10 @@ class Form extends Component {
                             </div>
 
                             <div className="line">
-                                <InputFile ref={this.file} type="simple" identifiant="avatar" {...paramsInput0}>Avatar</InputFile>
+                                <InputFile ref={this.file} type="simple" identifiant="avatar"
+                                           placeholder="Glissez et déposer votre avatar ou" {...paramsInput0}>
+                                    Avatar
+                                </InputFile>
                             </div>
                         </div>
                     </div>

@@ -217,6 +217,69 @@ input, textarea, select{
   }
 }
 
+.file-uploader{
+  position: relative;
+  width: 100%;
+
+  &:hover{
+    .file-uploader-container{
+      .infos{
+        border-color: var(--txt);
+        opacity: 1;
+      }
+    }
+  }
+
+  input[type="file"]{
+    position: absolute;
+    top: 0; left: 0;
+    display: block;
+    width: calc(100% - 20px); height: calc(100% - 20px);
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .file-uploader-container{
+    @include flex(column, flex-end, flex-end);
+    background-color: var(--alpha);
+    border-radius: 4px;
+    color: var(--txt);
+    padding: 12px 12px 12px 14px;
+
+    .infos{
+      margin-bottom: 8px;
+      font-size: 15px;
+      padding: 12px;
+      border-radius: 4px;
+      border: 2px dashed var(--grey);
+      text-align: center;
+      width: calc(100% - 24px);
+      opacity: 0.8;
+      transition: border 0.2s ease-in-out;
+    }
+
+    .preview-files{
+      @include flex(column, flex-start, flex-start);
+
+      .item{
+        @include flex(row, flex-start, flex-start);
+        gap: 8px;
+        width: 100%;
+        text-align: left;
+
+        .sub{
+          font-size: 14px;
+          opacity: 0.6;
+        }
+      }
+
+      img{
+        width: 64px;
+      }
+    }
+  }
+}
+
 //                      __   _____ __    ___    __
 //                     | _| |___  / /_  ( _ )  |_ |
 //    _____ _____ _____| |     / / '_ \ / _ \   | |_____ _____ _____
