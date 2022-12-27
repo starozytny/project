@@ -3,11 +3,11 @@
 namespace App\Controller\Api;
 
 use App\Entity\Main\User;
+use App\Repository\Main\UserRepository;
 use App\Service\ApiResponse;
 use App\Service\Data\DataMain;
 use App\Service\ValidatorService;
 use Doctrine\Persistence\ManagerRegistry;
-use Doctrine\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,7 +27,7 @@ class UserController extends AbstractController
         return $apiResponse->apiJsonResponse($objs, User::USER_LIST);
     }
 
-    public function submitForm($type, ObjectManager $em, User $obj, Request $request, ApiResponse $apiResponse,
+    public function submitForm($type, UserRepository $repository, User $obj, Request $request, ApiResponse $apiResponse,
                                ValidatorService $validator, DataMain $dataEntity,
                                UserPasswordHasherInterface $passwordHasher): JsonResponse
     {
@@ -50,36 +50,39 @@ class UserController extends AbstractController
             return $apiResponse->apiJsonResponseValidationFailed($noErrors);
         }
 
-        $em->persist($obj);
-        $em->flush();
-
+        $repository->save($obj, true);
         return $apiResponse->apiJsonResponseSuccessful("ok");
     }
 
     #[Route('/update/{id}', name: 'update', options: ['expose' => true], methods: 'POST')]
     #[IsGranted('ROLE_USER')]
-    public function update(Request $request, $id, ManagerRegistry $doctrine, ApiResponse $apiResponse,
+    public function update(Request $request, User $obj, UserRepository $repository, ApiResponse $apiResponse,
                            ValidatorService $validator, DataMain$dataEntity, UserPasswordHasherInterface $passwordHasher): Response
     {
-        $em = $doctrine->getManager();
-        $obj = $em->getRepository(User::class)->find($id);
-
-        return $this->submitForm("update", $em, $obj, $request, $apiResponse, $validator, $dataEntity, $passwordHasher);
+        return $this->submitForm("update", $repository, $obj, $request, $apiResponse, $validator, $dataEntity, $passwordHasher);
     }
 
     #[Route('/create', name: 'create', options: ['expose' => true], methods: 'GET')]
     #[IsGranted('ROLE_ADMIN')]
-    public function create(Request $request, ManagerRegistry $doctrine, ApiResponse $apiResponse,
+    public function create(Request $request, UserRepository $repository,  ApiResponse $apiResponse,
                            ValidatorService $validator, DataMain$dataEntity, UserPasswordHasherInterface $passwordHasher): Response
     {
-        $em = $doctrine->getManager();
-        return $this->submitForm("update", $em, new User(), $request, $apiResponse, $validator, $dataEntity, $passwordHasher);
+        return $this->submitForm("update", $repository, new User(), $request, $apiResponse, $validator, $dataEntity, $passwordHasher);
     }
 
     #[Route('/delete/{id}', name: 'delete', options: ['expose' => true], methods: 'DELETE')]
     #[IsGranted('ROLE_ADMIN')]
-    public function delete(ApiResponse $apiResponse): Response
+    public function delete(User $obj, UserRepository $repository, ApiResponse $apiResponse): Response
     {
+        if ($obj->getHighRoleCode() === User::CODE_ROLE_DEVELOPER) {
+            return $apiResponse->apiJsonResponseForbidden();
+        }
+
+        if ($obj === $this->getUser()) {
+            return $apiResponse->apiJsonResponseBadRequest('Vous ne pouvez pas vous supprimer.');
+        }
+
+        $repository->remove($obj, true);
         return $apiResponse->apiJsonResponseSuccessful("ok");
     }
 }
