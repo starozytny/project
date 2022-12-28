@@ -1,16 +1,61 @@
 .pagination{
   padding: 0;
+  margin: 0;
   list-style: none;
   @include flex(row, center, flex-start);
   gap: 6px;
 
   a{
-    padding: 4px 8px;
+    padding: 6px 9px;
     border-radius: 4px;
     cursor: pointer;
   }
 }
 
 .sorter-pagination{
+  label{
+    font-size: 13px;
+    opacity: 0.8;
+  }
 
+  select{
+    width: 100%;
+  }
+
+  .actions-pagination{
+    @include flex(column, flex-start, flex-end);
+    gap: 12px;
+
+    select{
+      padding: 5px 4px 4px 4px;
+      cursor: pointer;
+    }
+
+    & > *{ width: 100%; }
+  }
+}
+
+//                      __   _____ __    ___    __
+//                     | _| |___  / /_  ( _ )  |_ |
+//    _____ _____ _____| |     / / '_ \ / _ \   | |_____ _____ _____
+//   |_____|_____|_____| |    / /| (_) | (_) |  | |_____|_____|_____|
+//                     | |   /_/  \___/ \___/   | |
+//                     |__|                    |__|
+@media (min-width:768px) {
+  .sorter-pagination{
+    .actions-pagination{
+      @include flex(row, center, flex-end);
+
+      & > *{ width: initial; }
+
+      .form-group{
+        @include flex(row, center, flex-start);
+        gap: 8px;
+      }
+
+      select{
+        width: 64px;
+      }
+    }
+  }
 }

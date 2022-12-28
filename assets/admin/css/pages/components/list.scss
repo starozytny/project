@@ -2,6 +2,12 @@
   padding: 0 1.2rem;
 }
 
+.toolbar + .list,
+.list + .pagination-container,
+.sorter-pagination + .list{
+  margin-top: 1.2rem;
+}
+
 //                      __   _ ____  ___   ___    __
 //                     | _| / |___ \( _ ) / _ \  |_ |
 //    _____ _____ _____| |  | | __) / _ \| | | |  | |_____ _____ _____

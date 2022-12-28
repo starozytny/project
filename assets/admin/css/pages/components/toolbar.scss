@@ -1,7 +1,10 @@
 .toolbar{
   padding: 0 1.2rem;
   width: calc(100% - 2.4rem);
-  margin-bottom: 1.2rem;
+}
+
+.toolbar + .sorter-pagination{
+  margin-top: 0.8rem;
 }
 
 //                      __   _ ____  ___   ___    __
