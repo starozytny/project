@@ -35,12 +35,11 @@ class SocietyController extends AbstractController
 
         $obj = $dataEntity->setDataSociety($obj, $data);
 
-//        if($type === "update"){
-//            $users = $obj->getUsers();
-//            foreach($obj->getUsers() as $user){
-//                $user->setManager()
-//            }
-//        }
+        if($type === "update"){
+            foreach($obj->getUsers() as $user){
+                $user->setManager($obj->getManager());
+            }
+        }
 
         $noErrors = $validator->validate($obj);
         if ($noErrors !== true) {
