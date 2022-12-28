@@ -25,7 +25,7 @@ export function SocietiesItem ({ elem, onDelete })
                     <div>{elem.manager}</div>
                 </div>
                 <div className="col-3">
-                    <div className={"badge badge-" + (elem.isActivate ? 1 : 0)}>{elem.isActivate ? "Activée" : "A activer"}</div>
+                    <div className={"badge badge-" + (elem.isActivated ? 1 : 0)}>{elem.isActivated ? "Activée" : "A activer"}</div>
                 </div>
                 <div className="col-4 actions">
                     <ButtonIcon outline={true} icon="pencil" onClick={urlUpdate} element="a">Modifier</ButtonIcon>

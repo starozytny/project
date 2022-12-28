@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import axios   from 'axios';
 import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
-import { Input }  from "@commonComponents/Elements/Fields";
+import {Input, InputFile} from "@commonComponents/Elements/Fields";
 import { Button } from "@commonComponents/Elements/Button";
 
 import Formulaire from "@commonFunctions/formulaire";
@@ -96,7 +96,7 @@ class Form extends Component {
     }
 
     render () {
-        const { context, avatarFile } = this.props;
+        const { context, logoFile } = this.props;
         const { errors, code, name } = this.state;
 
 
@@ -107,13 +107,25 @@ class Form extends Component {
                 <div className="line-container">
                     <div className="line">
                         <div className="line-col-1">
-                            <div className="title">Identifiants</div>
-                            <div className="subtitle">Les deux informations peuvent être utilisées pour se connecter.</div>
+                            <div className="title">Identification</div>
                         </div>
                         <div className="line-col-2">
                             <div className="line line-2">
                                 <Input identifiant="name" valeur={name} {...params}>Nom de la société</Input>
-                                <Input identifiant="code" valeur={code} {...params} type="number">Code</Input>
+                                <Input identifiant="code" valeur={code} {...params}>Code</Input>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="line">
+                        <div className="line-col-1">
+                            <div className="title">Profil</div>
+                        </div>
+                        <div className="line-col-2">
+                            <div className="line">
+                                <InputFile ref={this.file} type="simple" identifiant="logo" valeur={logoFile}
+                                           placeholder="Glissez et déposer votre logo ou" {...params}>
+                                    Logo
+                                </InputFile>
                             </div>
                         </div>
                     </div>

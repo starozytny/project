@@ -331,11 +331,11 @@ export class InputFile extends Component {
 
 InputFile.propTypes = {
     type: PropTypes.string.isRequired,
-    format: PropTypes.string.isRequired,
     identifiant: PropTypes.string.isRequired,
     errors: PropTypes.array.isRequired,
     children: PropTypes.node.isRequired,
     placeholder: PropTypes.string.isRequired,
+    format: PropTypes.string,
     valeur: PropTypes.string,
     accept: PropTypes.string,
 }

@@ -35,9 +35,22 @@ class SocietyController extends AbstractController
 
         $obj = $dataEntity->setDataSociety($obj, $data);
 
+//        if($type === "update"){
+//            $users = $obj->getUsers();
+//            foreach($obj->getUsers() as $user){
+//                $user->setManager()
+//            }
+//        }
+
         $noErrors = $validator->validate($obj);
         if ($noErrors !== true) {
             return $apiResponse->apiJsonResponseValidationFailed($noErrors);
+        }
+
+        $file = $request->files->get('logo');
+        if ($file) {
+            $fileName = $fileUploader->replaceFile($file, Society::FOLDER, $obj->getLogo());
+            $obj->setLogo($fileName);
         }
 
         $repository->save($obj, true);
