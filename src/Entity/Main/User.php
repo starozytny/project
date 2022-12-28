@@ -201,6 +201,19 @@ class User extends DataEntity implements UserInterface, PasswordAuthenticatedUse
         return $this;
     }
 
+    public function getHiddenEmail(): string
+    {
+        $email = $this->getEmail();
+        $at = strpos($email, "@");
+        $domain = substr($email, $at, strlen($email));
+        $firstLetter = substr($email, 0, 1);
+        $etoiles = "";
+        for($i=1 ; $i < $at ; $i++){
+            $etoiles .= "*";
+        }
+        return $firstLetter . $etoiles . $domain;
+    }
+
     public function getLastname(): ?string
     {
         return $this->lastname;
@@ -282,7 +295,6 @@ class User extends DataEntity implements UserInterface, PasswordAuthenticatedUse
 
     public function setLostAt(?\DateTime $lostAt): self
     {
-        $lostAt->setTimezone(new \DateTimeZone("Europe/Paris"));
         $this->lostAt = $lostAt;
 
         return $this;

@@ -53,12 +53,8 @@ export class Forget extends Component {
                 .then(function (response) {
                     self.setState( { success: response.data.message, errors: [], fUsername: '' });
                 })
-                .catch(function (error) {
-                    Formulaire.displayErrors(self, error);
-                })
-                .then(() => {
-                    Formulaire.loader(false);
-                })
+                .catch(function (error) { Formulaire.displayErrors(self, error); })
+                .then(() => { Formulaire.loader(false); })
             ;
         }
     }

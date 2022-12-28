@@ -8,7 +8,9 @@ use App\Repository\Main\UserRepository;
 use App\Service\ApiResponse;
 use App\Service\Data\DataMain;
 use App\Service\FileUploader;
+use App\Service\SanitizeData;
 use App\Service\ValidatorService;
+use DateTime;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,6 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/api/users', name: 'api_users_')]
@@ -106,5 +109,39 @@ class UserController extends AbstractController
 
         $fileUploader->deleteFile($obj->getAvatar(), User::FOLDER);
         return $apiResponse->apiJsonResponseSuccessful("ok");
+    }
+
+    #[Route('/password/forget', name: 'password_forget', options: ['expose' => true], methods: 'post')]
+    public function forget(Request $request, UserRepository $repository, ApiResponse $apiResponse, SanitizeData $sanitizeData): Response
+    {
+        $data = json_decode($request->getContent());
+
+        $user = $repository->findOneBy(['username' => $sanitizeData->trimData($data->fUsername)]);
+        if (!$user) {
+            return $apiResponse->apiJsonResponseValidationFailed([[
+                'name' => 'fUsername',
+                'message' => "Cet utilisateur n'existe pas."
+            ]]);
+        }
+
+        if ($user->getLostAt()) {
+            $interval = date_diff($user->getLostAt(), new DateTime());
+            if ($interval->y == 0 && $interval->m == 0 && $interval->d == 0 && $interval->h == 0 && $interval->i < 30) {
+                return $apiResponse->apiJsonResponseValidationFailed([[
+                    'name' => 'fUsername',
+                    'message' => "Un lien a déjà été envoyé. Veuillez réessayer ultérieurement."
+                ]]);
+            }
+        }
+
+        $code = uniqid($user->getId());
+
+        $user->setLostAt(new \DateTime()); // no set timezone to compare expired
+        $user->setLostCode($code);
+        $url = $this->generateUrl('app_password_reinit',
+            ['token' => $user->getToken(), 'code' => $code], UrlGeneratorInterface::ABSOLUTE_URL);
+
+        $repository->save($user, true);
+        return $apiResponse->apiJsonResponseSuccessful(sprintf("Le lien de réinitialisation de votre mot de passe a été envoyé à : %s", $user->getHiddenEmail()));
     }
 }
