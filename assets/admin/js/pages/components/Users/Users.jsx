@@ -64,13 +64,7 @@ export class Users extends Component {
 
     handleFilters = (filters) => {
         const { dataImmuable, perPage, sorter } = this.state;
-
-        let newData = FilterFunction.filter("highRoleCode", dataImmuable, filters);
-        if(sorter) newData.sort(sorter);
-
-        this.pagination.current.handlePageOne();
-        this.setState({ data: newData, currentData: newData.slice(0, perPage), filters: filters });
-        return newData;
+        return List.filter(this, 'highRoleCode', dataImmuable, filters, perPage, sorter);
     }
 
     handleModal = (identifiant, elem) => {
