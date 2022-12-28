@@ -33,11 +33,13 @@
                             <div>{{ app.user.email }}</div>
                         </div>
                         <div class="nav-header-actions">
-                            <a href="{{ path('app_homepage') }}" class="btn-icon btn-icon-outline-default">
+                            <a href="{{ path('admin_settings_update') }}" class="btn-icon btn-icon-outline-default">
                                 <span class="icon-settings"></span>
+                                <span class="tooltip">Paramètres</span>
                             </a>
                             <a href="{{ path('app_logout') }}" class="btn-icon btn-icon-outline-default">
                                 <span class="icon-logout"></span>
+                                <span class="tooltip" style="width: 84px;">Se déconnecter</span>
                             </a>
                         </div>
                     </div>

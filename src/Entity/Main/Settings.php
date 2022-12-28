@@ -5,31 +5,39 @@ namespace App\Entity\Main;
 use App\Repository\Main\SettingsRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: SettingsRepository::class)]
 class Settings
 {
+    const FORM = ["settings_form"];
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['settings_form'])]
     private ?string $websiteName = null;
 
     #[ORM\Column(length: 255)]
     private ?string $urlHomepage = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['settings_form'])]
     private ?string $emailGlobal = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['settings_form'])]
     private ?string $emailContact = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['settings_form'])]
     private ?string $emailRgpd = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups(['settings_form'])]
     private ?string $logoMail = null;
 
     public function getId(): ?int

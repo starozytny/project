@@ -1,0 +1,12 @@
+{% extends 'admin/pages/settings/template.html.twig' %}
+
+{% set page_title %}Modifier les paramètres du site internet{% endset %}
+{% set page_subtitle %}Modifier les informations globales du site.{% endset %}
+
+{% block main_content %}
+    <div id="settings_update"
+         data-obj="{{ obj }}"
+    >
+        {% include "layout/components/loader.html.twig" %}
+    </div>
+{% endblock %}
