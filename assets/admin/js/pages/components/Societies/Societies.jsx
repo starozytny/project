@@ -13,7 +13,6 @@ import { SocietiesList } from "./SocietiesList";
 
 import { Pagination, TopSorterPagination } from "@commonComponents/Elements/Pagination";
 import { Search }           from "@commonComponents/Elements/Search";
-import { Filter }           from "@commonComponents/Elements/Filter";
 import { LoaderElements }   from "@commonComponents/Elements/Loader";
 import { Modal }            from "@commonComponents/Elements/Modal";
 import { Button }           from "@commonComponents/Elements/Button";
@@ -21,12 +20,12 @@ import { Button }           from "@commonComponents/Elements/Button";
 const URL_GET_DATA       = "api_societies_list";
 const URL_DELETE_ELEMENT = "api_societies_delete";
 
-let SORTER = Sort.compareCode;
+let SORTER = Sort.compareCodeString;
 let sorters = [
     { value: 0, label: 'Code',  identifiant: 'sorter-code' },
     { value: 1, label: 'Nom',   identifiant: 'sorter-nom' },
 ]
-let sortersFunction = [Sort.compareCode, Sort.compareName];
+let sortersFunction = [Sort.compareCodeString, Sort.compareName];
 
 export class Societies extends Component {
     constructor(props) {
@@ -74,9 +73,8 @@ export class Societies extends Component {
     handleUpdateData = (currentData) => { this.setState({ currentData }) }
 
     handleSearch = (search) => {
-        const { perPage, sorter, filters } = this.state;
+        const { perPage, sorter, dataImmuable } = this.state;
 
-        let dataImmuable = this.handleFilters(filters);
         if(search !== ""){
             let newData = SearchFunction.search("society", dataImmuable, search);
             if(sorter) newData.sort(sorter);

@@ -22,10 +22,10 @@ export function SocietiesItem ({ elem, onDelete })
                     </div>
                 </div>
                 <div className="col-2">
-                    <div>{elem.manager !== "default" ? elem.manager : ""}</div>
+                    <div>{elem.manager}</div>
                 </div>
                 <div className="col-3">
-                    <div className={"badge badge-" + (elem.isActivate)}>{elem.isActivate ? "Activée" : "Initiée"}</div>
+                    <div className={"badge badge-" + (elem.isActivate ? 1 : 0)}>{elem.isActivate ? "Activée" : "A activer"}</div>
                 </div>
                 <div className="col-4 actions">
                     <ButtonIcon outline={true} icon="pencil" onClick={urlUpdate} element="a">Modifier</ButtonIcon>

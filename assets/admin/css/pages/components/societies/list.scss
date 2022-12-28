@@ -1,20 +1,13 @@
-.list-table{
+.list-table {
   $data:
-          "0" var(--grey) var(--txt),
-          "1" var(--primaryOpacity4) var(--primary),
-          "2" var(--dangerOpacity4) var(--danger),
-;
+    "0" var(--dangerOpacity4) var(--danger),
+    "1" var(--primaryOpacity4) var(--primary)
+  ;
 
   @each $name, $bg, $txt in $data {
     .badge-#{$name} {
       background: $bg;
       color: $txt;
-    }
-  }
-
-  .item{
-    .image{
-      background-color: var(--grey);
     }
   }
 
@@ -57,5 +50,4 @@
       }
     }
   }
-
 }

@@ -4,6 +4,12 @@
   background-color: var(--color0Opacity4);
   border-radius: 8px;
 
+  .item{
+    .image{
+      border-radius: 4px;
+    }
+  }
+
   .item:not(:last-child){
     border-color: var(--color3);
   }
