@@ -3,9 +3,11 @@
 
 @import "./components/colors";
 
-@import "./components/alert";
+@import "./components/loader";
 @import "./components/button";
+@import "./components/alert";
 @import "./components/form";
+@import "./components/modal";
 
 body {
   @include fontRegular();
