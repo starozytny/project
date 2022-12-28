@@ -98,7 +98,7 @@ Checkbox.propTypes = {
 function useArrows (e, self) {
     let cursor = self.state.cursor;
     if(e.key === "ArrowDown"){
-        if(cursor < self.props.items.length){
+        if(cursor < self.props.items.length - 1){
             cursor++;
         }
     }
