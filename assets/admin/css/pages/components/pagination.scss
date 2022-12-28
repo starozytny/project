@@ -1,5 +1,12 @@
-.pagination-container{
+.pagination-container,
+.sorter-pagination{
   padding: 0 1.2rem;
+}
+
+.sorter-pagination{
+  .pagination-container{
+    padding: 0;
+  }
 }
 
 //                      __   _ ____  ___   ___    __
@@ -9,7 +16,8 @@
 //                     | |  |_|_____\___/ \___/   | |
 //                     |__|                      |__|
 @media (min-width:1280px) {
-  .pagination-container{
+  .pagination-container,
+  .sorter-pagination{
     padding: 0 1.8rem;
   }
 }

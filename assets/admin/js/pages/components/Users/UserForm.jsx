@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import axios   from 'axios';
 import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
-import { Checkbox, Input, InputFile, Select } from "@commonComponents/Elements/Fields";
+import { Checkbox, Input, InputFile, SelectCustom } from "@commonComponents/Elements/Fields";
 import { Button }         from "@commonComponents/Elements/Button";
 import { LoaderElements } from "@commonComponents/Elements/Loader";
 
@@ -218,10 +218,10 @@ class Form extends Component {
                                         <label>Société</label>
                                         <LoaderElements text="Récupération des sociétés..." />
                                     </>
-                                    : <Select ref={this.select} identifiant="society" displayValeur={societyName}
+                                    : <SelectCustom ref={this.select} identifiant="society" displayValeur={societyName}
                                               items={societies} {...paramsInput1}>
                                         Société
-                                    </Select>
+                                    </SelectCustom>
                                 }
                             </div>
 

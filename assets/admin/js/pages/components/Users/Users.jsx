@@ -12,9 +12,9 @@ import List             from "@commonFunctions/list";
 
 import { UsersList } from "./UsersList";
 
+import { Pagination, TopSorterPagination } from "@commonComponents/Elements/Pagination";
 import { Search }           from "@commonComponents/Elements/Search";
 import { Filter }           from "@commonComponents/Elements/Filter";
-import { Pagination }       from "@commonComponents/Elements/Pagination";
 import { LoaderElements }   from "@commonComponents/Elements/Loader";
 import { Modal }            from "@commonComponents/Elements/Modal";
 import { Button }           from "@commonComponents/Elements/Button";
@@ -30,6 +30,7 @@ export class Users extends Component {
 
         this.state = {
             perPage: 20,
+            currentPage: 0,
             sessionName: "local.users.list.pagination",
             loadingData: true,
             filters: [],
@@ -45,6 +46,9 @@ export class Users extends Component {
         this.handleFilters = this.handleFilters.bind(this);
         this.handleModal = this.handleModal.bind(this);
         this.handleDeleteUser = this.handleDeleteUser.bind(this);
+        this.handlePaginationClick = this.handlePaginationClick.bind(this);
+        this.handlePerPage = this.handlePerPage.bind(this);
+        this.handleChangeCurrentPage = this.handleChangeCurrentPage.bind(this);
     }
 
     componentDidMount = () => { this.handleGetData(); }
@@ -115,8 +119,19 @@ export class Users extends Component {
         List.updateListPagination(this, element, context, data, dataImmuable, currentData, SORTER)
     }
 
+    handlePaginationClick = (e) => { this.pagination.current.handleClick(e) }
+
+    handleChangeCurrentPage = (currentPage) => { this.setState({ currentPage }); }
+
+    handlePerPage = (perPage) => {
+        const { data } = this.state;
+
+        this.pagination.current.handlePerPage(perPage);
+        List.updatePerPage(this, data, perPage, SORTER)
+    }
+
     render () {
-        const { sessionName, data, currentData, loadingData, perPage, filters } = this.state;
+        const { sessionName, data, currentData, loadingData, perPage, currentPage, filters } = this.state;
 
         let filtersItems = [
             {value: 0, label: "Utilisateur", id: "f-user"},
@@ -136,9 +151,11 @@ export class Users extends Component {
                             <Search onSearch={this.handleSearch} placeholder="Rechercher pas identifiant, nom ou prénom.."/>
                         </div>
                     </div>
+                    <TopSorterPagination taille={data.length} currentPage={currentPage} perPage={perPage}
+                                         onClick={this.handlePaginationClick} onPerPage={this.handlePerPage}/>
                     <UsersList data={currentData} onDelete={this.handleModal} />
                     <Pagination ref={this.pagination} sessionName={sessionName} items={data} taille={data.length}
-                                perPage={perPage} onUpdate={this.handleUpdateData} />
+                                perPage={perPage} onUpdate={this.handleUpdateData} onChangeCurrentPage={this.handleChangeCurrentPage}/>
 
                     <Modal ref={this.delete} identifiant="delete" maxWidth={414} title="Supprimer un utilisateur"
                            content={<p>Etes-vous sûr de vouloir supprimer définitivement cet utilisateur ?</p>}

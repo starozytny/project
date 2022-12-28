@@ -51,6 +51,19 @@ function updateListPagination (self, element, context, data, dataImmuable, curre
     })
 }
 
+function updatePerPage (self, data, perPage, sorter) {
+    if(sorter) {
+        data.sort(sorter)
+    }
+
+    self.setState({
+        data: data,
+        currentData: data.slice(0, perPage),
+        perPage: perPage,
+    })
+}
+
 module.exports = {
     updateListPagination,
+    updatePerPage,
 }

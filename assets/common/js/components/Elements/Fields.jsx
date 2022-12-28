@@ -93,7 +93,7 @@ Checkbox.propTypes = {
 }
 
 /***************************************
- * SELECT Classique
+ * SELECT Custom
  ***************************************/
 function useArrows (e, self) {
     let cursor = self.state.cursor;
@@ -113,7 +113,7 @@ function useArrows (e, self) {
     element.scrollIntoView({ block: 'end' })
 }
 
-export class Select extends Component {
+export class SelectCustom extends Component {
     constructor(props) {
         super(props);
 
@@ -160,7 +160,7 @@ export class Select extends Component {
 
             if(possibilities.length === 1){
                 let item = possibilities[0];
-                this.props.onClick(identifiant, item.value, item.inputName)
+                this.props.onClick(identifiant, item.value, item.inputName ? item.inputName : item.label)
             }else{
                 this.props.onClick(identifiant, "", "")
             }
@@ -200,7 +200,7 @@ export class Select extends Component {
             let positionnement = cursor === index ? " highlight" : "";
 
             nItems.push(<div className={"item" + active + positionnement} id={"item-" + identifiant + "-" + index} key={index}
-                             onClick={() => onClick(identifiant, item.value, item.inputName)}>
+                             onClick={() => onClick(identifiant, item.value, item.inputName ? item.inputName : item.label)}>
                 <div dangerouslySetInnerHTML={{__html: item.label }} />
             </div>)
         })
@@ -221,7 +221,7 @@ export class Select extends Component {
     }
 }
 
-Select.propTypes = {
+SelectCustom.propTypes = {
     identifiant: PropTypes.string.isRequired,
     items: PropTypes.array.isRequired,
     errors: PropTypes.array.isRequired,
@@ -229,6 +229,33 @@ Select.propTypes = {
     onClick: PropTypes.func.isRequired,
     displayValeur: PropTypes.node,
     placeholder: PropTypes.string,
+}
+
+/***************************************
+ * SELECT Classique
+ ***************************************/
+export function Select(props) {
+    const { identifiant, valeur, items, onChange, children, noEmpty=false } = props;
+
+    let choices = items.map((item, index) =>
+        <option key={index} value={item.value}>{item.label}</option>
+    )
+
+    let content = <select value={valeur} id={identifiant} name={identifiant} onChange={onChange}>
+        {noEmpty ? null : <option value="" />}
+        {choices}
+    </select>
+    return (<Structure {...props} content={content} label={children} />)
+}
+
+Select.propTypes = {
+    identifiant: PropTypes.string.isRequired,
+    valeur: PropTypes.number.isRequired,
+    items: PropTypes.array.isRequired,
+    errors: PropTypes.array.isRequired,
+    onChange: PropTypes.func.isRequired,
+    children: PropTypes.node.isRequired,
+    noEmpty: PropTypes.bool,
 }
 
 /***************************************

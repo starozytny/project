@@ -2,11 +2,15 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 
 import ReactPaginate from 'react-paginate';
+import {Select} from "@commonComponents/Elements/Fields";
 
 function updateData(self, selectedPage, offset, items, perPage)
 {
     self.setState({ currentPage: selectedPage, offset: offset })
     self.props.onUpdate(items.slice(offset, offset + parseInt(perPage)))
+    if(self.props.onChangeCurrentPage){
+        self.props.onChangeCurrentPage(selectedPage)
+    }
 }
 
 export class Pagination extends Component {
@@ -21,10 +25,12 @@ export class Pagination extends Component {
 
         this.handleClick = this.handleClick.bind(this);
         this.handlePageOne = this.handlePageOne.bind(this);
+        this.handlePerPage = this.handlePerPage.bind(this);
     }
 
     handleClick = (e) => {
-        const { perPage, items, sessionName } = this.props;
+        const { items, sessionName } = this.props;
+        const { perPage } = this.state;
 
         const selectedPage = e.selected;
         const offset = selectedPage * perPage;
@@ -35,11 +41,17 @@ export class Pagination extends Component {
         }
     }
 
-    handlePageOne = () => {
-        const { perPage, items, sessionName } = this.props;
+    handlePageOne = (nPerPage) => {
+        const { items, sessionName } = this.props;
+        const { perPage } = this.state;
 
-        updateData(this, 0, 0, items, perPage);
+        updateData(this, 0, 0, items, nPerPage ? nPerPage : perPage);
         sessionStorage.setItem(sessionName, "0")
+    }
+
+    handlePerPage = (perPage) => {
+        this.setState({ perPage });
+        this.handlePageOne(perPage);
     }
 
     render () {
@@ -48,13 +60,11 @@ export class Pagination extends Component {
 
         let pageCount = Math.ceil(taille / perPage);
 
-        let content = <>
+        let content = <div className="pagination-container">
             <PaginationView pageCount={pageCount} currentPage={currentPage} onClick={this.handleClick}/>
-        </>
+        </div>
 
-        return <>
-            {content}
-        </>
+        return <>{content}</>
     }
 }
 
@@ -65,6 +75,91 @@ Pagination.propTypes = {
     onUpdate: PropTypes.func.isRequired,
     perPage: PropTypes.number.isRequired,
     currentPage: PropTypes.number,
+    onChangeCurrentPage: PropTypes.func,
+}
+
+export class TopSorterPagination extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            sorter: "",
+            perPage: props.perPage,
+            errors: []
+        }
+
+        this.handleChange = this.handleChange.bind(this);
+    }
+
+    handleChange = (e) => {
+        let name = e.currentTarget.name;
+        let value = parseInt(e.currentTarget.value);
+
+        if(name === "perPage"){
+            this.props.onPerPage(value)
+        }
+
+        if(name === "sorter"){
+            this.props.onSorter(value);
+        }
+
+        this.setState({ [name]: value })
+    }
+
+    render () {
+        const { taille, currentPage, onClick, sorters } = this.props;
+        const { errors, sorter, perPage } = this.state;
+
+        let items = [
+            { value: 5,  label: '5',  identifiant: 'perpage-5' },
+            { value: 10, label: '10', identifiant: 'perpage-10' },
+            { value: 15, label: '15', identifiant: 'perpage-15' },
+            { value: 20, label: '20', identifiant: 'perpage-20' },
+            { value: 25, label: '25', identifiant: 'perpage-25' },
+            { value: 30, label: '30', identifiant: 'perpage-30' },
+            { value: 35, label: '35', identifiant: 'perpage-35' },
+            { value: 40, label: '40', identifiant: 'perpage-40' },
+            { value: 45, label: '45', identifiant: 'perpage-45' },
+            { value: 50, label: '50', identifiant: 'perpage-50' },
+        ]
+
+        let pageCount = Math.ceil(taille / perPage);
+
+        let params = { errors: errors, onChange: this.handleChange }
+
+        return <>
+            <div className="sorter-pagination">
+                <div className="actions-sorter">
+                    {sorters && sorters.length > 1 && <div className="line">
+                        <Select items={sorters} identifiant="sorter" valeur={sorter} noEmpty={true} {...params}>
+                            Trier par
+                        </Select>
+                    </div>}
+                </div>
+
+                <div className="actions-pagination">
+                    {onClick && <>
+                        <Select identifiant="perPage" valeur={perPage} items={items} noEmpty={true} {...params}>
+                            {taille} Résultat{taille > 1 ? "s" : ""} par page de
+                        </Select>
+                        <div className="pagination-container">
+                            <PaginationView pageCount={pageCount} currentPage={currentPage} onClick={onClick}/>
+                        </div>
+                    </>}
+                </div>
+            </div>
+        </>
+    }
+}
+
+TopSorterPagination.propTypes = {
+    taille: PropTypes.number.isRequired,
+    currentPage: PropTypes.number.isRequired,
+    perPage: PropTypes.number.isRequired,
+    onClick: PropTypes.func,
+    sorters: PropTypes.array,
+    onPerPage: PropTypes.func,
+    onSorter: PropTypes.func,
 }
 
 function PaginationView ({ pageCount, currentPage, onClick }) {
@@ -87,3 +182,4 @@ function PaginationView ({ pageCount, currentPage, onClick }) {
         return null;
     }
 }
+

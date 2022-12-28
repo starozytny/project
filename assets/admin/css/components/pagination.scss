@@ -1,6 +1,7 @@
 @import "../../../common/css/components/pagination";
 
-.pagination{
+.pagination-container{
+  @include flex(row, flex-start, flex-end);
 
   a {
     color: var(--alpha);
@@ -18,12 +19,4 @@
   .active a{
     background-color: var(--color2);
   }
-}
-
-.pagination-container-top{
-  margin-bottom: 12px;
-}
-
-.pagination-container-bottom{
-  margin-top: 12px;
 }
