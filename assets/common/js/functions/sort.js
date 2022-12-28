@@ -46,10 +46,6 @@ function compareWithoutAccent(aVal, bVal) {
     return comparison(aName.toLowerCase(), bName.toLowerCase());
 }
 
-function compareCodeString(a, b){
-    return comparison(a.codeString, b.codeString);
-}
-
 function compareCode(a, b){
     return comparison(a.code, b.code);
 }
@@ -84,7 +80,6 @@ module.exports = {
     compareEmail,
     compareZipcode,
     compareCity,
-    compareCodeString,
     compareCode,
     compareRankThenLabel,
 }

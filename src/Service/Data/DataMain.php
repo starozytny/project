@@ -28,7 +28,8 @@ class DataMain
     {
         return ($obj)
             ->setName($this->sanitizeData->trimData($data->name))
-            ->setCode((int) $data->code)
+            ->setCode($this->sanitizeData->trimData($data->code))
+            ->setManager($this->sanitizeData->trimData($data->manager))
         ;
     }
 }

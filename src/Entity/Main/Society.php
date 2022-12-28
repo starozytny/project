@@ -35,8 +35,8 @@ class Society extends DataEntity
     private ?string $manager = "default";
 
     #[ORM\Column(length: 20)]
-    #[Groups(['society_form'])]
-    private ?int $code = null;
+    #[Groups(['society_list', 'society_form', 'user_list', 'society_select'])]
+    private ?string $code = null;
 
     #[ORM\Column]
     #[Groups(['society_list'])]
@@ -82,31 +82,16 @@ class Society extends DataEntity
         return $this;
     }
 
-    public function getCode(): ?int
+    public function getCode(): ?string
     {
         return $this->code;
     }
 
-    public function setCode(int $code): self
+    public function setCode(string $code): self
     {
         $this->code = $code;
 
         return $this;
-    }
-
-    #[Groups(['society_list', 'user_list', 'society_select'])]
-    public function getCodeString(): string
-    {
-        $code = $this->code;
-        if($code < 10){
-            return "00" . $code;
-        }elseif($code < 100){
-            return "0" . $code;
-        }elseif($code < 1000){
-            return $code;
-        }
-
-        return $code;
     }
 
     public function isIsActivated(): ?bool

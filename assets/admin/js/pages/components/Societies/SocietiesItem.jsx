@@ -18,7 +18,7 @@ export function SocietiesItem ({ elem, onDelete })
                         <img src={elem.logoFile} alt="logo"/>
                     </div>
                     <div className="infos">
-                        <div className="name">{elem.codeString} - {elem.name}</div>
+                        <div className="name">{elem.code} - {elem.name}</div>
                     </div>
                 </div>
                 <div className="col-2">

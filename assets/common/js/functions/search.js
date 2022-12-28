@@ -29,7 +29,7 @@ function switchFunction(type, search, v) {
             break;
         case "society":
             if(searchStartWith(v.name.toLowerCase(), search)
-                || searchStartWith(v.codeString.toLowerCase(), search)
+                || searchStartWith(v.code.toLowerCase(), search)
             ){
                 return v;
             }

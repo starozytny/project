@@ -20,12 +20,12 @@ import { Button }           from "@commonComponents/Elements/Button";
 const URL_GET_DATA       = "api_societies_list";
 const URL_DELETE_ELEMENT = "api_societies_delete";
 
-let SORTER = Sort.compareCodeString;
+let SORTER = Sort.compareCode;
 let sorters = [
     { value: 0, label: 'Code',  identifiant: 'sorter-code' },
     { value: 1, label: 'Nom',   identifiant: 'sorter-nom' },
 ]
-let sortersFunction = [Sort.compareCodeString, Sort.compareName];
+let sortersFunction = [Sort.compareCode, Sort.compareName];
 
 export class Societies extends Component {
     constructor(props) {

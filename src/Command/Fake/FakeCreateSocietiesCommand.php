@@ -51,15 +51,20 @@ class FakeCreateSocietiesCommand extends Command
         $io->title('Création de 200 societes lambdas');
         $fake = Factory::create();
         for($i=1; $i<=200 ; $i++) {
+            $code = $i;
+            if($code < 10){
+                $code = "00" . $code;
+            }elseif($code < 100){
+                $code = "0" . $code;
+            }
+
             $obj =  [
                 'name' => $fake->company,
-                'code' => $i,
+                'code' => $code,
+                'manager' => 'default'
             ];
 
             $obj = $this->dataMain->setDataSociety(new Society(), json_decode(json_encode($obj)));
-            $obj = ($obj)
-                ->setManager("default")
-            ;
 
             $this->em->persist($obj);
         }

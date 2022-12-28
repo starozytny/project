@@ -81,10 +81,10 @@ class Form extends Component {
             .then(function (response) {
                 let data = response.data;
 
-                data.sort(Sort.compareCodeString)
+                data.sort(Sort.compareCode)
                 let societyName = "";
                 data.forEach(elem => {
-                    let label = elem.codeString + " - " + elem.name;
+                    let label = elem.code + " - " + elem.name;
                     societyName = elem.id === society ? label : societyName;
                     societies.push({ value: elem.id, label: label, inputName: label, identifiant: "so-" + elem.id})
                 })
