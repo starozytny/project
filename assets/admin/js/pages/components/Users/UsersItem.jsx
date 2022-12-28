@@ -24,7 +24,8 @@ export function UsersItem ({ elem, onDelete })
                     </div>
                     <div className="infos">
                         <div className="name">{elem.lastname} {elem.firstname}</div>
-                        <div className="sub">{elem.manager}</div>
+                        <div className="sub">{elem.society.codeString} - {elem.society.name}</div>
+                        <div className="sub">{elem.manager !== "default" ? elem.manager : ""}</div>
                         <div className="sub">{lastLoginAt ? "connecté " + lastLoginAt.fromNow() : ""}</div>
                     </div>
                 </div>

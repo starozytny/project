@@ -82,7 +82,7 @@ class User extends DataEntity implements UserInterface, PasswordAuthenticatedUse
 
     #[ORM\ManyToOne(inversedBy: 'users')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['user_form'])]
+    #[Groups(['user_list', 'user_form'])]
     private ?Society $society = null;
 
     /**

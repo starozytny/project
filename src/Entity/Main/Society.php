@@ -22,7 +22,7 @@ class Society
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['society_select'])]
+    #[Groups(['user_list', 'society_select'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
@@ -86,7 +86,7 @@ class Society
         return $this;
     }
 
-    #[Groups(['society_select'])]
+    #[Groups(['user_list', 'society_select'])]
     public function getCodeString(): string
     {
         $code = $this->code;
