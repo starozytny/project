@@ -119,7 +119,7 @@ class Form extends Component {
         const { context, url } = this.props;
         const { username, firstname, lastname, password, passwordConfirm, email, roles, society } = this.state;
 
-        this.setState({ errors: [], success: false });
+        this.setState({ errors: [] });
 
         let paramsToValidate = [
             {type: "text",  id: 'username',  value: username},
