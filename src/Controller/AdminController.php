@@ -22,8 +22,10 @@ class AdminController extends AbstractController
     #[Route('/settings/setting/modifier', name: 'settings_update')]
     public function settings(SettingsRepository $repository, SerializerInterface $serializer): Response
     {
+        $settings = $repository->findAll();
+
         return $this->render('admin/pages/settings/update.html.twig', [
-            'obj' => $serializer->serialize($repository->findAll(), 'json', ['groups' => Settings::FORM]),
+            'obj' => $serializer->serialize($settings ? $settings[0] : [], 'json', ['groups' => Settings::FORM]),
         ]);
     }
 }

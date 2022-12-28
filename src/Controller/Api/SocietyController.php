@@ -59,14 +59,14 @@ class SocietyController extends AbstractController
 
     #[Route('/create', name: 'create', options: ['expose' => true], methods: 'POST')]
     public function create(Request $request, ApiResponse $apiResponse, ValidatorService $validator,
-                           DataMain$dataEntity, SocietyRepository $repository, FileUploader $fileUploader): Response
+                           DataMain $dataEntity, SocietyRepository $repository, FileUploader $fileUploader): Response
     {
         return $this->submitForm("create", $repository, new Society(), $request, $apiResponse, $validator, $dataEntity, $fileUploader);
     }
 
     #[Route('/update/{id}', name: 'update', options: ['expose' => true], methods: 'POST')]
     public function update(Request $request, Society $obj, ApiResponse $apiResponse, ValidatorService $validator,
-                           DataMain$dataEntity, SocietyRepository $repository, FileUploader $fileUploader): Response
+                           DataMain $dataEntity, SocietyRepository $repository, FileUploader $fileUploader): Response
     {
         return $this->submitForm("update", $repository, $obj, $request, $apiResponse, $validator, $dataEntity, $fileUploader);
     }

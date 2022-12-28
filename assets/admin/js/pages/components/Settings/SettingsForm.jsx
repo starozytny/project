@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import axios            from "axios";
+import toastr           from "toastr";
 import Routing          from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
 import Formulaire       from "@commonFunctions/formulaire";
@@ -8,20 +9,8 @@ import Validateur       from "@commonFunctions/validateur";
 
 import { Input, InputFile } from "@commonComponents/Elements/Fields";
 import { Button }       from "@commonComponents/Elements/Button";
-import { Alert }        from "@commonComponents/Elements/Alert";
 
 const URL_UPDATE_ELEMENT = "api_settings_update";
-
-function getBase64(file, self) {
-    let reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = function () {
-        self.setState({logoMail: reader.result })
-    };
-    reader.onerror = function (error) {
-        console.log('Error: ', error);
-    };
-}
 
 export class SettingsFormulaire extends Component {
     constructor(props) {
@@ -31,7 +20,6 @@ export class SettingsFormulaire extends Component {
 
         this.state = {
             errors: [],
-            success: false,
             websiteName: element ? element.websiteName : "",
             emailGlobal: element ? element.emailGlobal : "",
             emailContact: element ? element.emailContact : "",
@@ -39,22 +27,20 @@ export class SettingsFormulaire extends Component {
             logoMail: element ? element.logoMail : "",
         }
 
+        this.file = React.createRef();
+
         this.handleChange = this.handleChange.bind(this);
-        this.handleGetFile  = this.handleGetFile .bind(this);
-        this.handleRemoveFile  = this.handleRemoveFile .bind(this);
         this.handleSubmit   = this.handleSubmit  .bind(this);
     }
 
     handleChange = (e) => { this.setState({[ e.currentTarget.name]: e.currentTarget.value})  }
-    handleGetFile = (e) => { getBase64(e.file, this) }
-    handleRemoveFile = (e) => { this.setState({ logoMail: this.props.data ? this.props.data.logoMail : "" }) }
 
     handleSubmit = (e) => {
         e.preventDefault();
 
         const { websiteName, emailGlobal, emailContact, emailRgpd, logoMail } = this.state;
 
-        this.setState({ errors: [], success: false });
+        this.setState({ errors: [] });
 
         // validate global
         let validate = Validateur.validateur([
@@ -65,32 +51,38 @@ export class SettingsFormulaire extends Component {
             {type: "text",  id: 'logoMail',     value: logoMail},
         ])
 
-        // check validate success
         if(!validate.code){
             Formulaire.showErrors(this, validate);
         }else{
             Formulaire.loader(true);
             let self = this;
-            axios({ method: "POST", url: Routing.generate(URL_UPDATE_ELEMENT), data: self.state })
+
+            let formData = new FormData();
+            formData.append("data", JSON.stringify(this.state));
+
+            let file = this.file.current;
+            if(file.state.files.length > 0){
+                formData.append("logo", file.state.files[0]);
+            }
+
+            axios({ method: "POST", url: Routing.generate(URL_UPDATE_ELEMENT), data: formData, headers: {'Content-Type': 'multipart/form-data'} })
                 .then(function (response) {
-                    self.setState({ success: "Paramètres mis à jours", errors: [] });
+                    toastr.info("Paramètres mis à jours");
+                    setTimeout(() => { location.reload() }, 2000)
                 })
-                .catch(function (error) { Formulaire.displayErrors(self, error); })
-                .then(() => { Formulaire.loader(false); })
+                .catch(function (error) { Formulaire.displayErrors(self, error); Formulaire.loader(false); })
             ;
         }
     }
 
     render () {
-        const { errors, success, websiteName, emailGlobal, emailContact, emailRgpd, logoMail } = this.state;
+        const { errors, websiteName, emailGlobal, emailContact, emailRgpd, logoMail } = this.state;
 
         let params = { errors: errors, onChange: this.handleChange }
 
         return <>
             <div className="formulaire">
                 <form onSubmit={this.handleSubmit}>
-
-                    {success !== false && <Alert type="info">{success}</Alert>}
 
                     <div className="line-container">
                         <div className="line">
@@ -111,7 +103,7 @@ export class SettingsFormulaire extends Component {
 
                                 <div className="line">
                                     <InputFile ref={this.file} type="simple" identifiant="logoMail" valeur={logoMail}
-                                               placeholder="Glissez et déposer votre avatar ou" {...params}>
+                                               placeholder="Glissez et déposer votre logo ou" {...params}>
                                         Logo
                                     </InputFile>
                                 </div>
