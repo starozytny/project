@@ -250,7 +250,7 @@ export function Select(props) {
 
 Select.propTypes = {
     identifiant: PropTypes.string.isRequired,
-    valeur: PropTypes.number.isRequired,
+    valeur: PropTypes.node.isRequired,
     items: PropTypes.array.isRequired,
     errors: PropTypes.array.isRequired,
     onChange: PropTypes.func.isRequired,

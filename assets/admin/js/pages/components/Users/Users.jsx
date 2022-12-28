@@ -23,6 +23,11 @@ const URL_GET_DATA       = "api_users_list";
 const URL_DELETE_ELEMENT = "api_users_delete";
 
 let SORTER = Sort.compareLastname;
+let sorters = [
+    { value: 0, label: 'Nom',           identifiant: 'sorter-nom' },
+    { value: 1, label: 'Email',         identifiant: 'sorter-email' },
+]
+let sortersFunction = [Sort.compareLastname, Sort.compareEmail];
 
 export class Users extends Component {
     constructor(props) {
@@ -31,6 +36,7 @@ export class Users extends Component {
         this.state = {
             perPage: 20,
             currentPage: 0,
+            sorter: SORTER,
             sessionName: "local.users.list.pagination",
             loadingData: true,
             filters: [],
@@ -49,16 +55,19 @@ export class Users extends Component {
         this.handlePaginationClick = this.handlePaginationClick.bind(this);
         this.handlePerPage = this.handlePerPage.bind(this);
         this.handleChangeCurrentPage = this.handleChangeCurrentPage.bind(this);
+        this.handleSorter = this.handleSorter.bind(this);
     }
 
     componentDidMount = () => { this.handleGetData(); }
 
     handleGetData = () => {
+        const { perPage, sorter } = this.state;
+
         let self = this;
         axios({ method: "GET", url: Routing.generate(URL_GET_DATA), data: {} })
             .then(function (response) {
-                let data = response.data; data.sort(SORTER);
-                let currentData = data.slice(0, self.state.perPage);
+                let data = response.data; data.sort(sorter);
+                let currentData = data.slice(0, perPage);
                 self.setState({ data: data, dataImmuable: data, currentData: currentData, loadingData: false })
             })
             .catch(function (error) { Formulaire.displayErrors(self, error); })
@@ -68,25 +77,21 @@ export class Users extends Component {
     handleUpdateData = (currentData) => { this.setState({ currentData }) }
 
     handleSearch = (search) => {
-        const { perPage, filters } = this.state;
+        const { perPage, sorter, filters } = this.state;
 
         let dataImmuable = this.handleFilters(filters);
         if(search !== ""){
             let newData = SearchFunction.search("user", dataImmuable, search);
-            if(SORTER){
-                newData.sort(SORTER);
-            }
+            if(sorter) newData.sort(sorter);
             this.setState({ data: newData, currentData: newData.slice(0, perPage) });
         }
     }
 
     handleFilters = (filters) => {
-        const { dataImmuable, perPage } = this.state;
+        const { dataImmuable, perPage, sorter } = this.state;
 
         let newData = FilterFunction.filter("highRoleCode", dataImmuable, filters);
-        if(SORTER){
-            newData.sort(SORTER);
-        }
+        if(sorter) newData.sort(sorter);
 
         this.pagination.current.handlePageOne();
         this.setState({ data: newData, currentData: newData.slice(0, perPage), filters: filters });
@@ -115,8 +120,8 @@ export class Users extends Component {
     }
 
     handleUpdateList = (element, context) => {
-        const { data, dataImmuable, currentData } = this.state;
-        List.updateListPagination(this, element, context, data, dataImmuable, currentData, SORTER)
+        const { data, dataImmuable, currentData, sorter } = this.state;
+        List.updateListPagination(this, element, context, data, dataImmuable, currentData, sorter)
     }
 
     handlePaginationClick = (e) => { this.pagination.current.handleClick(e) }
@@ -124,10 +129,17 @@ export class Users extends Component {
     handleChangeCurrentPage = (currentPage) => { this.setState({ currentPage }); }
 
     handlePerPage = (perPage) => {
-        const { data } = this.state;
+        const { data, sorter } = this.state;
 
         this.pagination.current.handlePerPage(perPage);
-        List.updatePerPage(this, data, perPage, SORTER)
+        List.updatePerPage(this, data, perPage, sorter)
+    }
+
+    handleSorter = (nb) => {
+        const { data, perPage } = this.state;
+
+        let sorter = sortersFunction[nb];
+        List.updatePerPage(this, data, perPage, sorter)
     }
 
     render () {
@@ -151,8 +163,9 @@ export class Users extends Component {
                             <Search onSearch={this.handleSearch} placeholder="Rechercher pas identifiant, nom ou prénom.."/>
                         </div>
                     </div>
-                    <TopSorterPagination taille={data.length} currentPage={currentPage} perPage={perPage}
-                                         onClick={this.handlePaginationClick} onPerPage={this.handlePerPage}/>
+                    <TopSorterPagination taille={data.length} currentPage={currentPage} perPage={perPage} sorters={sorters}
+                                         onClick={this.handlePaginationClick}
+                                         onPerPage={this.handlePerPage} onSorter={this.handleSorter} />
                     <UsersList data={currentData} onDelete={this.handleModal} />
                     <Pagination ref={this.pagination} sessionName={sessionName} items={data} taille={data.length}
                                 perPage={perPage} onUpdate={this.handleUpdateData} onChangeCurrentPage={this.handleChangeCurrentPage}/>

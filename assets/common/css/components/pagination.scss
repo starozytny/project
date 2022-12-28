@@ -6,6 +6,7 @@
   gap: 6px;
 
   a{
+    display: block;
     padding: 6px 9px;
     border-radius: 4px;
     cursor: pointer;
@@ -13,23 +14,54 @@
 }
 
 .sorter-pagination{
+  @include flex(column, flex-start, flex-start);
+  gap: 12px;
+
   label{
     font-size: 13px;
     opacity: 0.8;
   }
 
-  select{
+  select {
     width: 100%;
+    padding: 5px 4px 4px 4px;
+    cursor: pointer;
+  }
+
+  .actions-sorter{
+    @include flex(row, flex-start, space-between);
+    gap: 8px;
+    width: 100%;
+
+    & > *{
+      width: 50%;
+    }
+
+    .form-group{
+      @include flex(column, flex-start, flex-end);
+    }
+
+    .action-sorter{
+      select{
+        width: 140px;
+      }
+    }
+
+    .action-perPage{
+
+      .form-group{
+        align-items: flex-end;
+      }
+
+      select{
+        width: 64px;
+      }
+    }
   }
 
   .actions-pagination{
-    @include flex(column, flex-start, flex-end);
-    gap: 12px;
-
-    select{
-      padding: 5px 4px 4px 4px;
-      cursor: pointer;
-    }
+    @include flex(column, flex-end, flex-end);
+    width: 100%;
 
     & > *{ width: 100%; }
   }
@@ -43,19 +75,33 @@
 //                     |__|                    |__|
 @media (min-width:768px) {
   .sorter-pagination{
-    .actions-pagination{
-      @include flex(row, center, flex-end);
+    flex-direction: row;
+    align-items: center;
 
-      & > *{ width: initial; }
+    .actions-sorter{
 
       .form-group{
-        @include flex(row, center, flex-start);
+        flex-direction: row;
+        align-items: center;
         gap: 8px;
       }
 
-      select{
-        width: 64px;
+      .action-sorter{
+        @include flex(row, flex-start, flex-start);
       }
+
+      .action-perPage{
+        @include flex(row, flex-start, flex-end);
+
+        .form-group{
+          align-items: center;
+        }
+      }
+    }
+
+    .actions-pagination{
+      width: initial;
     }
   }
 }
+

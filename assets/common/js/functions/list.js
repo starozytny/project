@@ -60,6 +60,7 @@ function updatePerPage (self, data, perPage, sorter) {
         data: data,
         currentData: data.slice(0, perPage),
         perPage: perPage,
+        sorter: sorter,
     })
 }
 

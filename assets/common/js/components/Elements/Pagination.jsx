@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 
 import ReactPaginate from 'react-paginate';
-import {Select} from "@commonComponents/Elements/Fields";
+
+import { Select } from "@commonComponents/Elements/Fields";
 
 function updateData(self, selectedPage, offset, items, perPage)
 {
@@ -130,18 +131,20 @@ export class TopSorterPagination extends Component {
         return <>
             <div className="sorter-pagination">
                 <div className="actions-sorter">
-                    {sorters && sorters.length > 1 && <div className="line">
+                    {sorters && sorters.length > 1 && <div className="action-sorter">
                         <Select items={sorters} identifiant="sorter" valeur={sorter} noEmpty={true} {...params}>
                             Trier par
                         </Select>
                     </div>}
+                    <div className="action-perPage">
+                        <Select identifiant="perPage" valeur={perPage} items={items} noEmpty={true} {...params}>
+                            {taille} Résultat{taille > 1 ? "s" : ""} par page de
+                        </Select>
+                    </div>
                 </div>
 
                 <div className="actions-pagination">
                     {onClick && <>
-                        <Select identifiant="perPage" valeur={perPage} items={items} noEmpty={true} {...params}>
-                            {taille} Résultat{taille > 1 ? "s" : ""} par page de
-                        </Select>
                         <div className="pagination-container">
                             <PaginationView pageCount={pageCount} currentPage={currentPage} onClick={onClick}/>
                         </div>
