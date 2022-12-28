@@ -11,7 +11,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 #[Route('/admin/societes', name: 'admin_societies_')]
 class SocietyController extends AbstractController
 {
-    #[Route('/', name: 'index')]
+    #[Route('/', name: 'index', options: ['expose' => true])]
     public function index(): Response
     {
         return $this->render('admin/pages/societies/index.html.twig');

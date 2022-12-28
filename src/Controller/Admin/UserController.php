@@ -11,7 +11,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 #[Route('/admin/utilisateurs', name: 'admin_users_')]
 class UserController extends AbstractController
 {
-    #[Route('/', name: 'index')]
+    #[Route('/', name: 'index', options: ['expose' => true])]
     public function index(): Response
     {
         return $this->render('admin/pages/users/index.html.twig');

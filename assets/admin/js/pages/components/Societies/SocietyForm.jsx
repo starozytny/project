@@ -10,6 +10,7 @@ import { Button } from "@commonComponents/Elements/Button";
 import Formulaire from "@commonFunctions/formulaire";
 import Validateur from "@commonFunctions/validateur";
 
+const URL_INDEX_ELEMENTS    = "admin_societies_index";
 const URL_CREATE_ELEMENT    = "api_societies_create";
 const URL_UPDATE_GROUP      = "api_societies_update";
 const TEXT_CREATE           = "Ajouter la société";
@@ -87,10 +88,9 @@ class Form extends Component {
 
             axios({ method: "POST", url: url, data: formData, headers: {'Content-Type': 'multipart/form-data'} })
                 .then(function (response) {
-                    let data = response.data;
+                    location.href = Routing.generate(URL_INDEX_ELEMENTS);
                 })
-                .catch(function (error) { Formulaire.displayErrors(self, error); })
-                .then(() => { Formulaire.loader(false); })
+                .catch(function (error) { Formulaire.displayErrors(self, error); Formulaire.loader(false); })
             ;
         }
     }
@@ -98,7 +98,6 @@ class Form extends Component {
     render () {
         const { context, logoFile } = this.props;
         const { errors, code, name } = this.state;
-
 
         let params = { errors: errors, onChange: this.handleChange }
 

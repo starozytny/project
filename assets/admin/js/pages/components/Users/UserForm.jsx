@@ -13,6 +13,7 @@ import Validateur from "@commonFunctions/validateur";
 import Sort       from "@commonFunctions/sort";
 
 const URL_SELECT_SOCIETIES  = "api_selection_societies";
+const URL_INDEX_ELEMENTS    = "admin_users_index";
 const URL_CREATE_ELEMENT    = "api_users_create";
 const URL_UPDATE_GROUP      = "api_users_update";
 const TEXT_CREATE           = "Ajouter l'utilisateur";
@@ -154,10 +155,9 @@ class Form extends Component {
 
             axios({ method: "POST", url: url, data: formData, headers: {'Content-Type': 'multipart/form-data'} })
                 .then(function (response) {
-                    let data = response.data;
+                    location.href = Routing.generate(URL_INDEX_ELEMENTS);
                 })
-                .catch(function (error) { Formulaire.displayErrors(self, error); })
-                .then(() => { Formulaire.loader(false); })
+                .catch(function (error) { Formulaire.displayErrors(self, error); Formulaire.loader(false); })
             ;
         }
     }

@@ -19,7 +19,7 @@ export function InputView (props) {
         <div className="input-view">{valeur}</div>
     </>
 
-    return (<Structure {...props} content={content} label={children} />)
+    return (<Structure {...props} identifiant="" content={content} label={children} />)
 }
 
 InputView.propTypes = {
