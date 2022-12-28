@@ -1,7 +1,7 @@
 const axios      = require("axios");
 const Routing    = require('@publicFolder/bundles/fosjsrouting/js/router.min.js');
 
-const Formulaire = require("@commonFunctions/formulaire");
+const Formulaire     = require("@commonFunctions/formulaire");
 const SearchFunction = require("@commonFunctions/search");
 const FilterFunction = require("@commonFunctions/filter");
 
@@ -35,6 +35,16 @@ function filter (self, property, dataImmuable, filters, perPage, sorter) {
     self.pagination.current.handlePageOne();
     self.setState({ data: newData, currentData: newData.slice(0, perPage), filters: filters });
     return newData;
+}
+
+function changePerPage (self, data, perPage, sorter) {
+    self.pagination.current.handlePerPage(perPage);
+    updatePerPage(self, data, perPage, sorter)
+}
+
+function changeSorter (self, data, perPage, sortersFunction, nb) {
+    let sorter = sortersFunction[nb];
+    updatePerPage(self, data, perPage, sorter)
 }
 
 function update (context, data, element) {
@@ -107,6 +117,8 @@ module.exports = {
     getData,
     search,
     filter,
+    changePerPage,
+    changeSorter,
     updateListPagination,
     updatePerPage,
 }

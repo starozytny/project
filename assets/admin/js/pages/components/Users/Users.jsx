@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 
-import Sort             from "@commonFunctions/sort";
-import SearchFunction   from "@commonFunctions/search";
-import FilterFunction   from "@commonFunctions/filter";
-import List             from "@commonFunctions/list";
+import Sort from "@commonFunctions/sort";
+import List from "@commonFunctions/list";
 
 import { UsersList } from "./UsersList";
 
@@ -11,7 +9,7 @@ import { Pagination, TopSorterPagination } from "@commonComponents/Elements/Pagi
 import { Search }           from "@commonComponents/Elements/Search";
 import { Filter }           from "@commonComponents/Elements/Filter";
 import { LoaderElements }   from "@commonComponents/Elements/Loader";
-import {ModalDelete} from "@commonComponents/Shortcut/Modal";
+import { ModalDelete }      from "@commonComponents/Shortcut/Modal";
 
 const URL_GET_DATA       = "api_users_list";
 const URL_DELETE_ELEMENT = "api_users_delete";
@@ -68,9 +66,7 @@ export class Users extends Component {
     }
 
     handleModal = (identifiant, elem) => {
-        let ref;
-        if(identifiant === "delete") ref = this.delete;
-        ref.current.handleClick();
+        this.delete.current.handleClick();
         this.setState({ element: elem })
     }
 
@@ -83,19 +79,9 @@ export class Users extends Component {
 
     handleChangeCurrentPage = (currentPage) => { this.setState({ currentPage }); }
 
-    handlePerPage = (perPage) => {
-        const { data, sorter } = this.state;
+    handlePerPage = (perPage) => { List.changePerPage(this, this.state.data, perPage, this.state.sorter); }
 
-        this.pagination.current.handlePerPage(perPage);
-        List.updatePerPage(this, data, perPage, sorter)
-    }
-
-    handleSorter = (nb) => {
-        const { data, perPage } = this.state;
-
-        let sorter = sortersFunction[nb];
-        List.updatePerPage(this, data, perPage, sorter)
-    }
+    handleSorter = (nb) => { List.changeSorter(this, this.state.data, this.state.perPage, sortersFunction, nb); }
 
     render () {
         const { sessionName, data, currentData, element, loadingData, perPage, currentPage, filters } = this.state;
@@ -118,10 +104,13 @@ export class Users extends Component {
                             <Search onSearch={this.handleSearch} placeholder="Rechercher pas identifiant, nom ou prénom.."/>
                         </div>
                     </div>
+
                     <TopSorterPagination taille={data.length} currentPage={currentPage} perPage={perPage} sorters={sorters}
                                          onClick={this.handlePaginationClick}
                                          onPerPage={this.handlePerPage} onSorter={this.handleSorter} />
+
                     <UsersList data={currentData} onDelete={this.handleModal} />
+
                     <Pagination ref={this.pagination} sessionName={sessionName} items={data} taille={data.length}
                                 perPage={perPage} onUpdate={this.handleUpdateData} onChangeCurrentPage={this.handleChangeCurrentPage}/>
 
