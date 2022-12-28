@@ -240,23 +240,11 @@ input, textarea, select{
   }
 
   .file-uploader-container{
-    @include flex(column, flex-end, flex-end);
+    @include flex(column, space-between, flex-end);
     background-color: var(--alpha);
     border-radius: 4px;
     color: var(--txt);
     padding: 12px 12px 12px 14px;
-
-    .infos{
-      margin-bottom: 8px;
-      font-size: 15px;
-      padding: 12px;
-      border-radius: 4px;
-      border: 2px dashed var(--grey);
-      text-align: center;
-      width: calc(100% - 24px);
-      opacity: 0.8;
-      transition: border 0.2s ease-in-out;
-    }
 
     .preview-files{
       @include flex(column, flex-start, flex-start);
@@ -276,6 +264,30 @@ input, textarea, select{
       img{
         width: 64px;
       }
+    }
+
+    .actual-files{
+      position: relative;
+
+      img{
+        height: 34px;
+      }
+    }
+
+    .infos{
+      margin-bottom: 8px;
+      font-size: 15px;
+      padding: 6px 6px 2px 6px;
+      border-radius: 4px;
+      border: 2px dashed var(--grey);
+      text-align: center;
+      width: calc(100% - 24px);
+      opacity: 0.8;
+      transition: border 0.2s ease-in-out;
+    }
+
+    .actions{
+      @include flex(row, flex-end, space-between);
     }
   }
 }

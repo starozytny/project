@@ -163,8 +163,8 @@ class Form extends Component {
     }
 
     render () {
-        const { context } = this.props;
-        const { errors, username, firstname, lastname, email, password, password2, roles, avatar, societyName, loadData } = this.state;
+        const { context, avatarFile } = this.props;
+        const { errors, username, firstname, lastname, email, password, password2, roles, societyName, loadData } = this.state;
 
         let rolesItems = [
             { value: 'ROLE_ADMIN',      label: 'Admin',          identifiant: 'admin' },
@@ -226,7 +226,7 @@ class Form extends Component {
                             </div>
 
                             <div className="line">
-                                <InputFile ref={this.file} type="simple" identifiant="avatar"
+                                <InputFile ref={this.file} type="simple" identifiant="avatar" valeur={avatarFile}
                                            placeholder="Glissez et déposer votre avatar ou" {...paramsInput0}>
                                     Avatar
                                 </InputFile>

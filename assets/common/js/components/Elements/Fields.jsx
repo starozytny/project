@@ -261,23 +261,20 @@ export class InputFile extends Component {
     }
 
     render () {
-        const { identifiant, valeur, children, placeholder="" } = this.props;
+        const { identifiant, format="image", valeur, children, placeholder="", accept="image/*" } = this.props;
         const { files } = this.state;
 
-        console.log(files)
-
         let content = <div className="file-uploader">
-            <input type='file' ref={this.fileInput} name={identifiant} id={identifiant} value={valeur}
-                   onChange={this.handleFileInput} />
+            <input type='file' ref={this.fileInput} accept={accept} name={identifiant} id={identifiant} onChange={this.handleFileInput} />
 
             <div className="file-uploader-container">
                 <div className="infos">
                     {files.length > 0
                         ? <div className="preview-files">{files.map((file, index) => {
                             return <div className="item" key={index}>
-                                <div className="image">
+                                {format === "image" && <div className="image">
                                     <img src={URL.createObjectURL(file)} alt={file.name}/>
-                                </div>
+                                </div>}
                                 <div className="data">
                                     <div>{file.name}</div>
                                     <div className="sub">{Sanitaze.toFormatBytesToSize(file.size)}</div>
@@ -288,9 +285,16 @@ export class InputFile extends Component {
                     }
                 </div>
 
-                <Button onClick={(e) => this.fileInput.current.click()} type="warning">
-                    Parcourir mes fichiers
-                </Button>
+                <div className="actions">
+                    <div className="actual-files">
+                        {(valeur && format === "image") && <div className="image">
+                            <img src={valeur} alt="actual image"/>
+                        </div>}
+                    </div>
+                    <Button onClick={(e) => this.fileInput.current.click()} type="warning">
+                        Parcourir mes fichiers
+                    </Button>
+                </div>
             </div>
         </div>
 
@@ -300,11 +304,13 @@ export class InputFile extends Component {
 
 InputFile.propTypes = {
     type: PropTypes.string.isRequired,
+    format: PropTypes.string.isRequired,
     identifiant: PropTypes.string.isRequired,
-    valeur: PropTypes.string,
     errors: PropTypes.array.isRequired,
     children: PropTypes.node.isRequired,
     placeholder: PropTypes.string.isRequired,
+    valeur: PropTypes.string,
+    accept: PropTypes.string,
 }
 
 /***************************************
