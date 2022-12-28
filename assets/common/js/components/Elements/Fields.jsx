@@ -10,6 +10,25 @@ import Sanitaze from "@commonFunctions/sanitaze";
 import { Button } from "@commonComponents/Elements/Button";
 
 /***************************************
+ * INPUT View
+ ***************************************/
+export function InputView (props) {
+    const { valeur, children } = props;
+
+    let content = <>
+        <div className="input-view">{valeur}</div>
+    </>
+
+    return (<Structure {...props} content={content} label={children} />)
+}
+
+InputView.propTypes = {
+    valeur: PropTypes.node.isRequired,
+    errors: PropTypes.array.isRequired,
+    children: PropTypes.node.isRequired,
+}
+
+/***************************************
  * INPUT Classique
  ***************************************/
 export class Input extends Component {

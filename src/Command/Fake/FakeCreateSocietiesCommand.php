@@ -60,11 +60,11 @@ class FakeCreateSocietiesCommand extends Command
 
             $obj =  [
                 'name' => $fake->company,
-                'code' => $code,
-                'manager' => 'default'
+                'code' => $code
             ];
 
             $obj = $this->dataMain->setDataSociety(new Society(), json_decode(json_encode($obj)));
+            $obj->setManager("default");
 
             $this->em->persist($obj);
         }

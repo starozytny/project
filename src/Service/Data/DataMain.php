@@ -29,7 +29,7 @@ class DataMain
         return ($obj)
             ->setName($this->sanitizeData->trimData($data->name))
             ->setCode($this->sanitizeData->trimData($data->code))
-            ->setManager($this->sanitizeData->trimData($data->manager))
+            ->setManager("default" . $this->sanitizeData->trimData($data->code))
         ;
     }
 }

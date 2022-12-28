@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import axios   from 'axios';
 import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
-import {Input, InputFile} from "@commonComponents/Elements/Fields";
+import { Input, InputFile, InputView } from "@commonComponents/Elements/Fields";
 import { Button } from "@commonComponents/Elements/Button";
 
 import Formulaire from "@commonFunctions/formulaire";
@@ -60,7 +60,7 @@ class Form extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
 
-        const { context, url } = this.props;
+        const { url } = this.props;
         const { code, name } = this.state;
 
         this.setState({ errors: [], success: false });
@@ -112,7 +112,10 @@ class Form extends Component {
                         <div className="line-col-2">
                             <div className="line line-2">
                                 <Input identifiant="name" valeur={name} {...params}>Nom de la société</Input>
-                                <Input identifiant="code" valeur={code} {...params}>Code</Input>
+                                <Input identifiant="code" valeur={code} {...params} placeholder="XXX">Code</Input>
+                            </div>
+                            <div className="line">
+                                <InputView valeur={code ? code : 'XXX'} errors={errors}>Manager</InputView>
                             </div>
                         </div>
                     </div>

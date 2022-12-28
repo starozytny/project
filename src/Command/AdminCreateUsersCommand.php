@@ -52,9 +52,10 @@ class AdminCreateUsersCommand extends Command
         ]);
 
         $io->title('Création de la société Logilink');
-        $society = [ "name" => "Logilink", "code" => "999", "manager" => "default" ];
+        $society = [ "name" => "Logilink", "code" => "999" ];
 
         $society = $this->dataMain->setDataSociety(new Society(), json_decode(json_encode($society)));
+        $society->setManager("default");
 
         $this->em->persist($society);
 
