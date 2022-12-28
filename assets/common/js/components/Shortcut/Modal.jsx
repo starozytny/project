@@ -50,7 +50,7 @@ ModalDelete.propTypes = {
     children: PropTypes.string.isRequired,
     routeName: PropTypes.string.isRequired,
     msgSuccess: PropTypes.string.isRequired,
-    element: PropTypes.object.isRequired,
+    element: PropTypes.object,
     onUpdateList: PropTypes.func.isRequired,
     identifiant: PropTypes.string,
     maxWidth: PropTypes.number,

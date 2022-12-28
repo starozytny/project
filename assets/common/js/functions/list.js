@@ -1,3 +1,20 @@
+const axios      = require("axios");
+const Routing    = require('@publicFolder/bundles/fosjsrouting/js/router.min.js');
+
+const Formulaire = require("@commonFunctions/formulaire");
+
+function getData (self, routName, perPage, sorter) {
+    axios({ method: "GET", url: Routing.generate(routName), data: {} })
+        .then(function (response) {
+            let data = response.data;
+            if(sorter) data.sort(sorter);
+            let currentData = data.slice(0, perPage);
+            self.setState({ data: data, dataImmuable: data, currentData: currentData, loadingData: false })
+        })
+        .catch(function (error) { Formulaire.displayErrors(self, error); })
+    ;
+}
+
 function update (context, data, element) {
     let newData = [];
 
@@ -65,6 +82,7 @@ function updatePerPage (self, data, perPage, sorter) {
 }
 
 module.exports = {
+    getData,
     updateListPagination,
     updatePerPage,
 }

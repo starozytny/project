@@ -1,9 +1,5 @@
 import React, { Component } from "react";
 
-import axios      from "axios";
-import Routing    from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
-
-import Formulaire       from "@commonFunctions/formulaire";
 import Sort             from "@commonFunctions/sort";
 import SearchFunction   from "@commonFunctions/search";
 import List             from "@commonFunctions/list";
@@ -53,19 +49,7 @@ export class Societies extends Component {
 
     componentDidMount = () => { this.handleGetData(); }
 
-    handleGetData = () => {
-        const { perPage, sorter } = this.state;
-
-        let self = this;
-        axios({ method: "GET", url: Routing.generate(URL_GET_DATA), data: {} })
-            .then(function (response) {
-                let data = response.data; data.sort(sorter);
-                let currentData = data.slice(0, perPage);
-                self.setState({ data: data, dataImmuable: data, currentData: currentData, loadingData: false })
-            })
-            .catch(function (error) { Formulaire.displayErrors(self, error); })
-        ;
-    }
+    handleGetData = () => { List.getData(this, URL_GET_DATA, this.state.perPage, this.state.sorter); }
 
     handleUpdateData = (currentData) => { this.setState({ currentData }) }
 
