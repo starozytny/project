@@ -45,8 +45,8 @@
                     <div class="nav-menu">
                         <div class="nav-items">
                             {% for item in menu %}
-                                <a class="nav-item {{- app.request.get('_route') == item.nameRoute ? " active" : "" -}}"
-                                   href="{{ path(item.nameRoute) }}"
+                                <a class="nav-item {{- app.request.get('_route') in item.matchRoute ? " active" : "" -}}"
+                                   href="{{ item.path }}"
                                 >
                                     <span class="icon-{{ item.icon }}"></span>
                                     <span>{{ item.name }}</span>
@@ -55,8 +55,8 @@
                         </div>
                         <div class="nav-items">
                             {% for item in menu_bottom %}
-                                <a class="nav-item {{- app.request.get('_route') == item.nameRoute ? " active" : "" -}}"
-                                   href="{{ path(item.nameRoute) }}"
+                                <a class="nav-item {{- app.request.get('_route') in item.matchRoute ? " active" : "" -}}"
+                                   href="{{ item.path }}"
                                 >
                                     <span class="icon-{{ item.icon }}"></span>
                                     <span>{{ item.name }}</span>

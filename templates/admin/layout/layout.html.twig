@@ -3,13 +3,20 @@
 {% set page_prefix = "Administrateur" %}
 
 {% set menu = [
-    { name: "Dashboard",        icon: "home",    nameRoute: 'admin_homepage' },
-    { name: "Sociétés",         icon: "bank",    nameRoute: 'admin_societies_index' },
-    { name: "Utilisateurs",     icon: "group",   nameRoute: 'admin_users_index' },
+    { name: "Dashboard",    icon: "home",
+        path: path('admin_homepage'), matchRoute: ['admin_homepage']
+    },
+    { name: "Sociétés",     icon: "bank",
+        path: path('admin_societies_index'), matchRoute: ['admin_societies_index', 'admin_societies_create', 'admin_societies_update']
+    },
+    { name: "Utilisateurs", icon: "group",
+        path: path('admin_users_index'), matchRoute: ['admin_users_index', 'admin_users_create', 'admin_users_update']
+    },
 ] %}
 
 {% set menu_bottom = [
-    { name: "Page accueil",     icon: "earth",    nameRoute: 'app_homepage' },
+    { name: "Page accueil",  icon: "earth",
+        path: path('admin_homepage'), matchRoute: ['admin_homepage'] },
 ] %}
 
 {% block footer %}
