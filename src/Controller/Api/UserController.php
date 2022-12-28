@@ -187,7 +187,7 @@ class UserController extends AbstractController
         }
 
         $repository->save($user, true);
-        return $apiResponse->apiJsonResponseSuccessful("password_reinit réalisée avec success ! La page va se rafraichir automatiquement dans 5 secondes.");
+        return $apiResponse->apiJsonResponseSuccessful("Modification réalisée avec success ! La page va se rafraichir automatiquement dans 5 secondes.");
     }
 
     #[Route('/password/reinit/{token}', name: 'password_reinit', options: ['expose' => true], methods: 'post')]
