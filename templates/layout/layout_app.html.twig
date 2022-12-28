@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ page_title }} | {{ page_prefix }} {% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('app_app') }}
+{% endblock %}
+
+{% block body %}
+    {% include "layout/components/page-loader.html.twig" %}
+
+    <div class="body">
+        <main>
+            <div>
+                {% block main_content %}{% endblock %}
+            </div>
+
+            {% block footer %}{% endblock %}
+        </main>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('app_app') }}
+{% endblock %}
