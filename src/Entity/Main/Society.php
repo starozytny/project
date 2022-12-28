@@ -14,6 +14,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class Society
 {
     const SELECT = ['society_select'];
+    const FORM   = ['society_form'];
 
     #[ORM\Id]
     #[ORM\GeneratedValue]

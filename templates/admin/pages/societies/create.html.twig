@@ -1,0 +1,12 @@
+{% extends 'admin/pages/societies/template.html.twig' %}
+
+{% set page_title %}Création d'une nouvelle société{% endset %}
+{% set page_subtitle %}Renseignez le maximum d'informations concernant la nouvelle société.{% endset %}
+
+{% block main_content %}
+    {% include "layout/components/admin/page_toolbar.html.twig" with { page_back: path('admin_societies_index') } %}
+
+    <div id="societies_create">
+        {% include "layout/components/loader.html.twig" %}
+    </div>
+{% endblock %}

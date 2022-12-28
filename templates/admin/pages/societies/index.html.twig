@@ -1,0 +1,16 @@
+{% extends 'admin/pages/societies/template.html.twig' %}
+
+{% set page_title %}Sociétés{% endset %}
+{% set page_subtitle %}Ajouter et gérez les sociétés du site.{% endset %}
+
+{% block main_content %}
+    <div class="page-actions">
+        <div class="col-1">
+            <a href="{{ path('admin_societies_create') }}" class="btn btn-primary">Créer une nouvelle société</a>
+        </div>
+    </div>
+
+    <div id="societies_list">
+        {% include "layout/components/loader.html.twig" %}
+    </div>
+{% endblock %}
