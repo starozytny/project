@@ -3,23 +3,33 @@
 {% block title %}Réinitialisation de mot de passe{% endblock %}
 
 {% block main_content %}
-    <div class="main-content">
-        {% if error is defined %}
-            <h1>Lien expiré</h1>
-            <p>
-                Ce lien de réinitialisation de mot de passe a expiré, veuillez recommencer la procédure. <br><br>
-            </p>
-            <div class="exceptions-actions">
-                <a href="{{ path('app_login') }}" class="btn btn-primary">Recommencer</a>
-                <a href="{{ path('app_homepage') }}" class="btn btn-default">Revenir à la page d'accueil</a>
-            </div>
-        {% else %}
-            <div id="reinit" data-token={{ token }}>
-                {% include "layout/components/loader.html.twig" %}
-            </div>
+    <div class="login-page">
+        <div class="col-1">
+
+            {% if error is defined %}
+                <div class="title-page">
+                    <h1>Lien expiré</h1>
+                    <p>
+                        Ce lien de réinitialisation de mot de passe a expiré, veuillez recommencer la procédure. <br><br>
+                    </p>
+                </div>
+                <div class="content">
+                    <div class="exceptions-actions">
+                        <a href="{{ path('app_login') }}" class="btn btn-primary">Recommencer</a>
+                        <a href="{{ path('app_homepage') }}" class="btn btn-default">Revenir à la page d'accueil</a>
+                    </div>
+                </div>
+            {% else %}
+                <div id="reinit" data-token={{ token }}>
+                    {% include "layout/components/loader.html.twig" %}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="col-2">
             <div class="image">
                 <img src="{{ asset('build/app/images/login-page.jpg') }}" alt="formulaire connexion">
             </div>
-        {% endif %}
+        </div>
     </div>
 {% endblock %}

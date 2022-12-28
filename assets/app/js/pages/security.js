@@ -5,13 +5,19 @@ import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min';
 
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { Forget } from './components/Security/Forget';
+import { Forget } from '@appFolder/pages/components/Security/Forget';
+import { Reinit } from "@appFolder/pages/components/Security/Reinit";
 
 Routing.setRoutingData(routes);
 
 let el = document.getElementById("forget");
 if(el){
     createRoot(el).render(<Forget />)
+}
+
+el = document.getElementById("reinit");
+if(el){
+    createRoot(el).render(<Reinit {...el.dataset} />)
 }
 
 let btnSeePassword = document.querySelector('.btn-see-password');

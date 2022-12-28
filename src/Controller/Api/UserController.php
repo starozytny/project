@@ -8,7 +8,9 @@ use App\Repository\Main\UserRepository;
 use App\Service\ApiResponse;
 use App\Service\Data\DataMain;
 use App\Service\FileUploader;
+use App\Service\MailerService;
 use App\Service\SanitizeData;
+use App\Service\SettingsService;
 use App\Service\ValidatorService;
 use DateTime;
 use Doctrine\Persistence\ManagerRegistry;
@@ -112,9 +114,14 @@ class UserController extends AbstractController
     }
 
     #[Route('/password/forget', name: 'password_forget', options: ['expose' => true], methods: 'post')]
-    public function forget(Request $request, UserRepository $repository, ApiResponse $apiResponse, SanitizeData $sanitizeData): Response
+    public function forget(Request $request, UserRepository $repository, ApiResponse $apiResponse,
+                           SanitizeData $sanitizeData, MailerService $mailerService, SettingsService $settingsService): Response
     {
         $data = json_decode($request->getContent());
+
+        if ($data === null) {
+            return $apiResponse->apiJsonResponseBadRequest('Les données sont vides.');
+        }
 
         $user = $repository->findOneBy(['username' => $sanitizeData->trimData($data->fUsername)]);
         if (!$user) {
@@ -140,8 +147,68 @@ class UserController extends AbstractController
         $user->setLostCode($code);
         $url = $this->generateUrl('app_password_reinit',
             ['token' => $user->getToken(), 'code' => $code], UrlGeneratorInterface::ABSOLUTE_URL);
+        if(!$mailerService->sendMail(
+            $user->getEmail(),
+            "Mot de passe oublié pour le site " . $settingsService->getWebsiteName(),
+            "Lien de réinitialisation de mot de passe.",
+            'app/email/security/forget.html.twig',
+            ['url' => $url, 'user' => $user, 'settings' => $settingsService->getSettings()]))
+        {
+            return $apiResponse->apiJsonResponseValidationFailed([[
+                'name' => 'fUsername',
+                'message' => "Le message n\'a pas pu être délivré. Veuillez contacter le support."
+            ]]);
+        }
 
         $repository->save($user, true);
         return $apiResponse->apiJsonResponseSuccessful(sprintf("Le lien de réinitialisation de votre mot de passe a été envoyé à : %s", $user->getHiddenEmail()));
+    }
+
+    #[Route('/password/update/{token}', name: 'password_update', options: ['expose' => true], methods: 'post')]
+    public function passwordUpdate(Request $request, $token, ValidatorService $validator, UserPasswordHasherInterface $passwordHasher,
+                                   ApiResponse $apiResponse, UserRepository $repository): Response
+    {
+        $data = json_decode($request->getContent());
+
+        if ($data === null) {
+            return $apiResponse->apiJsonResponseBadRequest('Les données sont vides.');
+        }
+
+        $user = $repository->findOneBy(['token' => $token]);
+        $user = ($user)
+            ->setPassword($passwordHasher->hashPassword($user, $data->password))
+            ->setLostAt(null)
+            ->setLostCode(null)
+        ;
+
+        $noErrors = $validator->validate($user);
+        if ($noErrors !== true) {
+            return $apiResponse->apiJsonResponseValidationFailed($noErrors);
+        }
+
+        $repository->save($user, true);
+        return $apiResponse->apiJsonResponseSuccessful("password_reinit réalisée avec success ! La page va se rafraichir automatiquement dans 5 secondes.");
+    }
+
+    #[Route('/password/reinit/{token}', name: 'password_reinit', options: ['expose' => true], methods: 'post')]
+    public function passwordReinit($token, ValidatorService $validator, UserPasswordHasherInterface $passwordHasher,
+                                   ApiResponse $apiResponse, UserRepository $repository): Response
+    {
+        $user = $repository->findOneBy(['token' => $token]);
+        $pass = uniqid();
+
+        $user = ($user)
+            ->setPassword($passwordHasher->hashPassword($user, $pass))
+            ->setLostAt(null)
+            ->setLostCode(null)
+        ;
+
+        $noErrors = $validator->validate($user);
+        if ($noErrors !== true) {
+            return $apiResponse->apiJsonResponseValidationFailed($noErrors);
+        }
+
+        $repository->save($user, true);
+        return $apiResponse->apiJsonResponseSuccessful("Veuillez noter le nouveau mot de passe : " . $pass);
     }
 }
