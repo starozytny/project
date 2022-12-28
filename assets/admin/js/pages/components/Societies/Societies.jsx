@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 
 import axios      from "axios";
-import toastr     from "toastr";
 import Routing    from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
 import Formulaire       from "@commonFunctions/formulaire";
@@ -16,8 +15,8 @@ import { Search }           from "@commonComponents/Elements/Search";
 import { LoaderElements }   from "@commonComponents/Elements/Loader";
 import { ModalDelete } from "@commonComponents/Shortcut/Modal";
 
-const URL_GET_DATA       = "api_societies_list";
-const URL_DELETE_ELEMENT = "api_societies_delete";
+const URL_GET_DATA        = "api_societies_list";
+const URL_DELETE_ELEMENT  = "api_societies_delete";
 
 let SORTER = Sort.compareCode;
 let sorters = [
@@ -46,7 +45,6 @@ export class Societies extends Component {
         this.handleUpdateData = this.handleUpdateData.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
         this.handleModal = this.handleModal.bind(this);
-        this.handleDeleteElement = this.handleDeleteElement.bind(this);
         this.handlePaginationClick = this.handlePaginationClick.bind(this);
         this.handlePerPage = this.handlePerPage.bind(this);
         this.handleChangeCurrentPage = this.handleChangeCurrentPage.bind(this);
@@ -88,20 +86,6 @@ export class Societies extends Component {
         this.setState({ element: elem })
     }
 
-    handleDeleteElement = () => {
-        const { element } = this.state;
-
-        let self = this;
-        axios({ method: "DELETE", url: Routing.generate(URL_DELETE_ELEMENT, {'id': element.id}), data: {} })
-            .then(function (response) {
-                toastr.info("Utilisateur supprimé !");
-                self.delete.current.handleClose();
-                self.handleUpdateList(element, "delete");
-            })
-            .catch(function (error) { Formulaire.displayErrors(self, error); })
-        ;
-    }
-
     handleUpdateList = (element, context) => {
         const { data, dataImmuable, currentData, sorter } = this.state;
         List.updateListPagination(this, element, context, data, dataImmuable, currentData, sorter)
@@ -126,7 +110,7 @@ export class Societies extends Component {
     }
 
     render () {
-        const { sessionName, data, currentData, loadingData, perPage, currentPage } = this.state;
+        const { sessionName, data, currentData, element, loadingData, perPage, currentPage } = this.state;
 
         return <>
             {loadingData
@@ -144,7 +128,9 @@ export class Societies extends Component {
                     <Pagination ref={this.pagination} sessionName={sessionName} items={data} taille={data.length}
                                 perPage={perPage} onUpdate={this.handleUpdateData} onChangeCurrentPage={this.handleChangeCurrentPage}/>
 
-                    <ModalDelete refModal={this.delete} onClick={this.handleDeleteElement} title="Supprimer une société">
+                    <ModalDelete refModal={this.delete} element={element} routeName={URL_DELETE_ELEMENT}
+                                 title="Supprimer une société" msgSuccess="Société supprimée"
+                                 onUpdateList={this.handleUpdateList} >
                         Etes-vous sûr de vouloir supprimer définitivement cette société ?
                     </ModalDelete>
                 </>
