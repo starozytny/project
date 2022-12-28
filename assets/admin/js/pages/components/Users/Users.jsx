@@ -58,14 +58,8 @@ export class Users extends Component {
     handleUpdateData = (currentData) => { this.setState({ currentData }) }
 
     handleSearch = (search) => {
-        const { perPage, sorter, filters } = this.state;
-
-        let dataImmuable = this.handleFilters(filters);
-        if(search !== ""){
-            let newData = SearchFunction.search("user", dataImmuable, search);
-            if(sorter) newData.sort(sorter);
-            this.setState({ data: newData, currentData: newData.slice(0, perPage) });
-        }
+        const { perPage, sorter, dataImmuable, filters } = this.state;
+        List.search(this, 'user', search, dataImmuable, perPage, sorter, true, filters, this.handleFilters)
     }
 
     handleFilters = (filters) => {

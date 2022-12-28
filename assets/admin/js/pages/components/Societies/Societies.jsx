@@ -55,12 +55,7 @@ export class Societies extends Component {
 
     handleSearch = (search) => {
         const { perPage, sorter, dataImmuable } = this.state;
-
-        if(search !== ""){
-            let newData = SearchFunction.search("society", dataImmuable, search);
-            if(sorter) newData.sort(sorter);
-            this.setState({ data: newData, currentData: newData.slice(0, perPage) });
-        }
+        List.search(this, 'society', search, dataImmuable, perPage, sorter)
     }
 
     handleModal = (identifiant, elem) => {
