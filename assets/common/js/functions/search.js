@@ -27,6 +27,13 @@ function switchFunction(type, search, v) {
                 return v;
             }
             break;
+        case "society":
+            if(searchStartWith(v.name.toLowerCase(), search)
+                || searchStartWith(v.codeString.toLowerCase(), search)
+            ){
+                return v;
+            }
+            break;
         default:
             break;
     }

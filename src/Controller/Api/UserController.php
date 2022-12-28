@@ -24,15 +24,13 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class UserController extends AbstractController
 {
     #[Route('/list', name: 'list', options: ['expose' => true], methods: 'GET')]
-    public function listRange(ManagerRegistry $doctrine, ApiResponse $apiResponse): Response
+    public function list(UserRepository $repository, ApiResponse $apiResponse): Response
     {
-        $em = $doctrine->getManager();
-        $objs = $em->getRepository(User::class)->findAll();
-        return $apiResponse->apiJsonResponse($objs, User::LIST);
+        return $apiResponse->apiJsonResponse($repository->findAll(), User::LIST);
     }
 
-    public function submitForm($type, ObjectManager $em, User $obj, Request $request, ApiResponse $apiResponse,
-                               ValidatorService $validator, DataMain $dataEntity, UserRepository $repository,
+    public function submitForm($type, UserRepository $repository, User $obj, Request $request, ApiResponse $apiResponse,
+                               ValidatorService $validator, DataMain $dataEntity, ObjectManager $em,
                                UserPasswordHasherInterface $passwordHasher, FileUploader $fileUploader): JsonResponse
     {
         $data = json_decode($request->get('data'));
@@ -70,17 +68,6 @@ class UserController extends AbstractController
         return $apiResponse->apiJsonResponseSuccessful("ok");
     }
 
-    #[Route('/update/{id}', name: 'update', options: ['expose' => true], methods: 'POST')]
-    #[IsGranted('ROLE_USER')]
-    public function update(Request $request, User $obj, ManagerRegistry $doctrine, ApiResponse $apiResponse,
-                           ValidatorService $validator, DataMain$dataEntity, UserRepository $repository,
-                           UserPasswordHasherInterface $passwordHasher, FileUploader $fileUploader): Response
-    {
-        $em = $doctrine->getManager();
-        return $this->submitForm("update", $em, $obj, $request, $apiResponse, $validator, $dataEntity,
-            $repository, $passwordHasher, $fileUploader);
-    }
-
     #[Route('/create', name: 'create', options: ['expose' => true], methods: 'POST')]
     #[IsGranted('ROLE_ADMIN')]
     public function create(Request $request, ManagerRegistry $doctrine, ApiResponse $apiResponse,
@@ -88,8 +75,19 @@ class UserController extends AbstractController
                            UserPasswordHasherInterface $passwordHasher, FileUploader $fileUploader): Response
     {
         $em = $doctrine->getManager();
-        return $this->submitForm("create", $em, new User(), $request, $apiResponse, $validator, $dataEntity,
-            $repository, $passwordHasher, $fileUploader);
+        return $this->submitForm("create", $repository, new User(), $request, $apiResponse, $validator, $dataEntity,
+            $em, $passwordHasher, $fileUploader);
+    }
+
+    #[Route('/update/{id}', name: 'update', options: ['expose' => true], methods: 'POST')]
+    #[IsGranted('ROLE_USER')]
+    public function update(Request $request, User $obj, ManagerRegistry $doctrine, ApiResponse $apiResponse,
+                           ValidatorService $validator, DataMain$dataEntity, UserRepository $repository,
+                           UserPasswordHasherInterface $passwordHasher, FileUploader $fileUploader): Response
+    {
+        $em = $doctrine->getManager();
+        return $this->submitForm("update", $repository, $obj, $request, $apiResponse, $validator, $dataEntity,
+            $em, $passwordHasher, $fileUploader);
     }
 
     #[Route('/delete/{id}', name: 'delete', options: ['expose' => true], methods: 'DELETE')]

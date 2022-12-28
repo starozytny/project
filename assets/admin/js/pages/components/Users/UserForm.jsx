@@ -272,6 +272,6 @@ Form.propTypes = {
     username: PropTypes.string.isRequired,
     firstname: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired,
-    avatar: PropTypes.string,
+    avatarFile: PropTypes.node,
     roles: PropTypes.array.isRequired,
 }

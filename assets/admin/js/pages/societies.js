@@ -5,22 +5,22 @@ import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min';
 
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { Users } from "@adminPages/Users/Users";
-import { UserFormulaire } from "@adminPages/Users/UserForm";
+import { Societies } from "@adminPages/Societies/Societies";
+import { SocietyFormulaire } from "@adminPages/Societies/SocietyForm";
 
 Routing.setRoutingData(routes);
 
-// let el = document.getElementById("users_list");
-// if(el){
-//     createRoot(el).render(<Users />)
-// }
-//
-// el = document.getElementById("users_update");
-// if(el){
-//     createRoot(el).render(<UserFormulaire context="update" element={JSON.parse(el.dataset.obj)} />)
-// }
-//
-// el = document.getElementById("users_create");
-// if(el){
-//     createRoot(el).render(<UserFormulaire context="create" element={null} />)
-// }
+let el = document.getElementById("societies_list");
+if(el){
+    createRoot(el).render(<Societies />)
+}
+
+el = document.getElementById("societies_update");
+if(el){
+    createRoot(el).render(<SocietyFormulaire context="update" element={JSON.parse(el.dataset.obj)} />)
+}
+
+el = document.getElementById("societies_create");
+if(el){
+    createRoot(el).render(<SocietyFormulaire context="create" element={null} />)
+}

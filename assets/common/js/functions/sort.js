@@ -50,6 +50,10 @@ function compareCodeString(a, b){
     return comparison(a.codeString, b.codeString);
 }
 
+function compareCode(a, b){
+    return comparison(a.code, b.code);
+}
+
 function compareRankThenLabel(a, b){
     if (a.rank > b.rank) {
         return 1;
@@ -81,5 +85,6 @@ module.exports = {
     compareZipcode,
     compareCity,
     compareCodeString,
+    compareCode,
     compareRankThenLabel,
 }

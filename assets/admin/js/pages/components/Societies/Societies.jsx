@@ -7,10 +7,9 @@ import Routing    from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 import Formulaire       from "@commonFunctions/formulaire";
 import Sort             from "@commonFunctions/sort";
 import SearchFunction   from "@commonFunctions/search";
-import FilterFunction   from "@commonFunctions/filter";
 import List             from "@commonFunctions/list";
 
-import { UsersList } from "./UsersList";
+import { SocietiesList } from "./SocietiesList";
 
 import { Pagination, TopSorterPagination } from "@commonComponents/Elements/Pagination";
 import { Search }           from "@commonComponents/Elements/Search";
@@ -19,17 +18,17 @@ import { LoaderElements }   from "@commonComponents/Elements/Loader";
 import { Modal }            from "@commonComponents/Elements/Modal";
 import { Button }           from "@commonComponents/Elements/Button";
 
-const URL_GET_DATA       = "api_users_list";
-const URL_DELETE_ELEMENT = "api_users_delete";
+const URL_GET_DATA       = "api_societies_list";
+const URL_DELETE_ELEMENT = "api_societies_delete";
 
-let SORTER = Sort.compareLastname;
+let SORTER = Sort.compareCode;
 let sorters = [
-    { value: 0, label: 'Nom',           identifiant: 'sorter-nom' },
-    { value: 1, label: 'Email',         identifiant: 'sorter-email' },
+    { value: 0, label: 'Code',  identifiant: 'sorter-code' },
+    { value: 1, label: 'Nom',   identifiant: 'sorter-nom' },
 ]
-let sortersFunction = [Sort.compareLastname, Sort.compareEmail];
+let sortersFunction = [Sort.compareCode, Sort.compareName];
 
-export class Users extends Component {
+export class Societies extends Component {
     constructor(props) {
         super(props);
 
@@ -37,9 +36,8 @@ export class Users extends Component {
             perPage: 20,
             currentPage: 0,
             sorter: SORTER,
-            sessionName: "local.users.list.pagination",
+            sessionName: "local.societies.list.pagination",
             loadingData: true,
-            filters: [],
             element: null
         }
 
@@ -49,7 +47,6 @@ export class Users extends Component {
         this.handleGetData = this.handleGetData.bind(this);
         this.handleUpdateData = this.handleUpdateData.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
-        this.handleFilters = this.handleFilters.bind(this);
         this.handleModal = this.handleModal.bind(this);
         this.handleDeleteElement = this.handleDeleteElement.bind(this);
         this.handlePaginationClick = this.handlePaginationClick.bind(this);
@@ -81,21 +78,10 @@ export class Users extends Component {
 
         let dataImmuable = this.handleFilters(filters);
         if(search !== ""){
-            let newData = SearchFunction.search("user", dataImmuable, search);
+            let newData = SearchFunction.search("society", dataImmuable, search);
             if(sorter) newData.sort(sorter);
             this.setState({ data: newData, currentData: newData.slice(0, perPage) });
         }
-    }
-
-    handleFilters = (filters) => {
-        const { dataImmuable, perPage, sorter } = this.state;
-
-        let newData = FilterFunction.filter("highRoleCode", dataImmuable, filters);
-        if(sorter) newData.sort(sorter);
-
-        this.pagination.current.handlePageOne();
-        this.setState({ data: newData, currentData: newData.slice(0, perPage), filters: filters });
-        return newData;
     }
 
     handleModal = (identifiant, elem) => {
@@ -143,13 +129,7 @@ export class Users extends Component {
     }
 
     render () {
-        const { sessionName, data, currentData, loadingData, perPage, currentPage, filters } = this.state;
-
-        let filtersItems = [
-            {value: 0, label: "Utilisateur", id: "f-user"},
-            {value: 1, label: "Développeur", id: "f-dev"},
-            {value: 2, label: "Administrateur", id: "f-admin"},
-        ]
+        const { sessionName, data, currentData, loadingData, perPage, currentPage } = this.state;
 
         return <>
             {loadingData
@@ -157,21 +137,18 @@ export class Users extends Component {
                 : <>
                     <div className="toolbar">
                         <div className="col-1">
-                            <div className="filters">
-                                <Filter filters={filters} items={filtersItems} onFilters={this.handleFilters}/>
-                            </div>
-                            <Search onSearch={this.handleSearch} placeholder="Rechercher pas identifiant, nom ou prénom.."/>
+                            <Search onSearch={this.handleSearch} placeholder="Rechercher pas nom ou code.."/>
                         </div>
                     </div>
                     <TopSorterPagination taille={data.length} currentPage={currentPage} perPage={perPage} sorters={sorters}
                                          onClick={this.handlePaginationClick}
                                          onPerPage={this.handlePerPage} onSorter={this.handleSorter} />
-                    <UsersList data={currentData} onDelete={this.handleModal} />
+                    <SocietiesList data={currentData} onDelete={this.handleModal} />
                     <Pagination ref={this.pagination} sessionName={sessionName} items={data} taille={data.length}
                                 perPage={perPage} onUpdate={this.handleUpdateData} onChangeCurrentPage={this.handleChangeCurrentPage}/>
 
-                    <Modal ref={this.delete} identifiant="delete" maxWidth={414} title="Supprimer un utilisateur"
-                           content={<p>Etes-vous sûr de vouloir supprimer définitivement cet utilisateur ?</p>}
+                    <Modal ref={this.delete} identifiant="delete" maxWidth={414} title="Supprimer une société"
+                           content={<p>Etes-vous sûr de vouloir supprimer définitivement cette société ?</p>}
                            footer={<>
                                <Button onClick={this.handleDeleteElement} type="primary">Confirmer la suppression</Button>
                                <div className="close-modal">

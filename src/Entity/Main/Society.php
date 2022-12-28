@@ -2,6 +2,7 @@
 
 namespace App\Entity\Main;
 
+use App\Entity\DataEntity;
 use App\Repository\Main\SocietyRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -11,28 +12,34 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: SocietyRepository::class)]
 #[UniqueEntity("code", "Ce code est déjà utilisé.")]
-class Society
+class Society extends DataEntity
 {
+    const FOLDER = "logos";
+
     const SELECT = ['society_select'];
+    const LIST   = ['society_list'];
     const FORM   = ['society_form'];
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['society_select', 'user_form'])]
+    #[Groups(['society_list', 'society_form', 'society_select', 'user_form'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['user_list', 'society_select'])]
+    #[Groups(['society_list', 'society_form', 'user_list', 'society_select'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['society_list'])]
     private ?string $manager = "default";
 
     #[ORM\Column(length: 20)]
+    #[Groups(['society_form'])]
     private ?int $code = null;
 
     #[ORM\Column]
+    #[Groups(['society_list'])]
     private ?bool $isActivated = true;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -87,7 +94,7 @@ class Society
         return $this;
     }
 
-    #[Groups(['user_list', 'society_select'])]
+    #[Groups(['society_list', 'user_list', 'society_select'])]
     public function getCodeString(): string
     {
         $code = $this->code;
@@ -112,6 +119,12 @@ class Society
         $this->isActivated = $isActivated;
 
         return $this;
+    }
+
+    #[Groups(['society_list', 'society_form'])]
+    public function getLogoFile(): string
+    {
+        return $this->getFileOrDefault($this->logo, self::FOLDER);
     }
 
     public function getLogo(): ?string
