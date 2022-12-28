@@ -115,7 +115,7 @@ class Form extends Component {
                                 <Input identifiant="code" valeur={code} {...params} placeholder="XXX">Code</Input>
                             </div>
                             <div className="line">
-                                <InputView valeur={code ? code : 'XXX'} errors={errors}>Manager</InputView>
+                                <InputView valeur={code ? "default" + code : 'XXX'} errors={errors}>Manager</InputView>
                             </div>
                         </div>
                     </div>
