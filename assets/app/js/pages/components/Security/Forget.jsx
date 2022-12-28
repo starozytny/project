@@ -70,12 +70,13 @@ export class Forget extends Component {
                 Ce mail contient un lien vous permettant de réinitialiser votre mot de passe. <br/> <br/>
                 Pensez à vérifier vos spams/courriers indésirables.
             </p>
-            <form>
+            <form onSubmit={(e) => e.preventDefault()} method="post">
                 {success !== false && <Alert type="info">{success}</Alert>}
 
-                <div className="line">
+                {success === false && <div className="line">
                     <Input valeur={fUsername} identifiant="fUsername" {...params}>Nom utilisateur</Input>
-                </div>
+                </div>}
+
             </form>
         </div>
 
@@ -84,8 +85,10 @@ export class Forget extends Component {
             <Modal ref={this.modal} identifiant='forget-modal' maxWidth={568} title="Mot de passe oublié"
                    content={aside}
                    footer={<>
-                       <Button type="primary" onClick={this.handleSubmit}>Envoyer un lien de réinitialisation</Button>
-                       <div className="close-modal"><Button type="cancel">Annuler</Button></div>
+                       {success === false && <>
+                           <Button type="primary" onClick={this.handleSubmit}>Envoyer un lien de réinitialisation</Button>
+                       </>}
+                       <div className="close-modal"><Button type="cancel">{success === false ? "Annuler" : "Fermer"}</Button></div>
                    </>}
             />
         </>
