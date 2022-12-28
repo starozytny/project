@@ -1,0 +1,12 @@
+@import "../../../common/css/components/alert";
+
+$icons:
+        "danger" var(--dangerOpacity4) var(--danger),
+;
+
+@each $name, $bg, $txt in $icons {
+  .alert-#{$name} {
+    background: $bg;
+    color: $txt;
+  }
+}

@@ -1,0 +1,20 @@
+@import "vars/fonts";
+@import "vars/vars";
+
+@import "./components/colors";
+
+@import "./components/alert";
+@import "./components/button";
+@import "./components/form";
+
+body {
+  @include fontRegular();
+}
+
+h1{
+  @include fontBold();
+}
+
+h2{
+  @include fontSemibold();
+}

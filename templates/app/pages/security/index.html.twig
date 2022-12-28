@@ -3,34 +3,64 @@
 {% block title %}Connexion à son espace{% endblock %}
 
 {% block body %}
-<div>
-    <div>
-        <a href="{{ path('app_homepage') }}">Accueil</a>
+<div class="login-page">
+    <div class="col-1">
+        <div class="title-page">
+            <h1>Espace membre</h1>
+            <div>
+                <a href="{{ path('app_homepage') }}">Accueil</a>
+            </div>
+        </div>
+
+        <div class="content">
+            <form action="{{ path('app_login') }}" method="post" class="form-login">
+                {% if error %}
+                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
+
+                <div class="line">
+                    <div class="form-group">
+                        <label for="username">
+                            <span class="icon-user"></span>
+                            <span>Nom utilisateur</span>
+                        </label>
+                        <input type="text" id="username" name="_username" value="{{ last_username }}" required autofocus/>
+                    </div>
+                </div>
+
+                <div class="line">
+                    <div class="form-group">
+                        <label for="password">
+                            <span class="icon-padlock"></span>
+                            <span>Mot de passe</span>
+                        </label>
+                        <div class="see-password">
+                            <input type="password" name="_password" id="password" required />
+                            <span class="icon-vision btn-see-password"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                <input type="hidden" name="_target_path" value="{{ path('app_logged') }}"/>
+
+                <div class="line">
+                    <div id="forget"></div>
+                </div>
+
+                <div class="line-buttons">
+                    <button type="submit" class="btn btn-primary">Se connecter</button>
+                </div>
+            </form>
+        </div>
     </div>
 
-    {% if error %}
-        <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
-
-    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-        <p>Username: {{ app.user.username }}</p>
-        <div>
-            <a href="{{ path('app_logout') }}">Déconnexion</a>
+    <div class="col-2">
+        <div class="image">
+            <img src="{{ asset('build/app/images/login-page.jpg') }}" alt="formulaire connexion">
         </div>
-    {% else %}
-        <form action="{{ path('app_login') }}" method="post">
-            <label for="username">Email:</label>
-            <input type="text" id="username" name="_username" value="{{ last_username }}"/>
+    </div>
 
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="_password"/>
-
-            <input type="hidden" name="_target_path" value="{{ path('app_logged') }}"/>
-
-            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-
-            <button type="submit">login</button>
-        </form>
-    {% endif %}
 </div>
 {% endblock %}

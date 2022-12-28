@@ -1,0 +1,90 @@
+@import "../vars/vars";
+
+.login-page{
+  padding-top: 24px;
+
+  & > .col-1{
+    @include flex(column, center, center);
+    text-align: center;
+
+    .title-page{
+      margin-bottom: 24px;
+    }
+  }
+}
+
+.form-login{
+  max-width: 414px;
+  margin: 0 auto 48px auto;
+  @include flex(column, center, center);
+  padding: 12px;
+
+  .btn-forget{
+    display: block;
+    opacity: 0.7;
+    transition: all 0.2s ease-in-out;
+    text-align: right;
+    font-size: 14px;
+    cursor: pointer;
+
+    &:hover{
+      opacity: 1;
+    }
+  }
+
+  .alert{
+    font-size: 14px;
+    margin-bottom: 24px;
+  }
+}
+
+.see-password{
+  position: relative;
+
+  .btn-see-password{
+    position: absolute;
+    top: 0; right: 0;
+    padding: 8px;
+    color: var(--grey2);
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+
+    &:hover, .active{
+      color: var(--txt);
+    }
+  }
+}
+
+//                      __   _ ____  ___   ___    __
+//                     | _| / |___ \( _ ) / _ \  |_ |
+//    _____ _____ _____| |  | | __) / _ \| | | |  | |_____ _____ _____
+//   |_____|_____|_____| |  | |/ __/ (_) | |_| |  | |_____|_____|_____|
+//                     | |  |_|_____\___/ \___/   | |
+//                     |__|                      |__|
+@media (min-width:1280px) {
+  .login-page{
+    @include flex(row-reverse, flex-start, flex-start);
+    padding-top: 0;
+
+    .col-1{
+      width: 40%;
+      margin-top: 148px;
+    }
+
+    .col-2{
+      width: 60%;
+
+      .image{
+        img{
+          height: 1024px;
+          object-fit: cover;
+        }
+      }
+    }
+  }
+
+  .form-login{
+    margin-bottom: 0;
+    max-width: 280px;
+  }
+}

@@ -30,6 +30,10 @@ Encore
         to: 'app/images/[path][name].[ext]',
     })
     .copyFiles({
+        from: './assets/app/fonts',
+        to: 'app/fonts/[path][name].[ext]',
+    })
+    .copyFiles({
         from: './assets/admin/fonts',
         to: 'admin/fonts/[path][name].[ext]',
     })
