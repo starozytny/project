@@ -1,0 +1,9 @@
+{% extends 'app/email/template/template_classique.html.twig' %}
+
+{% block preheader %}{{ subject }}{% endblock %}
+
+{% block body %}
+    <div>
+        {{ message }}
+    </div>
+{% endblock %}

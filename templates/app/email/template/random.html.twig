@@ -1,0 +1,13 @@
+{% extends 'app/email/template/template.html.twig' %}
+
+{% block preheader %}{{ title }}{% endblock %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <div>
+        <p style="width: 540px;">
+            {{ message }}
+        </p>
+    </div>
+{% endblock %}

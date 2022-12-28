@@ -1,0 +1,16 @@
+{% extends 'app/email/template/template.html.twig' %}
+
+{% block preheader %}Demande de contact.{% endblock %}
+
+{% block title %}Demande de contact{% endblock %}
+
+{% block body %}
+    <div>
+        <div>Demande de contact réalisé par : {{ contact.name }}, le {{ contact.createdAt | date('d/m/Y \\à H:i', "Europe/Paris") }}</div>
+        <div>Email  de contact : {{ contact.email }}</div>
+        <p style="width: 540px;">
+            Message : <br>
+            {{ contact.message }}
+        </p>
+    </div>
+{% endblock %}

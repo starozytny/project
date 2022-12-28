@@ -1,0 +1,33 @@
+{% extends 'app/email/template/template.html.twig' %}
+
+{% block preheader %}Voici la procédure pour son mot de passe oublié sur le site {{ settings.websiteName }}.{% endblock %}
+
+{% block title %}Mot de passe oublié{% endblock %}
+
+{% block body %}
+    <div>
+        <p>Bonjour, <br>
+            <br>
+            Votre identifiant de connexion est  : <b>{{ user.username }}</b>
+            <br><br>
+            Vous avez fait une demande de réinitialisation de mot de passe pour accéder à votre compte.
+        </p>
+        <p style="width: 540px;">
+            <a href="{{ url }}">Lien pour réinitialiser son mot de passe</a>
+            <br>
+            <br>
+            <b>Attention !</b> Le lien sera valide durant <b>30 minutes</b>. Passé ce délai, il vous faudra renouveler votre demande.
+            <br>
+            <br>
+            <br>
+            <br>
+            Si ce lien ne fonctionne pas, vous pouvez saisir manuellement ou copier/coller le lien suivant dans la barre d'adresse de votre navigateur :
+            <br>
+            {{ url }}
+        </p>
+        <br>
+        <p>
+            Nous vous souhaitons une agréable visite sur <a href="#">notre site</a>.
+        </p>
+    </div>
+{% endblock %}
