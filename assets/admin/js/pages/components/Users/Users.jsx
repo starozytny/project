@@ -11,7 +11,7 @@ import List         from "@commonFunctions/list";
 import { Pagination, TopSorterPagination } from "@commonComponents/Elements/Pagination";
 import { Search }           from "@commonComponents/Elements/Search";
 import { Filter }           from "@commonComponents/Elements/Filter";
-import { LoaderElements }   from "@commonComponents/Elements/Loader";
+import {LoaderElements, LoaderTxt} from "@commonComponents/Elements/Loader";
 import { ModalDelete }      from "@commonComponents/Shortcut/Modal";
 import { Button }           from "@commonComponents/Elements/Button";
 import { Modal }            from "@commonComponents/Elements/Modal";
@@ -104,14 +104,25 @@ export class Users extends Component {
         const { element } = this.state;
 
         let self = this;
-        axios({ method: "POST", url: Routing.generate(URL_REINIT_PASSWORD, {'token': element.token}), data: {} })
+        let instance = axios.create();
+        instance.interceptors.request.use((config) => {
+            self.reinit.current.handleUpdateContent(<LoaderTxt text="En cours de génération" />);
+            self.reinit.current.handleUpdateFooter(null);
+            self.reinit.current.handleUpdateCloseTxt("Fermer");
+            return config;
+        }, function(error) {
+            modalReinit(self);
+            return Promise.reject(error);
+        });
+        instance({ method: "POST", url: Routing.generate(URL_REINIT_PASSWORD, {'token': element.token}), data: {} })
             .then(function (response) {
                 toastr.info("Mot de passe généré.");
                 self.reinit.current.handleUpdateContent("<p>"+ response.data.message +"</p>");
                 self.reinit.current.handleUpdateFooter(null);
                 self.reinit.current.handleUpdateCloseTxt("Fermer");
+                // instance.interceptors.request.clear();
             })
-            .catch(function (error) { Formulaire.displayErrors(self, error); })
+            .catch(function (error) { console.log(error);Formulaire.displayErrors(self, error); })
         ;
     }
 
@@ -153,8 +164,7 @@ export class Users extends Component {
                     </ModalDelete>
 
                     <Modal ref={this.reinit} identifiant="reinit" maxWidth={414} title="Générer un nouveau mot de passe"
-                           content={<p>Le nouveau mot de passe est généré automatiquement et prendra la place du mot de passe actuel.</p>}
-                           footer={<Button onClick={this.handleReinitPassword} type="primary">Confirmer la génération</Button>}
+                           content={null} footer={null}
                    />
                 </>
             }

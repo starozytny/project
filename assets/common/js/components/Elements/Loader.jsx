@@ -7,3 +7,11 @@ export function LoaderElements({ text = "Chargement des données" }) {
         </div>
     </div>
 }
+
+export function LoaderTxt({ text = "Chargement des données" }) {
+    return <div className="loader-txt">
+        <div className="loader-simple">
+            <div className="alert alert-grey">{text} <span>.</span><span>.</span><span>.</span></div>
+        </div>
+    </div>
+}

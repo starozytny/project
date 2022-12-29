@@ -8,11 +8,16 @@ $c-02: #a6dcee;
   @include flex(row, flex-start, flex-start);
 }
 
+.loader-txt{
+  .loader-simple{
+    padding: 0;
+  }
+}
 .loader-simple {
   padding: 1.2rem;
   @include fontSemibold();
 
-  p{
+  div, p{
     span{
       display: inline-block;
     }
