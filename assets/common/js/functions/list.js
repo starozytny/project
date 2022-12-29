@@ -21,11 +21,12 @@ function search (self, type, search, dataImmuable, perPage, sorter, haveFilter=f
     if(haveFilter) {
         dataImmuable = filterFunction(filters);
     }
+    let newData = dataImmuable;
     if(search !== ""){
-        let newData = SearchFunction.search(type, dataImmuable, search);
-        if(sorter) newData.sort(sorter);
-        self.setState({ data: newData, currentData: newData.slice(0, perPage) });
+        newData = SearchFunction.search(type, dataImmuable, search);
     }
+    if(sorter) newData.sort(sorter);
+    self.setState({ data: newData, currentData: newData.slice(0, perPage) });
 }
 
 function filter (self, property, dataImmuable, filters, perPage, sorter) {
