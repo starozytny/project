@@ -7,6 +7,7 @@ use App\Entity\Main\User;
 use App\Repository\Main\UserRepository;
 use App\Service\ApiResponse;
 use App\Service\Data\DataMain;
+use App\Service\Export;
 use App\Service\FileUploader;
 use App\Service\MailerService;
 use App\Service\SanitizeData;
@@ -16,6 +17,7 @@ use DateTime;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -210,5 +212,43 @@ class UserController extends AbstractController
 
         $repository->save($user, true);
         return $apiResponse->apiJsonResponseSuccessful("Veuillez noter le nouveau mot de passe : " . $pass);
+    }
+
+    #[Route('/export/{format}', name: 'export', methods: 'get')]
+    public function export(Export $export, $format, UserRepository $repository): BinaryFileResponse
+    {
+        $objs = $repository->findBy([], ['lastname' => 'ASC']);
+        $data = [];
+
+        $nameFile = 'utilisateurs';
+        $nameFolder = 'export/';
+
+        foreach ($objs as $obj) {
+            $tmp = [
+                $obj->getId(),
+                $obj->getLastname() . " " . $obj->getFirstname(),
+                $obj->getUsername(),
+                $obj->getHighRole(),
+                $obj->getEmail(),
+                date_format($obj->getCreatedAt(), 'd/m/Y'),
+            ];
+            if(!in_array($tmp, $data)){
+                $data[] = $tmp;
+            }
+        }
+
+        if($format == 'excel'){
+            $fileName = $nameFile . '.xlsx';
+            $header = [['ID', 'Nom/Prenom', 'Identifiant', 'Role', 'Email', 'Date de creation']];
+        }else{
+            $fileName = $nameFile . '.csv';
+            $header = [['id', 'name', 'username', 'role', 'email', 'createAt']];
+
+            header('Content-Type: application/csv');
+            header('Content-Disposition: attachment; filename="'.$fileName.'"');
+        }
+
+        $export->createFile($format, 'Liste des ' . $nameFile, $fileName , $header, $data, 6, $nameFolder);
+        return new BinaryFileResponse($this->getParameter('private_directory'). $nameFolder . $fileName);
     }
 }

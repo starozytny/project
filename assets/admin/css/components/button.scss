@@ -14,7 +14,8 @@ $data:
 ;
 
 @each $name, $bg, $txt in $data {
-  .btn-#{$name}{
+  .btn-#{$name},
+  .btn-icon-#{$name}{
     background-color: $bg;
     color: $txt;
   }
