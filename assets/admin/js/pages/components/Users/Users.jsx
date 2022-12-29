@@ -1,18 +1,26 @@
 import React, { Component } from "react";
 
-import Sort from "@commonFunctions/sort";
-import List from "@commonFunctions/list";
+import axios  from "axios";
+import toastr  from "toastr";
+import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
-import { UsersList } from "./UsersList";
+import Formulaire   from "@commonFunctions/formulaire";
+import Sort         from "@commonFunctions/sort";
+import List         from "@commonFunctions/list";
 
 import { Pagination, TopSorterPagination } from "@commonComponents/Elements/Pagination";
 import { Search }           from "@commonComponents/Elements/Search";
 import { Filter }           from "@commonComponents/Elements/Filter";
 import { LoaderElements }   from "@commonComponents/Elements/Loader";
 import { ModalDelete }      from "@commonComponents/Shortcut/Modal";
+import { Button }           from "@commonComponents/Elements/Button";
+import { Modal }            from "@commonComponents/Elements/Modal";
 
-const URL_GET_DATA       = "api_users_list";
-const URL_DELETE_ELEMENT = "api_users_delete";
+import { UsersList } from "@adminPages/Users/UsersList";
+
+const URL_GET_DATA        = "api_users_list";
+const URL_DELETE_ELEMENT  = "api_users_delete";
+const URL_REINIT_PASSWORD = "api_users_password_reinit";
 
 let SORTER = Sort.compareLastname;
 let sorters = [
@@ -37,6 +45,7 @@ export class Users extends Component {
 
         this.pagination = React.createRef();
         this.delete = React.createRef();
+        this.reinit = React.createRef();
 
         this.handleGetData = this.handleGetData.bind(this);
         this.handleUpdateData = this.handleUpdateData.bind(this);
@@ -47,6 +56,7 @@ export class Users extends Component {
         this.handlePerPage = this.handlePerPage.bind(this);
         this.handleChangeCurrentPage = this.handleChangeCurrentPage.bind(this);
         this.handleSorter = this.handleSorter.bind(this);
+        this.handleReinitPassword = this.handleReinitPassword.bind(this);
     }
 
     componentDidMount = () => { this.handleGetData(); }
@@ -66,7 +76,14 @@ export class Users extends Component {
     }
 
     handleModal = (identifiant, elem) => {
-        this.delete.current.handleClick();
+        let ref;
+        if (identifiant === "delete"){
+            ref = this.delete;
+        }else{
+            ref = this.reinit;
+            modalReinit(this);
+        }
+        ref.current.handleClick();
         this.setState({ element: elem })
     }
 
@@ -82,6 +99,21 @@ export class Users extends Component {
     handlePerPage = (perPage) => { List.changePerPage(this, this.state.data, perPage, this.state.sorter); }
 
     handleSorter = (nb) => { List.changeSorter(this, this.state.data, this.state.perPage, sortersFunction, nb); }
+
+    handleReinitPassword = () => {
+        const { element } = this.state;
+
+        let self = this;
+        axios({ method: "POST", url: Routing.generate(URL_REINIT_PASSWORD, {'token': element.token}), data: {} })
+            .then(function (response) {
+                toastr.info("Mot de passe généré.");
+                self.reinit.current.handleUpdateContent("<p>"+ response.data.message +"</p>");
+                self.reinit.current.handleUpdateFooter(null);
+                self.reinit.current.handleUpdateCloseTxt("Fermer");
+            })
+            .catch(function (error) { Formulaire.displayErrors(self, error); })
+        ;
+    }
 
     render () {
         const { sessionName, data, currentData, element, loadingData, perPage, currentPage, filters } = this.state;
@@ -109,7 +141,7 @@ export class Users extends Component {
                                          onClick={this.handlePaginationClick}
                                          onPerPage={this.handlePerPage} onSorter={this.handleSorter} />
 
-                    <UsersList data={currentData} onDelete={this.handleModal} />
+                    <UsersList data={currentData} onModal={this.handleModal} />
 
                     <Pagination ref={this.pagination} sessionName={sessionName} items={data} taille={data.length}
                                 perPage={perPage} onUpdate={this.handleUpdateData} onChangeCurrentPage={this.handleChangeCurrentPage}/>
@@ -119,8 +151,19 @@ export class Users extends Component {
                                  onUpdateList={this.handleUpdateList} >
                         Etes-vous sûr de vouloir supprimer définitivement cet utilisateur ?
                     </ModalDelete>
+
+                    <Modal ref={this.reinit} identifiant="reinit" maxWidth={414} title="Générer un nouveau mot de passe"
+                           content={<p>Le nouveau mot de passe est généré automatiquement et prendra la place du mot de passe actuel.</p>}
+                           footer={<Button onClick={this.handleReinitPassword} type="primary">Confirmer la génération</Button>}
+                   />
                 </>
             }
         </>
     }
+}
+
+function modalReinit (self) {
+    self.reinit.current.handleUpdateContent(<p>Le nouveau mot de passe est généré automatiquement et prendra la place du mot de passe actuel.</p>);
+    self.reinit.current.handleUpdateFooter(<Button onClick={self.handleReinitPassword} type="primary">Confirmer la génération</Button>);
+    self.reinit.current.handleUpdateCloseTxt("Annuler");
 }

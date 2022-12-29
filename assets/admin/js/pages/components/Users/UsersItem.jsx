@@ -9,7 +9,7 @@ import { ButtonIcon } from "@commonComponents/Elements/Button";
 
 const URL_UPDATE_PAGE = "admin_users_update"
 
-export function UsersItem ({ elem, onDelete })
+export function UsersItem ({ elem, onModal })
 {
     let urlUpdate = Routing.generate(URL_UPDATE_PAGE, {'id': elem.id});
 
@@ -38,7 +38,8 @@ export function UsersItem ({ elem, onDelete })
                 </div>
                 <div className="col-4 actions">
                     <ButtonIcon outline={true} icon="pencil" onClick={urlUpdate} element="a">Modifier</ButtonIcon>
-                    <ButtonIcon outline={true} icon="trash" onClick={() => onDelete("delete", elem)}>Supprimer</ButtonIcon>
+                    <ButtonIcon outline={true} icon="trash" onClick={() => onModal("delete", elem)}>Supprimer</ButtonIcon>
+                    <ButtonIcon outline={true} icon="refresh" onClick={() => onModal("reinit", elem)} tooltipWidth={178}>Générer un nouveau mot de passe</ButtonIcon>
                 </div>
             </div>
         </div>
@@ -47,5 +48,5 @@ export function UsersItem ({ elem, onDelete })
 
 UsersItem.propTypes = {
     elem: PropTypes.object.isRequired,
-    onDelete: PropTypes.func.isRequired,
+    onModal: PropTypes.func.isRequired,
 }

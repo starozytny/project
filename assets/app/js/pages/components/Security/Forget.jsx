@@ -83,7 +83,7 @@ export class Forget extends Component {
         return <>
             <span className="btn-forget" onClick={() => this.modal.current.handleClick()}>Mot de passe oublié ?</span>
             <Modal ref={this.modal} identifiant='forget-modal' maxWidth={568} title="Mot de passe oublié"
-                   content={aside}
+                   content={aside} showClose={false}
                    footer={<>
                        {success === false && <>
                            <Button type="primary" onClick={this.handleSubmit}>Envoyer un lien de réinitialisation</Button>

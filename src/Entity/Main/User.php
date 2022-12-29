@@ -71,6 +71,7 @@ class User extends DataEntity implements UserInterface, PasswordAuthenticatedUse
     private ?\DateTime $lostAt = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['user_list'])]
     private ?string $token = null;
 
     #[ORM\Column(length: 255, nullable: true)]

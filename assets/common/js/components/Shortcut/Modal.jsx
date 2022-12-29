@@ -37,7 +37,6 @@ export class ModalDelete extends Component{
                       content={<p>{children}</p>}
                       footer={<>
                           <Button onClick={this.handleDelete} type="primary">Confirmer la suppression</Button>
-                          <div className="close-modal"><Button type="cancel">Annuler</Button></div>
                       </>}
         />
     }

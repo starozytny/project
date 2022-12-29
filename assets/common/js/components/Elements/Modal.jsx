@@ -1,9 +1,17 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
+import { Button } from "@commonComponents/Elements/Button";
+
 export class Modal extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            content: props.content,
+            footer: props.footer,
+            closeTxt: props.closeTxt ? props.closeTxt : "Annuler"
+        }
     }
 
     handleClick = (e) => {
@@ -34,10 +42,20 @@ export class Modal extends Component {
         modal.style.display = "none"
     }
 
+    handleUpdateContent = (content) => { this.setState({ content }) }
+    handleUpdateFooter = (footer) => { this.setState({ footer }) }
+    handleUpdateCloseTxt = (closeTxt) => { this.setState({ closeTxt }) }
+
     render () {
-        const { identifiant, title, content, footer, maxWidth } = this.props;
+        const { identifiant, title, maxWidth, showClose=true } = this.props;
+        const { content, footer, closeTxt } = this.state;
 
         let divStyle = maxWidth ? { maxWidth: maxWidth + "px" } : null;
+
+        let nContent = content;
+        if(typeof content === "string"){
+            nContent = <div dangerouslySetInnerHTML={{__html: content}} />;
+        }
 
         return <div id={identifiant} className="modal">
             <div className="modal-content" style={divStyle}>
@@ -46,11 +64,15 @@ export class Modal extends Component {
                     <div className="close-modal"><span className="icon-cancel" /></div>
                 </div>
                 <div className="modal-body">
-                    {content}
+                    {nContent}
                 </div>
-                {footer && <div className="modal-footer">
-                    {footer}
-                </div>}
+                {(footer || showClose)
+                    ? <div className="modal-footer">
+                        {footer}
+                        {showClose && <div className="close-modal"><Button type="cancel">{closeTxt}</Button></div>}
+                    </div>
+                    :  null
+                }
             </div>
         </div>
     }
@@ -62,4 +84,5 @@ Modal.propTypes = {
     maxWidth: PropTypes.number,
     content: PropTypes.node,
     footer: PropTypes.node,
+    closeTxt: PropTypes.string,
 }
