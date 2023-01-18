@@ -97,6 +97,10 @@ input, textarea, select, .input-view{
   }
 }
 
+textarea{
+  resize: vertical;
+}
+
 .checkbox-items, .radiobox-items{
   @include flex(row, stretch, flex-start);
   flex-wrap: wrap;

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import axios   from 'axios';
 import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
-import { Input }  from "@commonComponents/Elements/Fields";
+import {Input, TextArea} from "@commonComponents/Elements/Fields";
 import { Button } from "@commonComponents/Elements/Button";
 
 import Formulaire from "@commonFunctions/formulaire";
@@ -87,7 +87,7 @@ class Form extends Component {
     }
 
     render () {
-        const { context, logoFile } = this.props;
+        const { context } = this.props;
         const { errors, name, type, content } = this.state;
 
         let params = { errors: errors, onChange: this.handleChange }
@@ -101,7 +101,7 @@ class Form extends Component {
                         </div>
                         <div className="line-col-2">
                             <div className="line">
-                                <Input identifiant="name" valeur={name} {...params}>Nom de la société</Input>
+                                <Input identifiant="name" valeur={name} {...params}>Intitulé</Input>
                             </div>
                         </div>
                     </div>
@@ -111,7 +111,7 @@ class Form extends Component {
                         </div>
                         <div className="line-col-2">
                             <div className="line">
-
+                                <TextArea identifiant="content" valeur={content} {...params}>Description</TextArea>
                             </div>
                         </div>
                     </div>
