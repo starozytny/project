@@ -17,8 +17,7 @@
 }
 
 .page-actions{
-  @include flex(row, center, space-between);
-  gap: 8px;
+  @include flex(row, center, space-between, 8px);
 
   & > .col-1{
     @include flex(row, center, flex-start);
@@ -50,8 +49,7 @@
 //                     |__|                    |__|
 @media (min-width:768px) {
   .page-toolbar{
-    @include flex(row, flex-start, space-between);
-    gap: 8px;
+    @include flex(row, flex-start, space-between, 8px);
   }
 }
 

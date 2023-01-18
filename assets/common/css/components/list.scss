@@ -36,11 +36,10 @@
 
   .item-infos{
     & > .col-with-image{
-      @include flex(row, flex-start, flex-start);
+      @include flex(row, flex-start, flex-start, 8px);
 
       .infos{
-        width: calc(100% - 64px - 8px);
-        margin-left: 8px;
+        width: calc(100% - 64px);
       }
     }
 
@@ -49,8 +48,7 @@
     }
 
     & > [class^="col-"].actions{
-      @include flex(row, flex-end, flex-end);
-      gap: 4px;
+      @include flex(row, flex-end, flex-end, 4px);
     }
   }
 
@@ -67,11 +65,7 @@
     }
 
     .item-infos{
-      @include flex(row, flex-start, flex-start);
-
-      & > [class^="col-"]:not(.actions){
-        margin-right: 8px;
-      }
+      @include flex(row, flex-start, space-between, 8px);
     }
   }
 

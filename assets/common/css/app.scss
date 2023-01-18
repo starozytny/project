@@ -4,6 +4,16 @@
 @import "./components/toastr";
 @import "./components/exception";
 
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+body{
+  margin: 0;
+}
+
 html, body{
   scroll-behavior: smooth;
 }

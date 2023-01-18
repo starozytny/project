@@ -1,6 +1,9 @@
-@mixin flex($direction: row, $align: center, $justify: center) {
+@mixin flex($direction: row, $align: center, $justify: center, $gap: 0) {
   display: flex;flex-direction: $direction;
   align-items: $align;justify-content: $justify;
+  @if $gap != 0 {
+    gap: $gap;
+  }
 }
 
 @mixin scrollbar(){

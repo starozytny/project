@@ -110,6 +110,41 @@ Checkbox.propTypes = {
     children: PropTypes.node.isRequired,
     isSwitcher: PropTypes.bool,
 }
+/***************************************
+ * RADIOBOX Classique
+ ***************************************/
+export function Radiobox (props) {
+    const { items, identifiant, valeur, onChange, children, convertValToInt = true } = props;
+
+    let itemsInputs = items.map((elem, index) => {
+        let isChecked = false
+
+        let vl = convertValToInt ? parseInt(valeur) : valeur;
+        if (vl === elem.value){ isChecked = true }
+
+        return <div className={"radiobox-item " + (isChecked ? 'checked' : '')} key={index}>
+            <label htmlFor={elem.identifiant}>
+                <span>{elem.label}</span>
+                <input type="radio" name={identifiant} id={elem.identifiant} value={elem.value}
+                       checked={isChecked ? 'checked' : ''} onChange={onChange}/>
+            </label>
+            {isChecked && <div className="item-selected"><span className="icon-check-1" /></div>}
+        </div>
+    })
+
+    let content = <div className="radiobox-items">{itemsInputs}</div>
+    return (<Structure {...props} content={content} label={children} classForm="form-group-radiobox " />)
+}
+
+Radiobox.propTypes = {
+    items: PropTypes.array.isRequired,
+    identifiant: PropTypes.string.isRequired,
+    valeur: PropTypes.node.isRequired,
+    errors: PropTypes.array.isRequired,
+    onChange: PropTypes.func.isRequired,
+    children: PropTypes.node.isRequired,
+    convertValToInt: PropTypes.bool,
+}
 
 /***************************************
  * SELECT Custom

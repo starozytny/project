@@ -11,10 +11,10 @@ import List         from "@commonFunctions/list";
 import { Pagination, TopSorterPagination } from "@commonComponents/Elements/Pagination";
 import { Search }           from "@commonComponents/Elements/Search";
 import { Filter }           from "@commonComponents/Elements/Filter";
-import {LoaderElements, LoaderTxt} from "@commonComponents/Elements/Loader";
 import { ModalDelete }      from "@commonComponents/Shortcut/Modal";
 import { Button }           from "@commonComponents/Elements/Button";
 import { Modal }            from "@commonComponents/Elements/Modal";
+import { LoaderElements, LoaderTxt } from "@commonComponents/Elements/Loader";
 
 import { UsersList } from "@adminPages/Users/UsersList";
 

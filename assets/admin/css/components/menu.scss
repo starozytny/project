@@ -20,13 +20,9 @@
 }
 
 .nav-header{
-  @include flex(column, center, center);
+  @include flex(column, center, center, 0.8rem);
   text-align: center;
   margin-bottom: 2.4rem;
-}
-
-.nav-header-infos{
-  margin: 0.8rem 0;
 }
 
 .nav-header-actions{
@@ -43,7 +39,7 @@
   z-index: -1;
 
   &.active{
-    top: 5.5rem;
+    top: 5rem;
     opacity: 1;
     z-index: 100;
     width: 100%;
@@ -52,8 +48,7 @@
 
 .nav-menu{
   .nav-item{
-    @include flex(row, center, flex-start);
-    gap: 8px;
+    @include flex(row, center, flex-start, 8px);
     color: var(--alpha);
     padding: 12px;
     transition: all 0.2s ease-in-out;
@@ -83,16 +78,12 @@
   .nav-header{
     align-items: flex-end;
     text-align: right;
+    margin-bottom: 0;
   }
 
   .nav-content{
-    @include flex(row-reverse, center, space-between);
-    gap: 0.8rem;
+    @include flex(row-reverse, center, space-between, 0.8rem);
     padding-right: 1.2rem;
-
-    &.active{
-      width: calc(100% - 1.2rem);
-    }
   }
 }
 
@@ -119,7 +110,6 @@
     flex-direction: row;
     align-items: center;
     gap: 0.8rem;
-    margin-bottom: 0;
   }
 
   .nav-header-infos{
@@ -142,7 +132,7 @@
     background-color: transparent;
     top: 0;opacity: 1;z-index: 1;
     padding: 0;
-    width: calc(100% - 10rem - 24px);
+    width: calc(100% - 24px);
     margin-left: 24px;
 
     &.active{ top: 0;opacity: 1;z-index: 1; }
@@ -152,8 +142,7 @@
     @include flex(row, flex-start, flex-start);
 
     .nav-items{
-      @include flex(row, flex-start, flex-start);
-      gap: 0.8rem;
+      @include flex(row, flex-start, flex-start, 0.8rem);
     }
 
     .nav-item{
@@ -174,7 +163,7 @@
     align-items: flex-start;
     justify-content: flex-start;
     padding: 1.8rem 1.2rem;
-    height: calc(100vh - 3.6rem);
+    height: 100vh;
   }
 
   .nav-logo{
@@ -209,6 +198,7 @@
   .nav-menu{
     flex-direction: column;
     justify-content: space-between;
+    width: 100%;
     height: 100%;
 
     .nav-items{
@@ -218,7 +208,7 @@
     }
 
     .nav-item{
-      width: calc(100% - 24px);
+      width: 100%;
     }
   }
 }

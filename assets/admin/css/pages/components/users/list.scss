@@ -27,7 +27,7 @@
   @media (min-width:768px) {
     .item-infos{
       & > .col-1{
-        width: calc(100% - 180px - 120px - 80px - 16px);
+        width: calc(100% - 180px - 120px - 100px - 24px);
       }
       & > .col-2{
         width: 180px;
@@ -36,7 +36,7 @@
         width: 120px;
       }
       & > .col-4{
-        width: 80px;
+        width: 100px;
       }
     }
   }
@@ -50,7 +50,7 @@
   @media (min-width: 1024px) {
     .item-infos{
       & > .col-1{
-        width: calc(100% - 280px - 120px - 80px - 16px);
+        width: calc(100% - 280px - 120px - 100px - 24px);
       }
       & > .col-2{
         width: 280px;
