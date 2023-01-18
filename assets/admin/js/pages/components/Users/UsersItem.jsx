@@ -39,7 +39,7 @@ export function UsersItem ({ elem, onModal })
                 <div className="col-4 actions">
                     <ButtonIcon outline={true} icon="pencil" onClick={urlUpdate} element="a">Modifier</ButtonIcon>
                     <ButtonIcon outline={true} icon="trash" onClick={() => onModal("delete", elem)}>Supprimer</ButtonIcon>
-                    <ButtonIcon outline={true} icon="refresh" onClick={() => onModal("reinit", elem)} tooltipWidth={178}>Générer un nouveau mot de passe</ButtonIcon>
+                    <ButtonIcon outline={true} icon="refresh" onClick={() => onModal("reinit", elem)} tooltipWidth={192}>Générer un nouveau mot de passe</ButtonIcon>
                 </div>
             </div>
         </div>
