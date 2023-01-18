@@ -17,16 +17,16 @@ class UserController extends AbstractController
         return $this->render('admin/pages/users/index.html.twig');
     }
 
+    #[Route('/utilisateur/ajouter', name: 'create', options: ['expose' => true])]
+    public function create(): Response
+    {
+        return $this->render('admin/pages/users/create.html.twig');
+    }
+
     #[Route('/utilisateur/modifier/{id}', name: 'update', options: ['expose' => true])]
     public function update(User $elem, SerializerInterface $serializer): Response
     {
         $obj  = $serializer->serialize($elem, 'json', ['groups' => User::FORM]);
         return $this->render('admin/pages/users/update.html.twig', ['elem' => $elem, 'obj' => $obj]);
-    }
-
-    #[Route('/utilisateur/ajouter', name: 'create', options: ['expose' => true])]
-    public function create(): Response
-    {
-        return $this->render('admin/pages/users/create.html.twig');
     }
 }

@@ -20,6 +20,7 @@
   label{
     font-size: 13px;
     opacity: 0.8;
+    @include overflowText();
   }
 
   select {
@@ -29,7 +30,7 @@
   }
 
   .actions-sorter{
-    @include flex(row, flex-start, space-between);
+    @include flex(row, flex-start, flex-end);
     gap: 8px;
     width: 100%;
 

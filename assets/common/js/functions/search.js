@@ -34,6 +34,11 @@ function switchFunction(type, search, v) {
                 return v;
             }
             break;
+        case "changelog":
+            if(searchStartWith(v.name.toLowerCase(), search)){
+                return v;
+            }
+            break;
         default:
             break;
     }

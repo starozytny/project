@@ -147,7 +147,7 @@ export class Users extends Component {
                                 perPage={perPage} onUpdate={this.handleUpdateData} onChangeCurrentPage={this.handleChangeCurrentPage}/>
 
                     <ModalDelete refModal={this.delete} element={element} routeName={URL_DELETE_ELEMENT}
-                                 title="Supprimer un utilisateur" msgSuccess="Utilisateur supprimé"
+                                 title="Supprimer cet utilisateur" msgSuccess="Utilisateur supprimé"
                                  onUpdateList={this.handleUpdateList} >
                         Etes-vous sûr de vouloir supprimer définitivement cet utilisateur ?
                     </ModalDelete>

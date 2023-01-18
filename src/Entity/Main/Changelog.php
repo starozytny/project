@@ -2,28 +2,38 @@
 
 namespace App\Entity\Main;
 
+use App\Entity\DataEntity;
 use App\Repository\Main\ChangelogRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ChangelogRepository::class)]
-class Changelog
+class Changelog extends DataEntity
 {
+    const LIST = ['changelog_list'];
+    const FORM = ['changelog_form'];
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['changelog_list', 'changelog_form'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['changelog_list', 'changelog_form'])]
     private ?string $name = null;
 
     #[ORM\Column]
+    #[Groups(['changelog_list', 'changelog_form'])]
     private ?int $type = null;
 
     #[ORM\Column]
+    #[Groups(['changelog_list'])]
     private ?bool $isPublished = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups(['changelog_list', 'changelog_form'])]
     private ?string $content = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
@@ -31,6 +41,11 @@ class Changelog
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $updatedAt = null;
+
+    public function __construct()
+    {
+        $this->createdAt = $this->initNewDateImmutable();
+    }
 
     public function getId(): ?int
     {
@@ -104,6 +119,7 @@ class Changelog
 
     public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
+        $updatedAt->setTimezone(new \DateTimeZone("Europe/Paris"));
         $this->updatedAt = $updatedAt;
 
         return $this;

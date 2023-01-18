@@ -3,24 +3,23 @@ import React, { Component } from "react";
 import Sort from "@commonFunctions/sort";
 import List from "@commonFunctions/list";
 
-import { SocietiesList } from "./SocietiesList";
+import { ChangelogsList } from "@adminPages/Changelogs/ChangelogsList";
 
 import { Pagination, TopSorterPagination } from "@commonComponents/Elements/Pagination";
 import { Search }           from "@commonComponents/Elements/Search";
 import { LoaderElements }   from "@commonComponents/Elements/Loader";
 import { ModalDelete }      from "@commonComponents/Shortcut/Modal";
 
-const URL_GET_DATA        = "api_societies_list";
-const URL_DELETE_ELEMENT  = "api_societies_delete";
+const URL_GET_DATA        = "api_changelogs_list";
+const URL_DELETE_ELEMENT  = "api_changelogs_delete";
 
-let SORTER = Sort.compareCode;
+let SORTER = Sort.compareName;
 let sorters = [
-    { value: 0, label: 'Code',  identifiant: 'sorter-code' },
-    { value: 1, label: 'Nom',   identifiant: 'sorter-nom' },
+    { value: 0, label: 'Nom',   identifiant: 'sorter-nom' },
 ]
-let sortersFunction = [Sort.compareCode, Sort.compareName];
+let sortersFunction = [Sort.compareName];
 
-export class Societies extends Component {
+export class Changelogs extends Component {
     constructor(props) {
         super(props);
 
@@ -28,7 +27,7 @@ export class Societies extends Component {
             perPage: 20,
             currentPage: 0,
             sorter: SORTER,
-            sessionName: "local.societies.list.pagination",
+            sessionName: "local.changelogs.list.pagination",
             loadingData: true,
             element: null
         }
@@ -45,7 +44,7 @@ export class Societies extends Component {
 
     handleSearch = (search) => {
         const { perPage, sorter, dataImmuable } = this.state;
-        List.search(this, 'society', search, dataImmuable, perPage, sorter)
+        List.search(this, 'changelog', search, dataImmuable, perPage, sorter)
     }
 
     handleModal = (identifiant, elem) => {
@@ -75,7 +74,7 @@ export class Societies extends Component {
                 : <>
                     <div className="toolbar">
                         <div className="col-1">
-                            <Search onSearch={this.handleSearch} placeholder="Rechercher pas nom ou code.."/>
+                            <Search onSearch={this.handleSearch} placeholder="Rechercher pas nom.."/>
                         </div>
                     </div>
 
@@ -83,15 +82,15 @@ export class Societies extends Component {
                                          onClick={this.handlePaginationClick}
                                          onPerPage={this.handlePerPage} onSorter={this.handleSorter} />
 
-                    <SocietiesList data={currentData} onDelete={this.handleModal} />
+                    <ChangelogsList data={currentData} onDelete={this.handleModal} />
 
                     <Pagination ref={this.pagination} sessionName={sessionName} items={data} taille={data.length}
                                 perPage={perPage} onUpdate={this.handleUpdateData} onChangeCurrentPage={this.handleChangeCurrentPage}/>
 
                     <ModalDelete refModal={this.delete} element={element} routeName={URL_DELETE_ELEMENT}
-                                 title="Supprimer cette société" msgSuccess="Société supprimée"
+                                 title="Supprimer ce changelog" msgSuccess="Changelog supprimé"
                                  onUpdateList={this.handleUpdateList} >
-                        Etes-vous sûr de vouloir supprimer définitivement cette société ?
+                        Etes-vous sûr de vouloir supprimer définitivement ce changelog ?
                     </ModalDelete>
                 </>
             }

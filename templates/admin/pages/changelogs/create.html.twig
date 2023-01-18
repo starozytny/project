@@ -1,0 +1,12 @@
+{% extends 'admin/pages/changelogs/template.html.twig' %}
+
+{% set page_title %}Création d'un changelog{% endset %}
+{% set page_subtitle %}Tenez au courant vos utilisateurs des dernières modifications du site !{% endset %}
+
+{% block main_content %}
+    {% include "layout/components/admin/page_toolbar.html.twig" with { page_back: path('admin_changelogs_index') } %}
+
+    <div id="changelogs_create">
+        {% include "layout/components/loader.html.twig" %}
+    </div>
+{% endblock %}

@@ -143,13 +143,14 @@ export class TopSorterPagination extends Component {
                     </div>
                 </div>
 
-                <div className="actions-pagination">
+                {pageCount > 0 && <div className="actions-pagination">
                     {onClick && <>
                         <div className="pagination-container">
                             <PaginationView pageCount={pageCount} currentPage={currentPage} onClick={onClick}/>
                         </div>
                     </>}
-                </div>
+                </div>}
+
             </div>
         </>
     }

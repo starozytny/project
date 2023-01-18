@@ -1,0 +1,16 @@
+{% extends 'admin/pages/changelogs/template.html.twig' %}
+
+{% set page_title %}Changelogs{% endset %}
+{% set page_subtitle %}Gestion des changelogs du site internet pour tenir informer vos utilisateurs.{% endset %}
+
+{% block main_content %}
+    <div class="page-actions">
+        <div class="col-1">
+            <a href="{{ path('admin_changelogs_create') }}" class="btn btn-primary">Créer un nouveau changelog</a>
+        </div>
+    </div>
+
+    <div id="changelogs_list">
+        {% include "layout/components/loader.html.twig" %}
+    </div>
+{% endblock %}

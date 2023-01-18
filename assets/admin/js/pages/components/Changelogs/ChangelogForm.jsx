@@ -4,19 +4,19 @@ import PropTypes from 'prop-types';
 import axios   from 'axios';
 import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
-import { Input, InputFile, InputView } from "@commonComponents/Elements/Fields";
+import { Input }  from "@commonComponents/Elements/Fields";
 import { Button } from "@commonComponents/Elements/Button";
 
 import Formulaire from "@commonFunctions/formulaire";
 import Validateur from "@commonFunctions/validateur";
 
-const URL_INDEX_ELEMENTS    = "admin_societies_index";
-const URL_CREATE_ELEMENT    = "api_societies_create";
-const URL_UPDATE_GROUP      = "api_societies_update";
-const TEXT_CREATE           = "Ajouter la société";
+const URL_INDEX_ELEMENTS    = "admin_changelogs_index";
+const URL_CREATE_ELEMENT    = "api_changelogs_create";
+const URL_UPDATE_GROUP      = "api_changelogs_update";
+const TEXT_CREATE           = "Ajouter le changelog";
 const TEXT_UPDATE           = "Enregistrer les modifications";
 
-export function SocietyFormulaire ({ context, element })
+export function ChangelogFormulaire ({ context, element })
 {
     let url = Routing.generate(URL_CREATE_ELEMENT);
 
@@ -27,15 +27,15 @@ export function SocietyFormulaire ({ context, element })
     let form = <Form
         context={context}
         url={url}
-        code={element ? Formulaire.setValue(element.code) : ""}
         name={element ? Formulaire.setValue(element.name) : ""}
-        logoFile={element ? Formulaire.setValue(element.logoFile) : null}
+        type={element ? Formulaire.setValue(element.type) : ""}
+        content={element ? Formulaire.setValue(element.content) : ""}
     />
 
     return <div className="formulaire">{form}</div>;
 }
 
-SocietyFormulaire.propTypes = {
+ChangelogFormulaire.propTypes = {
     context: PropTypes.string.isRequired,
     element: PropTypes.object,
 }
@@ -45,8 +45,9 @@ class Form extends Component {
         super(props);
 
         this.state = {
-            code: props.code,
             name: props.name,
+            type: props.type,
+            content: props.content,
             errors: [],
         }
 
@@ -59,13 +60,14 @@ class Form extends Component {
         e.preventDefault();
 
         const { url } = this.props;
-        const { code, name } = this.state;
+        const { name, type, content } = this.state;
 
         this.setState({ errors: [] });
 
         let paramsToValidate = [
-            {type: "text",  id: 'code',  value: code},
             {type: "text",  id: 'name', value: name},
+            {type: "text",  id: 'type', value: type},
+            {type: "text",  id: 'content', value: content},
         ];
 
         let validate = Validateur.validateur(paramsToValidate)
@@ -75,15 +77,7 @@ class Form extends Component {
             Formulaire.loader(true);
             let self = this;
 
-            let formData = new FormData();
-            formData.append("data", JSON.stringify(this.state));
-
-            let file = this.file.current;
-            if(file.state.files.length > 0){
-                formData.append("logo", file.state.files[0]);
-            }
-
-            axios({ method: "POST", url: url, data: formData, headers: {'Content-Type': 'multipart/form-data'} })
+            axios({ method: "POST", url: url, data: this.state })
                 .then(function (response) {
                     location.href = Routing.generate(URL_INDEX_ELEMENTS);
                 })
@@ -94,7 +88,7 @@ class Form extends Component {
 
     render () {
         const { context, logoFile } = this.props;
-        const { errors, code, name } = this.state;
+        const { errors, name, type, content } = this.state;
 
         let params = { errors: errors, onChange: this.handleChange }
 
@@ -103,28 +97,21 @@ class Form extends Component {
                 <div className="line-container">
                     <div className="line">
                         <div className="line-col-1">
-                            <div className="title">Identification</div>
+                            <div className="title">Titre</div>
                         </div>
                         <div className="line-col-2">
-                            <div className="line line-2">
-                                <Input identifiant="name" valeur={name} {...params}>Nom de la société</Input>
-                                <Input identifiant="code" valeur={code} {...params} placeholder="XXX">Code</Input>
-                            </div>
                             <div className="line">
-                                <InputView valeur={code ? "default" + code : 'XXX'} errors={errors}>Manager</InputView>
+                                <Input identifiant="name" valeur={name} {...params}>Nom de la société</Input>
                             </div>
                         </div>
                     </div>
                     <div className="line">
                         <div className="line-col-1">
-                            <div className="title">Profil</div>
+                            <div className="title">Contenu</div>
                         </div>
                         <div className="line-col-2">
                             <div className="line">
-                                <InputFile ref={this.file} type="simple" identifiant="logo" valeur={logoFile}
-                                           placeholder="Glissez et déposer votre logo ou" {...params}>
-                                    Logo
-                                </InputFile>
+
                             </div>
                         </div>
                     </div>
@@ -141,7 +128,7 @@ class Form extends Component {
 Form.propTypes = {
     context: PropTypes.string.isRequired,
     url: PropTypes.node.isRequired,
-    code: PropTypes.node.isRequired,
     name: PropTypes.string.isRequired,
-    logoFile: PropTypes.node,
+    type: PropTypes.string.isRequired,
+    content: PropTypes.string.isRequired,
 }
