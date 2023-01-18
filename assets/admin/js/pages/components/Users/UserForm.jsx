@@ -68,10 +68,6 @@ class Form extends Component {
 
         this.select = React.createRef();
         this.file = React.createRef();
-
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSelect = this.handleSelect.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount = () => {

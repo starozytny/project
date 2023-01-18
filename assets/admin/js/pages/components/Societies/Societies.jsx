@@ -35,15 +35,6 @@ export class Societies extends Component {
 
         this.pagination = React.createRef();
         this.delete = React.createRef();
-
-        this.handleGetData = this.handleGetData.bind(this);
-        this.handleUpdateData = this.handleUpdateData.bind(this);
-        this.handleSearch = this.handleSearch.bind(this);
-        this.handleModal = this.handleModal.bind(this);
-        this.handlePaginationClick = this.handlePaginationClick.bind(this);
-        this.handlePerPage = this.handlePerPage.bind(this);
-        this.handleChangeCurrentPage = this.handleChangeCurrentPage.bind(this);
-        this.handleSorter = this.handleSorter.bind(this);
     }
 
     componentDidMount = () => { this.handleGetData(); }

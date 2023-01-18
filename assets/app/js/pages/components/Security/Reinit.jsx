@@ -22,9 +22,6 @@ export class Reinit extends Component {
             errors: [],
             success: false
         }
-
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleChange = (e) => { this.setState({[e.currentTarget.name]: e.currentTarget.value}); }

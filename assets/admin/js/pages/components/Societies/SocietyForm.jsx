@@ -51,9 +51,6 @@ class Form extends Component {
         }
 
         this.file = React.createRef();
-
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleChange = (e) => { this.setState({[e.currentTarget.name]: e.currentTarget.value}) }
