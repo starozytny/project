@@ -40,6 +40,8 @@ class ContactController extends AbstractController
         }
 
         $repository->save($obj, true);
+
+        $dataEntity->createDataNotification("Demande de contact", "chat", $this->getUser());
         return $apiResponse->apiJsonResponseSuccessful("ok");
     }
 

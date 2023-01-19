@@ -4,14 +4,18 @@ namespace App\Service\Data;
 
 use App\Entity\Main\Changelog;
 use App\Entity\Main\Contact;
+use App\Entity\Main\Notification;
 use App\Entity\Main\Society;
 use App\Entity\Main\User;
 use App\Service\SanitizeData;
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class DataMain
 {
     public function __construct(
-        private readonly SanitizeData $sanitizeData
+        private readonly SanitizeData $sanitizeData,
+        private readonly ManagerRegistry $registry
     ) {}
 
     public function setDataUser(User $obj, $data): User
@@ -51,5 +55,20 @@ class DataMain
             ->setEmail($this->sanitizeData->trimData($data->email))
             ->setMessage($this->sanitizeData->trimData($data->message))
         ;
+    }
+
+    public function createDataNotification($name, $icon, User|UserInterface $user, $url = null): void
+    {
+        $obj = (new Notification())
+            ->setName($this->sanitizeData->trimData($name))
+            ->setIcon($this->sanitizeData->trimData($icon))
+            ->setUrl($this->sanitizeData->trimData($url))
+            ->setUser($user)
+        ;
+
+        $em = $this->registry->getManager();
+
+        $em->persist($obj);
+        $em->flush();
     }
 }
