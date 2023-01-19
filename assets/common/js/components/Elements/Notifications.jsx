@@ -7,7 +7,7 @@ import Formulaire from "@commonFunctions/formulaire";
 
 import { ButtonIcon } from "@commonComponents/Elements/Button";
 
-const URL_GET_DATA = "api_changelogs_list";
+const URL_GET_DATA = "api_notifs_list";
 
 export class Notifications extends Component {
     constructor(props) {
@@ -19,9 +19,10 @@ export class Notifications extends Component {
     }
 
     componentDidMount = () => {
+        let self = this;
         axios({ method: "GET", url: Routing.generate(URL_GET_DATA), data: {} })
             .then(function (response){
-
+                self.setState({ data: response.data, loadData: false })
             })
             .catch(function (error) { Formulaire.displayErrors(self, error); })
         ;
