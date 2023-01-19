@@ -10,16 +10,22 @@ import Sort       from "@commonFunctions/sort";
 import { ButtonIcon }   from "@commonComponents/Elements/Button";
 import { LoadIcon }     from "@commonComponents/Elements/Loader";
 
-const URL_GET_DATA = "api_notifs_list";
+const URL_GET_DATA          = "api_notifs_list";
+const URL_SWITCH_ALL_SEEN   = "api_notifs_switch_all_seen";
 
 export class Notifications extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
+            open: false,
             loadData: true,
             reloadData: false
         }
+
+        this.wrapperRef = React.createRef();
+
+        this.handleClickOutside = this.handleClickOutside.bind(this);
     }
 
     componentDidMount = () => {
@@ -32,10 +38,27 @@ export class Notifications extends Component {
         ;
     }
 
+    componentWillUnmount() { document.removeEventListener('mousedown', this.handleClickOutside); }
+
+    handleClickOutside(event) {
+        if (this.wrapperRef && !this.wrapperRef.current.contains(event.target)) {
+            this.setState({ open: false })
+        }
+    }
+
+    handleOpen = () => {
+        if(this.state.open){
+            document.removeEventListener('mousedown', this.handleClickOutside);
+        }else{
+            document.addEventListener('mousedown', this.handleClickOutside);
+        }
+        this.setState({ open: !this.state.open })
+    }
+
     handleSetAllSeen = () => {
         let self = this;
         self.setState({ reloadData: true })
-        axios({ method: "GET", url: Routing.generate(URL_GET_DATA), data: {} })
+        axios({ method: "PUT", url: Routing.generate(URL_SWITCH_ALL_SEEN), data: {} })
             .then(function (response){
                 self.setState({ data: response.data, reloadData: false })
             })
@@ -44,7 +67,7 @@ export class Notifications extends Component {
     }
 
     render () {
-        const { loadData, reloadData, data } = this.state;
+        const { open, loadData, reloadData, data } = this.state;
 
         console.log(data);
         let items = [], nbNewNotifs = 0;
@@ -72,16 +95,16 @@ export class Notifications extends Component {
         return <>
             {loadData
                 ? <ButtonIcon icon="chart-3">Chargement</ButtonIcon>
-                : <div className="notifications-container">
+                : <div ref={this.wrapperRef} className={"notifications-container" + (open ? " active" : "")}>
                     {nbNewNotifs > 0 && <div className="notifications-total">{nbNewNotifs}</div>}
-                    <ButtonIcon icon="notification">
+                    <ButtonIcon icon="notification" onClick={this.handleOpen}>
                         Notifications
                     </ButtonIcon>
                     <div className="notifications-items">
                         <div className="notif-card">
                             <div className="notif-header">
                                 <span>Notifications</span>
-                                <span className="icon-cancel" />
+                                <span className="icon-cancel" onClick={this.handleOpen} />
                             </div>
                             <div className="notif-body">
                                 {reloadData

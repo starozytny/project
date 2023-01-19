@@ -1,5 +1,12 @@
 .notifications-container{
   position: relative;
+
+  &.active{
+    .notifications-items{
+      z-index: 10;
+      opacity: 1;
+    }
+  }
 }
 
 .notifications-total{
@@ -17,12 +24,13 @@
 .notifications-items{
   position: absolute;
   top: 32px; left: -86px;
-  z-index: 10;
+  z-index: -10;
   border-radius: 8px;
   @include shadowCommon();
   color: var(--txt);
   background-color: var(--alpha);
   width: 280px;
+  opacity: 0;
 }
 
 .notif-card{
