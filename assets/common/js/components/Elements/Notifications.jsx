@@ -4,6 +4,7 @@ import axios from "axios";
 import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
 import Formulaire from "@commonFunctions/formulaire";
+import Sort       from "@commonFunctions/sort";
 
 import { ButtonIcon } from "@commonComponents/Elements/Button";
 
@@ -29,14 +30,44 @@ export class Notifications extends Component {
     }
 
     render () {
-        const { loadData } = this.state;
+        const { loadData, data } = this.state;
+
+        console.log(data);
+        let items = [], nbNewNotifs = 0;
+        if(data){
+            data.sort(Sort.compareCreatedAtInverse)
+            data.forEach(elem => {
+                if(!elem.seen) nbNewNotifs++;
+
+                items.push(<div>ok</div>)
+            })
+        }
 
         return <>
             {loadData
                 ? <ButtonIcon icon="chart-3">Chargement</ButtonIcon>
-                : <ButtonIcon icon="notification">
-                    Notifications
-                </ButtonIcon>
+                : <div className="notifications-container">
+                    {nbNewNotifs > 0 && <div className="notifications-total">{nbNewNotifs}</div>}
+                    <ButtonIcon icon="notification">
+                        Notifications
+                    </ButtonIcon>
+                    {/*<div className="notifications-items">*/}
+                    {/*    <div className="notif-card">*/}
+                    {/*        <div className="notif-cancel">*/}
+                    {/*            <span>Notifications</span>*/}
+                    {/*            <span className="icon-cancel" />*/}
+                    {/*        </div>*/}
+                    {/*        <div className="notif-body">*/}
+                    {/*            {items.length !== 0 ? items : <div>Aucune notification</div>}*/}
+                    {/*        </div>*/}
+                    {/*        <div className="notif-actions">*/}
+                    {/*            <a>Marquer comme lu</a>*/}
+                    {/*            <a>Supprimer toutes les notifications</a>*/}
+                    {/*            <a>Voir toutes les notifications</a>*/}
+                    {/*        </div>*/}
+                    {/*    </div>*/}
+                    {/*</div>*/}
+                </div>
             }
         </>
     }

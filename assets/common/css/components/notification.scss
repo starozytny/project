@@ -1,0 +1,15 @@
+.notifications-container{
+  position: relative;
+}
+
+.notifications-total{
+  position: absolute;
+  top: -8px; right: -6px;
+  background-color: var(--primary);
+  border-radius: 80px;
+  z-index: 10;
+  width: 14px; height: 14px;
+  font-size: 10px;
+  padding-top: 1px;
+  @include flex(row, center, center);
+}
