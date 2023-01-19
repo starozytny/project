@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import Sort from "@commonFunctions/sort";
 import List from "@commonFunctions/list";
 
-import { ChangelogsList } from "@adminPages/Changelogs/ChangelogsList";
+import { ContactsList } from "@adminPages/Contacts/ContactsList";
 
 import { Pagination, TopSorterPagination } from "@commonComponents/Elements/Pagination";
 import { Search }           from "@commonComponents/Elements/Search";
@@ -11,8 +11,8 @@ import { LoaderElements }   from "@commonComponents/Elements/Loader";
 import { Filter }           from "@commonComponents/Elements/Filter";
 import { ModalDelete }      from "@commonComponents/Shortcut/Modal";
 
-const URL_GET_DATA        = "api_changelogs_list";
-const URL_DELETE_ELEMENT  = "api_changelogs_delete";
+const URL_GET_DATA        = "api_contacts_list";
+const URL_DELETE_ELEMENT  = "api_contacts_delete";
 
 let SORTER = Sort.compareCreatedAtInverse;
 let sorters = [
@@ -21,7 +21,7 @@ let sorters = [
 ]
 let sortersFunction = [Sort.compareCreatedAtInverse, Sort.compareName];
 
-export class Changelogs extends Component {
+export class Contacts extends Component {
     constructor(props) {
         super(props);
 
@@ -29,7 +29,7 @@ export class Changelogs extends Component {
             perPage: 20,
             currentPage: 0,
             sorter: SORTER,
-            sessionName: "local.changelogs.list.pagination",
+            sessionName: "local.contacts.list.pagination",
             loadingData: true,
             filters: [],
             element: null,
@@ -47,12 +47,12 @@ export class Changelogs extends Component {
 
     handleSearch = (search) => {
         const { perPage, sorter, dataImmuable, filters } = this.state;
-        List.search(this, 'changelog', search, dataImmuable, perPage, sorter, true, filters, this.handleFilters)
+        List.search(this, 'contact', search, dataImmuable, perPage, sorter, true, filters, this.handleFilters)
     }
 
     handleFilters = (filters) => {
         const { dataImmuable, perPage, sorter } = this.state;
-        return List.filter(this, 'type', dataImmuable, filters, perPage, sorter);
+        return List.filter(this, 'seen', dataImmuable, filters, perPage, sorter);
     }
 
     handleModal = (identifiant, elem) => {
@@ -77,9 +77,8 @@ export class Changelogs extends Component {
         const { sessionName, data, currentData, element, loadingData, perPage, currentPage, filters } = this.state;
 
         let filtersItems = [
-            {value: 0, label: "Information",    id: "f-info"},
-            {value: 1, label: "Attention",      id: "f-atte"},
-            {value: 2, label: "Danger",         id: "f-dang"},
+            {value: 0, label: "A lire",  id: "f-to-seen"},
+            {value: 1, label: "Déjà lu", id: "f-seen"},
         ]
 
         return <>
@@ -99,15 +98,15 @@ export class Changelogs extends Component {
                                          onClick={this.handlePaginationClick}
                                          onPerPage={this.handlePerPage} onSorter={this.handleSorter} />
 
-                    <ChangelogsList data={currentData} onDelete={this.handleModal} />
+                    <ContactsList data={currentData} onDelete={this.handleModal} />
 
                     <Pagination ref={this.pagination} sessionName={sessionName} items={data} taille={data.length}
                                 perPage={perPage} onUpdate={this.handleUpdateData} onChangeCurrentPage={this.handleChangeCurrentPage}/>
 
                     <ModalDelete refModal={this.delete} element={element} routeName={URL_DELETE_ELEMENT}
-                                 title="Supprimer ce changelog" msgSuccess="Changelog supprimé"
+                                 title="Supprimer ce message" msgSuccess="Message supprimé"
                                  onUpdateList={this.handleUpdateList} >
-                        Etes-vous sûr de vouloir supprimer définitivement ce changelog ?
+                        Etes-vous sûr de vouloir supprimer définitivement ce message ?
                     </ModalDelete>
                 </>
             }

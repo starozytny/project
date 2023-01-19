@@ -28,10 +28,10 @@
       }
       & > .col-2{ width: $col2; }
       & > .col-3{
-        width: 120px;
+        width: $col3;
         text-align: left;
       }
-      & > .col-4.actions{ width: 64px; }
+      & > .col-4.actions{ width: $col4; }
     }
 
     //                      __   _  ___ ____  _  _     __
@@ -41,12 +41,26 @@
     //                     | |  |_|\___/_____|  |_|    | |
     //                     |__|                       |__|
     @media (min-width: 1024px) {
-      $col2: 490px;
+      $col2: 340px;
       & > .col-1{
         width: calc(100% - $col2 - $col3 - $col4 - $colGap);
       }
       & > .col-2{ width: $col2; }
     }
 
+
+    //                      __   _ ____  ___   ___    __
+    //                     | _| / |___ \( _ ) / _ \  |_ |
+    //    _____ _____ _____| |  | | __) / _ \| | | |  | |_____ _____ _____
+    //   |_____|_____|_____| |  | |/ __/ (_) | |_| |  | |_____|_____|_____|
+    //                     | |  |_|_____\___/ \___/   | |
+    //                     |__|                      |__|
+    @media (min-width:1280px) {
+      $col2: 490px;
+      & > .col-1{
+        width: calc(100% - $col2 - $col3 - $col4 - $colGap);
+      }
+      & > .col-2{ width: $col2; }
+    }
   }
 }
