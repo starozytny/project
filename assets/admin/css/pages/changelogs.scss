@@ -21,16 +21,12 @@
       & > .col-1{
         width: calc(100% - $col2 - $col3 - $col4 - $colGap);
       }
-      & > .col-2{
-        width: $col2;
-      }
+      & > .col-2{ width: $col2; }
       & > .col-3{
         width: 120px;
         text-align: left;
       }
-      & > .col-4.actions{
-        width: 64px;
-      }
+      & > .col-4.actions{ width: 64px; }
     }
 
     //                      __   _  ___ ____  _  _     __
@@ -44,9 +40,7 @@
       & > .col-1{
         width: calc(100% - $col2 - $col3 - $col4 - $colGap);
       }
-      & > .col-2{
-        width: $col2;
-      }
+      & > .col-2{ width: $col2; }
     }
 
   }
