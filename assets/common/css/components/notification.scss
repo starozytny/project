@@ -49,6 +49,8 @@
     border-bottom: 1px solid var(--grey);
 
     & > span:first-child{ @include fontSemibold(); }
+
+    & > span:last-child{ cursor: pointer; }
   }
 
   .notif-body{
