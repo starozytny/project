@@ -30,7 +30,7 @@ class Changelog extends DataEntity
 
     #[ORM\Column]
     #[Groups(['changelog_list'])]
-    private ?bool $isPublished = null;
+    private ?bool $isPublished = false;
 
     #[ORM\Column(type: Types::TEXT)]
     #[Groups(['changelog_list', 'changelog_form'])]

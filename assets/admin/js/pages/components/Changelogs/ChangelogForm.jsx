@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 import axios   from 'axios';
 import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
-import { Input, Radiobox, TextArea } from "@commonComponents/Elements/Fields";
+import { Input, Radiobox } from "@commonComponents/Elements/Fields";
+import { Trumb } from "@commonComponents/Elements/Trumb";
 import { Button } from "@commonComponents/Elements/Button";
 
 import Formulaire from "@commonFunctions/formulaire";
@@ -44,10 +45,12 @@ class Form extends Component {
     constructor(props) {
         super(props);
 
+        let content = props.content ? props.content : ""
+
         this.state = {
             name: props.name,
             type: props.type,
-            content: props.content,
+            content: { value: content, html: content },
             errors: [],
         }
 
@@ -55,6 +58,13 @@ class Form extends Component {
     }
 
     handleChange = (e) => { this.setState({[e.currentTarget.name]: e.currentTarget.value}) }
+
+    handleChangeTrumb = (e) => {
+        let name = e.currentTarget.id;
+        let text = e.currentTarget.innerHTML;
+
+        this.setState({[name]: {value: [name].value, html: text}})
+    }
 
     handleSubmit = (e) => {
         e.preventDefault();
@@ -122,7 +132,9 @@ class Form extends Component {
                         </div>
                         <div className="line-col-2">
                             <div className="line">
-                                <TextArea identifiant="content" valeur={content} {...params}>Description</TextArea>
+                                <Trumb identifiant="content" valeur={content.value} errors={errors} onChange={this.handleChangeTrumb}>
+                                    Description
+                                </Trumb>
                             </div>
                         </div>
                     </div>

@@ -39,7 +39,7 @@ class DataMain
         return ($obj)
             ->setName($this->sanitizeData->trimData($data->name))
             ->setType((int) $data->type)
-            ->setContent($this->sanitizeData->trimData($data->content))
+            ->setContent($this->sanitizeData->trimData($data->content->html))
         ;
     }
 }

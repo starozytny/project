@@ -19,7 +19,7 @@ export function ChangelogsItem ({ elem, onDelete })
                     </div>
                 </div>
                 <div className="col-2">
-                    <div>{elem.content}</div>
+                    <div dangerouslySetInnerHTML={{ __html: elem.content }} />
                 </div>
                 <div className="col-3">
                     <div className={"badge badge-" + (elem.isPublished ? 1 : 0)}>{elem.isPublished ? "Publié" : "A publier"}</div>

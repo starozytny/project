@@ -421,7 +421,7 @@ TextArea.propTypes = {
 /***************************************
  * STRUCTURE
  ***************************************/
-function Structure({ identifiant, content, errors, label, classForm="" }){
+export function Structure({ identifiant, content, errors, label, classForm="" }){
     let error;
     if(errors && errors.length !== 0){
         errors.map(err => {
