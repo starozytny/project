@@ -8,7 +8,7 @@ import { ChangelogsItem } from "@adminPages/Changelogs/ChangelogsItem";
 export function ChangelogsList ({ data, onDelete }) {
     return <div className="list">
         <div className="list-table">
-            <div className="items">
+            <div className="items items-changelogs">
                 <div className="item item-header">
                     <div className="item-content">
                         <div className="item-infos">

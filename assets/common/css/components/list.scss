@@ -35,6 +35,8 @@
   }
 
   .item-infos{
+    @include flex(column, flex-start, flex-start, 8px);
+
     & > .col-with-image{
       @include flex(row, flex-start, flex-start, 8px);
 
@@ -49,6 +51,7 @@
 
     & > [class^="col-"].actions{
       @include flex(row, flex-end, flex-end, 4px);
+      width: 100%;
     }
   }
 
@@ -65,7 +68,8 @@
     }
 
     .item-infos{
-      @include flex(row, flex-start, space-between, 8px);
+      flex-direction: row;
+      justify-content: space-between;
     }
   }
 
