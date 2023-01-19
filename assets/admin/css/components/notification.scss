@@ -1,1 +1,18 @@
 @import "../../../common/css/components/notification";
+
+.notifications-items{
+  background-color: var(--color1);
+  color: var(--alpha);
+}
+
+.notif-card {
+  .notif-header, .notif-actions{
+    border-color: var(--color2);
+  }
+
+  .notif-item{
+    &:hover{
+      background-color: var(--color0Opacity4);
+    }
+  }
+}
