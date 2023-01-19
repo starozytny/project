@@ -8,7 +8,7 @@ import { SocietiesItem } from "@adminPages/Societies/SocietiesItem";
 export function SocietiesList ({ data, onDelete }) {
     return <div className="list">
         <div className="list-table">
-            <div className="items">
+            <div className="items items-societies">
                 <div className="item item-header">
                     <div className="item-content">
                         <div className="item-infos">
