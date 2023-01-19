@@ -50,4 +50,12 @@ class ContactController extends AbstractController
 
         return $apiResponse->apiJsonResponseSuccessful("ok");
     }
+
+    #[Route('/switch/seen/{id}', name: 'switch_seen', options: ['expose' => true], methods: 'PUT')]
+    public function switchPublish(Contact $obj, ContactRepository $repository, ApiResponse $apiResponse): Response
+    {
+        $obj->setSeen(!$obj->isSeen());
+        $repository->save($obj, true);
+        return $apiResponse->apiJsonResponse($obj, Contact::LIST);
+    }
 }

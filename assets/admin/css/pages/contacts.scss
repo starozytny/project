@@ -5,6 +5,10 @@
 .items-contact{
   .item-infos{
 
+    & > .col-3{
+      cursor: pointer;
+    }
+
     $col2: 300px; $col3: 80px; $col4: 30px; $colGap: 24px;
 
     //                      __   _____ __    ___    __

@@ -70,7 +70,7 @@ class ChangelogController extends AbstractController
     }
 
     #[Route('/switch/published/{id}', name: 'switch_publish', options: ['expose' => true], methods: 'PUT')]
-    public function switchPublish(Changelog $obj, ApiResponse $apiResponse, ChangelogRepository $repository): Response
+    public function switchPublish(Changelog $obj, ChangelogRepository $repository, ApiResponse $apiResponse): Response
     {
         $obj->setIsPublished(!$obj->isIsPublished());
         $repository->save($obj, true);
