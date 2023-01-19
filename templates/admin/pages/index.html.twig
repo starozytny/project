@@ -31,7 +31,7 @@
                     <div class="title">Sociétés</div>
                 </div>
                 <div class="card-body">
-                    <div>11</div>
+                    <div>{{ nbSocieties }}</div>
                 </div>
             </div>
 
@@ -41,7 +41,7 @@
                     <div class="title">Qui s'est connecté ?</div>
                 </div>
                 <div class="card-body">
-                    <div>4 / 11</div>
+                    <div>{{ nbUsersConnected }} / {{ nbUsers }}</div>
                 </div>
             </div>
 
@@ -63,11 +63,13 @@
                     <div class="title">Contacts</div>
                 </div>
                 <div class="card-body">
-                    <div class="txt-primary">
-                        5 nouveaux messages
-                    </div>
+                    {% if nbContactsNew > 0 %}
+                        <div class="txt-primary">
+                            {{ nbContactsNew }} {{ nbContactsNew > 1 ? "nouveaux messages" : "nouveau message" }}
+                        </div>
+                    {% endif %}
                     <div>
-                        15 messages
+                        {{ nbContacts }} message{{ nbContacts > 1 ? "s" : "" }}
                     </div>
                 </div>
             </div>

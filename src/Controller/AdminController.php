@@ -3,7 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Main\Settings;
+use App\Repository\Main\ContactRepository;
 use App\Repository\Main\SettingsRepository;
+use App\Repository\Main\SocietyRepository;
+use App\Repository\Main\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,10 +16,27 @@ use Symfony\Component\Serializer\SerializerInterface;
 class AdminController extends AbstractController
 {
     #[Route('/', name: 'homepage')]
-    public function index(): Response
+    public function index(SocietyRepository $societyRepository, UserRepository $userRepository,
+                          ContactRepository $contactRepository): Response
     {
+        $users = $userRepository->findAll();
+        $usersConnected = 0;
+        foreach($users as $user){
+            if($user->getLastLoginAt()) $usersConnected++;
+        }
+
+        $contacts = $contactRepository->findAll();
+        $contactsNew = 0;
+        foreach($contacts as $contact){
+            if($contact->isSeen()) $contactsNew++;
+        }
+
         return $this->render('admin/pages/index.html.twig', [
-            'controller_name' => 'AdminController',
+            'nbSocieties' => count($societyRepository->findAll()),
+            'nbUsers' => count($users),
+            'nbUsersConnected' => $usersConnected,
+            'nbContacts' => count($contacts),
+            'nbContactsNew' => $contactsNew,
         ]);
     }
     #[Route('/settings/setting/modifier', name: 'settings_update')]
