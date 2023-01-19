@@ -12,6 +12,7 @@
     .card-header{
       @include flex(row, flex-start, flex-start, 8px);
       @include fontSemibold();
+      font-size: 18px;
     }
 
     a{
