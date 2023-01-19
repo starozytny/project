@@ -28,7 +28,6 @@
     border-radius: 6px;
 
     label{
-      border-radius: 6px;
       padding: 20px 12px;
       border-style: solid;
       min-width: 120px;
@@ -48,6 +47,18 @@
       [class^="icon-"]{
         transform: rotate(-45deg);
       }
+    }
+  }
+
+  .checkbox-item{
+    label{
+      border-radius: 6px;
+    }
+  }
+
+  .radiobox-item{
+    label{
+      border-radius: 40px;
     }
   }
 }

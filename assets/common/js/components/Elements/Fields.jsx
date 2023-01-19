@@ -89,7 +89,7 @@ export function Checkbox (props) {
 
         return <div className={classeItem + " " + (isChecked ? 'checked' : '')} key={index}>
             <label htmlFor={elem.identifiant}>
-                <span>{elem.label}</span>
+                <span dangerouslySetInnerHTML={{__html: elem.label}} />
                 <input type="checkbox" name={identifiant} id={elem.identifiant} value={elem.value}
                        checked={isChecked ? 'checked' : ''} onChange={onChange}/>
             </label>
@@ -124,7 +124,7 @@ export function Radiobox (props) {
 
         return <div className={"radiobox-item " + (isChecked ? 'checked' : '')} key={index}>
             <label htmlFor={elem.identifiant}>
-                <span>{elem.label}</span>
+                <span dangerouslySetInnerHTML={{__html: elem.label}} />
                 <input type="radio" name={identifiant} id={elem.identifiant} value={elem.value}
                        checked={isChecked ? 'checked' : ''} onChange={onChange}/>
             </label>

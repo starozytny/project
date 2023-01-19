@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import axios   from 'axios';
 import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
-import {Input, TextArea} from "@commonComponents/Elements/Fields";
+import { Input, Radiobox, TextArea } from "@commonComponents/Elements/Fields";
 import { Button } from "@commonComponents/Elements/Button";
 
 import Formulaire from "@commonFunctions/formulaire";
@@ -28,7 +28,7 @@ export function ChangelogFormulaire ({ context, element })
         context={context}
         url={url}
         name={element ? Formulaire.setValue(element.name) : ""}
-        type={element ? Formulaire.setValue(element.type) : ""}
+        type={element ? Formulaire.setValue(element.type) : 0}
         content={element ? Formulaire.setValue(element.content) : ""}
     />
 
@@ -90,6 +90,12 @@ class Form extends Component {
         const { context } = this.props;
         const { errors, name, type, content } = this.state;
 
+        let typesItems = [
+            { value: 0, label: 'Information',  identifiant: 'type-0' },
+            { value: 1, label: 'Attention',    identifiant: 'type-1' },
+            { value: 2, label: 'Danger',       identifiant: 'type-2' },
+        ]
+
         let params = { errors: errors, onChange: this.handleChange }
 
         return <>
@@ -102,6 +108,11 @@ class Form extends Component {
                         <div className="line-col-2">
                             <div className="line">
                                 <Input identifiant="name" valeur={name} {...params}>Intitulé</Input>
+                            </div>
+                            <div className="line line-fat-box">
+                                <Radiobox items={typesItems} identifiant="type" valeur={type} {...params}>
+                                    Rôles
+                                </Radiobox>
                             </div>
                         </div>
                     </div>
@@ -129,6 +140,6 @@ Form.propTypes = {
     context: PropTypes.string.isRequired,
     url: PropTypes.node.isRequired,
     name: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
+    type: PropTypes.number.isRequired,
     content: PropTypes.string.isRequired,
 }
