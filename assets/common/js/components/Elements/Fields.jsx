@@ -421,9 +421,9 @@ TextArea.propTypes = {
 /***************************************
  * STRUCTURE
  ***************************************/
-export function Structure({ identifiant, content, errors, label, classForm="" }){
+export function Structure({ identifiant, content, errors, label, classForm="", noErrors=false }){
     let error;
-    if(errors && errors.length !== 0){
+    if(!noErrors && errors && errors.length !== 0){
         errors.map(err => {
             if(err.name === identifiant){
                 error = err.message
@@ -433,7 +433,9 @@ export function Structure({ identifiant, content, errors, label, classForm="" })
     return <div className={classForm + 'form-group' + (error ? " form-group-error" : "")}>
         <label htmlFor={identifiant}>{label}</label>
         {content}
-        <div className="error">{error ? <><span className='icon-error'/>{error}</> : null}</div>
+        {!noErrors && <div className="error">
+            {error ? <><span className='icon-error'/>{error}</> : null}
+        </div>}
     </div>
 }
 
