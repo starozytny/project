@@ -33,7 +33,11 @@
                             <div>{{ app.user.email }}</div>
                         </div>
                         <div class="nav-header-actions">
-                            <a href="{{ path('admin_settings_update') }}" class="btn-icon btn-icon-outline-default">
+                            <a href="{{ path('admin_settings_update') }}"
+                               class="btn-icon {{- app.request.get('_route') == "admin_settings_update"
+                                               ? " btn-icon-outline-primary"
+                                               : " btn-icon-outline-default" -}}"
+                            >
                                 <span class="icon-settings"></span>
                                 <span class="tooltip">Paramètres</span>
                             </a>
