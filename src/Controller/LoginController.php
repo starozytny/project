@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Main\User;
 use App\Repository\Main\UserRepository;
 use App\Service\Expiration;
+use Doctrine\Persistence\ManagerRegistry;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -33,9 +35,14 @@ class LoginController extends AbstractController
     }
 
     #[Route('/connected', name: 'app_logged')]
-    public function logged(): RedirectResponse
+    public function logged(ManagerRegistry $registry): RedirectResponse
     {
-        if ($this->getUser()) {
+        /** @var User $user */
+        $user = $this->getUser();
+        if ($user) {
+            $user->setLastLoginAt(new \DateTime());
+            $registry->getManager()->flush();
+
             if($this->isGranted('ROLE_ADMIN')) return $this->redirectToRoute('admin_homepage');
             if($this->isGranted('ROLE_USER')) return $this->redirectToRoute('user_homepage');
         }
