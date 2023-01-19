@@ -7,6 +7,7 @@ use App\Repository\Main\ContactRepository;
 use App\Repository\Main\SettingsRepository;
 use App\Repository\Main\SocietyRepository;
 use App\Repository\Main\UserRepository;
+use App\Service\SettingsService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,9 +17,12 @@ use Symfony\Component\Serializer\SerializerInterface;
 class AdminController extends AbstractController
 {
     #[Route('/', name: 'homepage')]
-    public function index(SocietyRepository $societyRepository, UserRepository $userRepository,
-                          ContactRepository $contactRepository): Response
+    public function index(SettingsRepository $settingsRepository, SocietyRepository $societyRepository,
+                          UserRepository $userRepository, ContactRepository $contactRepository): Response
     {
+        $settings = $settingsRepository->findAll();
+        $settings = count($settings) != 0 ? $settings[0] : null;
+
         $users = $userRepository->findAll();
         $usersConnected = 0;
         foreach($users as $user){
@@ -32,6 +36,7 @@ class AdminController extends AbstractController
         }
 
         return $this->render('admin/pages/index.html.twig', [
+            'settings' => $settings,
             'nbSocieties' => count($societyRepository->findAll()),
             'nbUsers' => count($users),
             'nbUsersConnected' => $usersConnected,

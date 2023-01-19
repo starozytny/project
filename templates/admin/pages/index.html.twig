@@ -18,7 +18,13 @@
                     <div class="title">Paramètres</div>
                 </div>
                 <div class="card-body">
-                    <a href="{{ path('admin_settings_update') }}">Accéder aux paramètres</a>
+                    {% if settings %}
+                        <div>{{ settings.websiteName }}</div>
+                        <div>{{ settings.emailGlobal }}</div>
+                    {% endif %}
+                    <div style="margin-top: 8px;">
+                        <a href="{{ path('admin_settings_update') }}">Accéder aux paramètres</a>
+                    </div>
                 </div>
             </div>
         </div>
