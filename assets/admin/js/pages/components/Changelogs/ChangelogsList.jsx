@@ -14,7 +14,7 @@ export function ChangelogsList ({ data, onDelete }) {
                         <div className="item-infos">
                             <div className="col-1">Intitulé</div>
                             <div className="col-2">Description</div>
-                            <div className="col-3">Activation</div>
+                            <div className="col-3">Publication</div>
                             <div className="col-4 actions" />
                         </div>
                     </div>

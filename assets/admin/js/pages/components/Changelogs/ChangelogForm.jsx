@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import axios   from 'axios';
 import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
-import { Input, Radiobox } from "@commonComponents/Elements/Fields";
-import { Trumb } from "@commonComponents/Elements/Trumb";
-import { Button } from "@commonComponents/Elements/Button";
+import { Input, Radiobox }  from "@commonComponents/Elements/Fields";
+import { Trumb }            from "@commonComponents/Elements/Trumb";
+import { Button }           from "@commonComponents/Elements/Button";
 
 import Formulaire from "@commonFunctions/formulaire";
 import Validateur from "@commonFunctions/validateur";
@@ -69,7 +69,7 @@ class Form extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
 
-        const { url } = this.props;
+        const { context, url } = this.props;
         const { name, type, content } = this.state;
 
         this.setState({ errors: [] });
@@ -87,7 +87,7 @@ class Form extends Component {
             Formulaire.loader(true);
             let self = this;
 
-            axios({ method: "POST", url: url, data: this.state })
+            axios({ method: context === "update" ? "PUT" : "POST", url: url, data: this.state })
                 .then(function (response) {
                     location.href = Routing.generate(URL_INDEX_ELEMENTS);
                 })

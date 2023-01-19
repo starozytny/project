@@ -1,4 +1,13 @@
 
+.icon-close:before {
+  content: "\e99b";
+}
+.icon-check1:before {
+  content: "\e997";
+}
+.icon-warning1:before {
+  content: "\e996";
+}
 .icon-add-circle:before {
   content: "\e984";
 }
@@ -11,11 +20,26 @@
 .icon-archive-minus:before {
   content: "\e986";
 }
+.icon-arrow-swap-horizontal:before {
+  content: "\e999";
+}
 .icon-bank:before {
   content: "\e990";
 }
 .icon-bookmark:before {
   content: "\e909";
+}
+.icon-calendar-add:before {
+  content: "\e993";
+}
+.icon-calendar-edit:before {
+  content: "\e994";
+}
+.icon-calendar-remove:before {
+  content: "\e995";
+}
+.icon-chart-3:before {
+  content: "\e99a";
 }
 .icon-document-copy:before {
   content: "\e987";
@@ -32,11 +56,20 @@
 .icon-pause-circle:before {
   content: "\e98d";
 }
+.icon-people:before {
+  content: "\e991";
+}
 .icon-user-delete:before {
   content: "\e98a";
 }
+.icon-rotate-right:before {
+  content: "\e998";
+}
 .icon-shopping-bag:before {
   content: "\e98f";
+}
+.icon-user-octagon:before {
+  content: "\e992";
 }
 .icon-video-circle:before {
   content: "\e98e";

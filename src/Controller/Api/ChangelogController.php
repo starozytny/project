@@ -54,7 +54,7 @@ class ChangelogController extends AbstractController
         return $this->submitForm("create", $repository, new Changelog(), $request, $apiResponse, $validator, $dataEntity);
     }
 
-    #[Route('/update/{id}', name: 'update', options: ['expose' => true], methods: 'POST')]
+    #[Route('/update/{id}', name: 'update', options: ['expose' => true], methods: 'PUT')]
     public function update(Request $request, Changelog $obj, ApiResponse $apiResponse, ValidatorService $validator,
                            DataMain $dataEntity, ChangelogRepository $repository): Response
     {
@@ -67,5 +67,13 @@ class ChangelogController extends AbstractController
         $repository->remove($obj, true);
 
         return $apiResponse->apiJsonResponseSuccessful("ok");
+    }
+
+    #[Route('/switch/published/{id}', name: 'switch_publish', options: ['expose' => true], methods: 'PUT')]
+    public function switchPublish(Changelog $obj, ApiResponse $apiResponse, ChangelogRepository $repository): Response
+    {
+        $obj->setIsPublished(!$obj->isIsPublished());
+        $repository->save($obj, true);
+        return $apiResponse->apiJsonResponse($obj, Changelog::LIST);
     }
 }

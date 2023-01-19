@@ -37,3 +37,7 @@ h1{
 h2{
   @include fontSemibold();
 }
+
+b, strong{
+  @include fontBold();
+}

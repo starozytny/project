@@ -306,6 +306,81 @@ textarea{
   }
 }
 
+// **************************************
+// SWITCHER
+// **************************************
+.switcher-items{
+
+  input[type='checkbox'] {
+    display: none;
+  }
+
+  .switcher-item{
+    position: relative;
+
+    label{
+      position: relative;
+      display: inline-block;
+      z-index: 0;
+      width: 56px; height: 28px;
+      border-radius: 100px;
+      background-color: var(--grey);
+      transition: background-color 0.2s ease-in-out;
+      cursor: pointer;
+
+      &:hover{
+        background-color: var(--greyOpacity4);
+      }
+
+      span{ opacity: 0; }
+
+      &:before, &:after{
+        position: absolute;
+        transition: all 0.2s ease-in-out;
+        cursor: pointer;
+      }
+
+      &:before{
+        content: "";
+        background-color: var(--alpha);
+        border-radius: 100px;
+        display: block;
+        width: 20px; height: 20px;
+        top: 4px; left: 4px;
+        z-index: 5;
+      }
+
+      &:after{
+        font-family: "icomoon" !important;
+        content: "\e99b";
+        top: 6px; left: 7.5px;
+        font-size: 14px;
+        z-index: 6;
+        color: var(--danger);
+      }
+    }
+
+    &.checked{
+      label{
+        background-color: var(--primary);
+
+        &:hover{
+          background-color: var(--primaryOpacity4);
+        }
+
+        &:before, &:after{
+          transform: translateX(28px);
+        }
+
+        &:after{
+          content: "\e997";
+          color: var(--primary);
+        }
+      }
+    }
+  }
+}
+
 //                      __   _____ __    ___    __
 //                     | _| |___  / /_  ( _ )  |_ |
 //    _____ _____ _____| |     / / '_ \ / _ \   | |_____ _____ _____

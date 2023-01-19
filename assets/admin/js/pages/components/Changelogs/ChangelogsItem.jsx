@@ -1,14 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from 'prop-types';
 import Routing   from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
-import { ButtonIcon } from "@commonComponents/Elements/Button";
+import axios from "axios";
 
-const URL_UPDATE_PAGE = "admin_changelogs_update"
+import Formulaire from "@commonFunctions/formulaire";
+
+import { ButtonIcon } from "@commonComponents/Elements/Button";
+import { Checkbox }   from "@commonComponents/Elements/Fields";
+
+const URL_UPDATE_PAGE    = "admin_changelogs_update";
+const URL_UPDATE_PUBLISH = "api_changelogs_switch_publish";
 
 export function ChangelogsItem ({ elem, onDelete })
 {
+    const [isPublished, setIsPublished] = useState([elem.isPublished ? 1 : 0]);
+
+    let handleSwitch = (e) => {
+        let self = this;
+        let checked = e.currentTarget.checked;
+        let value   = e.currentTarget.value;
+        setIsPublished(checked ? [parseInt(value)] : []);
+
+        axios({ method: "PUT", url: Routing.generate(URL_UPDATE_PUBLISH, {'id': elem.id}), data: {} })
+            .then(function (response){
+                setIsPublished([response.data.isPublished ? 1 : 0]);
+            })
+            .catch(function (error) { Formulaire.displayErrors(self, error); })
+        ;
+    }
+
     let urlUpdate = Routing.generate(URL_UPDATE_PAGE, {'id': elem.id});
+    let publishedItems = [{ value: 1, label: "Oui", identifiant: "oui-" + elem.id }]
 
     return <div className="item">
         <div className="item-content">
@@ -22,7 +45,8 @@ export function ChangelogsItem ({ elem, onDelete })
                     <div dangerouslySetInnerHTML={{ __html: elem.content }} />
                 </div>
                 <div className="col-3">
-                    <div className={"badge badge-" + (elem.isPublished ? 1 : 0)}>{elem.isPublished ? "Publié" : "A publier"}</div>
+                    <Checkbox items={publishedItems} identifiant="isPublished" valeur={isPublished}
+                              errors={[]} onChange={handleSwitch} isSwitcher={true} />
                 </div>
                 <div className="col-4 actions">
                     <ButtonIcon outline={true} icon="pencil" onClick={urlUpdate} element="a">Modifier</ButtonIcon>

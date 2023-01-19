@@ -63,8 +63,8 @@ Input.propTypes = {
     identifiant: PropTypes.string.isRequired,
     valeur: PropTypes.node.isRequired,
     errors: PropTypes.array.isRequired,
-    children: PropTypes.node.isRequired,
     onChange: PropTypes.func.isRequired,
+    children: PropTypes.node,
     autocomplete: PropTypes.string,
     placeholder: PropTypes.string,
     password: PropTypes.bool,
@@ -89,11 +89,11 @@ export function Checkbox (props) {
 
         return <div className={classeItem + " " + (isChecked ? 'checked' : '')} key={index}>
             <label htmlFor={elem.identifiant}>
-                <span dangerouslySetInnerHTML={{__html: elem.label}} />
+                <span dangerouslySetInnerHTML={{__html: elem.label ? elem.label : ""}} />
                 <input type="checkbox" name={identifiant} id={elem.identifiant} value={elem.value}
                        checked={isChecked ? 'checked' : ''} onChange={onChange}/>
             </label>
-            {isChecked && <div className="item-selected"><span className="icon-check-1" /></div>}
+            {(isChecked && !isSwitcher) && <div className="item-selected"><span className="icon-check-1" /></div>}
         </div>
     })
 
@@ -107,7 +107,7 @@ Checkbox.propTypes = {
     valeur: PropTypes.node.isRequired,
     errors: PropTypes.array.isRequired,
     onChange: PropTypes.func.isRequired,
-    children: PropTypes.node.isRequired,
+    children: PropTypes.node,
     isSwitcher: PropTypes.bool,
 }
 /***************************************
@@ -124,7 +124,7 @@ export function Radiobox (props) {
 
         return <div className={"radiobox-item " + (isChecked ? 'checked' : '')} key={index}>
             <label htmlFor={elem.identifiant}>
-                <span dangerouslySetInnerHTML={{__html: elem.label}} />
+                <span dangerouslySetInnerHTML={{__html: elem.label ? elem.label : ""}} />
                 <input type="radio" name={identifiant} id={elem.identifiant} value={elem.value}
                        checked={isChecked ? 'checked' : ''} onChange={onChange}/>
             </label>
@@ -142,7 +142,7 @@ Radiobox.propTypes = {
     valeur: PropTypes.node.isRequired,
     errors: PropTypes.array.isRequired,
     onChange: PropTypes.func.isRequired,
-    children: PropTypes.node.isRequired,
+    children: PropTypes.node,
     convertValToInt: PropTypes.bool,
 }
 
@@ -279,8 +279,8 @@ SelectCustom.propTypes = {
     identifiant: PropTypes.string.isRequired,
     items: PropTypes.array.isRequired,
     errors: PropTypes.array.isRequired,
-    children: PropTypes.node.isRequired,
     onClick: PropTypes.func.isRequired,
+    children: PropTypes.node,
     displayValeur: PropTypes.node,
     placeholder: PropTypes.string,
 }
@@ -308,7 +308,7 @@ Select.propTypes = {
     items: PropTypes.array.isRequired,
     errors: PropTypes.array.isRequired,
     onChange: PropTypes.func.isRequired,
-    children: PropTypes.node.isRequired,
+    children: PropTypes.node,
     noEmpty: PropTypes.bool,
 }
 
@@ -387,8 +387,8 @@ InputFile.propTypes = {
     type: PropTypes.string.isRequired,
     identifiant: PropTypes.string.isRequired,
     errors: PropTypes.array.isRequired,
-    children: PropTypes.node.isRequired,
     placeholder: PropTypes.string.isRequired,
+    children: PropTypes.node,
     format: PropTypes.string,
     valeur: PropTypes.string,
     accept: PropTypes.string,
@@ -411,8 +411,8 @@ TextArea.propTypes = {
     identifiant: PropTypes.string.isRequired,
     valeur: PropTypes.node.isRequired,
     errors: PropTypes.array.isRequired,
-    children: PropTypes.node.isRequired,
     onChange: PropTypes.func.isRequired,
+    children: PropTypes.node,
     autocomplete: PropTypes.string,
     placeholder: PropTypes.string,
     height: PropTypes.string,
@@ -440,7 +440,7 @@ export function Structure({ identifiant, content, errors, label, classForm="" })
 Structure.propTypes = {
     identifiant: PropTypes.string.isRequired,
     errors: PropTypes.array.isRequired,
-    label: PropTypes.node.isRequired,
+    label: PropTypes.node,
     classForm: PropTypes.string
 }
 
