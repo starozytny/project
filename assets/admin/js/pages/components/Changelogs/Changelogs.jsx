@@ -9,6 +9,7 @@ import { Pagination, TopSorterPagination } from "@commonComponents/Elements/Pagi
 import { Search }           from "@commonComponents/Elements/Search";
 import { LoaderElements }   from "@commonComponents/Elements/Loader";
 import { ModalDelete }      from "@commonComponents/Shortcut/Modal";
+import {Filter} from "@commonComponents/Elements/Filter";
 
 const URL_GET_DATA        = "api_changelogs_list";
 const URL_DELETE_ELEMENT  = "api_changelogs_delete";
@@ -30,7 +31,8 @@ export class Changelogs extends Component {
             sorter: SORTER,
             sessionName: "local.changelogs.list.pagination",
             loadingData: true,
-            element: null
+            filters: [],
+            element: null,
         }
 
         this.pagination = React.createRef();
@@ -44,8 +46,13 @@ export class Changelogs extends Component {
     handleUpdateData = (currentData) => { this.setState({ currentData }) }
 
     handleSearch = (search) => {
-        const { perPage, sorter, dataImmuable } = this.state;
-        List.search(this, 'changelog', search, dataImmuable, perPage, sorter)
+        const { perPage, sorter, dataImmuable, filters } = this.state;
+        List.search(this, 'changelog', search, dataImmuable, perPage, sorter, true, filters, this.handleFilters)
+    }
+
+    handleFilters = (filters) => {
+        const { dataImmuable, perPage, sorter } = this.state;
+        return List.filter(this, 'type', dataImmuable, filters, perPage, sorter);
     }
 
     handleModal = (identifiant, elem) => {
@@ -67,7 +74,13 @@ export class Changelogs extends Component {
     handleSorter = (nb) => { List.changeSorter(this, this.state.data, this.state.perPage, sortersFunction, nb); }
 
     render () {
-        const { sessionName, data, currentData, element, loadingData, perPage, currentPage } = this.state;
+        const { sessionName, data, currentData, element, loadingData, perPage, currentPage, filters } = this.state;
+
+        let filtersItems = [
+            {value: 0, label: "Information",    id: "f-info"},
+            {value: 1, label: "Attention",      id: "f-atte"},
+            {value: 2, label: "Danger",         id: "f-dang"},
+        ]
 
         return <>
             {loadingData
@@ -75,6 +88,9 @@ export class Changelogs extends Component {
                 : <>
                     <div className="toolbar">
                         <div className="col-1">
+                            <div className="filters">
+                                <Filter filters={filters} items={filtersItems} onFilters={this.handleFilters}/>
+                            </div>
                             <Search onSearch={this.handleSearch} placeholder="Rechercher pas nom.."/>
                         </div>
                     </div>

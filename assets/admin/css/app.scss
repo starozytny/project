@@ -41,3 +41,16 @@ h2{
 b, strong{
   @include fontBold();
 }
+
+
+$data:
+        "primary" var(--primary),
+        "warning" var(--warning),
+        "danger"  var(--danger),
+;
+
+@each $name, $txt in $data {
+  .txt-#{$name}{
+    color: $txt;
+  }
+}

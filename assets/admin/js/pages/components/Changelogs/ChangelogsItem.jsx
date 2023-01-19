@@ -39,12 +39,18 @@ export function ChangelogsItem ({ elem, onDelete })
     let urlUpdate = Routing.generate(URL_UPDATE_PAGE, {'id': elem.id});
     let publishedItems = [{ value: 1, label: "Oui", identifiant: "oui-" + elem.id }]
 
+    let icons = ["icon-question", "icon-warning", "icon-error"];
+    let texts = ["txt-primary", "txt-warning", "txt-danger"];
+
     return <div className="item">
         <div className="item-content">
             <div className="item-infos">
                 <div className="col-1">
                     <div className="infos">
-                        <div className="name">{elem.name}</div>
+                        <div className="name">
+                            <span className={icons[elem.type] + " " + texts[elem.type]}></span>
+                            <span>{elem.name}</span>
+                        </div>
                         <div className="sub">
                             {elem.updatedAt
                                 ? "Modifié : " + Sanitaze.toFormatCalendar(elem.updatedAt)

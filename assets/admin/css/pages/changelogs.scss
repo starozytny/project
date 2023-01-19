@@ -4,6 +4,11 @@
 
 .items-changelogs{
   .item-infos{
+
+    .name{
+      @include flex(row, flex-start, flex-start, 4px);
+    }
+
     & > .col-3{
       width: 100%;
       text-align: right;
