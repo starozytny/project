@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import PropTypes from 'prop-types';
 import Routing   from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
-import axios from "axios";
+import axios  from "axios";
 
 import Formulaire from "@commonFunctions/formulaire";
+import Sanitaze   from "@commonFunctions/sanitaze";
 
 import { ButtonIcon } from "@commonComponents/Elements/Button";
 import { Checkbox }   from "@commonComponents/Elements/Fields";
@@ -44,6 +45,12 @@ export function ChangelogsItem ({ elem, onDelete })
                 <div className="col-1">
                     <div className="infos">
                         <div className="name">{elem.name}</div>
+                        <div className="sub">
+                            {elem.updatedAt
+                                ? "Modifié : " + Sanitaze.toFormatCalendar(elem.updatedAt)
+                                : Sanitaze.toFormatCalendar(elem.createdAt)
+                            }
+                        </div>
                     </div>
                 </div>
                 <div className="col-2">

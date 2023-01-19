@@ -37,9 +37,11 @@ class Changelog extends DataEntity
     private ?string $content = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups(['changelog_list'])]
     private ?\DateTimeInterface $createdAt = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    #[Groups(['changelog_list'])]
     private ?\DateTimeInterface $updatedAt = null;
 
     public function __construct()

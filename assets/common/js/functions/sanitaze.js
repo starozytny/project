@@ -1,3 +1,6 @@
+const moment = require("moment");
+require('moment/locale/fr');
+
 function sanitizeString(chaine){
     chaine.trim();
 
@@ -95,12 +98,21 @@ function removeAccents (str) {
     return str;
 }
 
+function toFormatCalendar(value, retour = "") {
+    if(value){
+        return moment(value).calendar().replace(":", "h")
+    }
+
+    return retour;
+}
+
 module.exports = {
     sanitizeString,
     addZeroToNumber,
     toFormatPhone,
     toFormatCurrency,
     toFormatBytesToSize,
+    toFormatCalendar,
     capitalize,
     removeAccents
 }

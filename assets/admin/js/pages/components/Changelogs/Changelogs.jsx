@@ -13,11 +13,12 @@ import { ModalDelete }      from "@commonComponents/Shortcut/Modal";
 const URL_GET_DATA        = "api_changelogs_list";
 const URL_DELETE_ELEMENT  = "api_changelogs_delete";
 
-let SORTER = Sort.compareName;
+let SORTER = Sort.compareCreatedAtInverse;
 let sorters = [
-    { value: 0, label: 'Nom',   identifiant: 'sorter-nom' },
+    { value: 0, label: 'Création',  identifiant: 'sorter-created' },
+    { value: 1, label: 'Nom',       identifiant: 'sorter-nom' },
 ]
-let sortersFunction = [Sort.compareName];
+let sortersFunction = [Sort.compareCreatedAtInverse, Sort.compareName];
 
 export class Changelogs extends Component {
     constructor(props) {
