@@ -1,1 +1,65 @@
 @import "../vars/vars";
+
+.dashboard{
+  .card{
+    @include flex(column, flex-start, flex-start, 8px);
+    background-color: var(--color0);
+    border-radius: 8px;
+    @include shadowCommon();
+    padding: 1.8rem 1.2rem;
+    width: 100%;
+
+    .card-header{
+      @include flex(row, flex-start, flex-start, 8px);
+      @include fontSemibold();
+    }
+
+    a{
+      color: var(--primary);
+
+      &:hover{
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+.dashboard-line-0{
+  margin-bottom: 12px;
+}
+
+.dashboard-line-1{
+  @include flex(column, stretch, flex-start, 12px);
+}
+
+//                      __   _____ __    ___    __
+//                     | _| |___  / /_  ( _ )  |_ |
+//    _____ _____ _____| |     / / '_ \ / _ \   | |_____ _____ _____
+//   |_____|_____|_____| |    / /| (_) | (_) |  | |_____|_____|_____|
+//                     | |   /_/  \___/ \___/   | |
+//                     |__|                    |__|
+@media (min-width:768px) {
+  .dashboard-line-1{
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    .card{
+      width: calc(50% - 6px);
+    }
+  }
+}
+
+
+//                      __   _ ____  ___   ___    __
+//                     | _| / |___ \( _ ) / _ \  |_ |
+//    _____ _____ _____| |  | | __) / _ \| | | |  | |_____ _____ _____
+//   |_____|_____|_____| |  | |/ __/ (_) | |_| |  | |_____|_____|_____|
+//                     | |  |_|_____\___/ \___/   | |
+//                     |__|                      |__|
+@media (min-width:1280px) {
+  .dashboard-line-1{
+    .card{
+      width: calc(25% - 9px);
+    }
+  }
+}

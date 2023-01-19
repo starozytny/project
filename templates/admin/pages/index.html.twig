@@ -10,7 +10,71 @@
 
 {% block main_content %}
 <div class="main-content">
+    <div class="dashboard">
+        <div class="dashboard-line-0">
+            <div class="card">
+                <div class="card-header">
+                    <div class="icon"><span class="icon-settings"></span></div>
+                    <div class="title">Paramètres</div>
+                </div>
+                <div class="card-body">
+                    <a href="{{ path('admin_settings_update') }}">Accéder aux paramètres</a>
+                </div>
+            </div>
+        </div>
 
+        <div class="dashboard-line-1">
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="icon"><span class="icon-bank"></span></div>
+                    <div class="title">Sociétés</div>
+                </div>
+                <div class="card-body">
+                    <div>11</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="icon"><span class="icon-group"></span></div>
+                    <div class="title">Qui s'est connecté ?</div>
+                </div>
+                <div class="card-body">
+                    <div>4 / 11</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="icon"><span class="icon-follow"></span></div>
+                    <div class="title">Changelogs</div>
+                </div>
+                <div class="card-body">
+                    <div>
+                        <a href="{{ path('admin_changelogs_create') }}">Ajouter un changelog</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="icon"><span class="icon-chat"></span></div>
+                    <div class="title">Contacts</div>
+                </div>
+                <div class="card-body">
+                    <div class="txt-primary">
+                        5 nouveaux messages
+                    </div>
+                    <div>
+                        15 messages
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
 </div>
 {% endblock %}
 
