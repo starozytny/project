@@ -13,3 +13,71 @@
   padding-top: 1px;
   @include flex(row, center, center);
 }
+
+.notifications-items{
+  position: absolute;
+  top: 32px; left: -86px;
+  z-index: 10;
+  border-radius: 8px;
+  @include shadowCommon();
+  color: var(--txt);
+  background-color: var(--alpha);
+  width: 280px;
+}
+
+.notif-card{
+  @include flex(column, flex-start, flex-start, 12px);
+
+  & > div{
+    width: 100%;
+  }
+
+  .notif-header, .notif-actions{
+    padding: 8px 12px;
+  }
+
+  .notif-header{
+    @include flex(row, center, space-between, 8px);
+    border-bottom: 1px solid var(--grey);
+
+    & > span:first-child{ @include fontSemibold(); }
+  }
+
+  .notif-actions{
+    @include flex(column, center, flex-start, 8px);
+    border-top: 1px solid var(--grey);
+
+    a {
+      color: var(--primary);
+      font-size: 15px;
+    }
+  }
+
+}
+
+
+//                      __   _____ __    ___    __
+//                     | _| |___  / /_  ( _ )  |_ |
+//    _____ _____ _____| |     / / '_ \ / _ \   | |_____ _____ _____
+//   |_____|_____|_____| |    / /| (_) | (_) |  | |_____|_____|_____|
+//                     | |   /_/  \___/ \___/   | |
+//                     |__|                    |__|
+@media (min-width:768px) {
+  .notifications-items{
+    left: auto;
+    right: 0;
+  }
+}
+
+//                      __   _  ___ ____  _  _     __
+//                     | _| / |/ _ \___ \| || |   |_ |
+//    _____ _____ _____| |  | | | | |__) | || |_   | |_____ _____ _____
+//   |_____|_____|_____| |  | | |_| / __/|__   _|  | |_____|_____|_____|
+//                     | |  |_|\___/_____|  |_|    | |
+//                     |__|                       |__|
+@media (min-width: 1024px) {
+  .notifications-items{
+    left: 0;
+    right: auto;
+  }
+}

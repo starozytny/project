@@ -51,22 +51,22 @@ export class Notifications extends Component {
                     <ButtonIcon icon="notification">
                         Notifications
                     </ButtonIcon>
-                    {/*<div className="notifications-items">*/}
-                    {/*    <div className="notif-card">*/}
-                    {/*        <div className="notif-cancel">*/}
-                    {/*            <span>Notifications</span>*/}
-                    {/*            <span className="icon-cancel" />*/}
-                    {/*        </div>*/}
-                    {/*        <div className="notif-body">*/}
-                    {/*            {items.length !== 0 ? items : <div>Aucune notification</div>}*/}
-                    {/*        </div>*/}
-                    {/*        <div className="notif-actions">*/}
-                    {/*            <a>Marquer comme lu</a>*/}
-                    {/*            <a>Supprimer toutes les notifications</a>*/}
-                    {/*            <a>Voir toutes les notifications</a>*/}
-                    {/*        </div>*/}
-                    {/*    </div>*/}
-                    {/*</div>*/}
+                    <div className="notifications-items">
+                        <div className="notif-card">
+                            <div className="notif-header">
+                                <span>Notifications</span>
+                                <span className="icon-cancel" />
+                            </div>
+                            <div className="notif-body">
+                                {items.length !== 0 ? items : <div>Aucune notification</div>}
+                            </div>
+                            <div className="notif-actions">
+                                <a>Marquer comme lu</a>
+                                <a>Supprimer toutes les notifications</a>
+                                <a>Voir toutes les notifications</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             }
         </>
