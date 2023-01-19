@@ -14,20 +14,25 @@ const URL_UPDATE_PUBLISH = "api_changelogs_switch_publish";
 
 export function ChangelogsItem ({ elem, onDelete })
 {
+    const [loadSwitch, setLoadSwitch]   = useState(false);
     const [isPublished, setIsPublished] = useState([elem.isPublished ? 1 : 0]);
 
     let handleSwitch = (e) => {
         let self = this;
         let checked = e.currentTarget.checked;
         let value   = e.currentTarget.value;
-        setIsPublished(checked ? [parseInt(value)] : []);
 
-        axios({ method: "PUT", url: Routing.generate(URL_UPDATE_PUBLISH, {'id': elem.id}), data: {} })
-            .then(function (response){
-                setIsPublished([response.data.isPublished ? 1 : 0]);
-            })
-            .catch(function (error) { Formulaire.displayErrors(self, error); })
-        ;
+        if(!loadSwitch){
+            setLoadSwitch(true);
+            setIsPublished(checked ? [parseInt(value)] : []);
+            axios({ method: "PUT", url: Routing.generate(URL_UPDATE_PUBLISH, {'id': elem.id}), data: {} })
+                .then(function (response){
+                    setLoadSwitch(false);
+                    setIsPublished([response.data.isPublished ? 1 : 0]);
+                })
+                .catch(function (error) { Formulaire.displayErrors(self, error); })
+            ;
+        }
     }
 
     let urlUpdate = Routing.generate(URL_UPDATE_PAGE, {'id': elem.id});
