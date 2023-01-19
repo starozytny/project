@@ -1,0 +1,10 @@
+{% extends 'admin/pages/contacts/template.html.twig' %}
+
+{% set page_title %}Demande de contacts{% endset %}
+{% set page_subtitle %}Gestion des demandes de contacts.{% endset %}
+
+{% block main_content %}
+    <div id="contacts_list">
+        {% include "layout/components/loader.html.twig" %}
+    </div>
+{% endblock %}

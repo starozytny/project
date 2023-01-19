@@ -3,6 +3,7 @@
 namespace App\Service\Data;
 
 use App\Entity\Main\Changelog;
+use App\Entity\Main\Contact;
 use App\Entity\Main\Society;
 use App\Entity\Main\User;
 use App\Service\SanitizeData;
@@ -40,6 +41,15 @@ class DataMain
             ->setName($this->sanitizeData->trimData($data->name))
             ->setType((int) $data->type)
             ->setContent($this->sanitizeData->trimData($data->content->html))
+        ;
+    }
+
+    public function setDataContact(Contact $obj, $data): Contact
+    {
+        return ($obj)
+            ->setName($this->sanitizeData->trimData($data->name))
+            ->setEmail($this->sanitizeData->trimData($data->email))
+            ->setMessage($this->sanitizeData->trimData($data->message))
         ;
     }
 }

@@ -53,8 +53,6 @@ class Form extends Component {
             content: { value: content, html: content },
             errors: [],
         }
-
-        this.file = React.createRef();
     }
 
     handleChange = (e) => { this.setState({[e.currentTarget.name]: e.currentTarget.value}) }
