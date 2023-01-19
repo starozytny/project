@@ -15,3 +15,8 @@ export function LoaderTxt({ text = "Chargement des données" }) {
         </div>
     </div>
 }
+export function LoadIcon() {
+    return <div className="loader-icon">
+        <span className="icon-chart-3"></span>
+    </div>
+}

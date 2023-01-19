@@ -26,7 +26,7 @@
 }
 
 .notif-card{
-  @include flex(column, flex-start, flex-start, 12px);
+  @include flex(column, flex-start, flex-start);
 
   & > div{
     width: 100%;
@@ -43,6 +43,59 @@
     & > span:first-child{ @include fontSemibold(); }
   }
 
+  .notif-body{
+    max-height: 160px;
+    overflow-y: auto;
+    @include scrollbar();
+  }
+
+  .notif-item{
+    @include flex(row, flex-start, flex-start, 8px);
+    transition: background-color 0.2s ease-in-out;
+    padding: 8px 12px;
+
+    &:hover{
+      background-color: var(--greyOpacity4);
+    }
+
+    a{
+      color: var(--txt);
+    }
+
+    .icon, .sub{
+      opacity: 0.8;
+    }
+
+    .icon{
+      width: 16px;
+    }
+
+    .infos{
+      width: calc(100% - 16px - 28px - 8px);
+
+      .new{
+        width: 4px; height: 4px;
+        background-color: var(--primary);
+        border-radius: 20px;
+        transform: translateY(6px);
+      }
+
+      .name{
+        @include flex(row, flex-start, flex-start, 4px);
+      }
+
+      .sub{
+        font-size: 12px;
+        text-align: left;
+        margin-top: 4px;
+      }
+    }
+
+    .actions{
+      width: 28px;
+    }
+  }
+
   .notif-actions{
     @include flex(column, center, flex-start, 8px);
     border-top: 1px solid var(--grey);
@@ -50,9 +103,13 @@
     a {
       color: var(--primary);
       font-size: 15px;
+      cursor: pointer;
+
+      &:hover{
+        text-decoration: underline;
+      }
     }
   }
-
 }
 
 

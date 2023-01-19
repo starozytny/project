@@ -12,6 +12,10 @@ $c-02: #a6dcee;
   animation: 0.5s linear 0s infinite running rotateInfinite;
 }
 
+.loader-icon{
+  padding: 1.2rem;
+}
+
 .loader-content{
   width: 100%;
   background-color: $bg;
@@ -209,7 +213,7 @@ svg.tea #steamR {
 //                     | |  |_|_____\___/ \___/   | |
 //                     |__|                      |__|
 @media (min-width:1280px) {
-  .loader-simple {
+  .loader-simple, .loader-icon {
     padding: 1.8rem;
   }
 }
