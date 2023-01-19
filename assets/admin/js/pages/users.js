@@ -7,6 +7,7 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import { Users } from "@adminPages/Users/Users";
 import { UserFormulaire } from "@adminPages/Users/UserForm";
+import { UserExport } from "@adminPages/Users/UserExport";
 
 Routing.setRoutingData(routes);
 
@@ -23,4 +24,9 @@ if(el){
 el = document.getElementById("users_create");
 if(el){
     createRoot(el).render(<UserFormulaire context="create" element={null} />)
+}
+
+let exportData = document.getElementById("users_export");
+if(exportData){
+    createRoot(exportData).render(<UserExport />)
 }

@@ -214,14 +214,30 @@ class UserController extends AbstractController
         return $apiResponse->apiJsonResponseSuccessful("Veuillez noter le nouveau mot de passe : " . $pass);
     }
 
-    #[Route('/export/{format}', name: 'export', methods: 'get')]
-    public function export(Export $export, $format, UserRepository $repository): BinaryFileResponse
+    #[Route('/export/{format}', name: 'export', options: ['expose' => true], methods: 'get')]
+    public function export(Request $request, Export $export, $format, UserRepository $repository, ApiResponse $apiResponse): BinaryFileResponse|JsonResponse
     {
-        $objs = $repository->findBy([], ['lastname' => 'ASC']);
-        $data = [];
-
         $nameFile = 'utilisateurs';
         $nameFolder = 'export/';
+
+        if($format == 'excel'){
+            $fileName = $nameFile . '.xlsx';
+            $header = [['ID', 'Nom/Prenom', 'Identifiant', 'Role', 'Email', 'Date de creation']];
+        }else{
+            $fileName = $nameFile . '.csv';
+            $header = [['id', 'name', 'username', 'role', 'email', 'createAt']];
+
+            header('Content-Type: application/csv');
+            header('Content-Disposition: attachment; filename="'.$fileName.'"');
+        }
+
+        $type = $request->query->get('file');
+        if($type){
+            return $this->file($this->getParameter('private_directory'). $nameFolder . $fileName);
+        }
+
+        $objs = $repository->findBy([], ['lastname' => 'ASC']);
+        $data = [];
 
         foreach ($objs as $obj) {
             $tmp = [
@@ -237,18 +253,7 @@ class UserController extends AbstractController
             }
         }
 
-        if($format == 'excel'){
-            $fileName = $nameFile . '.xlsx';
-            $header = [['ID', 'Nom/Prenom', 'Identifiant', 'Role', 'Email', 'Date de creation']];
-        }else{
-            $fileName = $nameFile . '.csv';
-            $header = [['id', 'name', 'username', 'role', 'email', 'createAt']];
-
-            header('Content-Type: application/csv');
-            header('Content-Disposition: attachment; filename="'.$fileName.'"');
-        }
-
         $export->createFile($format, 'Liste des ' . $nameFile, $fileName , $header, $data, 6, $nameFolder);
-        return new BinaryFileResponse($this->getParameter('private_directory'). $nameFolder . $fileName);
+        return $apiResponse->apiJsonResponseCustom(['url' => $this->generateUrl('api_users_export', ['format' => $format, 'file' => 1])]);
     }
 }

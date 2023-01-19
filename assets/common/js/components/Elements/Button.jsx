@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 export function ButtonIcon(props){
     const { icon, children, text, onClick, outline=false,
-        type="default", isSubmit=false, element="button", target="_self", tooltipWidth=null } = props;
+        type="default", isSubmit=false, element="button", target="_self", download=false, tooltipWidth=null } = props;
 
     let divStyle = tooltipWidth ? { width: tooltipWidth + "px" } : null;
 
@@ -14,7 +14,7 @@ export function ButtonIcon(props){
             {children && <span className="tooltip" style={divStyle}>{children}</span>}
         </button>
     }else{
-        return <a className={`btn-icon btn-icon-${outline ? "outline-" : ""}${type}`} target={target} href={onClick}>
+        return <a className={`btn-icon btn-icon-${outline ? "outline-" : ""}${type}`} target={target} download={download} href={onClick}>
             <span className={`icon-${icon}`} />
             {text && <span>{text}</span>}
             {children && <span className="tooltip" style={divStyle}>{children}</span>}

@@ -9,10 +9,9 @@
             <a href="{{ path('admin_users_create') }}" class="btn btn-primary">Créer un nouvel utilisateur</a>
         </div>
         <div class="col-2">
-            <a href="{{ path('api_users_export', {'format': 'excel'}) }}" download="utilisateurs.xlsx" class="btn-icon btn-icon-default">
-                <span class="icon-download"></span>
-                <span class="tooltip" style="width: 128px;">Exporter les données</span>
-            </a>
+            <div id="users_export">
+                {% include "layout/components/loader.html.twig" %}
+            </div>
         </div>
     </div>
 

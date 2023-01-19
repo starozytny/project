@@ -2,6 +2,16 @@ $bg: #171f30;
 $c-01: #5389a6;
 $c-02: #a6dcee;
 
+@keyframes rotateInfinite {
+  0% { transform: rotate(0); }
+  100% { transform: rotate(360deg); }
+}
+
+.icon-chart-3{
+  display: inline-block;
+  animation: 0.5s linear 0s infinite running rotateInfinite;
+}
+
 .loader-content{
   width: 100%;
   background-color: $bg;
