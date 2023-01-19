@@ -10,7 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/api/notifs', name: 'api_notifs_')]
+#[Route('/api/notifications', name: 'api_notifications_')]
 class NotificationController extends AbstractController
 {
     #[Route('/list', name: 'list', options: ['expose' => true], methods: 'GET')]
@@ -24,14 +24,28 @@ class NotificationController extends AbstractController
     {
         $repository->remove($obj, true);
 
-        return $apiResponse->apiJsonResponseSuccessful("ok");
+        return $apiResponse->apiJsonResponse($repository->findBy(['user' => $this->getUser()]), Notification::LIST);
+    }
+
+    #[Route('/delete-all', name: 'delete_all', options: ['expose' => true], methods: 'DELETE')]
+    public function deleteAll(NotificationRepository $repository, ManagerRegistry $registry, ApiResponse $apiResponse): Response
+    {
+        $em = $registry->getManager();
+        $objs = $repository->findBy(['user' => $this->getUser()]);
+
+        foreach($objs as $obj){
+            $repository->remove($obj);
+        }
+        $em->flush();
+
+        return $apiResponse->apiJsonResponse($repository->findBy(['user' => $this->getUser()]), Notification::LIST);
     }
 
     #[Route('/switch/all/seen', name: 'switch_all_seen', options: ['expose' => true], methods: 'PUT')]
     public function switchAllSeen(NotificationRepository $repository, ManagerRegistry $registry, ApiResponse $apiResponse): Response
     {
         $em = $registry->getManager();
-        $objs = $repository->findBy(['seen' => false]);
+        $objs = $repository->findBy(['user' => $this->getUser(), 'seen' => false]);
 
         foreach($objs as $obj){
             $obj->setSeen(!$obj->isSeen());

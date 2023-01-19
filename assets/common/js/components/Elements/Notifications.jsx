@@ -10,8 +10,10 @@ import Sort       from "@commonFunctions/sort";
 import { ButtonIcon }   from "@commonComponents/Elements/Button";
 import { LoadIcon }     from "@commonComponents/Elements/Loader";
 
-const URL_GET_DATA          = "api_notifs_list";
-const URL_SWITCH_ALL_SEEN   = "api_notifs_switch_all_seen";
+const URL_GET_DATA          = "api_notifications_list";
+const URL_SWITCH_ALL_SEEN   = "api_notifications_switch_all_seen";
+const URL_DELETE_ALL        = "api_notifications_delete_all";
+const URL_DELETE_ELEMENT    = "api_notifications_delete";
 
 export class Notifications extends Component {
     constructor(props) {
@@ -55,21 +57,15 @@ export class Notifications extends Component {
         this.setState({ open: !this.state.open })
     }
 
-    handleSetAllSeen = () => {
-        let self = this;
-        self.setState({ reloadData: true })
-        axios({ method: "PUT", url: Routing.generate(URL_SWITCH_ALL_SEEN), data: {} })
-            .then(function (response){
-                self.setState({ data: response.data, reloadData: false })
-            })
-            .catch(function (error) { Formulaire.displayErrors(self, error); })
-        ;
-    }
+    handleSetAllSeen = () => { callAxios(this, "PUT", Routing.generate(URL_SWITCH_ALL_SEEN)) }
+
+    handleDeleteAll = () => { callAxios(this, "DELETE", Routing.generate(URL_DELETE_ALL)) }
+
+    handleDelete    = (id) => { callAxios(this, "DELETE", Routing.generate(URL_DELETE_ELEMENT, {'id': id})) }
 
     render () {
         const { open, loadData, reloadData, data } = this.state;
 
-        console.log(data);
         let items = [], nbNewNotifs = 0;
         if(data){
             data.sort(Sort.compareCreatedAtInverse)
@@ -86,7 +82,7 @@ export class Notifications extends Component {
                         <div className="sub">{Sanitaze.toFormatCalendar(elem.createdAt)}</div>
                     </div>
                     <div className="actions">
-                        <ButtonIcon icon="trash">Supprimer</ButtonIcon>
+                        <ButtonIcon icon="trash" onClick={() => this.handleDelete(elem.id)}>Supprimer</ButtonIcon>
                     </div>
                 </div>)
             })
@@ -109,13 +105,12 @@ export class Notifications extends Component {
                             <div className="notif-body">
                                 {reloadData
                                     ? <LoadIcon></LoadIcon>
-                                    : items.length !== 0 ? items : <div>Aucune notification</div>
+                                    : items.length !== 0 ? items : <div className="notif-item">Aucune notification</div>
                                 }
                             </div>
                             <div className="notif-actions">
                                 <a onClick={this.handleSetAllSeen}>Marquer comme lu</a>
-                                <a>Supprimer toutes les notifications</a>
-                                <a>Voir toutes les notifications</a>
+                                <a onClick={this.handleDeleteAll}>Supprimer toutes les notifications</a>
                             </div>
                         </div>
                     </div>
@@ -123,4 +118,14 @@ export class Notifications extends Component {
             }
         </>
     }
+}
+
+function callAxios (self, method, url) {
+    self.setState({ reloadData: true })
+    axios({ method: method, url: url, data: {} })
+        .then(function (response){
+            self.setState({ data: response.data, reloadData: false })
+        })
+        .catch(function (error) { Formulaire.displayErrors(self, error); })
+    ;
 }
