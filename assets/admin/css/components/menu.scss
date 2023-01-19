@@ -95,7 +95,11 @@
 //                     |__|                       |__|
 @media (min-width: 1024px) {
   .nav-container{
-    padding: 1.2rem;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 1.8rem 1.2rem;
+    height: 100vh;
   }
 
   .nav-mobile{
@@ -104,11 +108,14 @@
 
   .nav-logo{
     padding: 0;
+    margin: 0 auto 24px auto;
   }
 
   .nav-header{
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
+    text-align: center;
+    width: 100%;
     gap: 0.8rem;
   }
 
@@ -116,7 +123,7 @@
     margin: 0;
 
     & > div{
-      max-width: 100px;
+      max-width: 180px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -124,7 +131,10 @@
   }
 
   .nav-header-actions{
-    margin-left: 12px;
+    margin-left: 0;
+  }
+
+  .nav-header{
   }
 
   .nav-content{
@@ -132,21 +142,29 @@
     background-color: transparent;
     top: 0;opacity: 1;z-index: 1;
     padding: 0;
-    width: calc(100% - 24px);
-    margin-left: 24px;
+    width: 100%; height: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 24px;
 
     &.active{ top: 0;opacity: 1;z-index: 1; }
   }
 
   .nav-menu{
-    @include flex(row, flex-start, flex-start);
+    @include flex(column, flex-start, space-between);
+
+    width: 100%;
+    height: 100%;
 
     .nav-items{
-      @include flex(row, flex-start, flex-start, 0.8rem);
+      @include flex(column, flex-start, flex-start, 0.8px);
+      width: 100%;
     }
 
     .nav-item{
       border-radius: 4px;
+      width: 100%;
     }
   }
 }
@@ -158,58 +176,8 @@
 //                     | |  |_|_____\___/ \___/   | |
 //                     |__|                      |__|
 @media (min-width:1280px) {
-  .nav-container{
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    padding: 1.8rem 1.2rem;
-    height: 100vh;
-  }
-
   .nav-logo{
-    margin: 0 auto 48px auto;
-  }
-
-  .nav-content{
-    align-items: flex-start;
-    flex-direction: column;
-    justify-content: flex-start;
-    width: 100%; height: 100%;
-    margin: 0;
-    gap: 24px;
-  }
-
-  .nav-header{
-    flex-direction: column;
-    text-align: center;
-    width: 100%;
-  }
-
-  .nav-header-infos{
-    & > div{
-      max-width: 180px;
-    }
-  }
-
-  .nav-header-actions{
-    margin-left: 0;
-  }
-
-  .nav-menu{
-    flex-direction: column;
-    justify-content: space-between;
-    width: 100%;
-    height: 100%;
-
-    .nav-items{
-      flex-direction: column;
-      width: 100%;
-      gap: 8px;
-    }
-
-    .nav-item{
-      width: 100%;
-    }
+    margin-bottom: 48px;
   }
 }
 
