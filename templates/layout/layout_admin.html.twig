@@ -33,6 +33,9 @@
                             <div>{{ app.user.email }}</div>
                         </div>
                         <div class="nav-header-actions">
+                            <div id="notifs_list">
+                                {% include "layout/components/admin/loaders/btn-icon.html.twig" %}
+                            </div>
                             <a href="{{ path('admin_settings_update') }}"
                                class="btn-icon {{- app.request.get('_route') == "admin_settings_update"
                                                ? " btn-icon-outline-primary"
