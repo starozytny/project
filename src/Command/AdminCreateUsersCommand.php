@@ -6,6 +6,7 @@ use App\Entity\Main\Society;
 use App\Entity\Main\User;
 use App\Service\Data\DataMain;
 use App\Service\DatabaseService;
+use App\Service\SettingsService;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -24,14 +25,16 @@ class AdminCreateUsersCommand extends Command
     private DatabaseService $databaseService;
     private ObjectManager $em;
     private DataMain $dataMain;
+    private SettingsService $settingsService;
 
-    public function __construct(DatabaseService $databaseService, DataMain $dataMain)
+    public function __construct(DatabaseService $databaseService, DataMain $dataMain, SettingsService $settingsService)
     {
         parent::__construct();
 
         $this->databaseService = $databaseService;
         $this->em = $databaseService->getDefaultManager();
         $this->dataMain = $dataMain;
+        $this->settingsService = $settingsService;
     }
 
     protected function configure(): void
@@ -54,7 +57,7 @@ class AdminCreateUsersCommand extends Command
         $io->title('Création de la société Logilink');
         $society = [ "name" => "Logilink", "code" => "999" ];
 
-        $society = $this->dataMain->setDataSociety(new Society(), json_decode(json_encode($society)));
+        $society = $this->dataMain->setDataSociety(new Society(), json_decode(json_encode($society)), $this->settingsService->getSettings());
         $society->setManager("default");
 
         $this->em->persist($society);
@@ -89,7 +92,6 @@ class AdminCreateUsersCommand extends Command
             $obj = $this->dataMain->setDataUser(new User(), json_decode(json_encode($user)));
             $obj = ($obj)
                 ->setPassword($password)
-                ->setManager("default")
                 ->setSociety($society)
                 ->setManager($society->getManager())
             ;
@@ -114,7 +116,6 @@ class AdminCreateUsersCommand extends Command
                 $obj = $this->dataMain->setDataUser(new User(), json_decode(json_encode($user)));
                 $obj = ($obj)
                     ->setPassword($password)
-                    ->setManager("default")
                     ->setSociety($society)
                     ->setManager($society->getManager())
                 ;

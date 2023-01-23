@@ -5,6 +5,7 @@ namespace App\Service\Data;
 use App\Entity\Main\Changelog;
 use App\Entity\Main\Contact;
 use App\Entity\Main\Notification;
+use App\Entity\Main\Settings;
 use App\Entity\Main\Society;
 use App\Entity\Main\User;
 use App\Service\SanitizeData;
@@ -30,12 +31,14 @@ class DataMain
         ;
     }
 
-    public function setDataSociety(Society $obj, $data): Society
+    public function setDataSociety(Society $obj, $data, Settings $settings): Society
     {
+        $prefix = $settings->isMultipleDatabase() ? $settings->getPrefixDatabase() : "default";
+
         return ($obj)
             ->setName($this->sanitizeData->trimData($data->name))
             ->setCode($this->sanitizeData->trimData($data->code))
-            ->setManager("default" . $this->sanitizeData->trimData($data->code))
+            ->setManager($prefix . $this->sanitizeData->trimData($data->code))
         ;
     }
 

@@ -17,10 +17,14 @@ if(el){
 
 el = document.getElementById("societies_update");
 if(el){
-    createRoot(el).render(<SocietyFormulaire context="update" element={JSON.parse(el.dataset.obj)} />)
+    createRoot(el).render(<SocietyFormulaire context="update"
+                                             settings={JSON.parse(el.dataset.settings)}
+                                             element={JSON.parse(el.dataset.obj)} />)
 }
 
 el = document.getElementById("societies_create");
 if(el){
-    createRoot(el).render(<SocietyFormulaire context="create" element={null} />)
+    createRoot(el).render(<SocietyFormulaire context="create"
+                                             settings={JSON.parse(el.dataset.settings)}
+                                             element={null} />)
 }

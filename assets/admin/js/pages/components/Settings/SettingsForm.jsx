@@ -7,7 +7,7 @@ import Routing          from '@publicFolder/bundles/fosjsrouting/js/router.min.j
 import Formulaire       from "@commonFunctions/formulaire";
 import Validateur       from "@commonFunctions/validateur";
 
-import {Checkbox, Input, InputFile} from "@commonComponents/Elements/Fields";
+import { Checkbox, Input, InputFile } from "@commonComponents/Elements/Fields";
 import { Button }       from "@commonComponents/Elements/Button";
 
 const URL_UPDATE_ELEMENT = "api_settings_update";
@@ -26,6 +26,7 @@ export class SettingsFormulaire extends Component {
             emailRgpd: element ? element.emailRgpd : "",
             logoMail: element ? element.logoMail : "",
             multipleDatabase: element ? [element.multipleDatabase ? 1 : 0] : [0],
+            prefixDatabase: element ? element.prefixDatabase : "",
         }
 
         this.file = React.createRef();
@@ -45,19 +46,23 @@ export class SettingsFormulaire extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
 
-        const { websiteName, emailGlobal, emailContact, emailRgpd, logoMail } = this.state;
+        const { websiteName, emailGlobal, emailContact, emailRgpd, multipleDatabase, prefixDatabase } = this.state;
 
         this.setState({ errors: [] });
 
-        // validate global
-        let validate = Validateur.validateur([
+        let paramsToValidate = [
             {type: "text",  id: 'websiteName',  value: websiteName},
             {type: "email", id: 'emailGlobal',  value: emailGlobal},
             {type: "email", id: 'emailContact', value: emailContact},
             {type: "email", id: 'emailRgpd',    value: emailRgpd},
-            {type: "text",  id: 'logoMail',     value: logoMail},
-        ])
+        ];
 
+        if(multipleDatabase[0] === 1){
+            paramsToValidate = [...paramsToValidate, ...[{type: "text", id: 'prefixDatabase', value: prefixDatabase}]];
+        }
+
+        // validate global
+        let validate = Validateur.validateur(paramsToValidate)
         if(!validate.code){
             Formulaire.showErrors(this, validate);
         }else{
@@ -83,7 +88,7 @@ export class SettingsFormulaire extends Component {
     }
 
     render () {
-        const { errors, websiteName, emailGlobal, emailContact, emailRgpd, logoMail, multipleDatabase } = this.state;
+        const { errors, websiteName, emailGlobal, emailContact, emailRgpd, logoMail, multipleDatabase, prefixDatabase } = this.state;
 
         let multipleItems = [{ value: 1, label: "Oui", identifiant: "oui" }];
 
@@ -127,11 +132,17 @@ export class SettingsFormulaire extends Component {
                             </div>
 
                             <div className="line-col-2">
-                                <div className="line">
+                                <div className="line line-2">
                                     <Checkbox items={multipleItems} identifiant="multipleDatabase" valeur={multipleDatabase} {...params} isSwitcher={true}>
                                         Multiple base de données
                                     </Checkbox>
+                                    {multipleDatabase[0]
+                                        ? <Input valeur={prefixDatabase} identifiant="prefixDatabase" {...params}>Prefix</Input>
+                                        : <div className="form-group" />
+                                    }
                                 </div>
+
+
                             </div>
                         </div>
                     </div>

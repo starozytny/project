@@ -16,7 +16,7 @@ const URL_UPDATE_GROUP      = "api_societies_update";
 const TEXT_CREATE           = "Ajouter la société";
 const TEXT_UPDATE           = "Enregistrer les modifications";
 
-export function SocietyFormulaire ({ context, element })
+export function SocietyFormulaire ({ context, element, settings })
 {
     let url = Routing.generate(URL_CREATE_ELEMENT);
 
@@ -27,6 +27,7 @@ export function SocietyFormulaire ({ context, element })
     let form = <Form
         context={context}
         url={url}
+        settings={settings}
         code={element ? Formulaire.setValue(element.code) : ""}
         name={element ? Formulaire.setValue(element.name) : ""}
         logoFile={element ? Formulaire.setValue(element.logoFile) : null}
@@ -38,6 +39,7 @@ export function SocietyFormulaire ({ context, element })
 SocietyFormulaire.propTypes = {
     context: PropTypes.string.isRequired,
     element: PropTypes.object,
+    settings: PropTypes.object,
 }
 
 class Form extends Component {
@@ -93,10 +95,11 @@ class Form extends Component {
     }
 
     render () {
-        const { context, logoFile } = this.props;
+        const { context, logoFile, settings } = this.props;
         const { errors, code, name } = this.state;
 
         let params = { errors: errors, onChange: this.handleChange }
+        let prefix = settings.multipleDatabase ? settings.prefixDatabase : "default";
 
         return <>
             <form onSubmit={this.handleSubmit}>
@@ -111,7 +114,7 @@ class Form extends Component {
                                 <Input identifiant="code" valeur={code} {...params} placeholder="XXX">Code</Input>
                             </div>
                             <div className="line">
-                                <InputView valeur={code ? "default" + code : 'XXX'} errors={errors}>Manager</InputView>
+                                <InputView valeur={prefix + (code ? code : 'XXX')} errors={errors}>Manager</InputView>
                             </div>
                         </div>
                     </div>
@@ -144,4 +147,5 @@ Form.propTypes = {
     code: PropTypes.node.isRequired,
     name: PropTypes.string.isRequired,
     logoFile: PropTypes.node,
+    settings: PropTypes.object,
 }

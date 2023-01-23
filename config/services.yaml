@@ -6,6 +6,8 @@
 parameters:
     public_directory: '%kernel.project_dir%/public/'
     private_directory: '%kernel.project_dir%/documents/'
+    config_directory: '%kernel.project_dir%/config/'
+    env_file: '%kernel.project_dir%/.env.local'
 
 services:
     # default configuration for services in *this* file
@@ -15,6 +17,8 @@ services:
         bind:
             $publicDirectory: '%public_directory%'
             $privateDirectory: '%private_directory%'
+            $configDirectory: '%config_directory%'
+            $envFile: '%env_file%'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name

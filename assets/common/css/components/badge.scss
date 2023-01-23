@@ -1,7 +1,23 @@
+.badges-col{
+  @include flex(column, flex-start, flex-start, 4px)
+}
+
 .badge{
   display: inline-block;
   padding: 4px 8px 2px 8px;
   border-radius: 4px;
   font-size: 13px;
   @include overflowText();
+}
+
+.badge.badge-disabled{
+  cursor: not-allowed;
+}
+
+.badge-btn{
+  cursor: pointer;
+
+  &:hover{
+    text-decoration: underline;
+  }
 }

@@ -5,7 +5,7 @@ import { Alert } from "@commonComponents/Elements/Alert";
 
 import { SocietiesItem } from "@adminPages/Societies/SocietiesItem";
 
-export function SocietiesList ({ data, onDelete }) {
+export function SocietiesList ({ data, settings, onModal }) {
     return <div className="list">
         <div className="list-table">
             <div className="items items-societies">
@@ -22,7 +22,7 @@ export function SocietiesList ({ data, onDelete }) {
 
                 {data.length > 0
                     ? data.map((elem) => {
-                        return <SocietiesItem key={elem.id} elem={elem} onDelete={onDelete} />;
+                        return <SocietiesItem key={elem.id} elem={elem} settings={settings} onModal={onModal} />;
                     })
                     : <Alert>Aucune donnée enregistrée.</Alert>
                 }
@@ -33,5 +33,6 @@ export function SocietiesList ({ data, onDelete }) {
 
 SocietiesList.propTypes = {
     data: PropTypes.array.isRequired,
-    onDelete: PropTypes.func.isRequired,
+    settings: PropTypes.object.isRequired,
+    onModal: PropTypes.func.isRequired,
 }

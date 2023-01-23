@@ -40,7 +40,11 @@ class Society extends DataEntity
 
     #[ORM\Column]
     #[Groups(['society_list'])]
-    private ?bool $isActivated = true;
+    private ?bool $isActivated = false;
+
+    #[ORM\Column]
+    #[Groups(['society_list'])]
+    private ?bool $isGenerated = false;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $logo = null;
@@ -102,6 +106,18 @@ class Society extends DataEntity
     public function setIsActivated(bool $isActivated): self
     {
         $this->isActivated = $isActivated;
+
+        return $this;
+    }
+
+    public function isIsGenerated(): ?bool
+    {
+        return $this->isGenerated;
+    }
+
+    public function setIsGenerated(bool $isGenerated): self
+    {
+        $this->isGenerated = $isGenerated;
 
         return $this;
     }

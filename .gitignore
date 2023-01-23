@@ -35,3 +35,5 @@ winpty.exe.stackdump
 /.idea/*
 /public/error_log
 /bin/backup/*
+
+/config/databaseConfig.json

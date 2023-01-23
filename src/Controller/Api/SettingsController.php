@@ -4,7 +4,9 @@ namespace App\Controller\Api;
 
 use App\Entity\Main\Settings;
 use App\Repository\Main\SettingsRepository;
+use App\Repository\Main\SocietyRepository;
 use App\Service\ApiResponse;
+use App\Service\MultipleDatabase\MultipleDatabase;
 use App\Service\SanitizeData;
 use App\Service\ValidatorService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,7 +22,8 @@ class SettingsController extends AbstractController
 {
     #[Route('/update', name: 'update', options: ['expose' => true], methods: 'POST')]
     public function update(Request $request, ApiResponse $apiResponse, ValidatorService $validator,
-                           SettingsRepository $repository, SanitizeData $sanitizeData): Response
+                           SettingsRepository $repository, SanitizeData $sanitizeData,
+                           SocietyRepository $societyRepository, MultipleDatabase $multipleDatabase): Response
     {
         $objs = $repository->findAll();
         $obj = $objs ? $objs[0] : new Settings();
@@ -40,6 +43,10 @@ class SettingsController extends AbstractController
             $logo = "data:image/" . $extension . ';base64,' . $base64;
         }
 
+        $isMultipleDatabase = (int) $data->multipleDatabase[0];
+        $prefix = $sanitizeData->trimData($data->prefixDatabase);
+        $prefix = $prefix ? strtolower($prefix) : "";
+
         $obj = ($obj)
             ->setWebsiteName($sanitizeData->trimData($data->websiteName))
             ->setEmailGlobal($sanitizeData->trimData($data->emailGlobal))
@@ -47,8 +54,23 @@ class SettingsController extends AbstractController
             ->setEmailRgpd($sanitizeData->trimData($data->emailRgpd))
             ->setLogoMail($logo)
             ->setUrlHomepage($this->generateUrl('app_homepage', [], UrlGeneratorInterface::ABSOLUTE_URL))
-            ->setMultipleDatabase((int) $data->multipleDatabase[0])
+            ->setMultipleDatabase($isMultipleDatabase)
+            ->setPrefixDatabase($prefix)
         ;
+
+        if($isMultipleDatabase){
+            foreach($societyRepository->findAll() as $society){
+                $manager = $prefix . $society->getCode();
+                $multipleDatabase->updateManager($obj, $society->getCode(), $society->getCode());
+
+                $society->setManager($manager);
+                $society->setIsActivated(false);
+
+                foreach($society->getUsers() as $user){
+                    $user->setManager($manager);
+                }
+            }
+        }
 
         $noErrors = $validator->validate($obj);
         if ($noErrors !== true) {

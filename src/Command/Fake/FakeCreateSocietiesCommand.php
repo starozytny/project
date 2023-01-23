@@ -5,6 +5,7 @@ namespace App\Command\Fake;
 use App\Entity\Main\Society;
 use App\Service\Data\DataMain;
 use App\Service\DatabaseService;
+use App\Service\SettingsService;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -21,13 +22,15 @@ class FakeCreateSocietiesCommand extends Command
 {
     private ObjectManager $em;
     private DataMain $dataMain;
+    private SettingsService $settingsService;
 
-    public function __construct(DatabaseService $databaseService, DataMain $dataMain)
+    public function __construct(DatabaseService $databaseService, DataMain $dataMain, SettingsService $settingsService)
     {
         parent::__construct();
 
         $this->em = $databaseService->getDefaultManager();
         $this->dataMain = $dataMain;
+        $this->settingsService = $settingsService;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -63,8 +66,7 @@ class FakeCreateSocietiesCommand extends Command
                 'code' => $code
             ];
 
-            $obj = $this->dataMain->setDataSociety(new Society(), json_decode(json_encode($obj)));
-            $obj->setManager("default");
+            $obj = $this->dataMain->setDataSociety(new Society(), json_decode(json_encode($obj)), $this->settingsService->getSettings());
 
             $this->em->persist($obj);
         }
