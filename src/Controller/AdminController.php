@@ -7,7 +7,6 @@ use App\Repository\Main\ContactRepository;
 use App\Repository\Main\SettingsRepository;
 use App\Repository\Main\SocietyRepository;
 use App\Repository\Main\UserRepository;
-use App\Service\SettingsService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -35,6 +34,7 @@ class AdminController extends AbstractController
             if($contact->isSeen()) $contactsNew++;
         }
 
+
         return $this->render('admin/pages/index.html.twig', [
             'settings' => $settings,
             'nbSocieties' => count($societyRepository->findAll()),
@@ -44,6 +44,7 @@ class AdminController extends AbstractController
             'nbContactsNew' => $contactsNew,
         ]);
     }
+
     #[Route('/settings/setting/modifier', name: 'settings_update')]
     public function settings(SettingsRepository $repository, SerializerInterface $serializer): Response
     {
