@@ -46,7 +46,8 @@ class SettingsController extends AbstractController
             ->setEmailContact($sanitizeData->trimData($data->emailContact))
             ->setEmailRgpd($sanitizeData->trimData($data->emailRgpd))
             ->setLogoMail($logo)
-            ->setUrlHomepage($this->generateUrl('app_homepage', [], UrlGeneratorInterface::ABSOLUTE_URL));
+            ->setUrlHomepage($this->generateUrl('app_homepage', [], UrlGeneratorInterface::ABSOLUTE_URL))
+            ->setMultipleDatabase((int) $data->multipleDatabase[0])
         ;
 
         $noErrors = $validator->validate($obj);

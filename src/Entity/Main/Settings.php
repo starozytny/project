@@ -40,6 +40,10 @@ class Settings
     #[Groups(['settings_form'])]
     private ?string $logoMail = null;
 
+    #[ORM\Column]
+    #[Groups(['settings_form'])]
+    private ?bool $multipleDatabase = false;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -113,6 +117,18 @@ class Settings
     public function setLogoMail(string $logoMail): self
     {
         $this->logoMail = $logoMail;
+
+        return $this;
+    }
+
+    public function isMultipleDatabase(): ?bool
+    {
+        return $this->multipleDatabase;
+    }
+
+    public function setMultipleDatabase(bool $multipleDatabase): self
+    {
+        $this->multipleDatabase = $multipleDatabase;
 
         return $this;
     }

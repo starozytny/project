@@ -7,7 +7,7 @@ import Routing          from '@publicFolder/bundles/fosjsrouting/js/router.min.j
 import Formulaire       from "@commonFunctions/formulaire";
 import Validateur       from "@commonFunctions/validateur";
 
-import { Input, InputFile } from "@commonComponents/Elements/Fields";
+import {Checkbox, Input, InputFile} from "@commonComponents/Elements/Fields";
 import { Button }       from "@commonComponents/Elements/Button";
 
 const URL_UPDATE_ELEMENT = "api_settings_update";
@@ -25,12 +25,22 @@ export class SettingsFormulaire extends Component {
             emailContact: element ? element.emailContact : "",
             emailRgpd: element ? element.emailRgpd : "",
             logoMail: element ? element.logoMail : "",
+            multipleDatabase: element ? [element.multipleDatabase ? 1 : 0] : [0],
         }
 
         this.file = React.createRef();
     }
 
-    handleChange = (e) => { this.setState({[ e.currentTarget.name]: e.currentTarget.value})  }
+    handleChange = (e) => {
+        let name    = e.currentTarget.name;
+        let value   = e.currentTarget.value;
+
+        if(name === "multipleDatabase"){
+            value = e.currentTarget.checked ? [parseInt(value)] : [0];
+        }
+
+        this.setState({[name]: value})
+    }
 
     handleSubmit = (e) => {
         e.preventDefault();
@@ -73,7 +83,9 @@ export class SettingsFormulaire extends Component {
     }
 
     render () {
-        const { errors, websiteName, emailGlobal, emailContact, emailRgpd, logoMail } = this.state;
+        const { errors, websiteName, emailGlobal, emailContact, emailRgpd, logoMail, multipleDatabase } = this.state;
+
+        let multipleItems = [{ value: 1, label: "Oui", identifiant: "oui" }];
 
         let params = { errors: errors, onChange: this.handleChange }
 
@@ -101,8 +113,24 @@ export class SettingsFormulaire extends Component {
                                 <div className="line">
                                     <InputFile ref={this.file} type="simple" identifiant="logoMail" valeur={logoMail}
                                                placeholder="Glissez et déposer votre logo ou" {...params}>
-                                        Logo
+                                        Logo pour les mails
                                     </InputFile>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="line">
+                            <div className="line-col-1">
+                                <div className="title">Base de données</div>
+                                <div className="subtitle">La configuration <i>multiple base de données</i> permet
+                                    l'utilisation et la semi automatisation d'une base de donnée par société.</div>
+                            </div>
+
+                            <div className="line-col-2">
+                                <div className="line">
+                                    <Checkbox items={multipleItems} identifiant="multipleDatabase" valeur={multipleDatabase} {...params} isSwitcher={true}>
+                                        Multiple base de données
+                                    </Checkbox>
                                 </div>
                             </div>
                         </div>
