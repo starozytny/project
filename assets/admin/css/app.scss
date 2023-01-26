@@ -48,6 +48,7 @@ $data:
         "primary" var(--primary),
         "warning" var(--warning),
         "danger"  var(--danger),
+        "alpha"   var(--alpha),
 ;
 
 @each $name, $txt in $data {
