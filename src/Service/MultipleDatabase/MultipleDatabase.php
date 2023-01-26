@@ -4,7 +4,6 @@ namespace App\Service\MultipleDatabase;
 
 use App\Entity\Main\Settings;
 use App\Entity\Main\Society;
-use App\Service\SettingsService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Yaml\Yaml;
 
@@ -38,7 +37,7 @@ class MultipleDatabase
 
         //write env file
         $env = file_get_contents($this->envFile);
-        $env .= 'DATABASE_URL_CLIENT_'.$code.'="mysql://'.$db['db_username'].':'.$db['db_password'].'@'.$db['db_host'].'/'.$nameManager.'?serverVersion=5.7&charset=utf8mb4"';
+        $env .= 'DATABASE_URL_CLIENT_'.$code.'="mysql://'.$db['db_username'].':'.$db['db_password'].'@'.$db['db_host'].'/'.$db['db_prefix'] . $nameManager.'?serverVersion=5.7&charset=utf8mb4"';
         $env .= "\n";
         file_put_contents($this->envFile, $env);
 
