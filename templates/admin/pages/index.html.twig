@@ -37,9 +37,10 @@
                     <div class="title">Sociétés</div>
                 </div>
                 <div class="card-body">
-                    <a href="{{ path('admin_societies_index') }}">
-                        <span class="txt-alpha">{{ nbSocieties }}</span>
-                    </a>
+                    <div>{{ nbSocieties }}</div>
+                    <div>
+                        <a href="{{ path('admin_societies_index') }}">Voir les sociétés</a>
+                    </div>
                 </div>
             </div>
 
@@ -49,9 +50,8 @@
                     <div class="title">Qui s'est connecté ?</div>
                 </div>
                 <div class="card-body">
-                    <a href="{{ path('admin_users_index') }}">
-                        <span class="txt-alpha">{{ nbUsersConnected }} / {{ nbUsers }}</span>
-                    </a>
+                    <div>{{ nbUsersConnected }} / {{ nbUsers }}</div>
+                    <a href="{{ path('admin_users_index') }}">Voir les utilisateurs</a>
                 </div>
             </div>
 
@@ -82,7 +82,7 @@
                     {% endif %}
                     <div>
                         <a href="{{ path('admin_contacts_index') }}">
-                            <span class="txt-alpha">{{ nbContacts }} message{{ nbContacts > 1 ? "s" : "" }}</span>
+                            <span class="txt-alpha">Voir le{{ nbContacts | plurial }} {{ nbContacts }} message{{ nbContacts | plurial }}</span>
                         </a>
                     </div>
                 </div>
