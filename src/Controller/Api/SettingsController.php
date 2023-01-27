@@ -44,7 +44,7 @@ class SettingsController extends AbstractController
         }
 
         $isMultipleDatabase = (int) $data->multipleDatabase[0];
-        $prefix = $sanitizeData->trimData($data->prefixDatabase);
+        $prefix = $isMultipleDatabase ? $sanitizeData->trimData($data->prefixDatabase) : "";
         $prefix = $prefix ? strtolower($prefix) : "";
 
         $obj = ($obj)
