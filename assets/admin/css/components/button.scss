@@ -7,7 +7,7 @@
 }
 
 $data:
-        "default" var(--alpha) var(--txt),
+        "default" var(--color0) var(--grey),
         "cancel" var(--grey) var(--txt),
         "primary" var(--primary) var(--alpha),
         "warning" var(--warning) var(--alpha),
@@ -22,7 +22,7 @@ $data:
 }
 
 $data:
-        "default" var(--alpha) var(--txt) var(--grey) var(--color2),
+        "default" var(--color0) var(--grey) var(--color2Opacity4) var(--color2),
         "primary" var(--alpha) var(--primary) var(--primary) var(--primary),
         "warning" var(--alpha) var(--warning) var(--warning) var(--warning),
 ;

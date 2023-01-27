@@ -1,1 +1,29 @@
 @import "../../../common/css/components/dropdown";
+
+.dropdown {
+  &:hover{
+    .dropdown-btn{
+      &:not(.active){
+        color: var(--alpha);
+      }
+    }
+  }
+
+  .dropdown-btn{
+    background-color: var(--color4);
+
+    &.active{
+      color: var(--alpha);
+    }
+  }
+
+  .dropdown-items{
+    background-color: var(--color0);
+
+    .item{
+      label{
+        color: var(--alpha);
+      }
+    }
+  }
+}

@@ -5,14 +5,14 @@ import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min';
 
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { Changelogs } from "@adminPages/Changelogs/Changelogs";
 import { ChangelogFormulaire } from "@adminPages/Changelogs/ChangelogForm";
+import { Agenda } from "@commonComponents/Modules/Agenda";
 
 Routing.setRoutingData(routes);
 
 let el = document.getElementById("agenda_list");
 if(el){
-    createRoot(el).render(<Changelogs />)
+    createRoot(el).render(<Agenda />)
 }
 
 el = document.getElementById("agenda_update");

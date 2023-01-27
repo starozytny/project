@@ -5,6 +5,7 @@
     .notifications-items{
       z-index: 10;
       opacity: 1;
+      left: -86px;
     }
   }
 }
@@ -23,7 +24,7 @@
 
 .notifications-items{
   position: absolute;
-  top: 32px; left: -86px;
+  top: 32px; left: -800px;
   z-index: -10;
   border-radius: 8px;
   @include shadowCommon();
@@ -130,9 +131,13 @@
 //                     | |   /_/  \___/ \___/   | |
 //                     |__|                    |__|
 @media (min-width:768px) {
-  .notifications-items{
-    left: auto;
-    right: 0;
+  .notifications-container{
+    &.active{
+      .notifications-items{
+        left: auto;
+        right: 0;
+      }
+    }
   }
 }
 
@@ -143,8 +148,12 @@
 //                     | |  |_|\___/_____|  |_|    | |
 //                     |__|                       |__|
 @media (min-width: 1024px) {
-  .notifications-items{
-    left: 0;
-    right: auto;
+  .notifications-container{
+    &.active{
+      .notifications-items{
+        left: 0;
+        right: auto;
+      }
+    }
   }
 }

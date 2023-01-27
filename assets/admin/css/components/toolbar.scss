@@ -5,7 +5,24 @@
     width: 100%;
 
     &:focus{
-      border-color: var(--grey);
+      border-color: var(--color3Opacity4);
     }
+  }
+}
+
+.search-bar{
+  input{
+    &:hover,
+    &:focus{
+      & + .search-icon:not(.active){
+        color: var(--alpha);
+      }
+    }
+  }
+}
+
+.filters{
+  .dropdown-btn{
+    border-color: var(--color3Opacity4);
   }
 }

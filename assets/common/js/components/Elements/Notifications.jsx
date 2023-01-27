@@ -93,7 +93,7 @@ export class Notifications extends Component {
                 ? <ButtonIcon icon="chart-3">Chargement</ButtonIcon>
                 : <div ref={this.wrapperRef} className={"notifications-container" + (open ? " active" : "")}>
                     {nbNewNotifs > 0 && <div className="notifications-total">{nbNewNotifs}</div>}
-                    <ButtonIcon icon="notification" onClick={this.handleOpen}>
+                    <ButtonIcon outline={true} icon="notification" onClick={this.handleOpen}>
                         Notifications
                     </ButtonIcon>
                     <div className="notifications-items">
