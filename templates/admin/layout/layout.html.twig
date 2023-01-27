@@ -18,6 +18,9 @@
     { name: "Contacts", icon: "chat",
         path: path('admin_contacts_index'), matchRoute: ['admin_contacts_index']
     },
+    { name: "Agenda", icon: "calendar",
+        path: path('admin_agenda_index'), matchRoute: ['admin_agenda_index', 'admin_agenda_create', 'admin_agenda_update']
+    },
 ] %}
 
 {% set menu_bottom = [

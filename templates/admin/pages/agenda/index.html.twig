@@ -1,0 +1,16 @@
+{% extends 'admin/pages/agenda/template.html.twig' %}
+
+{% set page_title %}Agenda{% endset %}
+{% set page_subtitle %}Gérez vos rendez-vous simplement.{% endset %}
+
+{% block main_content %}
+    <div class="page-actions">
+        <div class="col-1">
+            <a href="{{ path('admin_agenda_create') }}" class="btn btn-primary">Créer un nouveau évènement</a>
+        </div>
+    </div>
+
+    <div id="agenda_list">
+        {% include "layout/components/loader.html.twig" %}
+    </div>
+{% endblock %}
