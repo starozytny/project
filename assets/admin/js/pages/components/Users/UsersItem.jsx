@@ -18,6 +18,9 @@ export function UsersItem ({ elem, onModal })
     let menu = [
         { data: <a onClick={() => onModal("reinit", elem)}>
                 <span className="icon-refresh" /> <span>Générer un nouveau mot de passe</span>
+        </a> },
+        { data: <a onClick={() => onModal("reinit", elem)}>
+                <span className="icon-email-edit" /> <span>Envoyer un mail</span>
         </a> }
     ]
 
