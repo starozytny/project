@@ -26,7 +26,11 @@
                 <div class="nav-content">
                     <div class="nav-header">
                         <div class="avatar">
-                            <img src="{{ app.user.avatarFile }}" alt="Avatar utilisateur">
+                            {% if app.user.avatarFile %}
+                                <img src="{{ app.user.avatarFile }}" alt="Avatar utilisateur">
+                            {% else %}
+                                <div class="avatar-letter">{{ app.user.lastname | slice(0, 1) }}{{ app.user.firstname | slice(0,1) }}</div>
+                            {% endif %}
                         </div>
                         <div class="nav-header-infos">
                             <div>{{ app.user.userIdentifier }}</div>

@@ -20,7 +20,10 @@ export function UsersItem ({ elem, onModal })
             <div className="item-infos">
                 <div className="col-1 col-with-image">
                     <div className="image">
-                        <img src={elem.avatarFile} alt="avatar"/>
+                        {elem.avatarFile
+                            ? <img src={elem.avatarFile} alt="avatar"/>
+                            : <div className="avatar-letter">{elem.lastname.slice(0,1) + elem.firstname.slice(0,1)}</div>
+                        }
                     </div>
                     <div className="infos">
                         <div className="name">{elem.lastname} {elem.firstname}</div>

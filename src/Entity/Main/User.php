@@ -326,9 +326,9 @@ class User extends DataEntity implements UserInterface, PasswordAuthenticatedUse
     }
 
     #[Groups(['user_list', 'user_form'])]
-    public function getAvatarFile(): string
+    public function getAvatarFile(): ?string
     {
-        return $this->getFileOrDefault($this->avatar, self::FOLDER, "https://robohash.org/" . $this->username);
+        return $this->getFileOrDefault($this->avatar, self::FOLDER, null);
     }
 
     public function getManager(): ?string
