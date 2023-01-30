@@ -3,33 +3,35 @@
     display: none;
   }
 
-  .item{
-    padding: 12px;
+  .items{
+    & > .item{
+      padding: 12px;
 
-    .sub{
-      font-size: 14px;
-      color: var(--grey);
-    }
-
-    &:not(:last-child){
-      border-bottom: 1px solid var(--grey);
-    }
-
-    .name{
-      @include fontSemibold();
-
-      & + .sub{
-        margin-top: 4px;
+      .sub{
+        font-size: 14px;
+        color: var(--grey);
       }
-    }
 
-    .image{
-      width: 64px; height: 64px;
-      overflow: hidden;
+      &:not(:last-child){
+        border-bottom: 1px solid var(--grey);
+      }
 
-      img{
-        object-fit: cover;
-        height: 100%;
+      .name{
+        @include fontSemibold();
+
+        & + .sub{
+          margin-top: 4px;
+        }
+      }
+
+      .image{
+        width: 64px; height: 64px;
+        overflow: hidden;
+
+        img{
+          object-fit: cover;
+          height: 100%;
+        }
       }
     }
   }

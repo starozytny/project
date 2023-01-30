@@ -4,21 +4,24 @@
   background-color: var(--color0Opacity4);
   border-radius: 8px;
 
-  .item{
-    .image{
-      border-radius: 4px;
+  .items{
+    & > .item{
+      .image{
+        border-radius: 4px;
+      }
+    }
+
+    & > .item:not(:last-child){
+      border-color: var(--color3);
+    }
+
+    & > .item:not(.item-header){
+      &:hover{
+        background-color: var(--color0);
+      }
     }
   }
 
-  .item:not(:last-child){
-    border-color: var(--color3);
-  }
-
-  .item:not(.item-header){
-    &:hover{
-      background-color: var(--color0);
-    }
-  }
 
   //                      __   _____ __    ___    __
   //                     | _| |___  / /_  ( _ )  |_ |
