@@ -79,7 +79,7 @@ class DataMain
     public function setDataAgEvent(AgEvent $obj, $data): AgEvent
     {
         if($data->allDay[0] === 1){
-            $obj->setStartAt($this->sanitizeData->createDatePicker($data->startAt . " " . $data->startTime));
+            $obj->setStartAt($this->sanitizeData->createDatePicker($data->startAt));
         }else{
             $obj->setStartAt($this->sanitizeData->createDateTimePicker($data->startAt . " " . $data->startTime));
             $obj->setEndAt($data->endAt ? $this->sanitizeData->createDateTimePicker($data->endAt . " " . $data->endTime) : null);

@@ -82,9 +82,7 @@ class Form extends Component {
         this.setState({ [e.currentTarget.name]: e.currentTarget.checked ? [parseInt(e.currentTarget.value)] : [0] })
     }
 
-    handleChangeDate = (name, value) => {
-        this.setState({ [name]: value })
-    }
+    handleChangeDate = (name, value) => { this.setState({ [name]: value }) }
 
     handleSubmit = (e) => {
         e.preventDefault();
@@ -99,13 +97,14 @@ class Form extends Component {
             {type: "text",  id: 'type',      value: type},
             {type: "text",  id: 'type',      value: type},
             {type: "text",  id: 'startAt',   value: startAt},
-            {type: "text",  id: 'startTime', value: startTime},
         ];
 
-        if(allDay[0] === 0 && endAt !== ""){
-            paramsToValidate = [...paramsToValidate,
-                ...[{type: "text", id: 'endTime', value: endTime}]
-            ];
+        if(allDay[0] === 0){
+            paramsToValidate = [...paramsToValidate, ...[{type: "text", id: 'startTime', value: startTime}]];
+
+            if(endAt !== ""){
+                paramsToValidate = [...paramsToValidate, ...[{type: "text", id: 'endTime', value: endTime}]];
+            }
         }
 
         let validate = Validateur.validateur(paramsToValidate)
@@ -159,9 +158,12 @@ class Form extends Component {
                             </div>
                             <div className="line line-2">
                                 <Input type="js-date" identifiant="startAt" valeur={startAt} {...params}>Début du rendez-vous</Input>
-                                <Input type="time" identifiant="startTime" valeur={startTime} {...params}>Horaire du début</Input>
+                                {allDay[0] === 0
+                                    ? <Input type="time" identifiant="startTime" valeur={startTime} {...params}>Horaire du début</Input>
+                                    : <div className="form-group" />
+                                }
                             </div>
-                            {allDay[0] !== 1 && <div className="line line-2">
+                            {allDay[0] === 0 && <div className="line line-2">
                                 <Input type="js-date" identifiant="endAt" valeur={endAt} {...params}>Fin du rendez-vous</Input>
                                 <Input type="time" identifiant="endTime" valeur={endTime} {...params}>Horaire de fin</Input>
                             </div>}

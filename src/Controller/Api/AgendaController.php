@@ -16,6 +16,12 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/api/agenda/events/', name: 'api_agenda_events_')]
 class AgendaController extends AbstractController
 {
+    #[Route('/list', name: 'list', options: ['expose' => true], methods: 'GET')]
+    public function list(AgEventRepository $repository, ApiResponse $apiResponse): Response
+    {
+        return $apiResponse->apiJsonResponse($repository->findAll(), AgEvent::LIST);
+    }
+
     public function submitForm($type, AgEventRepository $repository, AgEvent $obj, Request $request, ApiResponse $apiResponse,
                                ValidatorService $validator, DataMain $dataEntity): JsonResponse
     {
