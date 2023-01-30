@@ -5,7 +5,7 @@ import Routing   from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 import moment from "moment";
 import 'moment/locale/fr';
 
-import {ButtonIcon, ButtonIconDropdown} from "@commonComponents/Elements/Button";
+import { ButtonIcon, ButtonIconDropdown } from "@commonComponents/Elements/Button";
 
 const URL_UPDATE_PAGE = "admin_users_update"
 
@@ -40,7 +40,7 @@ export function UsersItem ({ elem, onModal })
                 </div>
                 <div className="col-2">
                     <div>{elem.username}</div>
-                    <div>{elem.email}</div>
+                    <div className="sub">{elem.email}</div>
                 </div>
                 <div className="col-3">
                     <div className={"badge badge-" + (elem.highRoleCode)}>{elem.highRole}</div>
