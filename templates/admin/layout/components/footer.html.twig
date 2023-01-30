@@ -1,0 +1,25 @@
+<footer>
+    <div class="footer">
+        <div class="footer-menu">
+            <div class="footer-logo">
+                <a href="{{ path('app_homepage') }}" title="Site">
+                    <img src="{{ asset('build/admin/images/logo.png') }}" alt="Logo du site"/>
+                </a>
+                <span>Website</span>
+            </div>
+            <div class="footer-items">
+{#                <a rel="nofollow" href="{{ path('app_mentions') }}">Mentions légales</a>#}
+{#                <a rel="nofollow" href="{{ path('app_politique') }}">Politique de confidentialité</a>#}
+{#                <a rel="nofollow" href="{{ path('app_cookies') }}">Gestion des cookies</a>#}
+                <a rel="nofollow" href="{{ path('app_contact') }}">Nous contacter</a>
+                {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                    <a rel="nofollow" href="{{ path('app_login') }}">Mon espace</a>
+                    <a rel="nofollow" href="{{ path('app_logout') }}">Me déconnecter</a>
+                {% else %}
+                    <a rel="nofollow" href="{{ path('app_login') }}">Mon espace</a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="copyright">Copyright 2023 - <a href="https://logilink.fr" target="_blank" class="txt-primary">Logilink.fr</a></div>
+    </div>
+</footer>
