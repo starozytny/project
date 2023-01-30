@@ -2,7 +2,7 @@ const datepicker = require("js-datepicker");
 const moment = require("moment");
 require("moment/locale/fr");
 
-function initDateInput(onChangeDate, onInput) {
+function initDateInput(onChangeDate, onInput, minDate, maxDate = new Date(2060, 0, 1)) {
     let inputs = document.querySelectorAll('.js-datepicker');
     inputs.forEach(input => {
         let picker = datepicker(input, {
@@ -14,6 +14,9 @@ function initDateInput(onChangeDate, onInput) {
             },
             customDays: ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'],
             customMonths: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+            overlayButton: "Valider",
+            overlayPlaceholder: 'Année (AAAA)',
+            minDate: minDate, maxDate: maxDate,
         })
 
         input.addEventListener('change', (e) => onInput(e, picker))

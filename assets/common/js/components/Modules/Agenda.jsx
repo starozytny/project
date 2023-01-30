@@ -17,7 +17,8 @@ import Formulaire        from "@commonFunctions/formulaire";
 
 import { LoaderElements } from "@commonComponents/Elements/Loader";
 
-const URL_GET_DATA = "api_agenda_events_list"
+const URL_GET_DATA       = "api_agenda_events_list";
+const URL_UPDATE_ELEMENT = "admin_agenda_update";
 
 export class Agenda extends Component {
     constructor(props) {
@@ -45,10 +46,10 @@ export class Agenda extends Component {
         ;
     }
 
+    handleUpdatePage = (e) => { location.href = Routing.generate(URL_UPDATE_ELEMENT, {'id': e.event.id}) }
+
     render () {
         const { loadingData, initialView, data } = this.state;
-
-        console.log(data);
 
         return <div>
             {loadingData
@@ -71,6 +72,7 @@ export class Agenda extends Component {
                         editable={true}
                         droppable={true}
                         events={data}
+                        eventClick={this.handleUpdatePage}
                     />
                 </div>
             }

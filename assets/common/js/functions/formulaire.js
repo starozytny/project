@@ -16,7 +16,11 @@ function setValue (value, defaultValue = "") {
 }
 
 function setValueDate (value, defaultValue = "") {
-    return value === null ? moment(defaultValue).format('DD/MM/YYYY') : value;
+    return value === null ? defaultValue : moment(value).format('DD/MM/YYYY');
+}
+
+function setValueTime (value, defaultValue = "") {
+    return value === null ? defaultValue : moment(value).format('HH[h]mm');
 }
 
 function showErrors(self, validate, text="Veuillez vérifier les informations transmises.", toTop = false)
@@ -50,6 +54,7 @@ module.exports = {
     loader,
     setValue,
     setValueDate,
+    setValueTime,
     showErrors,
     displayErrors,
     updateValueCheckbox,

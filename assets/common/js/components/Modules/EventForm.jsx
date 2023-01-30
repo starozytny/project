@@ -35,8 +35,8 @@ export function EventFormulaire ({ context, element })
         localisation={element ? Formulaire.setValue(element.localisation): ""}
         startAt={element ? Formulaire.setValueDate(element.startAt) : ""}
         endAt={element ? Formulaire.setValueDate(element.endAt) : ""}
-        startTime={element ? Formulaire.setValueDate(element.startAt) : ""}
-        endTime={element ? Formulaire.setValueDate(element.endAt) : ""}
+        startTime={element ? Formulaire.setValueTime(element.startAt) : ""}
+        endTime={element ? Formulaire.setValueTime(element.endAt) : ""}
         allDay={element ? Formulaire.setValue([element.allDay ? 1 : 0]) : [0]}
     />
 
@@ -68,7 +68,7 @@ class Form extends Component {
         }
     }
 
-    componentDidMount = () => { Inputs.initDateInput(this.handleChangeDate, this.handleChange) }
+    componentDidMount = () => { Inputs.initDateInput(this.handleChangeDate, this.handleChange, new Date()) }
 
     handleChange = (e, picker) => {
         let name  = e.currentTarget.name;
@@ -174,16 +174,16 @@ class Form extends Component {
                                 </Checkbox>
                             </div>
                             <div className="line line-2">
-                                <Input type="js-date" identifiant="startAt" valeur={startAt} {...params}>Début du rendez-vous</Input>
-                                {allDay[0] === 0
-                                    ? <Input identifiant="startTime" valeur={startTime} placeholder="00h00" {...params}>Horaire du début</Input>
-                                    : <div className="form-group" />
-                                }
+                                <Input type="js-date" identifiant="startAt" valeur={startAt} {...params}>Début</Input>
+                                <Input type="js-date" identifiant="endAt" valeur={allDay[0] === 0 ? endAt : startAt} {...params}>Fin</Input>
                             </div>
-                            {allDay[0] === 0 && <div className="line line-2">
-                                <Input type="js-date" identifiant="endAt" valeur={endAt} {...params}>Fin du rendez-vous</Input>
-                                <Input identifiant="endTime" valeur={endTime} placeholder="00h00" {...params}>Horaire de fin</Input>
-                            </div>}
+                            {allDay[0] === 0
+                                ? <div className="line line-2">
+                                    <Input identifiant="startTime" valeur={startTime} placeholder="00h00" {...params}>Horaire du début</Input>
+                                    <Input identifiant="endTime" valeur={endTime} placeholder="00h00" {...params}>Horaire de fin</Input>
+                                </div>
+                                : null
+                            }
                         </div>
                     </div>
                     <div className="line">

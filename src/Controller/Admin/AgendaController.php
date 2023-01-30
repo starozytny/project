@@ -2,7 +2,7 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Main\Changelog;
+use App\Entity\Main\Agenda\AgEvent;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -24,9 +24,9 @@ class AgendaController extends AbstractController
     }
 
     #[Route('/evenement/modifier/{id}', name: 'update', options: ['expose' => true])]
-    public function update(Changelog $elem, SerializerInterface $serializer): Response
+    public function update(AgEvent $elem, SerializerInterface $serializer): Response
     {
-        $obj  = $serializer->serialize($elem, 'json', ['groups' => Changelog::FORM]);
+        $obj  = $serializer->serialize($elem, 'json', ['groups' => AgEvent::FORM]);
         return $this->render('admin/pages/agenda/update.html.twig', ['elem' => $elem, 'obj' => $obj]);
     }
 }

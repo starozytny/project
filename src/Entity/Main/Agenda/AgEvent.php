@@ -12,38 +12,40 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class AgEvent extends DataEntity
 {
     const LIST = ["agenda_list"];
+    const FORM = ["agenda_form"];
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['agenda_list'])]
+    #[Groups(['agenda_list', 'agenda_form'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['agenda_list'])]
+    #[Groups(['agenda_list', 'agenda_form'])]
     private ?string $name = null;
 
     #[ORM\Column]
+    #[Groups(['agenda_form'])]
     private ?int $type = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Groups(['agenda_list'])]
+    #[Groups(['agenda_list', 'agenda_form'])]
     private ?\DateTimeInterface $startAt = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    #[Groups(['agenda_list'])]
+    #[Groups(['agenda_list', 'agenda_form'])]
     private ?\DateTimeInterface $endAt = null;
 
     #[ORM\Column]
-    #[Groups(['agenda_list'])]
+    #[Groups(['agenda_list', 'agenda_form'])]
     private ?bool $allDay = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['agenda_list'])]
+    #[Groups(['agenda_list', 'agenda_form'])]
     private ?string $localisation = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups(['agenda_list'])]
+    #[Groups(['agenda_list', 'agenda_form'])]
     private ?string $content = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
