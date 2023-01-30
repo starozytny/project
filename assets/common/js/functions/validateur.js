@@ -2,7 +2,7 @@ function validateDate(value) {
     let regex = /^\d{2}\/\d{2}\/\d{4}$/;
 
     if (!regex.test(value)) {
-        return {'code': false, 'message': 'Ce champ requiert le format "DD/MM/AAAA".'};
+        return {'code': false, 'message': 'La date n\'est pas valide.'};
     }
 
     let [day, month, year] = extractDate(value);

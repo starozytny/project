@@ -81,8 +81,10 @@ class DataMain
         if($data->allDay[0] === 1){
             $obj->setStartAt($this->sanitizeData->createDatePicker($data->startAt));
         }else{
-            $obj->setStartAt($this->sanitizeData->createDateTimePicker($data->startAt . " " . $data->startTime));
-            $obj->setEndAt($data->endAt ? $this->sanitizeData->createDateTimePicker($data->endAt . " " . $data->endTime) : null);
+            $startTime = str_replace('h', ':', $data->startTime);
+            $endTime   = str_replace('h', ':', $data->endTime);
+            $obj->setStartAt($this->sanitizeData->createDateTimePicker($data->startAt . " " . $startTime));
+            $obj->setEndAt($data->endAt ? $this->sanitizeData->createDateTimePicker($data->endAt . " " . $endTime) : null);
         }
 
         return ($obj)

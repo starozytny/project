@@ -114,14 +114,11 @@ class Form extends Component {
         ];
 
         if(allDay[0] === 0){
-            paramsToValidate = [...paramsToValidate, ...[{type: "time", id: 'startTime', value: startTime}]];
-
-            if(endAt !== ""){
-                paramsToValidate = [...paramsToValidate, ...[
-                    {type: "date", id: 'endAt',   value: endAt},
-                    {type: "time", id: 'endTime', value: endTime},
-                ]];
-            }
+            paramsToValidate = [...paramsToValidate, ...[
+                {type: "time", id: 'startTime', value: startTime},
+                {type: "date", id: 'endAt',   value: endAt},
+                {type: "time", id: 'endTime', value: endTime},
+            ]];
         }
 
         let validate = Validateur.validateur(paramsToValidate)
