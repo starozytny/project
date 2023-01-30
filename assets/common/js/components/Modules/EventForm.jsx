@@ -9,6 +9,7 @@ import { Trumb }            from "@commonComponents/Elements/Trumb";
 import { Button }           from "@commonComponents/Elements/Button";
 
 import Formulaire from "@commonFunctions/formulaire";
+import Inputs     from "@commonFunctions/inputs";
 import Validateur from "@commonFunctions/validateur";
 
 const URL_INDEX_ELEMENTS    = "admin_agenda_index";
@@ -67,15 +68,18 @@ class Form extends Component {
         }
     }
 
-    componentDidMount = () => { Formulaire.initDateInput(this.handleChangeDate, this.handleChange) }
+    componentDidMount = () => { Inputs.initDateInput(this.handleChangeDate, this.handleChange) }
 
     handleChange = (e, picker) => {
         let name  = e.currentTarget.name;
         let value = e.currentTarget.value;
 
+        if(name === "startAt" || name === "endAt"){
+            value = Inputs.dateInput(e, picker, this.state[name]);
+        }
 
-        if(name === "startAt"){
-            value = Formulaire.dateInput(e, picker, this.state[name]);
+        if(name === "startTime" || name === "endTime"){
+            value = Inputs.timeInput(e, this.state[name]);
         }
 
         this.setState({[name]: value})
@@ -110,12 +114,12 @@ class Form extends Component {
         ];
 
         if(allDay[0] === 0){
-            paramsToValidate = [...paramsToValidate, ...[{type: "text", id: 'startTime', value: startTime}]];
+            paramsToValidate = [...paramsToValidate, ...[{type: "time", id: 'startTime', value: startTime}]];
 
             if(endAt !== ""){
                 paramsToValidate = [...paramsToValidate, ...[
                     {type: "date", id: 'endAt',   value: endAt},
-                    {type: "text", id: 'endTime', value: endTime},
+                    {type: "time", id: 'endTime', value: endTime},
                 ]];
             }
         }
@@ -172,13 +176,13 @@ class Form extends Component {
                             <div className="line line-2">
                                 <Input type="js-date" identifiant="startAt" valeur={startAt} {...params}>Début du rendez-vous</Input>
                                 {allDay[0] === 0
-                                    ? <Input type="time" identifiant="startTime" valeur={startTime} {...params}>Horaire du début</Input>
+                                    ? <Input identifiant="startTime" valeur={startTime} placeholder="00h00" {...params}>Horaire du début</Input>
                                     : <div className="form-group" />
                                 }
                             </div>
                             {allDay[0] === 0 && <div className="line line-2">
                                 <Input type="js-date" identifiant="endAt" valeur={endAt} {...params}>Fin du rendez-vous</Input>
-                                <Input type="time" identifiant="endTime" valeur={endTime} {...params}>Horaire de fin</Input>
+                                <Input identifiant="endTime" valeur={endTime} placeholder="00h00" {...params}>Horaire de fin</Input>
                             </div>}
                         </div>
                     </div>

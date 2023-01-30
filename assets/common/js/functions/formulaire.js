@@ -1,5 +1,4 @@
 const toastr = require("toastr");
-const datepicker = require("js-datepicker");
 const moment = require("moment");
 require("moment/locale/fr");
 
@@ -47,40 +46,6 @@ function updateValueCheckbox(e, items, value){
     return (e.currentTarget.checked) ? [...items, ...[value]] : items.filter(v => v !== value)
 }
 
-function initDateInput(onChangeDate, onInput) {
-    let inputs = document.querySelectorAll('.js-datepicker');
-    inputs.forEach(input => {
-        let picker = datepicker(input, {
-            onSelect: instance => {
-                onChangeDate(instance.el.name, moment(instance.dateSelected).format('DD/MM/YYYY'))
-            },
-            formatter: (input, date, instance) => {
-                input.value = date.toLocaleDateString("fr-FR")
-            },
-            customDays: ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'],
-            customMonths: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
-        })
-
-        input.addEventListener('change', (e) => onInput(e, picker))
-    })
-}
-
-function dateInput (e, picker, source) {
-    let value = e.currentTarget.value;
-
-    if(value.length > 10){
-        return source;
-    }
-
-    if (/^\d+(\/\d+)*$/.test(value)){
-        value = value
-            .replace(/^(\d{2})(\d)$/, "$1/$2")
-            .replace(/^(\d{2}\/\d{2})(\d+)$/, "$1/$2");
-    }
-
-    return value;
-}
-
 module.exports = {
     loader,
     setValue,
@@ -88,6 +53,4 @@ module.exports = {
     showErrors,
     displayErrors,
     updateValueCheckbox,
-    initDateInput,
-    dateInput,
 }

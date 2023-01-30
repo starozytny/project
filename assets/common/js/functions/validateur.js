@@ -26,6 +26,20 @@ function validateDate(value) {
     return {'code': true};
 }
 
+function validateTime(value) {
+    let regex = /^([0-1][0-9]|2[0-3])h[0-5][0-9]$/;
+
+    if (!regex.test(value)) {
+        return {'code': false, 'message': 'La valeur n\'est pas valide.'};
+    }
+    let [hours, minutes] = value.split(":").map(Number);
+    if (hours < 0 || hours > 23 || minutes < 0 || minutes > 59) {
+        return {'code': false, 'message': 'La valeur n\'est pas valide.'};
+    }
+
+    return {'code': true};
+}
+
 function extractDate(value) {
     let parts = value.split("/");
     let day = parseInt(parts[0], 10);
@@ -179,6 +193,9 @@ function switchCase(element){
             break;
         case 'date':
             validate = validateDate(element.value);
+            break;
+        case 'time':
+            validate = validateTime(element.value);
             break;
         case 'length':
             validate = validateLength(element.value, element.min, element.max);
