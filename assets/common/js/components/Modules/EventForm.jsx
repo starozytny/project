@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import axios   from 'axios';
 import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
-import { Input, Radiobox }  from "@commonComponents/Elements/Fields";
+import { Checkbox, Input } from "@commonComponents/Elements/Fields";
 import { Trumb }            from "@commonComponents/Elements/Trumb";
 import { Button }           from "@commonComponents/Elements/Button";
 
@@ -12,9 +12,9 @@ import Formulaire from "@commonFunctions/formulaire";
 import Validateur from "@commonFunctions/validateur";
 
 const URL_INDEX_ELEMENTS    = "admin_agenda_index";
-const URL_CREATE_ELEMENT    = "api_changelogs_create";
-const URL_UPDATE_GROUP      = "api_changelogs_update";
-const TEXT_CREATE           = "Ajouter le changelog";
+const URL_CREATE_ELEMENT    = "api_agenda_events_create";
+const URL_UPDATE_GROUP      = "api_agenda_events_update";
+const TEXT_CREATE           = "Ajouter l'évènement";
 const TEXT_UPDATE           = "Enregistrer les modifications";
 
 export function EventFormulaire ({ context, element })
@@ -32,7 +32,11 @@ export function EventFormulaire ({ context, element })
         type={element ? Formulaire.setValue(element.type) : 0}
         content={element ? Formulaire.setValue(element.content) : ""}
         localisation={element ? Formulaire.setValue(element.localisation): ""}
-        // startAt={element ? Formulaire.setDateOrEmptyIfNull(element.startAtJavascript, "") : ""}
+        startAt={element ? Formulaire.setValueDate(element.startAt) : ""}
+        endAt={element ? Formulaire.setValueDate(element.endAt) : ""}
+        startTime={element ? Formulaire.setValueDate(element.startAt) : ""}
+        endTime={element ? Formulaire.setValueDate(element.endAt) : ""}
+        allDay={element ? Formulaire.setValue([element.allDay ? 1 : 0]) : [0]}
     />
 
     return <div className="formulaire">{form}</div>;
@@ -53,9 +57,17 @@ class Form extends Component {
             name: props.name,
             type: props.type,
             content: { value: content, html: content },
+            localisation: props.localisation,
+            startAt: props.startAt,
+            endAt: props.endAt,
+            startTime: props.startTime,
+            endTime: props.endTime,
+            allDay: props.allDay,
             errors: [],
         }
     }
+
+    componentDidMount = () => { Formulaire.dateInput(this.handleChangeDate) }
 
     handleChange = (e) => { this.setState({[e.currentTarget.name]: e.currentTarget.value}) }
 
@@ -66,19 +78,35 @@ class Form extends Component {
         this.setState({[name]: {value: [name].value, html: text}})
     }
 
+    handleSwitch = (e) => {
+        this.setState({ [e.currentTarget.name]: e.currentTarget.checked ? [parseInt(e.currentTarget.value)] : [0] })
+    }
+
+    handleChangeDate = (name, value) => {
+        this.setState({ [name]: value })
+    }
+
     handleSubmit = (e) => {
         e.preventDefault();
 
         const { context, url } = this.props;
-        const { name, type, content } = this.state;
+        const { name, type, allDay, startAt, startTime, endAt, endTime } = this.state;
 
         this.setState({ errors: [] });
 
         let paramsToValidate = [
-            {type: "text",  id: 'name', value: name},
-            {type: "text",  id: 'type', value: type},
-            {type: "text",  id: 'content', value: content},
+            {type: "text",  id: 'name',      value: name},
+            {type: "text",  id: 'type',      value: type},
+            {type: "text",  id: 'type',      value: type},
+            {type: "text",  id: 'startAt',   value: startAt},
+            {type: "text",  id: 'startTime', value: startTime},
         ];
+
+        if(allDay[0] === 0 && endAt !== ""){
+            paramsToValidate = [...paramsToValidate,
+                ...[{type: "text", id: 'endTime', value: endTime}]
+            ];
+        }
 
         let validate = Validateur.validateur(paramsToValidate)
         if(!validate.code){
@@ -98,32 +126,45 @@ class Form extends Component {
 
     render () {
         const { context } = this.props;
-        const { errors, name, type, content } = this.state;
-
-        let typesItems = [
-            { value: 0, label: 'Information',  identifiant: 'type-0' },
-            { value: 1, label: 'Attention',    identifiant: 'type-1' },
-            { value: 2, label: 'Danger',       identifiant: 'type-2' },
-        ]
+        const { errors, name, content, localisation, startAt, endAt, startTime, endTime, allDay } = this.state;
 
         let params = { errors: errors, onChange: this.handleChange }
+
+        let allDayItems = [{ value: 1, label: "Oui", identifiant: "oui" }]
 
         return <>
             <form onSubmit={this.handleSubmit}>
                 <div className="line-container">
                     <div className="line">
                         <div className="line-col-1">
-                            <div className="title">Titre</div>
+                            <div className="title">Évènement</div>
+                        </div>
+                        <div className="line-col-2">
+                            <div className="line line-2">
+                                <Input identifiant="name" valeur={name} {...params}>Nom de l'évènement</Input>
+                                <Input identifiant="localisation" valeur={localisation} {...params}>Lieu de l'évènement</Input>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="line">
+                        <div className="line-col-1">
+                            <div className="title">Dates</div>
                         </div>
                         <div className="line-col-2">
                             <div className="line">
-                                <Input identifiant="name" valeur={name} {...params}>Intitulé</Input>
+                                <Checkbox items={allDayItems} identifiant="allDay" valeur={allDay}
+                                          errors={[]} onChange={this.handleSwitch} isSwitcher={true}>
+                                    Toute la journée
+                                </Checkbox>
                             </div>
-                            <div className="line line-fat-box">
-                                <Radiobox items={typesItems} identifiant="type" valeur={type} {...params}>
-                                    Rôles
-                                </Radiobox>
+                            <div className="line line-2">
+                                <Input type="js-date" identifiant="startAt" valeur={startAt} {...params}>Début du rendez-vous</Input>
+                                <Input type="time" identifiant="startTime" valeur={startTime} {...params}>Horaire du début</Input>
                             </div>
+                            {allDay[0] !== 1 && <div className="line line-2">
+                                <Input type="js-date" identifiant="endAt" valeur={endAt} {...params}>Fin du rendez-vous</Input>
+                                <Input type="time" identifiant="endTime" valeur={endTime} {...params}>Horaire de fin</Input>
+                            </div>}
                         </div>
                     </div>
                     <div className="line">
@@ -154,4 +195,10 @@ Form.propTypes = {
     name: PropTypes.string.isRequired,
     type: PropTypes.number.isRequired,
     content: PropTypes.string.isRequired,
+    localisation: PropTypes.string.isRequired,
+    startAt: PropTypes.string.isRequired,
+    endAt: PropTypes.string.isRequired,
+    startTime: PropTypes.string.isRequired,
+    endTime: PropTypes.string.isRequired,
+    allDay: PropTypes.array.isRequired,
 }

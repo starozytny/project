@@ -5,8 +5,8 @@ import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min';
 
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { ChangelogFormulaire } from "@adminPages/Changelogs/ChangelogForm";
 import { Agenda } from "@commonComponents/Modules/Agenda";
+import { EventFormulaire } from "@commonComponents/Modules/EventForm";
 
 Routing.setRoutingData(routes);
 
@@ -17,10 +17,10 @@ if(el){
 
 el = document.getElementById("agenda_update");
 if(el){
-    createRoot(el).render(<ChangelogFormulaire context="update" element={JSON.parse(el.dataset.obj)} />)
+    createRoot(el).render(<EventFormulaire context="update" element={JSON.parse(el.dataset.obj)} />)
 }
 
 el = document.getElementById("agenda_create");
 if(el){
-    createRoot(el).render(<ChangelogFormulaire context="create" element={null} />)
+    createRoot(el).render(<EventFormulaire context="create" element={null} />)
 }

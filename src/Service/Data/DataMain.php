@@ -2,6 +2,7 @@
 
 namespace App\Service\Data;
 
+use App\Entity\Main\Agenda\AgEvent;
 use App\Entity\Main\Changelog;
 use App\Entity\Main\Contact;
 use App\Entity\Main\Notification;
@@ -73,5 +74,23 @@ class DataMain
 
         $em->persist($obj);
         $em->flush();
+    }
+
+    public function setDataAgEvent(AgEvent $obj, $data): AgEvent
+    {
+        if($data->allDay[0] === 1){
+            $obj->setStartAt($this->sanitizeData->createDatePicker($data->startAt . " " . $data->startTime));
+        }else{
+            $obj->setStartAt($this->sanitizeData->createDateTimePicker($data->startAt . " " . $data->startTime));
+            $obj->setEndAt($data->endAt ? $this->sanitizeData->createDateTimePicker($data->endAt . " " . $data->endTime) : null);
+        }
+
+        return ($obj)
+            ->setName($this->sanitizeData->trimData($data->name))
+            ->setType((int) $data->type)
+            ->setContent($this->sanitizeData->trimData($data->content->html))
+            ->setLocalisation($this->sanitizeData->trimData($data->localisation))
+            ->setAllDay($data->allDay[0])
+        ;
     }
 }

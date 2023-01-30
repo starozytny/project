@@ -1,4 +1,7 @@
 const toastr = require("toastr");
+const datepicker = require("js-datepicker");
+const moment = require("moment");
+require("moment/locale/fr");
 
 function loader(status){
     let loader = document.querySelector('#loader');
@@ -11,6 +14,10 @@ function loader(status){
 
 function setValue (value, defaultValue = "") {
     return value === null ? defaultValue : value;
+}
+
+function setValueDate (value, defaultValue = "") {
+    return value === null ? moment(defaultValue).format('DD/MM/YYYY') : value;
 }
 
 function showErrors(self, validate, text="Veuillez vérifier les informations transmises.", toTop = false)
@@ -40,10 +47,30 @@ function updateValueCheckbox(e, items, value){
     return (e.currentTarget.checked) ? [...items, ...[value]] : items.filter(v => v !== value)
 }
 
+function dateInput(onChangeDate) {
+    let inputs = document.querySelectorAll('.js-datepicker');
+    inputs.forEach(input => {
+        let picker = datepicker(input, {
+            onSelect: instance => {
+                onChangeDate(instance.el.name, moment(instance.dateSelected).format('DD/MM/YYYY'))
+            },
+            formatter: (input, date, instance) => {
+                input.value = date.toLocaleDateString("fr-FR")
+            },
+            customDays: ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'],
+            customMonths: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+        })
+
+        // input.addEventListener('input', (e) => onChange(e, picker))
+    })
+}
+
 module.exports = {
     loader,
     setValue,
+    setValueDate,
     showErrors,
     displayErrors,
     updateValueCheckbox,
+    dateInput,
 }

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, {Component, useState} from "react";
 import PropTypes from 'prop-types';
 
 import toastr   from "toastr";
@@ -31,31 +31,31 @@ InputView.propTypes = {
 /***************************************
  * INPUT Classique
  ***************************************/
-export class Input extends Component {
-    constructor(props) {
-        super(props);
+export function Input (props)
+{
+    const { type="text", identifiant, valeur, onChange, children, placeholder="", autocomplete="on", password=false } = props;
 
-        this.state = { showValue: false, }
+    const [showValue, setShowValue] = useState(false);
 
-        this.handleShow = this.handleShow.bind(this);
+    let nType = type, classes = "", nPlaceholder = placeholder, nAutocomplete = autocomplete;
+    if(showValue){
+        nType = "text";
+    }else if (type === "js-date"){
+        nType = "text";
+        classes = "js-datepicker";
+        nPlaceholder = "JJ/MM/AAAA";
+        nAutocomplete = "off-date" + identifiant;
     }
 
-    handleShow = () => { this.setState({ showValue: !this.state.showValue }) }
+    let content = <>
+        <input type={nType} name={identifiant} id={identifiant} value={valeur}
+               placeholder={nPlaceholder} onChange={onChange} autoComplete={nAutocomplete} className={classes} />
+        {password && <div className="input-show" onClick={() => setShowValue(!showValue)}>
+            <span className={showValue ? "icon-vision-not" : "icon-vision"}></span>
+        </div>}
+    </>
 
-    render () {
-        const { type="text", identifiant, valeur, onChange, children, placeholder="", autocomplete="on", password=false } = this.props;
-        const { showValue } = this.state;
-
-        let content = <>
-            <input type={showValue ? "text" : type} name={identifiant} id={identifiant} value={valeur}
-                   placeholder={placeholder} onChange={onChange} autoComplete={autocomplete} />
-            {password && <div className="input-show" onClick={this.handleShow}>
-                <span className={showValue ? "icon-vision-not" : "icon-vision"}></span>
-            </div>}
-        </>
-
-        return (<Structure {...this.props} content={content} label={children} />)
-    }
+    return <Structure {...props} content={content} label={children} />
 }
 
 Input.propTypes = {
@@ -110,6 +110,7 @@ Checkbox.propTypes = {
     children: PropTypes.node,
     isSwitcher: PropTypes.bool,
 }
+
 /***************************************
  * RADIOBOX Classique
  ***************************************/
@@ -417,6 +418,30 @@ TextArea.propTypes = {
     placeholder: PropTypes.string,
     height: PropTypes.string,
 }
+//
+// /***************************************
+//  * Time Classique
+//  ***************************************/
+// export function TextArea (props) {
+//     const { identifiant, valeur, onChange, children, placeholder="", autocomplete="on", height="80px" } = props;
+//     let content = <>
+//             <textarea name={identifiant} id={identifiant} value={valeur} style={{height: height}}
+//                       placeholder={placeholder} onChange={onChange} autoComplete={autocomplete} />
+//     </>
+//
+//     return (<Structure {...props} content={content} label={children} />)
+// }
+//
+// TextArea.propTypes = {
+//     identifiant: PropTypes.string.isRequired,
+//     valeur: PropTypes.node.isRequired,
+//     errors: PropTypes.array.isRequired,
+//     onChange: PropTypes.func.isRequired,
+//     children: PropTypes.node,
+//     autocomplete: PropTypes.string,
+//     placeholder: PropTypes.string,
+//     height: PropTypes.string,
+// }
 
 /***************************************
  * STRUCTURE
