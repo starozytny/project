@@ -17,6 +17,7 @@ import { Modal }            from "@commonComponents/Elements/Modal";
 import { LoaderElements, LoaderTxt } from "@commonComponents/Elements/Loader";
 
 import { UsersList } from "@adminPages/Users/UsersList";
+import {MailFormulaire} from "@commonComponents/Modules/MailForm";
 
 const URL_GET_DATA        = "api_users_list";
 const URL_DELETE_ELEMENT  = "api_users_delete";
@@ -46,6 +47,7 @@ export class Users extends Component {
         this.pagination = React.createRef();
         this.delete = React.createRef();
         this.reinit = React.createRef();
+        this.mail = React.createRef();
     }
 
     componentDidMount = () => { this.handleGetData(); }
@@ -68,9 +70,12 @@ export class Users extends Component {
         let ref;
         if (identifiant === "delete"){
             ref = this.delete;
-        }else{
+        }else if(identifiant === "reinit"){
             ref = this.reinit;
             modalReinit(this);
+        }else{
+            ref = this.mail;
+            modalMail(this, elem);
         }
         ref.current.handleClick();
         this.setState({ element: elem })
@@ -109,7 +114,7 @@ export class Users extends Component {
                 self.reinit.current.handleUpdateContent("<p>"+ response.data.message +"</p>");
                 self.reinit.current.handleUpdateFooter(null);
                 self.reinit.current.handleUpdateCloseTxt("Fermer");
-                // instance.interceptors.request.clear();
+                instance.interceptors.request.clear();
             })
             .catch(function (error) { console.log(error);Formulaire.displayErrors(self, error); })
         ;
@@ -152,9 +157,8 @@ export class Users extends Component {
                         Etes-vous sûr de vouloir supprimer définitivement cet utilisateur ?
                     </ModalDelete>
 
-                    <Modal ref={this.reinit} identifiant="reinit" maxWidth={414} title="Générer un nouveau mot de passe"
-                           content={null} footer={null}
-                   />
+                    <Modal ref={this.reinit} identifiant="reinit" maxWidth={414} title="Générer un nouveau mot de passe" content={null} footer={null}/>
+                    <Modal ref={this.mail} identifiant="mail" maxWidth={414} title="Envoyer un mail" content={null} footer={null}/>
                 </>
             }
         </>
@@ -165,4 +169,10 @@ function modalReinit (self) {
     self.reinit.current.handleUpdateContent(<p>Le nouveau mot de passe est généré automatiquement et prendra la place du mot de passe actuel.</p>);
     self.reinit.current.handleUpdateFooter(<Button onClick={self.handleReinitPassword} type="primary">Confirmer la génération</Button>);
     self.reinit.current.handleUpdateCloseTxt("Annuler");
+}
+
+function modalMail (self, element) {
+    self.mail.current.handleUpdateContent(<MailFormulaire element={element} />);
+    self.mail.current.handleUpdateFooter(<Button type="primary">Envoyer le mail</Button>);
+    self.mail.current.handleUpdateCloseTxt("Annuler");
 }

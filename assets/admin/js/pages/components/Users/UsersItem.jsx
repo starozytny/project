@@ -19,7 +19,7 @@ export function UsersItem ({ elem, onModal })
         { data: <a onClick={() => onModal("reinit", elem)}>
                 <span className="icon-refresh" /> <span>Générer un nouveau mot de passe</span>
         </a> },
-        { data: <a onClick={() => onModal("reinit", elem)}>
+        { data: <a onClick={() => onModal("mail", elem)}>
                 <span className="icon-email-edit" /> <span>Envoyer un mail</span>
         </a> }
     ]
