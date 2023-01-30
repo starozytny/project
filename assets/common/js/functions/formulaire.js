@@ -47,7 +47,7 @@ function updateValueCheckbox(e, items, value){
     return (e.currentTarget.checked) ? [...items, ...[value]] : items.filter(v => v !== value)
 }
 
-function dateInput(onChangeDate) {
+function initDateInput(onChangeDate, onInput) {
     let inputs = document.querySelectorAll('.js-datepicker');
     inputs.forEach(input => {
         let picker = datepicker(input, {
@@ -61,8 +61,24 @@ function dateInput(onChangeDate) {
             customMonths: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
         })
 
-        // input.addEventListener('input', (e) => onChange(e, picker))
+        input.addEventListener('change', (e) => onInput(e, picker))
     })
+}
+
+function dateInput (e, picker, source) {
+    let value = e.currentTarget.value;
+
+    if(value.length > 10){
+        return source;
+    }
+
+    if (/^\d+(\/\d+)*$/.test(value)){
+        value = value
+            .replace(/^(\d{2})(\d)$/, "$1/$2")
+            .replace(/^(\d{2}\/\d{2})(\d+)$/, "$1/$2");
+    }
+
+    return value;
 }
 
 module.exports = {
@@ -72,5 +88,6 @@ module.exports = {
     showErrors,
     displayErrors,
     updateValueCheckbox,
+    initDateInput,
     dateInput,
 }

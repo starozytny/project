@@ -67,9 +67,19 @@ class Form extends Component {
         }
     }
 
-    componentDidMount = () => { Formulaire.dateInput(this.handleChangeDate) }
+    componentDidMount = () => { Formulaire.initDateInput(this.handleChangeDate, this.handleChange) }
 
-    handleChange = (e) => { this.setState({[e.currentTarget.name]: e.currentTarget.value}) }
+    handleChange = (e, picker) => {
+        let name  = e.currentTarget.name;
+        let value = e.currentTarget.value;
+
+
+        if(name === "startAt"){
+            value = Formulaire.dateInput(e, picker, this.state[name]);
+        }
+
+        this.setState({[name]: value})
+    }
 
     handleChangeTrumb = (e) => {
         let name = e.currentTarget.id;
@@ -96,14 +106,17 @@ class Form extends Component {
             {type: "text",  id: 'name',      value: name},
             {type: "text",  id: 'type',      value: type},
             {type: "text",  id: 'type',      value: type},
-            {type: "text",  id: 'startAt',   value: startAt},
+            {type: "date",  id: 'startAt',   value: startAt},
         ];
 
         if(allDay[0] === 0){
             paramsToValidate = [...paramsToValidate, ...[{type: "text", id: 'startTime', value: startTime}]];
 
             if(endAt !== ""){
-                paramsToValidate = [...paramsToValidate, ...[{type: "text", id: 'endTime', value: endTime}]];
+                paramsToValidate = [...paramsToValidate, ...[
+                    {type: "date", id: 'endAt',   value: endAt},
+                    {type: "text", id: 'endTime', value: endTime},
+                ]];
             }
         }
 

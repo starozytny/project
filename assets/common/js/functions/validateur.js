@@ -1,11 +1,38 @@
-function validateDate($value) {
-    if($value === "" || $value === null){
-        return {
-            'code': false,
-            'message': 'Ce champ doit être renseigné.'
-        };
+function validateDate(value) {
+    let regex = /^\d{2}\/\d{2}\/\d{4}$/;
+
+    if (!regex.test(value)) {
+        return {'code': false, 'message': 'Ce champ requiert le format "DD/MM/AAAA".'};
     }
+
+    let [day, month, year] = extractDate(value);
+
+    if (year < 1800 || year > 2050 || month === 0 || month > 12) {
+        return {'code': false, 'message': 'La date n\'est pas valide.'};
+    }
+
+    let monthLength = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+    // Adjust for leap years
+    if (year % 400 === 0 || (year % 100 !== 0 && year % 4 === 0)) {
+        monthLength[1] = 29;
+    }
+
+    // Vérification de la validité du jour
+    if(!(day > 0 && day <= monthLength[month - 1])){
+        return {'code': false, 'message': 'La date n\'est pas valide.'};
+    }
+
     return {'code': true};
+}
+
+function extractDate(value) {
+    let parts = value.split("/");
+    let day = parseInt(parts[0], 10);
+    let month = parseInt(parts[1], 10);
+    let year = parseInt(parts[2], 10);
+
+    return [day, month, year];
 }
 
 function validateText($value) {
