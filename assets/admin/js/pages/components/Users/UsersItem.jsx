@@ -5,7 +5,7 @@ import Routing   from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 import moment from "moment";
 import 'moment/locale/fr';
 
-import { ButtonIcon } from "@commonComponents/Elements/Button";
+import {ButtonIcon, ButtonIconDropdown} from "@commonComponents/Elements/Button";
 
 const URL_UPDATE_PAGE = "admin_users_update"
 
@@ -14,6 +14,12 @@ export function UsersItem ({ elem, onModal })
     let urlUpdate = Routing.generate(URL_UPDATE_PAGE, {'id': elem.id});
 
     let lastLoginAt = elem.lastLoginAt ? moment(elem.lastLoginAt) : null;
+
+    let menu = [
+        { data: <a onClick={() => onModal("reinit", elem)}>
+                <span className="icon-refresh" /> <span>Générer un nouveau mot de passe</span>
+        </a> }
+    ]
 
     return <div className="item">
         <div className="item-content">
@@ -42,7 +48,7 @@ export function UsersItem ({ elem, onModal })
                 <div className="col-4 actions">
                     <ButtonIcon outline={true} icon="pencil" onClick={urlUpdate} element="a">Modifier</ButtonIcon>
                     <ButtonIcon outline={true} icon="trash" onClick={() => onModal("delete", elem)}>Supprimer</ButtonIcon>
-                    <ButtonIcon outline={true} icon="refresh" onClick={() => onModal("reinit", elem)} tooltipWidth={192}>Générer un nouveau mot de passe</ButtonIcon>
+                    <ButtonIconDropdown outline={true} icon="more" items={menu} />
                 </div>
             </div>
         </div>

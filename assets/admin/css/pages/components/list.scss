@@ -1,5 +1,12 @@
 .list{
   padding: 0 1.2rem;
+
+  .actions{
+    .icon-more{
+      display: inline-block;
+      transform: rotate(90deg);
+    }
+  }
 }
 
 .toolbar + .list,

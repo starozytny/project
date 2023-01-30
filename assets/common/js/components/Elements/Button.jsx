@@ -38,6 +38,26 @@ export function Button(props){
     }
 }
 
+export function ButtonIconDropdown(props){
+    const { items, children } = props;
+
+    return <div className="dropdown">
+        <div className="dropdown-btn">
+            <ButtonIcon {...props}>{children}</ButtonIcon>
+        </div>
+        <div className="dropdown-items">
+            {items.map((item, index) => {
+                if(item && item.data){
+                    return <div className="item" key={index}>
+                        {item.data}
+                    </div>
+                }
+            })}
+        </div>
+    </div>
+}
+
+
 Button.propTypes = {
     icon: PropTypes.string,
     type: PropTypes.string,
@@ -54,6 +74,24 @@ Button.propTypes = {
 
 ButtonIcon.propTypes = {
     icon: PropTypes.string.isRequired,
+    type: PropTypes.string,
+    isSubmit: PropTypes.bool,
+    outline: PropTypes.bool,
+    children: PropTypes.node,
+    text: PropTypes.node,
+    onClick:  PropTypes.oneOfType([
+        PropTypes.node,
+        PropTypes.func,
+    ]),
+    element: PropTypes.string,
+    target: PropTypes.string,
+    tooltipWidth: PropTypes.number,
+}
+
+
+ButtonIconDropdown.propTypes = {
+    icon: PropTypes.string.isRequired,
+    items: PropTypes.array.isRequired,
     type: PropTypes.string,
     isSubmit: PropTypes.bool,
     outline: PropTypes.bool,

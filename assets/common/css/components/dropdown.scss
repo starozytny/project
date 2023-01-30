@@ -8,17 +8,10 @@
   }
 
   .dropdown-btn{
-    padding: 12px 24px;
     border-radius: 4px;
     cursor: pointer;
     text-align: center;
     @include flex(row, center, center);
-    border: 1px solid var(--grey);
-    background-color: var(--alpha);
-
-    &.active{
-      color: var(--primary);
-    }
 
     &:hover{
       & + .dropdown-items{
@@ -47,6 +40,11 @@
       font-size: 14px;
       opacity: 0.7;
       transition: all 0.2s ease-in-out;
+
+      a{
+        @include flex(row, flex-start, flex-start, 8px);
+        cursor: pointer;
+      }
 
       label, input{
         color: var(--txt);
