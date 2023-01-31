@@ -71,6 +71,43 @@ Input.propTypes = {
 }
 
 /***************************************
+ * INPUT CITY
+ ***************************************/
+export function InputCity (props)
+{
+    const { identifiant, valeur, onChange, children, placeholder="", autocomplete="on", cities, openCities, onSelectCity } = props;
+
+    let content = <>
+        <input type="text" name={identifiant} id={identifiant} value={valeur}
+               placeholder={placeholder} onChange={onChange} autoComplete={autocomplete} />
+        {cities && <div className={'cities' + (openCities === identifiant ? " active" : "")}>
+            <div className="items">
+                {cities.map((ci, index) => {
+                    return <div className="item" key={index} onClick={() => onSelectCity(identifiant, ci.city)}>
+                        {ci.city}
+                    </div>
+                })}
+            </div>
+        </div>}}
+    </>
+
+    return <Structure {...props} content={content} label={children} />
+}
+
+InputCity.propTypes = {
+    identifiant: PropTypes.string.isRequired,
+    valeur: PropTypes.node.isRequired,
+    errors: PropTypes.array.isRequired,
+    cities: PropTypes.array.isRequired,
+    openCities: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
+    onSelectCity: PropTypes.func.isRequired,
+    children: PropTypes.node,
+    autocomplete: PropTypes.string,
+    placeholder: PropTypes.string,
+}
+
+/***************************************
  * CHECKBOX Classique
  ***************************************/
 export function Checkbox (props) {

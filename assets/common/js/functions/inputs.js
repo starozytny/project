@@ -2,6 +2,9 @@ const datepicker = require("js-datepicker");
 const moment = require("moment");
 require("moment/locale/fr");
 
+const axios = require("axios");
+const Sort = require("@commonFunctions/sort");
+
 function initDateInput(onChangeDate, onInput, minDate, maxDate = new Date(2060, 0, 1)) {
     let inputs = document.querySelectorAll('.js-datepicker');
     inputs.forEach(input => {
@@ -58,8 +61,71 @@ function timeInput (e, source) {
     return value;
 }
 
+function processData(allText)
+{
+    let allTextLines = allText.split(/\r\n|\n/);
+    let headers = allTextLines[0].split(';');
+    let lines = [];
+
+    for (let i=1; i<allTextLines.length; i++) {
+        let data = allTextLines[i].split(';');
+
+        lines.push({"zipcode": data[2], "city": data[1]});
+    }
+
+    return lines;
+}
+
+function getZipcodes(self, name = "arrayZipcodes")
+{
+    axios.get( window.location.origin + "/zipcodes.csv", {})
+        .then(function (response) {
+            self.setState({ [name]: processData(response.data) })
+        })
+    ;
+}
+
+function cityInput(self, e, source, zipcodes, nameStateCity = "city")
+{
+    let name = e.currentTarget.name;
+    let value = e.currentTarget.value;
+
+    if(!(/^[0-9]*$/).test(value) || value.length > 5){
+        self.setState({ [name]: source, openCities: "", triggerInput: true })
+    }else{
+        if(value.length <= 5){
+            self.setState({ [name]: value, openCities: "", triggerInput: true })
+
+            let v = ""
+            if(zipcodes.length !== 0){
+                v = zipcodes.filter(el => el.zipcode === value);
+
+                let uniqueValues = [], values = [];
+                v.forEach((c) => {
+                    if (!uniqueValues.includes(c.city)) {
+                        uniqueValues.push(c.city);
+                        values.push(c);
+                    }
+                });
+
+                if(values.length === 1){
+                    self.setState({ [nameStateCity]: values[0].city, openCities: "" })
+                }else{
+                    if(values.length > 1){
+                        values.sort(Sort.compareCity)
+                        self.setState({ cities: values, openCities: nameStateCity })
+                    }
+                }
+            }
+        }
+    }
+}
+
+
 module.exports = {
     initDateInput,
     dateInput,
     timeInput,
+    getZipcodes,
+    cityInput,
 }
