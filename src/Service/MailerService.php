@@ -5,6 +5,7 @@ namespace App\Service;
 
 
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
@@ -20,7 +21,7 @@ class MailerService
         $this->settingsService = $settingsService;
     }
 
-    public function sendMail($to, $subject, $text, $html, $params, $from=null, $fromName=null, $replyTo=null, $cc1=null, $cc2=null): bool|string
+    public function sendMail($to, $subject, $text, $html, $params, $from=null, $fromName=null, $replyTo=null, $cc1=null, $cc2=null, $files = []): bool|string
     {
         $from = ($from == null) ? $this->settingsService->getEmailExpediteurGlobal() : $from;
         $fromName = ($fromName == null) ? $this->settingsService->getWebsiteName() : $fromName;
@@ -42,6 +43,11 @@ class MailerService
             $email->cc($cc1);
         }else if($cc2){
             $email->cc($cc2);
+        }
+
+        /** @var UploadedFile $file */
+        foreach($files as $file){
+            $email->attachFromPath($file);
         }
 
         try {
