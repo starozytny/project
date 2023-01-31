@@ -381,6 +381,48 @@ textarea{
   }
 }
 
+
+// **************************************
+// Multiple cities
+// **************************************
+.form-group-cities{
+  position: relative;
+}
+.cities{
+  display: none;
+  position: absolute;
+  top: 48px; left: 0;
+  width: 280px;
+  height: 160px;
+  overflow: auto;
+  @include scrollbar();
+  background-color: var(--alpha);
+  border-radius: 8px;
+  box-shadow: 0 6px 12px var(--grey);
+  z-index: 500;
+
+  &.active{
+    display: block;
+  }
+
+  .items{
+    & > .item{
+      font-size: 15px;
+      padding: 8px 12px;
+      transition: all 0.2s ease-in-out;
+      cursor: pointer;
+
+      &:hover{
+        background-color: var(--greyShadow);
+      }
+    }
+
+    & > .item:not(:last-child){
+      border-bottom: 1px solid var(--grey);
+    }
+  }
+}
+
 //                      __   _____ __    ___    __
 //                     | _| |___  / /_  ( _ )  |_ |
 //    _____ _____ _____| |     / / '_ \ / _ \   | |_____ _____ _____

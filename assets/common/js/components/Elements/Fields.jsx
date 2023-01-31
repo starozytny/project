@@ -88,10 +88,10 @@ export function InputCity (props)
                     </div>
                 })}
             </div>
-        </div>}}
+        </div>}
     </>
 
-    return <Structure {...props} content={content} label={children} />
+    return <Structure {...props} content={content} label={children} classForm="form-group-cities" />
 }
 
 InputCity.propTypes = {
