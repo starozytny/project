@@ -30,7 +30,9 @@ export function MailFormulaire ({ element, tos })
     return <Form
         url={Routing.generate(URL_CREATE_ELEMENT)}
         tos={nTos}
-        to={element ? [element.email] : []}
+        to={element ? [{uid: uid(), value: element.email}] : []}
+
+        key={element ? element.id : 0}
     />;
 }
 
