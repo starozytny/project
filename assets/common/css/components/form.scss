@@ -164,11 +164,6 @@ textarea{
 }
 
 .select-multiple-custom{
-  &.active{
-    .select-choices{
-      top: 64px;
-    }
-  }
   .select-input{
     @include flex(row, center, flex-start, 4px);
     flex-wrap: wrap;
