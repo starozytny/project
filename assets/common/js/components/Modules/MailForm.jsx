@@ -16,14 +16,23 @@ import Validateur from "@commonFunctions/validateur";
 const URL_CREATE_ELEMENT    = "api_agenda_events_create";
 const TEXT_CREATE           = "Envoyer le mail";
 
-export function MailFormulaire ({ element })
+export function MailFormulaire ({ element, tos })
 {
+    let nTos = [];
+    if(tos){
+        tos.forEach((elem, index) => {
+            let val = elem.email;
+            if(val) nTos.push({ value: val, label: val, inputName: val, identifiant: "to-mail-" + index });
+        })
+    }
     return <Form
         url={Routing.generate(URL_CREATE_ELEMENT)}
+        tos={nTos}
     />;
 }
 
 MailFormulaire.propTypes = {
+    items: PropTypes.array,
     element: PropTypes.object,
 }
 
@@ -111,6 +120,7 @@ class Form extends Component {
     }
 
     render () {
+        const { tos } = this.props;
         const { errors, to, cc, cci, name, message } = this.state;
 
         let params = { errors: errors, onChange: this.handleChange }
@@ -121,7 +131,7 @@ class Form extends Component {
                 <form onSubmit={this.handleSubmit}>
                     <div className="line">
                         <SelectMultipleCustom ref={this.select} identifiant="to" inputValue="" inputValues={to}
-                                              items={[]} {...params1}>
+                                              items={tos} {...params1}>
                             À
                         </SelectMultipleCustom>
                     </div>
@@ -145,4 +155,5 @@ class Form extends Component {
 
 Form.propTypes = {
     url: PropTypes.node.isRequired,
+    tos: PropTypes.array.isRequired,
 }

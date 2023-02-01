@@ -59,6 +59,10 @@ function compareRankThenLabel(a, b){
     return comparison(a.label, b.label);
 }
 
+function compareLabel(a, b){
+    return comparison(a.label, b.label);
+}
+
 function comparison (objA, objB){
     let comparison = 0;
     if (objA > objB) {
@@ -82,4 +86,5 @@ module.exports = {
     compareCity,
     compareCode,
     compareRankThenLabel,
+    compareLabel,
 }

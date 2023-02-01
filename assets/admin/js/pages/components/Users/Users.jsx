@@ -120,7 +120,7 @@ export class Users extends Component {
     }
 
     render () {
-        const { sessionName, data, currentData, element, loadingData, perPage, currentPage, filters } = this.state;
+        const { sessionName, data, dataImmuable, currentData, element, loadingData, perPage, currentPage, filters } = this.state;
 
         let filtersItems = [
             {value: 0, label: "Utilisateur", id: "f-user"},
@@ -158,7 +158,7 @@ export class Users extends Component {
 
                     <Modal ref={this.reinit} identifiant="reinit" maxWidth={414} title="Générer un nouveau mot de passe" content={null} footer={null}/>
                     <Modal ref={this.mail} identifiant="mail" maxWidth={768} margin={2} title="Envoyer un mail" isForm={true}
-                           content={<MailFormulaire element={element} />} footer={null} />
+                           content={<MailFormulaire element={element} tos={dataImmuable} />} footer={null} />
                 </>
             }
         </>

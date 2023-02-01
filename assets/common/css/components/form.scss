@@ -164,14 +164,30 @@ textarea{
 }
 
 .select-multiple-custom{
+  &.active{
+    .select-choices{
+      top: 64px;
+    }
+  }
   .select-input{
     @include flex(row, center, flex-start, 4px);
     flex-wrap: wrap;
-    padding: 6px 10px;
+    padding: 6px 10px 2px 10px;
 
     .select-input-values{
       @include flex(row, flex-start, flex-start, 4px);
-      flex-wrap: wrap;
+      overflow-x: auto;
+      @include scrollbar(4px);
+      max-width: 80%;
+      padding-bottom: 4px;
+
+      &.active{
+        & + input{
+          padding: 0;
+          max-width: calc(20% - 4px);
+          transform: translateY(-2px);
+        }
+      }
     }
 
     .input-values-item{
@@ -186,11 +202,11 @@ textarea{
     }
 
     input{
-      padding: 0;
+      padding: 0 0 9px 0;
       border: none;
       background-color: transparent;
-      width: auto;
       color: var(--txt);
+      width: 100%;
     }
   }
 }

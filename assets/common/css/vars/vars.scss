@@ -6,10 +6,13 @@
   }
 }
 
-@mixin scrollbar(){
+@mixin scrollbar($height: 0){
   /* width */
   &::-webkit-scrollbar {
     width: 6px;
+    @if $height != 0 {
+      height: $height;
+    }
   }
 
   /* Track */

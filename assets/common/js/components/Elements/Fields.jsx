@@ -410,13 +410,13 @@ export class SelectMultipleCustom extends Component {
 
         let content = <div className={"select-custom select-multiple-custom" + (isOpen ? " active" : "")} onFocus={this.handleFocus}>
             <div className="select-input">
-                <div className="select-input-values">
+                {inputValues.length > 0 && <div className="select-input-values active">
                     {inputValues.length > 0 && inputValues.map((val, index) => {
                         return <div className="input-values-item" onClick={() => onDeClick(identifiant, val.uid)} key={index}>
                             <span>{val.value}</span> <span className="icon-close" />
                         </div>
                     })}
-                </div>
+                </div>}
                 <input ref={this.input} type="text" name="inputValue" id="inputValue" value={inputValue}
                        placeholder={placeholder} onChange={this.handleChange} onKeyDown={this.handleBlur}
                        autoComplete={"new-" + identifiant} key={init} />
