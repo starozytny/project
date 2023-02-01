@@ -14,11 +14,12 @@ import { Alert }            from "@commonComponents/Elements/Alert";
 import Formulaire from "@commonFunctions/formulaire";
 import Inputs     from "@commonFunctions/inputs";
 import Validateur from "@commonFunctions/validateur";
+import ModalFunc  from "@commonFunctions/modal";
 
 const URL_CREATE_ELEMENT    = "api_mails_send";
 const TEXT_CREATE           = "Envoyer le message";
 
-export function MailFormulaire ({ element, tos })
+export function MailFormulaire ({ identifiant, element, tos })
 {
     let nTos = [];
     if(tos){
@@ -28,15 +29,18 @@ export function MailFormulaire ({ element, tos })
         })
     }
     return <Form
+        identifiant={identifiant}
         url={Routing.generate(URL_CREATE_ELEMENT)}
         tos={nTos}
         to={element ? [{uid: uid(), value: element.email}] : []}
 
+        initListener={!!element}
         key={element ? element.id : 0}
     />;
 }
 
 MailFormulaire.propTypes = {
+    identifiant: PropTypes.string.isRequired,
     items: PropTypes.array,
     element: PropTypes.object,
 }
@@ -62,7 +66,12 @@ class Form extends Component {
         this.select2 = React.createRef();
     }
 
-    componentDidMount = () => { Inputs.initDateInput(this.handleChangeDate, this.handleChange, new Date()) }
+    componentDidMount = () => {
+        Inputs.initDateInput(this.handleChangeDate, this.handleChange, new Date());
+        if(this.props.initListener){
+            ModalFunc.initListener(this.props.identifiant);
+        }
+    }
 
     handleChange = (e) => { this.setState({[e.currentTarget.name]: e.currentTarget.value}) }
 
