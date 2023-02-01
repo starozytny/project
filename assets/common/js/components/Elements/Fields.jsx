@@ -7,7 +7,7 @@ import Sort     from "@commonFunctions/sort";
 import Search   from "@commonFunctions/search";
 import Sanitaze from "@commonFunctions/sanitaze";
 
-import { Button } from "@commonComponents/Elements/Button";
+import {Button, ButtonIcon} from "@commonComponents/Elements/Button";
 
 /***************************************
  * INPUT View
@@ -482,21 +482,37 @@ export class InputFile extends Component {
         }
 
         this.fileInput = React.createRef();
-
-        this.handleFileInput = this.handleFileInput.bind(this);
     }
 
     handleFileInput = (e) => {
-        const { type } = this.props;
+        const { type, max = 1 } = this.props;
+        const { files } = this.state;
 
         const file = e.target.files[0];
-        if (file.size > 5330000) {
-            toastr.error("Le fichier est trop volumineux.")
-        }else {
-            if(type === "simple"){
-                this.setState({ files: [file] })
+        if(file){
+            if (file.size > 5330000) {
+                toastr.error("Le fichier est trop volumineux.")
+            } else {
+                if(type === "simple"){
+                    this.setState({ files: [file] })
+                }else if(type === "multi"){
+                    if (files.length >= max){
+                        toastr.error("Le nombre maximal de fichiers envoyés a été atteint.")
+                    }else{
+                        this.setState({ files: [...files, ...[file]] })
+                    }
+                }
             }
         }
+    }
+
+    handleFileRemove = (file) => {
+        let nFiles = [];
+        this.state.files.forEach(f => {
+            if(f.name !== file.name) nFiles.push(f);
+        })
+
+        this.setState({ files: nFiles })
     }
 
     render () {
@@ -517,6 +533,9 @@ export class InputFile extends Component {
                                 <div className="data">
                                     <div>{file.name}</div>
                                     <div className="sub">{Sanitaze.toFormatBytesToSize(file.size)}</div>
+                                </div>
+                                <div className="remove">
+                                    <ButtonIcon icon="trash" onClick={() => this.handleFileRemove(file)}>Supprimer</ButtonIcon>
                                 </div>
                             </div>
                         })}</div>
@@ -546,6 +565,7 @@ InputFile.propTypes = {
     identifiant: PropTypes.string.isRequired,
     errors: PropTypes.array.isRequired,
     placeholder: PropTypes.string.isRequired,
+    max: PropTypes.number,
     children: PropTypes.node,
     format: PropTypes.string,
     valeur: PropTypes.string,

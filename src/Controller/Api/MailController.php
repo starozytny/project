@@ -3,9 +3,9 @@
 namespace App\Controller\Api;
 
 use App\Service\ApiResponse;
+use App\Service\FileUploader;
 use App\Service\MailerService;
 use App\Service\SanitizeData;
-use App\Service\SettingsService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,12 +16,20 @@ class MailController extends AbstractController
 {
     #[Route('/mail/send', name: 'send', options: ['expose' => true], methods: 'post')]
     public function forget(Request $request, ApiResponse $apiResponse,
-                           SanitizeData $sanitizeData, MailerService $mailerService, SettingsService $settingsService): Response
+                           SanitizeData $sanitizeData, MailerService $mailerService, FileUploader $fileUploader): Response
     {
-        $data = json_decode($request->getContent());
+        $data = json_decode($request->get('data'));
 
         if ($data === null) {
             return $apiResponse->apiJsonResponseBadRequest('Les données sont vides.');
+        }
+
+        $files = [];
+        if($request->files){
+            foreach($request->files as $file){
+                $filename = $fileUploader->upload($file, 'mails', false);
+                $files[] = $fileUploader->getPrivateDirectory() . 'mails/' . $filename;
+            }
         }
 
         $to  = []; foreach($data->to as $item) $to[] = $item->value;
@@ -36,7 +44,7 @@ class MailController extends AbstractController
                 $subject,
                 'app/email/template/random_classique.html.twig',
                 ['subject' => $subject, 'message' => $data->message->html],
-                $cc, $cci
+                $cc, $cci, null, $files
             )) {
                 return $apiResponse->apiJsonResponseValidationFailed([[
                     'name' => 'fUsername',
@@ -45,6 +53,10 @@ class MailController extends AbstractController
             }
         }else{
             return $apiResponse->apiJsonResponseBadRequest("Destinataire invalide.");
+        }
+
+        foreach($files as $file){
+            $fileUploader->deleteFile($file, 'mails', false);
         }
 
         return $apiResponse->apiJsonResponseSuccessful("ok");

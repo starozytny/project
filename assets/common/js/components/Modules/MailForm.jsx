@@ -6,7 +6,7 @@ import toastr  from 'toastr';
 import { uid } from 'uid'
 import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
-import { Input, SelectMultipleCustom } from "@commonComponents/Elements/Fields";
+import {Input, InputFile, SelectMultipleCustom} from "@commonComponents/Elements/Fields";
 import { Trumb }            from "@commonComponents/Elements/Trumb";
 import { Button }           from "@commonComponents/Elements/Button";
 import { Alert }            from "@commonComponents/Elements/Alert";
@@ -64,6 +64,7 @@ class Form extends Component {
         this.select0 = React.createRef();
         this.select1 = React.createRef();
         this.select2 = React.createRef();
+        this.file    = React.createRef();
     }
 
     componentDidMount = () => {
@@ -130,7 +131,17 @@ class Form extends Component {
             Formulaire.loader(true);
             let self = this;
 
-            axios({ method: "POST", url: url, data: this.state })
+            let formData = new FormData();
+            formData.append("data", JSON.stringify(this.state));
+
+            let file = this.file.current;
+            if(file.state.files.length > 0) {
+                file.state.files.forEach((f, index) => {
+                    formData.append("file-" + index, f);
+                })
+            }
+
+            axios({ method: "POST", url: url, data: formData, headers: {'Content-Type': 'multipart/form-data'} })
                 .then(function (response) {
                     toastr.info("Message envoyé.");
                     self.setState({ success: "Message envoyé.", name: "", message: {value: "", html: ""} });
@@ -143,7 +154,7 @@ class Form extends Component {
 
     render () {
         const { tos } = this.props;
-        const { errors, success, to, cc, cci, name, message, openCc, openCci } = this.state;
+        const { errors, success, to, cc, cci, name, message, openCc, openCci, files } = this.state;
 
         let params = { errors: errors, onChange: this.handleChange }
         let params1 = { errors: errors, onClick: this.handleSelect, onDeClick: this.handleDeselect }
@@ -173,10 +184,18 @@ class Form extends Component {
                     <div className="line">
                         <Input identifiant="name" valeur={name} {...params}>Objet</Input>
                     </div>
+
                     <div className="line">
                         <Trumb identifiant="message" valeur={message.value} errors={errors} onChange={this.handleChangeTrumb}>
                             Message
                         </Trumb>
+                    </div>
+
+                    <div className="line">
+                        <InputFile ref={this.file} type="multi" identifiant="files" valeur={files} accept="/*" max={5}
+                                   placeholder="Glissez et déposer une pièce jointe ou" {...params}>
+                            Pièces jointes (5 fichiers maximums)
+                        </InputFile>
                     </div>
                 </form>
             </div>
