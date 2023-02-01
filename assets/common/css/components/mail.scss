@@ -1,0 +1,19 @@
+.line-send-mail-ccs{
+  position: relative;
+
+  .ccs{
+    @include flex(row, flex-start, flex-start);
+    color: var(--primary);
+    position: absolute;
+    top: 18px; right: 6px;
+
+    & > div{
+      cursor: pointer;
+      padding: 8px 4px;
+
+      &:hover{
+        text-decoration: underline;
+      }
+    }
+  }
+}

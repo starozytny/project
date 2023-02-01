@@ -28,6 +28,7 @@ export function MailFormulaire ({ element, tos })
     return <Form
         url={Routing.generate(URL_CREATE_ELEMENT)}
         tos={nTos}
+        to={element ? [element.email] : []}
     />;
 }
 
@@ -41,15 +42,19 @@ class Form extends Component {
         super(props);
 
         this.state = {
-            to: [],
+            to: props.to,
             cc: [],
             cci: [],
             name: "",
             message: {value: "", html: ""},
             errors: [],
+            openCc: false,
+            openCci: false
         }
 
-        this.select = React.createRef();
+        this.select0 = React.createRef();
+        this.select1 = React.createRef();
+        this.select2 = React.createRef();
     }
 
     componentDidMount = () => { Inputs.initDateInput(this.handleChangeDate, this.handleChange, new Date()) }
@@ -65,19 +70,20 @@ class Form extends Component {
 
     handleSelect = (name, value) => {
         if(value !== ""){
-            this.setState({ [name]: [...this.state[name], ...[{uid: uid(), value: value}]] });
-        }
-        this.select.current.handleClose(null, "");
+            this.setState({ errors: [] });
 
-        // this.setState({ errors: [] });
-        //
-        // let validate = Validateur.validateur( [{type: "email",  id: 'to', value: value}])
-        // if(!validate.code) {
-        //     Formulaire.showErrors(this, validate);
-        // }else{
-        //     this.setState({ [name]: [...this.state[name], ...[value]] });
-        //     this.select.current.handleClose(null, "");
-        // }
+            let validate = Validateur.validateur( [{type: "email",  id: ""+[name], value: value}])
+            if(!validate.code) {
+                Formulaire.showErrors(this, validate);
+            }else{
+                this.setState({ [name]: [...this.state[name], ...[{uid: uid(), value: value}]] });
+            }
+        }
+        let ref;
+        if(name === "to") ref = this.select0;
+        else if(name === "cc") ref = this.select1;
+        else if(name === "cci") ref = this.select2;
+        ref.current.handleClose(null, "");
     }
 
     handleDeselect = (name, uidValue) => {
@@ -121,7 +127,7 @@ class Form extends Component {
 
     render () {
         const { tos } = this.props;
-        const { errors, to, cc, cci, name, message } = this.state;
+        const { errors, to, cc, cci, name, message, openCc, openCci } = this.state;
 
         let params = { errors: errors, onChange: this.handleChange }
         let params1 = { errors: errors, onClick: this.handleSelect, onDeClick: this.handleDeselect }
@@ -129,12 +135,23 @@ class Form extends Component {
         return <>
             <div className="modal-body">
                 <form onSubmit={this.handleSubmit}>
-                    <div className="line">
-                        <SelectMultipleCustom ref={this.select} identifiant="to" inputValue="" inputValues={to}
-                                              items={tos} {...params1}>
-                            À
-                        </SelectMultipleCustom>
+                    <div className="line line-send-mail-ccs">
+                        <SelectMultipleCustom ref={this.select0} identifiant="to" inputValue="" inputValues={to}
+                                              items={tos} {...params1}>À</SelectMultipleCustom>
+                        {(!openCc || ! openCci) && <div className="ccs">
+                            {!openCc && <div onClick={() => this.setState({ openCc: true })}>Cc</div>}
+                            {!openCci && <div onClick={() => this.setState({ openCci: true })}>Cci</div>}
+                        </div>}
                     </div>
+                    {openCc && <div className="line">
+                        <SelectMultipleCustom ref={this.select1} identifiant="cc" inputValue="" inputValues={cc}
+                                              items={tos} {...params1}>Cc</SelectMultipleCustom>
+                    </div>}
+                    {openCci && <div className="line">
+                        <SelectMultipleCustom ref={this.select2} identifiant="cci" inputValue="" inputValues={cci}
+                                              items={tos} {...params1}>Cci</SelectMultipleCustom>
+                    </div>}
+
                     <div className="line">
                         <Input identifiant="name" valeur={name} {...params}>Objet</Input>
                     </div>
@@ -156,4 +173,5 @@ class Form extends Component {
 Form.propTypes = {
     url: PropTypes.node.isRequired,
     tos: PropTypes.array.isRequired,
+    to: PropTypes.array.isRequired,
 }
