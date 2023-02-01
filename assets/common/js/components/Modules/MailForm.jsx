@@ -2,19 +2,21 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import axios   from 'axios';
+import toastr  from 'toastr';
 import { uid } from 'uid'
 import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
 import { Input, SelectMultipleCustom } from "@commonComponents/Elements/Fields";
 import { Trumb }            from "@commonComponents/Elements/Trumb";
 import { Button }           from "@commonComponents/Elements/Button";
+import { Alert }            from "@commonComponents/Elements/Alert";
 
 import Formulaire from "@commonFunctions/formulaire";
 import Inputs     from "@commonFunctions/inputs";
 import Validateur from "@commonFunctions/validateur";
 
-const URL_CREATE_ELEMENT    = "api_agenda_events_create";
-const TEXT_CREATE           = "Envoyer le mail";
+const URL_CREATE_ELEMENT    = "api_mails_send";
+const TEXT_CREATE           = "Envoyer le message";
 
 export function MailFormulaire ({ element, tos })
 {
@@ -48,6 +50,7 @@ class Form extends Component {
             name: "",
             message: {value: "", html: ""},
             errors: [],
+            success: null,
             openCc: false,
             openCci: false
         }
@@ -101,33 +104,35 @@ class Form extends Component {
         const { url } = this.props;
         const { to, name, message } = this.state;
 
-        this.setState({ errors: [] });
+        this.setState({ errors: [], success: null });
 
         let paramsToValidate = [
             {type: "array",  id: 'to',      value: to},
             {type: "text",   id: 'name',    value: name},
-            {type: "text",   id: 'message', value: message},
+            {type: "text",   id: 'message', value: message.html},
         ];
 
         let validate = Validateur.validateur(paramsToValidate)
         if(!validate.code){
             Formulaire.showErrors(this, validate);
         }else {
-            // Formulaire.loader(true);
-            // let self = this;
-            //
-            // axios({ method: "POST", url: url, data: this.state })
-            //     .then(function (response) {
-            //
-            //     })
-            //     .catch(function (error) { Formulaire.displayErrors(self, error); Formulaire.loader(false); })
-            // ;
+            Formulaire.loader(true);
+            let self = this;
+
+            axios({ method: "POST", url: url, data: this.state })
+                .then(function (response) {
+                    toastr.info("Message envoyé.");
+                    self.setState({ success: "Message envoyé.", name: "", message: {value: "", html: ""} });
+                })
+                .catch(function (error) { console.log(error); Formulaire.displayErrors(self, error);  })
+                .then(function () { Formulaire.loader(false);  })
+            ;
         }
     }
 
     render () {
         const { tos } = this.props;
-        const { errors, to, cc, cci, name, message, openCc, openCci } = this.state;
+        const { errors, success, to, cc, cci, name, message, openCc, openCci } = this.state;
 
         let params = { errors: errors, onChange: this.handleChange }
         let params1 = { errors: errors, onClick: this.handleSelect, onDeClick: this.handleDeselect }
@@ -135,6 +140,8 @@ class Form extends Component {
         return <>
             <div className="modal-body">
                 <form onSubmit={this.handleSubmit}>
+                    {success && <div className="line"><div className="form-group"><Alert type="info">{success}</Alert></div></div>}
+
                     <div className="line line-send-mail-ccs">
                         <SelectMultipleCustom ref={this.select0} identifiant="to" inputValue="" inputValues={to}
                                               items={tos} {...params1}>À</SelectMultipleCustom>
