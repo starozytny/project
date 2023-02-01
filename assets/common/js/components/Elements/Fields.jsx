@@ -202,7 +202,9 @@ function useArrows (e, self) {
     self.setState({ cursor: cursor })
 
     let element = document.getElementById("item-" + self.props.identifiant + "-" + cursor);
-    element.scrollIntoView({ block: 'end' })
+    if(element){
+        element.scrollIntoView({ block: 'end' })
+    }
 }
 
 export class SelectCustom extends Component {
@@ -210,30 +212,24 @@ export class SelectCustom extends Component {
         super(props);
 
         this.state = {
-            displayValeur: props.displayValeur,
+            inputValue: props.inputValue,
             isOpen: false,
             cursor: -1
         }
 
         this.input = React.createRef();
-
-        this.handleFocus = this.handleFocus.bind(this);
-        this.handleClose = this.handleClose.bind(this);
-        this.handleBlur = this.handleBlur.bind(this);
-        this.handleUseArrows = this.handleUseArrows.bind(this);
     }
 
     handleUseArrows = (e) => { useArrows(e, this) }
 
     handleFocus = () => {
         this.setState({ isOpen: true, cursor: -1 })
-
         window.addEventListener("keydown", this.handleUseArrows)
     }
 
     handleClose = (e, value) => {
         const { identifiant, items } = this.props;
-        const { cursor } = this.state;
+        const { cursor, inputValue } = this.state;
 
         if(e !== null){ // from this
             let possibilities = [];
@@ -245,7 +241,7 @@ export class SelectCustom extends Component {
                 })
             }else{
                 items.forEach(item => {
-                    let rank = Search.selectSearch(this.state.displayValeur, item.label)
+                    let rank = Search.selectSearch(inputValue, item.label)
                     if(rank === 1) possibilities.push(item);
                 })
             }
@@ -257,31 +253,29 @@ export class SelectCustom extends Component {
                 this.props.onClick(identifiant, "", "")
             }
         }else{ // from parent
-            this.setState({ isOpen: false, displayValeur: value })
+            this.setState({ isOpen: false, inputValue: value })
         }
 
         window.removeEventListener("keydown", this.handleUseArrows)
     }
 
-    handleChange = (e) => {
-        this.setState({ [e.currentTarget.name]: e.currentTarget.value })
-    }
+    handleChange = (e) => { this.setState({ [e.currentTarget.name]: e.currentTarget.value }) }
 
     handleBlur = (e) => {
-        if(e.key === "Tab") this.handleClose(e, null);
+        if(e.key === "Tab") this.handleClose(e, "");
         if(e.key === "Enter") {
             e.preventDefault();
-            this.handleClose(e, null);
+            this.handleClose(e, "");
             this.input.current.blur();
         }
     }
 
     render () {
-        const { identifiant, items, onClick, children, placeholder=""} = this.props;
-        const { init, isOpen, displayValeur, cursor } = this.state;
+        const { identifiant, items, onClick, children, placeholder="" } = this.props;
+        const { init, isOpen, inputValue, cursor } = this.state;
 
         items.forEach(item => {
-            item.rank = Search.selectSearch(displayValeur, item.label);
+            item.rank = Search.selectSearch(inputValue, item.label);
         })
 
         items.sort(Sort.compareRankThenLabel)
@@ -299,14 +293,14 @@ export class SelectCustom extends Component {
 
         let content = <div className={"select-custom" + (isOpen ? " active" : "")} onFocus={this.handleFocus}>
             <div className="select-input">
-                <input ref={this.input} type="text" name="displayValeur" id="displayValeur" value={displayValeur}
+                <input ref={this.input} type="text" name="inputValue" id="inputValue" value={inputValue}
                        placeholder={placeholder} onChange={this.handleChange} onKeyDown={this.handleBlur}
                        autoComplete={"new-" + identifiant} key={init} />
             </div>
             <div className="select-choices" id={"select-choices-" + identifiant}>
                 <div className="items">{nItems}</div>
             </div>
-            <div className="select-overlay" onClick={(e) => this.handleClose(e, null)}></div>
+            <div className="select-overlay" onClick={(e) => this.handleClose(e, "")}></div>
         </div>
 
         return (<Structure {...this.props} content={content} label={children} />)
@@ -319,7 +313,133 @@ SelectCustom.propTypes = {
     errors: PropTypes.array.isRequired,
     onClick: PropTypes.func.isRequired,
     children: PropTypes.node,
-    displayValeur: PropTypes.node,
+    inputValue: PropTypes.node,
+    placeholder: PropTypes.string,
+}
+
+
+/***************************************
+ * SELECT MULTIPLE Custom
+ ***************************************/
+export class SelectMultipleCustom extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            inputValue: props.inputValue,
+            isOpen: false,
+            cursor: -1
+        }
+
+        this.input = React.createRef();
+    }
+
+    handleUseArrows = (e) => { useArrows(e, this) }
+
+    handleFocus = () => {
+        this.setState({ isOpen: true, cursor: -1 })
+        window.addEventListener("keydown", this.handleUseArrows)
+    }
+
+    handleClose = (e, value) => {
+        const { identifiant, items } = this.props;
+        const { cursor, inputValue } = this.state;
+
+        if(e !== null){ // from this
+            let possibilities = [];
+            if(cursor !== -1){
+                items.forEach((item, index) => {
+                    if(index === cursor){
+                        possibilities.push(item);
+                    }
+                })
+            }else{
+                items.forEach(item => {
+                    let rank = Search.selectSearch(inputValue, item.label)
+                    if(rank === 1) possibilities.push(item);
+                })
+            }
+
+            if(possibilities.length === 1){
+                let item = possibilities[0];
+                this.props.onClick(identifiant, item.value)
+            }else{
+                this.props.onClick(identifiant, "")
+            }
+        }else{ // from parent
+            this.setState({ isOpen: false, inputValue: value ? value : "" })
+        }
+
+        window.removeEventListener("keydown", this.handleUseArrows)
+    }
+
+    handleChange = (e) => { this.setState({ [e.currentTarget.name]: e.currentTarget.value }) }
+
+    handleBlur = (e) => {
+        const { identifiant } = this.props;
+
+        let value = e.currentTarget.value;
+        if(e.key === "Tab") this.props.onClick(identifiant, value)
+        if(e.key === "Enter") {
+            e.preventDefault();
+            this.props.onClick(identifiant, value)
+            this.input.current.focus();
+        }
+    }
+
+    render () {
+        const { identifiant, items, onClick, onDeClick, children, placeholder="", inputValues } = this.props;
+        const { init, isOpen, inputValue, cursor } = this.state;
+
+        items.forEach(item => {
+            item.rank = Search.selectSearch(inputValue, item.label);
+        })
+
+        items.sort(Sort.compareRankThenLabel)
+
+        let nItems = [];
+        items.forEach((item, index) => {
+            let active = item.rank === 1 ? " possibility" : "";
+            let positionnement = cursor === index ? " highlight" : "";
+
+            nItems.push(<div className={"item" + active + positionnement} id={"item-" + identifiant + "-" + index} key={index}
+                             onClick={() => onClick(identifiant, item.value, item.inputName ? item.inputName : item.label)}>
+                <div dangerouslySetInnerHTML={{__html: item.label }} />
+            </div>)
+        })
+
+        let content = <div className={"select-custom select-multiple-custom" + (isOpen ? " active" : "")} onFocus={this.handleFocus}>
+            <div className="select-input">
+                <div className="select-input-values">
+                    {inputValues.length > 0 && inputValues.map((val, index) => {
+                        return <div className="input-values-item" onClick={() => onDeClick(identifiant, val.uid)} key={index}>
+                            <span>{val.value}</span> <span className="icon-close" />
+                        </div>
+                    })}
+                </div>
+                <input ref={this.input} type="text" name="inputValue" id="inputValue" value={inputValue}
+                       placeholder={placeholder} onChange={this.handleChange} onKeyDown={this.handleBlur}
+                       autoComplete={"new-" + identifiant} key={init} />
+            </div>
+            <div className="select-choices" id={"select-choices-" + identifiant}>
+                <div className="items">{nItems}</div>
+            </div>
+            <div className="select-overlay" onClick={(e) => this.handleClose(e, "")}></div>
+        </div>
+
+        return (<Structure {...this.props} content={content} label={children} />)
+    }
+}
+
+SelectMultipleCustom.propTypes = {
+    identifiant: PropTypes.string.isRequired,
+    items: PropTypes.array.isRequired,
+    errors: PropTypes.array.isRequired,
+    onClick: PropTypes.func.isRequired,
+    onDeClick: PropTypes.func.isRequired,
+    inputValues: PropTypes.array.isRequired,
+    children: PropTypes.node,
+    inputValue: PropTypes.node,
     placeholder: PropTypes.string,
 }
 

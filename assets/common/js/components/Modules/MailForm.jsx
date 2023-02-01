@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import axios   from 'axios';
+import { uid } from 'uid'
 import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
-import { Checkbox, Input } from "@commonComponents/Elements/Fields";
+import { Input, SelectMultipleCustom } from "@commonComponents/Elements/Fields";
 import { Trumb }            from "@commonComponents/Elements/Trumb";
 import { Button }           from "@commonComponents/Elements/Button";
 
@@ -38,6 +39,8 @@ class Form extends Component {
             message: {value: "", html: ""},
             errors: [],
         }
+
+        this.select = React.createRef();
     }
 
     componentDidMount = () => { Inputs.initDateInput(this.handleChangeDate, this.handleChange, new Date()) }
@@ -49,6 +52,32 @@ class Form extends Component {
         let text = e.currentTarget.innerHTML;
 
         this.setState({[name]: {value: [name].value, html: text}})
+    }
+
+    handleSelect = (name, value) => {
+        if(value !== ""){
+            this.setState({ [name]: [...this.state[name], ...[{uid: uid(), value: value}]] });
+        }
+        this.select.current.handleClose(null, "");
+
+        // this.setState({ errors: [] });
+        //
+        // let validate = Validateur.validateur( [{type: "email",  id: 'to', value: value}])
+        // if(!validate.code) {
+        //     Formulaire.showErrors(this, validate);
+        // }else{
+        //     this.setState({ [name]: [...this.state[name], ...[value]] });
+        //     this.select.current.handleClose(null, "");
+        // }
+    }
+
+    handleDeselect = (name, uidValue) => {
+        let nData = [];
+        this.state[name].forEach(val => {
+            if(val.uid !== uidValue) nData.push(val);
+        })
+
+        this.setState({ [name]: nData });
     }
 
     handleSubmit = (e) => {
@@ -85,13 +114,17 @@ class Form extends Component {
         const { errors, to, cc, cci, name, message } = this.state;
 
         let params = { errors: errors, onChange: this.handleChange }
+        let params1 = { errors: errors, onClick: this.handleSelect, onDeClick: this.handleDeselect }
 
         return <>
             <div className="modal-body">
                 <form onSubmit={this.handleSubmit}>
-                    {/*<div className="line">*/}
-                    {/*    <Input identifiant="to" valeur={to} {...params}>À</Input>*/}
-                    {/*</div>*/}
+                    <div className="line">
+                        <SelectMultipleCustom ref={this.select} identifiant="to" inputValue="" inputValues={to}
+                                              items={[]} {...params1}>
+                            À
+                        </SelectMultipleCustom>
+                    </div>
                     <div className="line">
                         <Input identifiant="name" valeur={name} {...params}>Objet</Input>
                     </div>

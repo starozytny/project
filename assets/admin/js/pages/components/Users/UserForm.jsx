@@ -214,7 +214,7 @@ class Form extends Component {
                                         <label>Société</label>
                                         <LoaderElements text="Récupération des sociétés..." />
                                     </>
-                                    : <SelectCustom ref={this.select} identifiant="society" displayValeur={societyName}
+                                    : <SelectCustom ref={this.select} identifiant="society" inputValue={societyName}
                                               items={societies} {...paramsInput1}>
                                         Société
                                     </SelectCustom>

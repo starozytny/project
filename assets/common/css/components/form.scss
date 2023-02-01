@@ -81,8 +81,7 @@
 }
 
 
-
-input, textarea, select, .input-view{
+input, textarea, select, .input-view, .select-multiple-custom > .select-input{
   border: 1px solid var(--grey);
   padding: 8px 10px;
   border-radius: 4px;
@@ -162,6 +161,38 @@ textarea{
 .input-view{
   background-color: var(--grey);
   cursor: not-allowed;
+}
+
+.select-multiple-custom{
+  .select-input{
+    @include flex(row, center, flex-start, 4px);
+    flex-wrap: wrap;
+    padding: 6px 10px;
+
+    .select-input-values{
+      @include flex(row, flex-start, flex-start, 4px);
+      flex-wrap: wrap;
+    }
+
+    .input-values-item{
+      @include flex(row, center, flex-start, 4px);
+      background-color: var(--primaryOpacity1);
+      border-radius: 4px;
+      cursor: pointer;
+      padding: 3px 6px 2px 6px;
+      transition: background-color 0.2s ease-in-out;
+
+      &:hover{ background-color: var(--primaryOpacity4); }
+    }
+
+    input{
+      padding: 0;
+      border: none;
+      background-color: transparent;
+      width: auto;
+      color: var(--txt);
+    }
+  }
 }
 
 .select-custom{
