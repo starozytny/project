@@ -24,19 +24,28 @@ class MailController extends AbstractController
             return $apiResponse->apiJsonResponseBadRequest('Les données sont vides.');
         }
 
+        $to  = []; foreach($data->to as $item) $to[] = $item->value;
+        $cc  = []; foreach($data->cc as $item) $cc[] = $item->value;
+        $cci = []; foreach($data->cci as $item) $cci[] = $item->value;
 
-//        if(!$mailerService->sendMail(
-//            $user->getEmail(),
-//            "Mot de passe oublié pour le site " . $settingsService->getWebsiteName(),
-//            "Lien de réinitialisation de mot de passe.",
-//            'app/email/security/forget.html.twig',
-//            ['url' => $url, 'user' => $user, 'settings' => $settingsService->getSettings()]))
-//        {
-//            return $apiResponse->apiJsonResponseValidationFailed([[
-//                'name' => 'fUsername',
-//                'message' => "Le message n\'a pas pu être délivré. Veuillez contacter le support."
-//            ]]);
-//        }
+        if(count($to) > 0){
+            $subject = $sanitizeData->trimData($data->name);
+            if(!$mailerService->sendMail(
+                $to,
+                $subject,
+                $subject,
+                'app/email/template/random_classique.html.twig',
+                ['subject' => $subject, 'message' => $data->message->html],
+                $cc, $cci
+            )) {
+                return $apiResponse->apiJsonResponseValidationFailed([[
+                    'name' => 'fUsername',
+                    'message' => "Le message n\'a pas pu être délivré. Veuillez contacter le support."
+                ]]);
+            }
+        }else{
+            return $apiResponse->apiJsonResponseBadRequest("Destinataire invalide.");
+        }
 
         return $apiResponse->apiJsonResponseSuccessful("ok");
     }

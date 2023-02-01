@@ -21,28 +21,40 @@ class MailerService
         $this->settingsService = $settingsService;
     }
 
-    public function sendMail($to, $subject, $text, $html, $params, $from=null, $fromName=null, $replyTo=null, $cc1=null, $cc2=null, $files = []): bool|string
+    public function sendMail(array $to, $subject, $text, $html, $params, $cc=[], $cci=[], $replyTo=null, $files = [], $from=null, $fromName=null): bool|string
     {
         $from = ($from == null) ? $this->settingsService->getEmailExpediteurGlobal() : $from;
         $fromName = ($fromName == null) ? $this->settingsService->getWebsiteName() : $fromName;
 
         $email = (new TemplatedEmail())
             ->from(new Address($from, $fromName))
-            ->to(new Address($to))
             ->subject($subject)
             ->text($text)
             ->htmlTemplate($html)
             ->context($params)
         ;
 
+        $i = 0;
+        foreach($to as $item){
+            if($i == 0) $email->to(new Address($item));
+            else $email->addTo(new Address($item));
+            $i++;
+        }
+
         if($replyTo) $email->replyTo($replyTo);
 
-        if($cc1 && $cc2){
-            $email->cc($cc1, $cc2);
-        }else if($cc1){
-            $email->cc($cc1);
-        }else if($cc2){
-            $email->cc($cc2);
+        $i = 0;
+        foreach($cc as $item){
+            if($i == 0) $email->cc(new Address($item));
+            else $email->addCc(new Address($item));
+            $i++;
+        }
+
+        $i = 0;
+        foreach($cci as $item){
+            if($i == 0) $email->bcc(new Address($item));
+            else $email->addBcc(new Address($item));
+            $i++;
         }
 
         /** @var UploadedFile $file */

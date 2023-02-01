@@ -1,4 +1,6 @@
-framework:
-  mailer:
-    envelope:
-      recipients: ['%env(MAILER_DELIVERY)%']
+when@dev:
+  framework:
+    mailer:
+      envelope:
+        sender: 'chanbora@logilink.fr'
+        recipients: ['%env(MAILER_DELIVERY)%']

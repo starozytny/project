@@ -150,7 +150,7 @@ class UserController extends AbstractController
         $url = $this->generateUrl('app_password_reinit',
             ['token' => $user->getToken(), 'code' => $code], UrlGeneratorInterface::ABSOLUTE_URL);
         if(!$mailerService->sendMail(
-            $user->getEmail(),
+            [$user->getEmail()],
             "Mot de passe oublié pour le site " . $settingsService->getWebsiteName(),
             "Lien de réinitialisation de mot de passe.",
             'app/email/security/forget.html.twig',
