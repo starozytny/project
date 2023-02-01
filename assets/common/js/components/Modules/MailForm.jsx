@@ -33,19 +33,18 @@ class Form extends Component {
         super(props);
 
         this.state = {
+            to: [],
+            cc: [],
+            cci: [],
             name: "",
+            message: {value: "", html: ""},
             errors: [],
         }
     }
 
     componentDidMount = () => { Inputs.initDateInput(this.handleChangeDate, this.handleChange, new Date()) }
 
-    handleChange = (e, picker) => {
-        let name  = e.currentTarget.name;
-        let value = e.currentTarget.value;
-
-        this.setState({[name]: value})
-    }
+    handleChange = (e) => { this.setState({[e.currentTarget.name]: e.currentTarget.value}) }
 
     handleChangeTrumb = (e) => {
         let name = e.currentTarget.id;
@@ -54,47 +53,53 @@ class Form extends Component {
         this.setState({[name]: {value: [name].value, html: text}})
     }
 
-    handleSwitch = (e) => {
-        this.setState({ [e.currentTarget.name]: e.currentTarget.checked ? [parseInt(e.currentTarget.value)] : [0] })
-    }
-
     handleSubmit = (e) => {
         e.preventDefault();
 
         const { url } = this.props;
-        const { name } = this.state;
+        const { to, name, message } = this.state;
 
         this.setState({ errors: [] });
 
         let paramsToValidate = [
-            {type: "text",  id: 'name', value: name},
+            {type: "array",  id: 'to',      value: to},
+            {type: "text",   id: 'name',    value: name},
+            {type: "text",   id: 'message', value: message},
         ];
 
         let validate = Validateur.validateur(paramsToValidate)
         if(!validate.code){
             Formulaire.showErrors(this, validate);
         }else {
-            Formulaire.loader(true);
-            let self = this;
-
-            axios({ method: "POST", url: url, data: this.state })
-                .then(function (response) {
-
-                })
-                .catch(function (error) { Formulaire.displayErrors(self, error); Formulaire.loader(false); })
-            ;
+            // Formulaire.loader(true);
+            // let self = this;
+            //
+            // axios({ method: "POST", url: url, data: this.state })
+            //     .then(function (response) {
+            //
+            //     })
+            //     .catch(function (error) { Formulaire.displayErrors(self, error); Formulaire.loader(false); })
+            // ;
         }
     }
 
     render () {
-        const { errors, name } = this.state;
+        const { errors, to, cc, cci, name, message } = this.state;
 
         let params = { errors: errors, onChange: this.handleChange }
 
         return <>
             <form onSubmit={this.handleSubmit}>
+                {/*<div className="line">*/}
+                {/*    <Input identifiant="to" valeur={to} {...params}>À</Input>*/}
+                {/*</div>*/}
                 <div className="line">
                     <Input identifiant="name" valeur={name} {...params}>Objet</Input>
+                </div>
+                <div className="line">
+                    <Trumb identifiant="message" valeur={message.value} errors={errors} onChange={this.handleChangeTrumb}>
+                        Message
+                    </Trumb>
                 </div>
 
                 <div className="line-buttons">

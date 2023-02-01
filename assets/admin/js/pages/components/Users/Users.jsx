@@ -158,7 +158,7 @@ export class Users extends Component {
                     </ModalDelete>
 
                     <Modal ref={this.reinit} identifiant="reinit" maxWidth={414} title="Générer un nouveau mot de passe" content={null} footer={null}/>
-                    <Modal ref={this.mail} identifiant="mail" maxWidth={414} title="Envoyer un mail" content={null} footer={null}/>
+                    <Modal ref={this.mail} identifiant="mail" maxWidth={768} margin={2} title="Envoyer un mail" content={null} footer={null}/>
                 </>
             }
         </>
