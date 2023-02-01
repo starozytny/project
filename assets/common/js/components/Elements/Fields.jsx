@@ -490,18 +490,25 @@ export class InputFile extends Component {
 
         const file = e.target.files[0];
         if(file){
-            if (file.size > 5330000) {
-                toastr.error("Le fichier est trop volumineux.")
-            } else {
-                if(type === "simple"){
+            if(type === "simple"){
+                if (file.size > 5330000) {
+                    toastr.error("Le fichier est trop volumineux.")
+                }else{
                     this.setState({ files: [file] })
-                }else if(type === "multi"){
-                    if (files.length >= max){
+                }
+            }else{
+                let nFiles = [];
+                Object.entries(e.target.files).forEach(([key, file]) => {
+                    if (file.size > 5330000){
+                        toastr.error("Le fichier est trop volumineux.")
+                    }else if(files.length + nFiles.length >= max){
                         toastr.error("Le nombre maximal de fichiers envoyés a été atteint.")
                     }else{
-                        this.setState({ files: [...files, ...[file]] })
+                        nFiles.push(file);
                     }
-                }
+                });
+                this.setState({ files: [...files, ...nFiles] })
+
             }
         }
     }
@@ -516,11 +523,12 @@ export class InputFile extends Component {
     }
 
     render () {
-        const { identifiant, format="image", valeur, children, placeholder="", accept="image/*" } = this.props;
+        const { type, identifiant, format="image", valeur, children, placeholder="", accept="image/*" } = this.props;
         const { files } = this.state;
 
         let content = <div className="file-uploader">
-            <input type='file' ref={this.fileInput} accept={accept} name={identifiant} id={identifiant} onChange={this.handleFileInput} />
+            <input type='file' ref={this.fileInput} name={identifiant} id={identifiant} onChange={this.handleFileInput}
+                   accept={accept} multiple={type !== "simple"} />
 
             <div className="file-uploader-container">
                 <div className="infos">
