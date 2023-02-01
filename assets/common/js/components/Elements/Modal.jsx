@@ -53,7 +53,7 @@ export class Modal extends Component {
     handleUpdateCloseTxt = (closeTxt) => { this.setState({ closeTxt }) }
 
     render () {
-        const { content, identifiant, title, maxWidth, margin=15, showClose=true } = this.props;
+        const { content, identifiant, title, maxWidth, margin=15, showClose=true, isForm=false } = this.props;
         const { contentUpdated, footer, closeTxt } = this.state;
 
         let divStyle = maxWidth ? {
@@ -72,17 +72,34 @@ export class Modal extends Component {
                     <div className="title">{title ? title : ""}</div>
                     <div className="close-modal"><span className="icon-cancel" /></div>
                 </div>
-                <div className="modal-body">
-                    {nContent}
-                </div>
-                {(footer || showClose)
-                    ? <div className="modal-footer">
-                        {footer}
-                        {showClose && <div className="close-modal"><Button type="reverse">{closeTxt}</Button></div>}
-                    </div>
-                    :  null
+                {isForm
+                    ? nContent
+                    : <>
+                        <div className="modal-body">
+                            {nContent}
+                        </div>
+                        {(footer || showClose)
+                            ? <div className="modal-footer">
+                                {footer}
+                                {showClose && <div className="close-modal"><Button type="reverse">{closeTxt}</Button></div>}
+                            </div>
+                            :  null
+                        }
+                    </>
                 }
             </div>
         </div>
     }
+}
+
+Modal.propTypes = {
+    identifiant: PropTypes.string.isRequired,
+    title: PropTypes.string,
+    maxWidth: PropTypes.number,
+    margin: PropTypes.number,
+    content: PropTypes.node,
+    footer: PropTypes.node,
+    closeTxt: PropTypes.string,
+    showClose: PropTypes.bool,
+    isForm: PropTypes.bool,
 }

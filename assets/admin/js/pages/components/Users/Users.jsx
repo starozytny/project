@@ -9,15 +9,15 @@ import Sort         from "@commonFunctions/sort";
 import List         from "@commonFunctions/list";
 
 import { Pagination, TopSorterPagination } from "@commonComponents/Elements/Pagination";
+import { LoaderElements, LoaderTxt } from "@commonComponents/Elements/Loader";
 import { Search }           from "@commonComponents/Elements/Search";
 import { Filter }           from "@commonComponents/Elements/Filter";
-import { ModalDelete }      from "@commonComponents/Shortcut/Modal";
 import { Button }           from "@commonComponents/Elements/Button";
 import { Modal }            from "@commonComponents/Elements/Modal";
-import { LoaderElements, LoaderTxt } from "@commonComponents/Elements/Loader";
+import { ModalDelete }      from "@commonComponents/Shortcut/Modal";
+import { MailFormulaire }   from "@commonComponents/Modules/MailForm";
 
 import { UsersList } from "@adminPages/Users/UsersList";
-import {MailFormulaire} from "@commonComponents/Modules/MailForm";
 
 const URL_GET_DATA        = "api_users_list";
 const URL_DELETE_ELEMENT  = "api_users_delete";
@@ -75,7 +75,6 @@ export class Users extends Component {
             modalReinit(this);
         }else{
             ref = this.mail;
-            modalMail(this, elem);
         }
         ref.current.handleClick();
         this.setState({ element: elem })
@@ -158,7 +157,8 @@ export class Users extends Component {
                     </ModalDelete>
 
                     <Modal ref={this.reinit} identifiant="reinit" maxWidth={414} title="Générer un nouveau mot de passe" content={null} footer={null}/>
-                    <Modal ref={this.mail} identifiant="mail" maxWidth={768} margin={2} title="Envoyer un mail" content={null} footer={null}/>
+                    <Modal ref={this.mail} identifiant="mail" maxWidth={768} margin={2} title="Envoyer un mail" isForm={true}
+                           content={<MailFormulaire element={element} />} footer={null} />
                 </>
             }
         </>
@@ -169,10 +169,4 @@ function modalReinit (self) {
     self.reinit.current.handleUpdateContent(<p>Le nouveau mot de passe est généré automatiquement et prendra la place du mot de passe actuel.</p>);
     self.reinit.current.handleUpdateFooter(<Button onClick={self.handleReinitPassword} type="primary">Confirmer la génération</Button>);
     self.reinit.current.handleUpdateCloseTxt("Annuler");
-}
-
-function modalMail (self, element) {
-    self.mail.current.handleUpdateContent(<MailFormulaire element={element} />);
-    self.mail.current.handleUpdateFooter(<Button type="primary">Envoyer le mail</Button>);
-    self.mail.current.handleUpdateCloseTxt("Annuler");
 }

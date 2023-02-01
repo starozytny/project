@@ -17,11 +17,9 @@ const TEXT_CREATE           = "Envoyer le mail";
 
 export function MailFormulaire ({ element })
 {
-    let form = <Form
+    return <Form
         url={Routing.generate(URL_CREATE_ELEMENT)}
-    />
-
-    return <div>{form}</div>;
+    />;
 }
 
 MailFormulaire.propTypes = {
@@ -89,23 +87,25 @@ class Form extends Component {
         let params = { errors: errors, onChange: this.handleChange }
 
         return <>
-            <form onSubmit={this.handleSubmit}>
-                {/*<div className="line">*/}
-                {/*    <Input identifiant="to" valeur={to} {...params}>À</Input>*/}
-                {/*</div>*/}
-                <div className="line">
-                    <Input identifiant="name" valeur={name} {...params}>Objet</Input>
-                </div>
-                <div className="line">
-                    <Trumb identifiant="message" valeur={message.value} errors={errors} onChange={this.handleChangeTrumb}>
-                        Message
-                    </Trumb>
-                </div>
-
-                <div className="line-buttons">
-                    <Button isSubmit={true} type="primary">{TEXT_CREATE}</Button>
-                </div>
-            </form>
+            <div className="modal-body">
+                <form onSubmit={this.handleSubmit}>
+                    {/*<div className="line">*/}
+                    {/*    <Input identifiant="to" valeur={to} {...params}>À</Input>*/}
+                    {/*</div>*/}
+                    <div className="line">
+                        <Input identifiant="name" valeur={name} {...params}>Objet</Input>
+                    </div>
+                    <div className="line">
+                        <Trumb identifiant="message" valeur={message.value} errors={errors} onChange={this.handleChangeTrumb}>
+                            Message
+                        </Trumb>
+                    </div>
+                </form>
+            </div>
+            <div className="modal-footer">
+                <Button onClick={this.handleSubmit} type="primary">{TEXT_CREATE}</Button>
+                <div className="close-modal"><Button type="reverse">Annuler</Button></div>
+            </div>
         </>
     }
 }

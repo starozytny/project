@@ -101,10 +101,14 @@ textarea{
   resize: vertical;
 }
 
-.trumbowyg-box, .trumbowyg-editor{
-  background: var(--alpha);
-  color: var(--txt);
+.form-group{
+  .trumbowyg-box, .trumbowyg-editor{
+    background: var(--alpha);
+    color: var(--txt);
+    margin: 0 auto;
+  }
 }
+
 
 .checkbox-items, .radiobox-items{
   @include flex(row, stretch, flex-start);
