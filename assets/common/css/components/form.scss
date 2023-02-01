@@ -307,12 +307,13 @@ textarea{
     padding: 12px 12px 12px 14px;
 
     .preview-files{
-      @include flex(column, flex-start, flex-start);
+      @include flex(row, flex-start, flex-start, 12px);
+      flex-wrap: wrap;
 
       .item{
         @include flex(row, flex-start, flex-start);
         gap: 8px;
-        width: 100%;
+        width: auto;
         text-align: left;
 
         .sub{
