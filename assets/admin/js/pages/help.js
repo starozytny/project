@@ -13,7 +13,7 @@ Routing.setRoutingData(routes);
 
 let el = document.getElementById("help_faq_list");
 if(el){
-    createRoot(el).render(<Faq />)
+    createRoot(el).render(<Faq {...el.dataset}/>)
 }
 
 el = document.getElementById("help_faq_category_update");

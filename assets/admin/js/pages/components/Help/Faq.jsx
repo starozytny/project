@@ -36,10 +36,14 @@ export class Faq extends Component {
     }
 
     render () {
+        const { category } = this.props;
         const { loadingData, categories, questions } = this.state;
+
+        console.log(category);
 
         return loadingData
             ? <LoaderElements />
-            : <FaqList role="admin" categories={categories} questions={questions} />
+            : <FaqList role="admin" categories={categories} questions={questions}
+                       defaultCategory={category ? parseInt(category): null} />
     }
 }

@@ -4,7 +4,7 @@
 {% set page_subtitle %}Comment puis-je vous aider ?{% endset %}
 
 {% block main_content %}
-    <div id="help_faq_list">
+    <div id="help_faq_list" data-category="{{ category }}">
         {% include "layout/components/loader.html.twig" %}
     </div>
 {% endblock %}

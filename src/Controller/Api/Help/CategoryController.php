@@ -4,6 +4,7 @@ namespace App\Controller\Api\Help;
 
 use App\Entity\Main\Help\HeCategory;
 use App\Repository\Main\Help\HeCategoryRepository;
+use App\Repository\Main\Help\HeQuestionRepository;
 use App\Service\ApiResponse;
 use App\Service\Data\DataMain;
 use App\Service\ValidatorService;
@@ -32,7 +33,7 @@ class CategoryController extends AbstractController
         }
 
         $repository->save($obj, true);
-        return $apiResponse->apiJsonResponseSuccessful("ok");
+        return $apiResponse->apiJsonResponse($obj, HeCategory::LIST);
     }
 
     #[Route('/create', name: 'create', options: ['expose' => true], methods: 'POST')]
@@ -50,10 +51,14 @@ class CategoryController extends AbstractController
     }
 
     #[Route('/delete/{id}', name: 'delete', options: ['expose' => true], methods: 'DELETE')]
-    public function delete(HeCategory $obj, HeCategoryRepository $repository, ApiResponse $apiResponse): Response
+    public function delete(HeCategory $obj, HeCategoryRepository $repository, HeQuestionRepository $questionRepository, ApiResponse $apiResponse): Response
     {
-        $repository->remove($obj, true);
+        $questions = $obj->getQuestions();
+        foreach($questions as $question){
+            $questionRepository->remove($question);
+        }
 
+        $repository->remove($obj, true);
         return $apiResponse->apiJsonResponseSuccessful("ok");
     }
 }

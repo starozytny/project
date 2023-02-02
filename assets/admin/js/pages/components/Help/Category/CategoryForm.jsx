@@ -27,6 +27,7 @@ export function CategoryFormulaire ({ context, element })
     let form = <Form
         context={context}
         url={url}
+        id={element ? element.id : ""}
         name={element ? Formulaire.setValue(element.name) : ""}
         icon={element ? Formulaire.setValue(element.icon) : ""}
         subtitle={element ? Formulaire.setValue(element.subtitle) : ""}
@@ -60,7 +61,7 @@ class Form extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
 
-        const { context, url } = this.props;
+        const { context, url, id } = this.props;
         const { name, icon, subtitle } = this.state;
 
         this.setState({ errors: [] });
@@ -80,7 +81,7 @@ class Form extends Component {
 
             axios({ method: context === "update" ? "PUT" : "POST", url: url, data: this.state })
                 .then(function (response) {
-                    location.href = Routing.generate(URL_INDEX_ELEMENTS);
+                    location.href = Routing.generate(URL_INDEX_ELEMENTS, {'cat': response.data.id});
                 })
                 .catch(function (error) { Formulaire.displayErrors(self, error); Formulaire.loader(false); })
             ;
@@ -141,6 +142,7 @@ class Form extends Component {
 Form.propTypes = {
     context: PropTypes.string.isRequired,
     url: PropTypes.node.isRequired,
+    id: PropTypes.node.isRequired,
     name: PropTypes.string.isRequired,
     icon: PropTypes.string.isRequired,
     subtitle: PropTypes.string.isRequired,

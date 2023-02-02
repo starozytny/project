@@ -69,12 +69,13 @@ class Form extends Component {
         e.preventDefault();
 
         const { context, url } = this.props;
-        const { name, content } = this.state;
+        const { name, content, category } = this.state;
 
         this.setState({ errors: [] });
 
         let paramsToValidate = [
             {type: "text",  id: 'name',     value: name},
+            {type: "text",  id: 'category',  value: category},
             {type: "text",  id: 'content',  value: content.html},
         ];
 
@@ -87,7 +88,7 @@ class Form extends Component {
 
             axios({ method: context === "update" ? "PUT" : "POST", url: url, data: this.state })
                 .then(function (response) {
-                    location.href = Routing.generate(URL_INDEX_ELEMENTS);
+                    location.href = Routing.generate(URL_INDEX_ELEMENTS, {'cat': category});
                 })
                 .catch(function (error) { Formulaire.displayErrors(self, error); Formulaire.loader(false); })
             ;

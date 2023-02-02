@@ -11,6 +11,7 @@ $data:
         "cancel" var(--grey) var(--txt),
         "primary" var(--primary) var(--alpha),
         "warning" var(--warning) var(--alpha),
+        "danger" var(--danger) var(--alpha),
 ;
 
 @each $name, $bg, $txt in $data {
@@ -25,6 +26,7 @@ $data:
         "default" var(--color0) var(--grey) var(--color2Opacity4) var(--color2),
         "primary" var(--alpha) var(--primary) var(--primary) var(--primary),
         "warning" var(--alpha) var(--warning) var(--warning) var(--warning),
+        "warning" var(--alpha) var(--danger) var(--danger) var(--danger),
 ;
 
 @each $name, $bg, $txt, $border, $hBorder in $data {

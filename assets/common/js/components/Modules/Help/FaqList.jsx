@@ -9,16 +9,19 @@ import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
 import { Button, ButtonIcon } from "@commonComponents/Elements/Button";
 import { Modal } from "@commonComponents/Elements/Modal";
+import {LoaderTxt} from "@commonComponents/Elements/Loader";
 
 const URL_INDEX_ELEMENTS  = "admin_help_faq_index";
+
 const URL_CREATE_CATEGORY = "admin_help_faq_categories_create";
 const URL_UPDATE_CATEGORY = "admin_help_faq_categories_update";
-const URL_DELETE_CATEGORY = "admin_help_faq_categories_delete";
+const URL_DELETE_CATEGORY = "api_help_faq_categories_delete";
+
 const URL_CREATE_QUESTION = "admin_help_faq_questions_create";
 
-export function FaqList ({ role, categories, questions })
+export function FaqList ({ role, categories, questions, defaultCategory })
 {
-    const [category, setCategory] = useState(null);
+    const [category, setCategory] = useState(defaultCategory);
     const [question, setQuestion] = useState(null);
 
     const refDelete = useRef(null);
@@ -27,15 +30,22 @@ export function FaqList ({ role, categories, questions })
         switch (identifiant){
             case "delete-category":
                 refDelete.current.handleClick();
-                setCategory(id)
+                refDelete.current.handleUpdateFooter(<Button type="danger"
+                    onClick={() => handleDelete(refDelete, URL_DELETE_CATEGORY, id)} >
+                        Confirmer la suppression
+                    </Button>);
                 break;
             default:break;
         }
     }
 
-    let handleDelete = (routeName, id) => {
+    let handleDelete = (ref, routeName, id) => {
         let self = this;
-        axios({ method: "DELETE", url: Routing.generate(routeName, {'id': id}), data: {} })
+        let instance = axios.create();
+        instance.interceptors.request.use((config) => {
+            ref.current.handleUpdateFooter(<Button type="danger" icon="chart-3" isLoader={true}>Confirmer la suppression</Button>);return config;
+        }, function(error) { return Promise.reject(error); });
+        instance({ method: "DELETE", url: Routing.generate(routeName, {'id': id}), data: {} })
             .then(function (response) { location.href = Routing.generate(URL_INDEX_ELEMENTS); })
             .catch(function (error) { Formulaire.displayErrors(self, error); })
         ;
@@ -113,9 +123,7 @@ export function FaqList ({ role, categories, questions })
         </div>
 
         <Modal ref={refDelete} identifiant="delete-category" maxWidth={414} title="Supprimer la catégorie"
-               content={<p>Les questions seront aussi supprimées.</p>}
-               footer={<Button onClick={() => handleDelete(URL_DELETE_CATEGORY, category)} type="primary">Confirmer la suppression</Button>}
-           />
+               content={<p>Les questions seront aussi supprimées.</p>} footer={null} />
     </div>
 }
 
@@ -123,4 +131,5 @@ FaqList.propTypes = {
     role: PropTypes.string.isRequired,
     categories: PropTypes.array.isRequired,
     questions: PropTypes.array.isRequired,
+    defaultCategory: PropTypes.number,
 }
