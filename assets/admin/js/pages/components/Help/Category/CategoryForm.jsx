@@ -4,11 +4,12 @@ import PropTypes from 'prop-types';
 import axios   from 'axios';
 import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
-import { Input, Radiobox }  from "@commonComponents/Elements/Fields";
+import {Input, InputView, Radiobox} from "@commonComponents/Elements/Fields";
 import { Button }           from "@commonComponents/Elements/Button";
 
 import Formulaire from "@commonFunctions/formulaire";
 import Validateur from "@commonFunctions/validateur";
+import {LoaderElements, LoaderTxt} from "@commonComponents/Elements/Loader";
 
 const URL_INDEX_ELEMENTS    = "admin_help_faq_index";
 const URL_CREATE_ELEMENT    = "api_help_faq_categories_create";
@@ -53,7 +54,23 @@ class Form extends Component {
             visibility: props.visibility,
             rank: 0,
             errors: [],
+            icons: [],
+            loadIcons: true,
         }
+    }
+
+    componentDidMount = () => {
+        let self = this;
+        fetch(window.location.origin + '/selection.json')
+            .then((response) => response.json())
+            .then((json) => {
+                let icons = json.icons;
+                let data = [];
+                icons.forEach(icon => {
+                    data.push(icon.properties.name);
+                })
+                self.setState({ icons: data, loadIcons: false })
+            });
     }
 
     handleChange = (e) => { this.setState({[e.currentTarget.name]: e.currentTarget.value}) }
@@ -90,7 +107,7 @@ class Form extends Component {
 
     render () {
         const { context } = this.props;
-        const { errors, name, icon, subtitle, visibility } = this.state;
+        const { errors, loadIcons, name, icon, subtitle, visibility, icons } = this.state;
 
         let visibilityItems = [
             { value: 0, label: 'Pour tous',             identifiant: 'type-0' },
@@ -124,9 +141,16 @@ class Form extends Component {
                                 <Input identifiant="name" valeur={name} {...params}>Intitulé</Input>
                                 <Input identifiant="subtitle" valeur={subtitle} {...params}>Sous titre</Input>
                             </div>
-                            <div className="line">
-                                <Input identifiant="icon" valeur={icon} {...params}>Icon</Input>
-                            </div>
+                            {loadIcons
+                                ? <LoaderTxt text="Chargement des icônes" />
+                                : <div className="line">
+                                    {icons.map((icon, index) => {
+                                        return <div key={index}>
+                                            <span className={"icon-" + icon}></span>
+                                        </div>
+                                    })}
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>
