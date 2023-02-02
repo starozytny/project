@@ -1,0 +1,141 @@
+.help-line-1{
+  @include flex(column, flex-start, flex-start, 1.2rem);
+
+  & > [class^="col-"]{
+    width: 100%;
+  }
+}
+
+.help-categories{
+  @include flex(column, flex-start, flex-start, 0.4rem);
+
+  & > .item{
+    @include flex(row, center, flex-start, 8px);
+    width: 100%;
+    cursor: pointer;
+    border-radius: 4px;
+    padding: 8px 12px;
+  }
+}
+
+.questions{
+  .questions-header{
+    @include flex(row, flex-start, flex-start, 12px);
+    margin-bottom: 12px;
+
+    .icon{
+      @include flex(row, center, center);
+      background-color: red;
+      border-radius: 4px;
+      width: 48px; height: 48px;
+      font-size: 24px;
+    }
+
+    .title{
+      .name{
+        @include fontSemibold();
+        font-size: 18px;
+
+        & + .sub{
+          margin-top: 4px;
+        }
+      }
+      .sub{
+        opacity: 0.75;
+        font-size: 15px;
+      }
+    }
+  }
+
+  .questions-body{
+    @include flex(column, flex-start, flex-start, 12px);
+  }
+}
+
+.question{
+  width: 100%;
+  border-radius: 4px;
+  overflow: hidden;
+
+  &.active{
+    .question-header{
+      .chevron{
+        transform: rotate(180deg);
+      }
+    }
+    .question-body{
+      display: block;
+    }
+  }
+
+  &:not(.active):hover{
+    .question-header {
+      .name { opacity: 1; }
+    }
+  }
+
+  .question-header {
+    @include flex(row, flex-start, space-between, 12px);
+    padding: 1.2rem;
+    cursor: pointer;
+
+    .name{
+      @include fontSemibold();
+      font-size: 18px;
+      opacity: 0.85;
+    }
+
+    .chevron{
+      transition: tranform 0.2s ease-in-out;
+    }
+  }
+
+  .question-body{
+    display: none;
+    margin-bottom: 1.2rem;
+    padding: 1.2rem;
+    border-top: 1px solid var(--grey);
+    border-radius: 0 0 4px 4px;
+    opacity: 0.85;
+  }
+}
+
+//                      __   _____ __    ___    __
+//                     | _| |___  / /_  ( _ )  |_ |
+//    _____ _____ _____| |     / / '_ \ / _ \   | |_____ _____ _____
+//   |_____|_____|_____| |    / /| (_) | (_) |  | |_____|_____|_____|
+//                     | |   /_/  \___/ \___/   | |
+//                     |__|                    |__|
+@media (min-width:768px) {
+  .help-line-1{
+    flex-direction: row;
+
+    & > .col-1{
+      width: 258px;
+    }
+
+    & > .col-2{
+      width: calc(100% - 258px - 1.2rem);
+    }
+  }
+}
+
+//                      __   _ ____  ___   ___    __
+//                     | _| / |___ \( _ ) / _ \  |_ |
+//    _____ _____ _____| |  | | __) / _ \| | | |  | |_____ _____ _____
+//   |_____|_____|_____| |  | |/ __/ (_) | |_| |  | |_____|_____|_____|
+//                     | |  |_|_____\___/ \___/   | |
+//                     |__|                      |__|
+@media (min-width:1280px) {
+  .help-line-1{
+    gap: 1.8rem;
+
+    & > .col-1{
+      width: 320px;
+    }
+
+    & > .col-2{
+      width: calc(100% - 320px - 1.8rem);
+    }
+  }
+}

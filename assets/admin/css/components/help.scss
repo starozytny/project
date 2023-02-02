@@ -1,0 +1,36 @@
+@import "../../../common/css/components/help";
+
+.help-categories{
+  & > .item{
+    &.active{
+      background-color: var(--color0);
+    }
+    &:not(.active):hover{
+      background-color: var(--color0Opacity4);
+    }
+  }
+}
+
+.questions {
+  .questions-header {
+    .icon {
+      background-color: var(--color0);
+      color: var(--alpha);
+    }
+  }
+}
+
+.question{
+  &.active{
+    .question-header{
+      .name{ opacity: 1 }
+    }
+  }
+  .question-header {
+    background-color: var(--color0Opacity4);
+  }
+  .question-body{
+    background-color: var(--color0Opacity4);
+    border-color: var(--color2);
+  }
+}
