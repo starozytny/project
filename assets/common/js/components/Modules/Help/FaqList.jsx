@@ -64,9 +64,8 @@ export function FaqList ({ role, categories, questions })
                         </Button>}
                         {questions.map((elem, index) => {
                             if(elem.category.id === category){
-                                return <div className={"question" + (elem.id === question ? " active" : "")} key={index}
-                                            onClick={() => setQuestion(elem.id === question ? null : elem.id)}>
-                                    <div className="question-header">
+                                return <div className={"question" + (elem.id === question ? " active" : "")} key={index}>
+                                    <div className="question-header" onClick={() => setQuestion(elem.id === question ? null : elem.id)}>
                                         <div className="name">{elem.name}</div>
                                         <div className="chevron"><span className="icon-down-chevron"></span></div>
                                     </div>
