@@ -2,6 +2,7 @@
 
 namespace App\Controller\Api\Help;
 
+use App\Entity\Main\Help\HeCategory;
 use App\Entity\Main\Help\HeQuestion;
 use App\Repository\Main\Help\HeCategoryRepository;
 use App\Repository\Main\Help\HeQuestionRepository;
@@ -59,8 +60,9 @@ class QuestionController extends AbstractController
     #[Route('/delete/{id}', name: 'delete', options: ['expose' => true], methods: 'DELETE')]
     public function delete(HeQuestion $obj, HeQuestionRepository $repository, ApiResponse $apiResponse): Response
     {
+        $category = $obj->getCategory();
         $repository->remove($obj, true);
 
-        return $apiResponse->apiJsonResponseSuccessful("ok");
+        return $apiResponse->apiJsonResponse($category, HeCategory::LIST);
     }
 }

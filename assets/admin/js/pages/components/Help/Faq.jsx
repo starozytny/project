@@ -39,8 +39,6 @@ export class Faq extends Component {
         const { category } = this.props;
         const { loadingData, categories, questions } = this.state;
 
-        console.log(category);
-
         return loadingData
             ? <LoaderElements />
             : <FaqList role="admin" categories={categories} questions={questions}

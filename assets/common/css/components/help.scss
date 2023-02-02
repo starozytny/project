@@ -101,6 +101,11 @@ $widthIcon: 48px;
     border-top: 1px solid var(--grey);
     border-radius: 0 0 4px 4px;
     opacity: 0.85;
+
+    .actions{
+      @include flex(row, flex-start, flex-end, 4px);
+      margin-bottom: 1.2rem;
+    }
   }
 }
 

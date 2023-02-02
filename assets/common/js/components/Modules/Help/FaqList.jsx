@@ -9,7 +9,6 @@ import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
 import { Button, ButtonIcon } from "@commonComponents/Elements/Button";
 import { Modal } from "@commonComponents/Elements/Modal";
-import {LoaderTxt} from "@commonComponents/Elements/Loader";
 
 const URL_INDEX_ELEMENTS  = "admin_help_faq_index";
 
@@ -18,20 +17,30 @@ const URL_UPDATE_CATEGORY = "admin_help_faq_categories_update";
 const URL_DELETE_CATEGORY = "api_help_faq_categories_delete";
 
 const URL_CREATE_QUESTION = "admin_help_faq_questions_create";
+const URL_UPDATE_QUESTION = "admin_help_faq_questions_update";
+const URL_DELETE_QUESTION = "api_help_faq_questions_delete";
 
 export function FaqList ({ role, categories, questions, defaultCategory })
 {
     const [category, setCategory] = useState(defaultCategory);
     const [question, setQuestion] = useState(null);
 
-    const refDelete = useRef(null);
+    const refDeleteCategory = useRef(null);
+    const refDeleteQuestion = useRef(null);
 
-    let handleModal = (identifiant, id) => {
+    let handleModal = (identifiant, id, idCategory) => {
         switch (identifiant){
             case "delete-category":
-                refDelete.current.handleClick();
-                refDelete.current.handleUpdateFooter(<Button type="danger"
-                    onClick={() => handleDelete(refDelete, URL_DELETE_CATEGORY, id)} >
+                refDeleteCategory.current.handleClick();
+                refDeleteCategory.current.handleUpdateFooter(<Button type="danger"
+                    onClick={() => handleDelete(refDeleteCategory, Routing.generate(URL_DELETE_CATEGORY, {'id': id}))} >
+                        Confirmer la suppression
+                    </Button>);
+                break;
+            case "delete-question":
+                refDeleteQuestion.current.handleClick();
+                refDeleteQuestion.current.handleUpdateFooter(<Button type="danger"
+                    onClick={() => handleDelete(refDeleteQuestion, Routing.generate(URL_DELETE_QUESTION, {'category': idCategory, 'id': id}))} >
                         Confirmer la suppression
                     </Button>);
                 break;
@@ -39,14 +48,17 @@ export function FaqList ({ role, categories, questions, defaultCategory })
         }
     }
 
-    let handleDelete = (ref, routeName, id) => {
+    let handleDelete = (ref, url) => {
         let self = this;
         let instance = axios.create();
         instance.interceptors.request.use((config) => {
             ref.current.handleUpdateFooter(<Button type="danger" icon="chart-3" isLoader={true}>Confirmer la suppression</Button>);return config;
         }, function(error) { return Promise.reject(error); });
-        instance({ method: "DELETE", url: Routing.generate(routeName, {'id': id}), data: {} })
-            .then(function (response) { location.href = Routing.generate(URL_INDEX_ELEMENTS); })
+        instance({ method: "DELETE", url: url, data: {} })
+            .then(function (response) {
+                let params = response.data.message ? {} : {'cat': response.data.id};
+                location.href = Routing.generate(URL_INDEX_ELEMENTS, params);
+            })
             .catch(function (error) { Formulaire.displayErrors(self, error); })
         ;
     }
@@ -81,10 +93,14 @@ export function FaqList ({ role, categories, questions, defaultCategory })
                                         <div className="name">{elem.name}</div>
                                         <div className="sub">{elem.subtitle}</div>
                                     </div>
-                                    <div className="actions">
-                                        <ButtonIcon icon="pencil" element="a" onClick={Routing.generate(URL_UPDATE_CATEGORY, {'id': elem.id})}>Modifier</ButtonIcon>
-                                        <ButtonIcon icon="trash" onClick={() => handleModal('delete-category', elem.id)}>Supprimer</ButtonIcon>
-                                    </div>
+                                    {role === "admin" && <div className="actions">
+                                        <ButtonIcon icon="pencil" element="a" onClick={Routing.generate(URL_UPDATE_CATEGORY, {'id': elem.id})}>
+                                            Modifier
+                                        </ButtonIcon>
+                                        <ButtonIcon icon="trash" onClick={() => handleModal('delete-category', elem.id)}>
+                                            Supprimer
+                                        </ButtonIcon>
+                                    </div>}
                                 </div>
                             }
                         }))
@@ -112,6 +128,15 @@ export function FaqList ({ role, categories, questions, defaultCategory })
                                         <div className="chevron"><span className="icon-down-chevron"></span></div>
                                     </div>
                                     <div className="question-body">
+                                        {role === "admin" && <div className="actions">
+                                            <ButtonIcon icon="pencil" element="a"
+                                                        onClick={Routing.generate(URL_UPDATE_QUESTION, {'category': elem.category.id, 'id': elem.id})}>
+                                                Modifier
+                                            </ButtonIcon>
+                                            <ButtonIcon icon="trash" onClick={() => handleModal('delete-question', elem.id, elem.category.id)}>
+                                                Supprimer
+                                            </ButtonIcon>
+                                        </div>}
                                         <div dangerouslySetInnerHTML={{ __html: elem.content }} />
                                     </div>
                                 </div>
@@ -122,8 +147,10 @@ export function FaqList ({ role, categories, questions, defaultCategory })
             </div>
         </div>
 
-        <Modal ref={refDelete} identifiant="delete-category" maxWidth={414} title="Supprimer la catégorie"
+        <Modal ref={refDeleteCategory} identifiant="delete-category" maxWidth={414} title="Supprimer la catégorie"
                content={<p>Les questions seront aussi supprimées.</p>} footer={null} />
+        <Modal ref={refDeleteQuestion} identifiant="delete-question" maxWidth={414} title="Supprimer la question"
+               content={<p>Le contenu sera définitivement supprimé.</p>} footer={null} />
     </div>
 }
 
