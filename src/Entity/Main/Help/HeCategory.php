@@ -6,22 +6,28 @@ use App\Repository\Main\Help\HeCategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: HeCategoryRepository::class)]
 class HeCategory
 {
+    const LIST = ["help_cat_list"];
+
     const VISIBILITY_ALL = 0;
     const VISIBILITY_ADMIN = 1;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['help_cat_list', 'help_quest_list'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['help_cat_list'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['help_cat_list'])]
     private ?string $icon = null;
 
     #[ORM\Column]
@@ -31,6 +37,7 @@ class HeCategory
     private Collection $questions;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['help_cat_list'])]
     private ?string $subtitle = null;
 
     #[ORM\Column]

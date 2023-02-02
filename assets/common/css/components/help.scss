@@ -14,7 +14,7 @@
     width: 100%;
     cursor: pointer;
     border-radius: 4px;
-    padding: 8px 12px;
+    padding: 12px;
   }
 }
 
@@ -80,8 +80,7 @@
     cursor: pointer;
 
     .name{
-      @include fontSemibold();
-      font-size: 18px;
+      font-size: 17px;
       opacity: 0.85;
     }
 

@@ -5,23 +5,30 @@ namespace App\Entity\Main\Help;
 use App\Repository\Main\Help\HeQuestionRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: HeQuestionRepository::class)]
 class HeQuestion
 {
+    const LIST = ["help_quest_list"];
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['help_quest_list'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['help_quest_list'])]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups(['help_quest_list'])]
     private ?string $content = null;
 
-    #[ORM\ManyToOne(inversedBy: 'questions')]
+    #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'questions')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['help_quest_list'])]
     private ?HeCategory $category = null;
 
     public function getId(): ?int
