@@ -1,8 +1,15 @@
 import React, { useState } from "react";
 import PropTypes from 'prop-types';
 
-export function FaqList ({ role, categories, questions }) {
+import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
+import { Button } from "@commonComponents/Elements/Button";
+
+const URL_CREATE_CATEGORY = "admin_help_faq_categories_create";
+const URL_CREATE_QUESTION = "admin_help_faq_questions_create";
+
+export function FaqList ({ role, categories, questions })
+{
     const [category, setCategory] = useState(null);
     const [question, setQuestion] = useState(null);
 
@@ -10,6 +17,10 @@ export function FaqList ({ role, categories, questions }) {
         <div className="help-line-1">
             <div className="col-1">
                 <div className="help-categories">
+                    {role === "admin" && <Button icon="add" type="primary" element="a"
+                                                 onClick={Routing.generate(URL_CREATE_CATEGORY)}>
+                        Ajouter une catégorie
+                    </Button>}
                     {categories.map((elem, index) => {
                         return <div className={"item" + (elem.id === category ? " active" : "")} key={index}
                                     onClick={() => setCategory(elem.id)} >
@@ -47,6 +58,10 @@ export function FaqList ({ role, categories, questions }) {
                     }
 
                     <div className="questions-body">
+                        {(role === "admin" && category) && <Button icon="add" type="primary" element="a"
+                                                     onClick={Routing.generate(URL_CREATE_QUESTION, {'category': category})}>
+                            Ajouter une question-réponse
+                        </Button>}
                         {questions.map((elem, index) => {
                             if(elem.category.id === category){
                                 return <div className={"question" + (elem.id === question ? " active" : "")} key={index}
