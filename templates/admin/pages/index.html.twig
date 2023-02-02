@@ -106,7 +106,7 @@
                                 </div>
                                 <div class="col-2">
                                     <div class="name">{{ elem.name }}</div>
-                                    <div class="date">{{ elem.createdAt | date('d/m/Y') }}</div>
+                                    <div class="date">{{ elem.createdAt | format_datetime('full', 'short', locale="fr") | replace({":": "h"}) | capitalize }}</div>
                                     <div class="content">{{ elem.content | raw }}</div>
                                 </div>
                             </div>
