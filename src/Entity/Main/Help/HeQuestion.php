@@ -11,19 +11,20 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class HeQuestion
 {
     const LIST = ["help_quest_list"];
+    const FORM = ["help_quest_form"];
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['help_quest_list'])]
+    #[Groups(['help_quest_list', 'help_quest_form'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['help_quest_list'])]
+    #[Groups(['help_quest_list', 'help_quest_form'])]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Groups(['help_quest_list'])]
+    #[Groups(['help_quest_list', 'help_quest_form'])]
     private ?string $content = null;
 
     #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'questions')]

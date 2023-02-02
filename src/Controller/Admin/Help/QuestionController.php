@@ -13,15 +13,17 @@ use Symfony\Component\Serializer\SerializerInterface;
 class QuestionController extends AbstractController
 {
     #[Route('/question/{category}/ajouter', name: 'create', options: ['expose' => true])]
-    public function create(HeCategory $category): Response
+    public function create(HeCategory $category, SerializerInterface $serializer): Response
     {
-        return $this->render('admin/pages/help/faq/question/create.html.twig', ['category' => $category]);
+        $cat  = $serializer->serialize($category, 'json', ['groups' => HeCategory::LIST]);
+        return $this->render('admin/pages/help/faq/question/create.html.twig', ['category' => $category, 'cat' => $cat]);
     }
 
     #[Route('/question/{category}/modifier/{id}', name: 'update', options: ['expose' => true])]
     public function update(HeCategory $category, HeQuestion $elem, SerializerInterface $serializer): Response
     {
-        $obj  = $serializer->serialize($elem, 'json', ['groups' => HeCategory::FORM]);
-        return $this->render('admin/pages/help/faq/question/update.html.twig', ['category' => $category, 'elem' => $elem, 'obj' => $obj]);
+        $obj  = $serializer->serialize($elem, 'json', ['groups' => HeQuestion::FORM]);
+        $cat  = $serializer->serialize($category, 'json', ['groups' => HeCategory::LIST]);
+        return $this->render('admin/pages/help/faq/question/update.html.twig', ['category' => $category, 'cat' => $cat, 'elem' => $elem, 'obj' => $obj]);
     }
 }
