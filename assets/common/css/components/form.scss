@@ -52,7 +52,7 @@
     color: var(--error) !important;
   }
 
-  input, textarea, select{
+  input, textarea, select, .input-view, .trumbowyg-box, .trumbowyg-editor, .select-multiple-custom > .select-input{
     border-color: var(--error);
     color: var(--error);
     background-color: var(--errorBackground);
@@ -101,10 +101,14 @@ textarea{
 }
 
 .form-group{
+  .trumbowyg-box{
+    overflow: hidden;
+  }
   .trumbowyg-box, .trumbowyg-editor{
     background: var(--alpha);
     color: var(--txt);
     margin: 0 auto;
+    border-radius: 4px;
   }
 }
 
