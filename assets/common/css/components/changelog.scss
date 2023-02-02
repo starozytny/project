@@ -1,0 +1,40 @@
+.changelogs-view{
+  position: relative;
+  @include flex(column, flex-start, flex-start, 24px);
+
+  &:before{
+    content: "";
+    position: absolute;
+    top: 0; left: 12px;
+    display: block;
+    background-color: var(--grey);
+    width: 1px;
+    height: 100%;
+    opacity: 0.85;
+  }
+}
+
+.changelog-view{
+  @include flex(row, flex-start, flex-start, 12px);
+
+  & > .col-1{
+    position: relative;
+    width: 24px;
+    padding: 4px;
+    transform: translateY(-3px);
+
+    [class^="icon-"]{
+      display: inline-block;
+      transform: translateY(1px);
+    }
+  }
+
+  & > .col-2{
+    width: calc(100% - 16px - 12px);
+  }
+
+  .date{
+    margin-bottom: 4px;
+    font-size: 14px;
+  }
+}

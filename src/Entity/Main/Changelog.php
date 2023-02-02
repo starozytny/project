@@ -126,4 +126,10 @@ class Changelog extends DataEntity
 
         return $this;
     }
+
+    public function getIcon(): string
+    {
+        $values = ["question", "warning", "exclamation"];
+        return $values[$this->type];
+    }
 }

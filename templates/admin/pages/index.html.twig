@@ -90,6 +90,33 @@
 
         </div>
 
+        <div class="dashboard-line-2">
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="icon"><span class="icon-refresh1"></span></div>
+                    <div class="title">Informations des mises à jours</div>
+                </div>
+                <div class="card-body">
+                    <div class="changelogs-view">
+                        {% for elem in changelogs %}
+                            <div class="changelog-view changelog-type-{{ elem.type }}">
+                                <div class="col-1">
+                                    <span class="icon-{{ elem.icon }}"></span>
+                                </div>
+                                <div class="col-2">
+                                    <div class="name">{{ elem.name }}</div>
+                                    <div class="date">{{ elem.createdAt | date('d/m/Y') }}</div>
+                                    <div class="content">{{ elem.content | raw }}</div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
     </div>
 </div>
 {% endblock %}

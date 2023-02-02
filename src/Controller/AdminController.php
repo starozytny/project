@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Main\Settings;
+use App\Repository\Main\ChangelogRepository;
 use App\Repository\Main\ContactRepository;
 use App\Repository\Main\SettingsRepository;
 use App\Repository\Main\SocietyRepository;
@@ -17,7 +18,8 @@ class AdminController extends AbstractController
 {
     #[Route('/', name: 'homepage')]
     public function index(SettingsRepository $settingsRepository, SocietyRepository $societyRepository,
-                          UserRepository $userRepository, ContactRepository $contactRepository): Response
+                          UserRepository $userRepository, ContactRepository $contactRepository,
+                          ChangelogRepository $changelogRepository): Response
     {
         $settings = $settingsRepository->findAll();
         $settings = count($settings) != 0 ? $settings[0] : null;
@@ -34,6 +36,7 @@ class AdminController extends AbstractController
             if($contact->isSeen()) $contactsNew++;
         }
 
+        $changelogs = $changelogRepository->findBy(['isPublished' => true], ['createdAt' => 'ASC'], 5);
 
         return $this->render('admin/pages/index.html.twig', [
             'settings' => $settings,
@@ -42,6 +45,7 @@ class AdminController extends AbstractController
             'nbUsersConnected' => $usersConnected,
             'nbContacts' => count($contacts),
             'nbContactsNew' => $contactsNew,
+            'changelogs' => $changelogs,
         ]);
     }
 
