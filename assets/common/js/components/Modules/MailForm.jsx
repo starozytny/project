@@ -15,6 +15,7 @@ import Formulaire from "@commonFunctions/formulaire";
 import Inputs     from "@commonFunctions/inputs";
 import Validateur from "@commonFunctions/validateur";
 import ModalFunc  from "@commonFunctions/modal";
+import {LoaderTxt} from "@commonComponents/Elements/Loader";
 
 const URL_CREATE_ELEMENT    = "api_mails_send";
 const TEXT_CREATE           = "Envoyer le message";
@@ -58,7 +59,8 @@ class Form extends Component {
             errors: [],
             success: null,
             openCc: false,
-            openCci: false
+            openCci: false,
+            loadSendData: false,
         }
 
         this.select0 = React.createRef();
@@ -141,10 +143,14 @@ class Form extends Component {
                 })
             }
 
-            axios({ method: "POST", url: url, data: formData, headers: {'Content-Type': 'multipart/form-data'} })
+            let instance = axios.create();
+            instance.interceptors.request.use((config) => {
+                self.setState({ loadSendData: true }); return config;
+            }, function(error) { return Promise.reject(error); });
+            instance({ method: "POST", url: url, data: formData, headers: {'Content-Type': 'multipart/form-data'} })
                 .then(function (response) {
                     toastr.info("Message envoyé.");
-                    self.setState({ success: "Message envoyé.", name: "", message: {value: "", html: ""} });
+                    self.setState({ loadSendData: false, success: "Message envoyé.", name: "", message: {value: "", html: ""} });
                 })
                 .catch(function (error) { console.log(error); Formulaire.displayErrors(self, error);  })
                 .then(function () { Formulaire.loader(false);  })
@@ -154,7 +160,7 @@ class Form extends Component {
 
     render () {
         const { tos } = this.props;
-        const { errors, success, to, cc, cci, name, message, openCc, openCci, files } = this.state;
+        const { errors, success, loadSendData, to, cc, cci, name, message, openCc, openCci, files } = this.state;
 
         let params = { errors: errors, onChange: this.handleChange }
         let params1 = { errors: errors, onClick: this.handleSelect, onDeClick: this.handleDeselect }
@@ -162,8 +168,6 @@ class Form extends Component {
         return <>
             <div className="modal-body">
                 <form onSubmit={this.handleSubmit}>
-                    {success && <div className="line"><div className="form-group"><Alert type="info">{success}</Alert></div></div>}
-
                     <div className="line line-send-mail-ccs">
                         <SelectMultipleCustom ref={this.select0} identifiant="to" inputValue="" inputValues={to}
                                               items={tos} {...params1}>À</SelectMultipleCustom>
@@ -200,7 +204,11 @@ class Form extends Component {
                 </form>
             </div>
             <div className="modal-footer">
-                <Button onClick={this.handleSubmit} type="primary">{TEXT_CREATE}</Button>
+                {success && <Alert type="info">{success}</Alert>}
+                {!loadSendData
+                    ? <Button onClick={this.handleSubmit} type="primary">{TEXT_CREATE}</Button>
+                    : <Button onClick={this.handleSubmit} type="primary" icon="chart-3" isLoader={true}>{TEXT_CREATE}</Button>
+                }
                 <div className="close-modal"><Button type="reverse">Annuler</Button></div>
             </div>
         </>

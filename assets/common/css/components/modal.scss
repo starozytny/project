@@ -52,6 +52,10 @@
   @include flex(row, flex-start, flex-end);
   gap: 8px;
   border-top: 1px solid var(--greyOpacity4);
+
+  .alert{
+    width: auto;
+  }
 }
 
 //                      __   _ ____  ___   ___    __

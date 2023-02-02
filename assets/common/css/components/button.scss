@@ -23,3 +23,14 @@ button{
     margin-right: 6px;
   }
 }
+
+.btn-loader{
+  span:last-child{
+    opacity: 0;
+  }
+  & > [class^="icon-"]{
+    position: absolute;
+    top: 10px;
+    left: 46%;
+  }
+}

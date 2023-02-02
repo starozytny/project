@@ -23,15 +23,17 @@ export function ButtonIcon(props){
 }
 
 export function Button(props){
-    const { icon, type="default", isSubmit=false, outline=false, children, onClick, element="button", target="_self" } = props;
+    const { icon, type="default", isSubmit=false, outline=false, children, onClick, element="button", target="_self", isLoader=false } = props;
 
     if(element === "button"){
-        return <button className={`btn btn-${outline ? "outline-" : ""}${type}`} type={isSubmit ? "submit" : "button"} onClick={onClick}>
+        return <button className={`btn ${isLoader ? "btn-loader" : ""} btn-${outline ? "outline-" : ""}${type}`}
+                       type={isSubmit ? "submit" : "button"} onClick={onClick}>
             {icon && <span className={`icon-${icon}`} />}
             <span>{children}</span>
         </button>
     }else{
-        return <a className={`btn btn-${outline ? "outline-" : ""}${type}`} target={target} href={onClick}>
+        return <a className={`btn ${isLoader ? "btn-loader" : ""} btn-${outline ? "outline-" : ""}${type}`}
+                  target={target} href={onClick}>
             {icon && <span className={`icon-${icon}`} />}
             <span>{children}</span>
         </a>
@@ -69,7 +71,8 @@ Button.propTypes = {
         PropTypes.func,
     ]),
     element: PropTypes.string,
-    target: PropTypes.string
+    target: PropTypes.string,
+    isLoader: PropTypes.bool
 }
 
 ButtonIcon.propTypes = {

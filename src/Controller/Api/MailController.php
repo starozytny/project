@@ -38,19 +38,19 @@ class MailController extends AbstractController
 
         if(count($to) > 0){
             $subject = $sanitizeData->trimData($data->name);
-            if(!$mailerService->sendMail(
-                $to,
-                $subject,
-                $subject,
-                'app/email/template/random_classique.html.twig',
-                ['subject' => $subject, 'message' => $data->message->html],
-                $cc, $cci, null, $files
-            )) {
-                return $apiResponse->apiJsonResponseValidationFailed([[
-                    'name' => 'fUsername',
-                    'message' => "Le message n\'a pas pu être délivré. Veuillez contacter le support."
-                ]]);
-            }
+//            if(!$mailerService->sendMail(
+//                $to,
+//                $subject,
+//                $subject,
+//                'app/email/template/random_classique.html.twig',
+//                ['subject' => $subject, 'message' => $data->message->html],
+//                $cc, $cci, null, $files
+//            )) {
+//                return $apiResponse->apiJsonResponseValidationFailed([[
+//                    'name' => 'to',
+//                    'message' => "Le message n\'a pas pu être délivré. Veuillez contacter le support."
+//                ]]);
+//            }
         }else{
             return $apiResponse->apiJsonResponseBadRequest("Destinataire invalide.");
         }
