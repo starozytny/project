@@ -18,6 +18,7 @@
   }
 }
 
+$widthIcon: 48px;
 .questions{
   .questions-header{
     @include flex(row, flex-start, flex-start, 12px);
@@ -27,7 +28,7 @@
       @include flex(row, center, center);
       background-color: red;
       border-radius: 4px;
-      width: 48px; height: 48px;
+      width: $widthIcon; height: $widthIcon;
       font-size: 24px;
     }
 
@@ -44,6 +45,10 @@
         opacity: 0.75;
         font-size: 15px;
       }
+    }
+
+    .actions{
+      @include flex(column, flex-start, flex-end, 4px);
     }
   }
 
@@ -115,6 +120,19 @@
 
     & > .col-2{
       width: calc(100% - 258px - 1.2rem);
+    }
+  }
+
+  .questions{
+    .questions-header{
+      $widthActions: 60px;
+      .title{
+        width: calc(100% - $widthIcon - $widthActions - 16px);
+      }
+      .actions{
+        flex-direction: row;
+        width: $widthActions;
+      }
     }
   }
 }

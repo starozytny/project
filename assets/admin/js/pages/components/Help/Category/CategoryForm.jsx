@@ -50,6 +50,7 @@ class Form extends Component {
             icon: props.icon,
             subtitle: props.subtitle,
             visibility: props.visibility,
+            rank: 0,
             errors: [],
         }
     }

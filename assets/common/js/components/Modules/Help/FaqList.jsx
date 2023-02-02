@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 
 import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
-import { Button } from "@commonComponents/Elements/Button";
+import { Button, ButtonIcon } from "@commonComponents/Elements/Button";
 
 const URL_CREATE_CATEGORY = "admin_help_faq_categories_create";
+const URL_UPDATE_CATEGORY = "admin_help_faq_categories_update";
 const URL_CREATE_QUESTION = "admin_help_faq_questions_create";
 
 export function FaqList ({ role, categories, questions })
@@ -42,6 +43,10 @@ export function FaqList ({ role, categories, questions })
                                     <div className="title">
                                         <div className="name">{elem.name}</div>
                                         <div className="sub">{elem.subtitle}</div>
+                                    </div>
+                                    <div className="actions">
+                                        <ButtonIcon icon="pencil" element="a" onClick={Routing.generate(URL_UPDATE_CATEGORY, {'id': elem.id})}>Modifier</ButtonIcon>
+                                        <ButtonIcon icon="trash">Supprimer</ButtonIcon>
                                     </div>
                                 </div>
                             }
