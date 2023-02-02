@@ -47,10 +47,6 @@
       }
     }
 
-    & > [class^="col-"]:not(.actions){
-      @include overflowText();
-    }
-
     & > [class^="col-"].actions{
       @include flex(row, flex-end, flex-end, 4px);
       width: 100%;
