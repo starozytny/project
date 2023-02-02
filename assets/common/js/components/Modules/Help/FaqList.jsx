@@ -1,18 +1,45 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import PropTypes from 'prop-types';
+
+import axios from "axios";
+
+import Formulaire from "@commonFunctions/formulaire";
 
 import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
 import { Button, ButtonIcon } from "@commonComponents/Elements/Button";
+import { Modal } from "@commonComponents/Elements/Modal";
 
+const URL_INDEX_ELEMENTS  = "admin_help_faq_index";
 const URL_CREATE_CATEGORY = "admin_help_faq_categories_create";
 const URL_UPDATE_CATEGORY = "admin_help_faq_categories_update";
+const URL_DELETE_CATEGORY = "admin_help_faq_categories_delete";
 const URL_CREATE_QUESTION = "admin_help_faq_questions_create";
 
 export function FaqList ({ role, categories, questions })
 {
     const [category, setCategory] = useState(null);
     const [question, setQuestion] = useState(null);
+
+    const refDelete = useRef(null);
+
+    let handleModal = (identifiant, id) => {
+        switch (identifiant){
+            case "delete-category":
+                refDelete.current.handleClick();
+                setCategory(id)
+                break;
+            default:break;
+        }
+    }
+
+    let handleDelete = (routeName, id) => {
+        let self = this;
+        axios({ method: "DELETE", url: Routing.generate(routeName, {'id': id}), data: {} })
+            .then(function (response) { location.href = Routing.generate(URL_INDEX_ELEMENTS); })
+            .catch(function (error) { Formulaire.displayErrors(self, error); })
+        ;
+    }
 
     return <div className="help-content">
         <div className="help-line-1">
@@ -46,7 +73,7 @@ export function FaqList ({ role, categories, questions })
                                     </div>
                                     <div className="actions">
                                         <ButtonIcon icon="pencil" element="a" onClick={Routing.generate(URL_UPDATE_CATEGORY, {'id': elem.id})}>Modifier</ButtonIcon>
-                                        <ButtonIcon icon="trash">Supprimer</ButtonIcon>
+                                        <ButtonIcon icon="trash" onClick={() => handleModal('delete-category', elem.id)}>Supprimer</ButtonIcon>
                                     </div>
                                 </div>
                             }
@@ -84,6 +111,11 @@ export function FaqList ({ role, categories, questions })
                 </div>
             </div>
         </div>
+
+        <Modal ref={refDelete} identifiant="delete-category" maxWidth={414} title="Supprimer la catégorie"
+               content={<p>Les questions seront aussi supprimées.</p>}
+               footer={<Button onClick={() => handleDelete(URL_DELETE_CATEGORY, category)} type="primary">Confirmer la suppression</Button>}
+           />
     </div>
 }
 
