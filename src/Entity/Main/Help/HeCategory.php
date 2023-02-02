@@ -12,6 +12,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class HeCategory
 {
     const LIST = ["help_cat_list"];
+    const FORM = ["help_cat_form"];
 
     const VISIBILITY_ALL = 0;
     const VISIBILITY_ADMIN = 1;
@@ -19,25 +20,26 @@ class HeCategory
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['help_cat_list', 'help_quest_list'])]
+    #[Groups(['help_cat_list', 'help_cat_form', 'help_quest_list'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['help_cat_list'])]
+    #[Groups(['help_cat_list', 'help_cat_form'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['help_cat_list'])]
+    #[Groups(['help_cat_list', 'help_cat_form'])]
     private ?string $icon = null;
 
     #[ORM\Column]
+    #[Groups(['help_cat_form'])]
     private ?int $visibility = self::VISIBILITY_ALL;
 
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: HeQuestion::class)]
     private Collection $questions;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['help_cat_list'])]
+    #[Groups(['help_cat_list', 'help_cat_form'])]
     private ?string $subtitle = null;
 
     #[ORM\Column]

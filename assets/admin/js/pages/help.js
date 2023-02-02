@@ -9,7 +9,7 @@ import { Faq } from "@adminPages/Help/Faq";
 
 Routing.setRoutingData(routes);
 
-let el = document.getElementById("help_faq");
+let el = document.getElementById("help_faq_list");
 if(el){
     createRoot(el).render(<Faq />)
 }

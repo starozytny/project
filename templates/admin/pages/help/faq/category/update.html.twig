@@ -1,0 +1,14 @@
+{% extends 'admin/pages/help/template.html.twig' %}
+
+{% set page_title %}Modifier {{ elem.name }} #{{ elem.id }}{% endset %}
+{% set page_subtitle %}Modifier les informations de {{ elem.name}} : #{{ elem.id }}.{% endset %}
+
+{% block main_content %}
+    {% include "layout/components/admin/page_toolbar.html.twig" with { page_back: path('admin_help_faq_index') } %}
+
+    <div id="help_faq_category_update"
+         data-obj="{{ obj }}"
+    >
+        {% include "layout/components/loader.html.twig" %}
+    </div>
+{% endblock %}

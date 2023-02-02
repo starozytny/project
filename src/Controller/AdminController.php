@@ -58,10 +58,4 @@ class AdminController extends AbstractController
             'obj' => $serializer->serialize($settings ? $settings[0] : [], 'json', ['groups' => Settings::FORM]),
         ]);
     }
-
-    #[Route('/aide/faq', name: 'help_faq')]
-    public function helpFaq(): Response
-    {
-        return $this->render('admin/pages/help/faq.html.twig');
-    }
 }

@@ -1,0 +1,12 @@
+{% extends 'admin/pages/help/template.html.twig' %}
+
+{% set page_title %}Création d'une question{% endset %}
+{% set page_subtitle %}Ajouter une question à {{ category.name }}{% endset %}
+
+{% block main_content %}
+    {% include "layout/components/admin/page_toolbar.html.twig" with { page_back: path('admin_help_faq_index') } %}
+
+    <div id="help_faq_question_create" data-category="{{ category.id }}">
+        {% include "layout/components/loader.html.twig" %}
+    </div>
+{% endblock %}
