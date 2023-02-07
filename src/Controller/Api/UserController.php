@@ -72,7 +72,7 @@ class UserController extends AbstractController
         }
 
         $repository->save($obj, true);
-        return $apiResponse->apiJsonResponseSuccessful("ok");
+        return $apiResponse->apiJsonResponse($obj, User::LIST);
     }
 
     #[Route('/create', name: 'create', options: ['expose' => true], methods: 'POST')]
