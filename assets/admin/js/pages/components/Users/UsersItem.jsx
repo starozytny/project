@@ -73,4 +73,5 @@ export function UsersItem ({ elem, highlight, onModal })
 UsersItem.propTypes = {
     elem: PropTypes.object.isRequired,
     onModal: PropTypes.func.isRequired,
+    highlight: PropTypes.number,
 }

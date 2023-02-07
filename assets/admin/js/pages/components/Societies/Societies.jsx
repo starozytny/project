@@ -51,6 +51,7 @@ export class Societies extends Component {
     componentDidMount = () => { this.handleGetData(); }
 
     handleGetData = () => {
+        const { highlight } = this.props;
         const { perPage, sorter } = this.state;
 
         let self = this;
@@ -60,9 +61,9 @@ export class Societies extends Component {
                 let settings = JSON.parse(response.data.settings);
 
                 if(sorter) data.sort(sorter);
-                let currentData = data.slice(0, perPage);
+                let [currentData, currentPage] = List.setCurrentPage(highlight, data, perPage);
 
-                self.setState({ data: data, dataImmuable: data, currentData: currentData, settings: settings, loadingData: false })
+                self.setState({ data: data, dataImmuable: data, currentData: currentData, currentPage: currentPage, settings: settings, loadingData: false })
             })
             .catch(function (error) { Formulaire.displayErrors(self, error); })
         ;
@@ -160,6 +161,7 @@ export class Societies extends Component {
     }
 
     render () {
+        const { highlight } = this.props;
         const { sessionName, data, currentData, element, loadingData, perPage, currentPage, settings } = this.state;
 
         return <>
@@ -176,7 +178,7 @@ export class Societies extends Component {
                                          onClick={this.handlePaginationClick}
                                          onPerPage={this.handlePerPage} onSorter={this.handleSorter} />
 
-                    <SocietiesList data={currentData} settings={settings} onModal={this.handleModal} />
+                    <SocietiesList data={currentData} highlight={parseInt(highlight)} settings={settings} onModal={this.handleModal} />
 
                     <Pagination ref={this.pagination} sessionName={sessionName} items={data} taille={data.length}
                                 perPage={perPage} onUpdate={this.handleUpdateData} onChangeCurrentPage={this.handleChangeCurrentPage}/>

@@ -34,4 +34,5 @@ export function UsersList ({ data, highlight, onModal }) {
 UsersList.propTypes = {
     data: PropTypes.array.isRequired,
     onModal: PropTypes.func.isRequired,
+    highlight: PropTypes.number,
 }

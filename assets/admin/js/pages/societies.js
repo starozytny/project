@@ -12,7 +12,7 @@ Routing.setRoutingData(routes);
 
 let el = document.getElementById("societies_list");
 if(el){
-    createRoot(el).render(<Societies />)
+    createRoot(el).render(<Societies {...el.dataset} />)
 }
 
 el = document.getElementById("societies_update");
