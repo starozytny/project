@@ -52,7 +52,10 @@ export class Users extends Component {
 
     componentDidMount = () => { this.handleGetData(); }
 
-    handleGetData = () => { List.getData(this, URL_GET_DATA, this.state.perPage, this.state.sorter, this.props.highlight); }
+    handleGetData = () => {
+        let url = this.props.urlGetData ? this.props.urlGetData : URL_GET_DATA;
+        List.getData(this, url, this.state.perPage, this.state.sorter, this.props.highlight);
+    }
 
     handleUpdateData = (currentData) => { this.setState({ currentData }) }
 

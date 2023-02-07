@@ -1,6 +1,10 @@
 import React from 'react';
 import PropTypes from "prop-types";
 
+import { Users } from "@adminPages/Users/Users";
+
+const URL_GET_USERS = "api_users_list";
+
 export function SocietyRead ({ elem, settings }) {
     return <div className="page-profil-0">
         <div className="page-profil-header">
@@ -31,6 +35,15 @@ export function SocietyRead ({ elem, settings }) {
                             <span className="icon-settings" />
                             <div>{elem.manager}</div>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="col-2">
+                <div className="profil-card">
+                    <div className="title">Utilisateurs</div>
+                    <div className="content-infos content-infos-users">
+                        <Users urlGetData={URL_GET_USERS} />
                     </div>
                 </div>
             </div>

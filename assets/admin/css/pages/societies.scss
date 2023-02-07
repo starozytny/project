@@ -3,6 +3,8 @@
 @import "components/components";
 @import "../components/profil";
 
+@import "components/users/list";
+
 $data:
         "0" var(--dangerOpacity4) var(--danger),
         "1" var(--primaryOpacity4) var(--primary)
@@ -12,16 +14,6 @@ $data:
   .badge-soc-#{$name} {
     background: $bg;
     color: $txt;
-  }
-}
-
-.page-profil-0{
-  .content-infos-details{
-    @include flex(column, flex-start, flex-start, 8px);
-
-    & > .item{
-      @include flex(row, flex-start, flex-start, 8px);
-    }
   }
 }
 
@@ -52,6 +44,58 @@ $data:
       $col2: 280px;
       & > .col-1{ width: calc(100% - $col2 - $col3 - $col4 - $colGap); }
       & > .col-2{ width: $col2; }
+    }
+  }
+}
+
+.page-profil-0{
+  .content-infos-details{
+    @include flex(column, flex-start, flex-start, 8px);
+
+    & > .item{
+      @include flex(row, flex-start, flex-start, 8px);
+    }
+  }
+
+  .content-infos-users{
+    .toolbar,
+    .pagination-container,
+    .sorter-pagination,
+    .list{
+      padding: 0;
+    }
+  }
+
+  //                      __   _____ __    ___    __
+  //                     | _| |___  / /_  ( _ )  |_ |
+  //    _____ _____ _____| |     / / '_ \ / _ \   | |_____ _____ _____
+  //   |_____|_____|_____| |    / /| (_) | (_) |  | |_____|_____|_____|
+  //                     | |   /_/  \___/ \___/   | |
+  //                     |__|                    |__|
+  @media (min-width:768px) {
+    .page-profil-body{
+      flex-direction: column;
+    }
+  }
+
+
+  //                      __   _ ____  ___   ___    __
+  //                     | _| / |___ \( _ ) / _ \  |_ |
+  //    _____ _____ _____| |  | | __) / _ \| | | |  | |_____ _____ _____
+  //   |_____|_____|_____| |  | |/ __/ (_) | |_| |  | |_____|_____|_____|
+  //                     | |  |_|_____\___/ \___/   | |
+  //                     |__|                      |__|
+  @media (min-width:1280px) {
+    .page-profil-body{
+      flex-direction: row;
+
+      & > .col-1{
+        width: 228px;
+      }
+
+      & > .col-2{
+        width: calc(100% - 228px - 12px);
+      }
     }
   }
 }
