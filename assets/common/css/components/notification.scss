@@ -56,6 +56,7 @@
 
   .notif-body{
     max-height: 160px;
+    min-height: 160px;
     overflow-y: auto;
     @include scrollbar();
   }

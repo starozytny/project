@@ -58,7 +58,7 @@ export function UsersItem ({ elem, highlight, onModal })
                     <div className="sub">{elem.email}</div>
                 </div>
                 <div className="col-3">
-                    <div className={"badge badge-" + (elem.highRoleCode)}>{elem.highRole}</div>
+                    <div className={"badge badge-user-" + (elem.highRoleCode)}>{elem.highRole}</div>
                 </div>
                 <div className="col-4 actions">
                     <ButtonIcon outline={true} icon="pencil" onClick={urlUpdate} element="a">Modifier</ButtonIcon>

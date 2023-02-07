@@ -13,6 +13,6 @@
 .avatar-letter{
   @include flex(row, center, center);
   width: 100%; height: 100%;
-  background-color: var(--color3Opacity4);
+  background-color: var(--color3);
   @include fontSemibold();
 }

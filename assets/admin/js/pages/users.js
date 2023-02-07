@@ -29,7 +29,7 @@ if(el){
 
 el = document.getElementById("users_read");
 if(el){
-    createRoot(el).render(<UserRead element={JSON.parse(el.dataset.obj)} />)
+    createRoot(el).render(<UserRead elem={JSON.parse(el.dataset.obj)} />)
 }
 
 

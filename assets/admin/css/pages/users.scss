@@ -1,18 +1,28 @@
 @import "../vars/vars";
 
 @import "components/components";
+@import "../components/profil";
 
-.list-table{
-  $data:
-          "0" var(--grey) var(--txt),
-          "1" var(--primaryOpacity4) var(--primary),
-          "2" var(--dangerOpacity4) var(--danger),
+
+$data:
+        "0" var(--grey) var(--txt),
+        "1" var(--primaryOpacity4) var(--primary),
+        "2" var(--dangerOpacity4) var(--danger),
 ;
 
-  @each $name, $bg, $txt in $data {
-    .badge-#{$name} {
-      background: $bg;
-      color: $txt;
+@each $name, $bg, $txt in $data {
+  .badge-user-#{$name} {
+    background: $bg;
+    color: $txt;
+  }
+}
+
+.page-profil-0{
+  .content-infos-details{
+    @include flex(column, flex-start, flex-start, 8px);
+
+    & > .item{
+      @include flex(row, flex-start, flex-start, 8px);
     }
   }
 }
