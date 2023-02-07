@@ -8,6 +8,7 @@ import { createRoot } from "react-dom/client";
 import { Users } from "@adminPages/Users/Users";
 import { UserFormulaire } from "@adminPages/Users/UserForm";
 import { UserExport } from "@adminPages/Users/UserExport";
+import { UserPassword } from "@adminPages/Users/UserPassword";
 
 Routing.setRoutingData(routes);
 
@@ -28,7 +29,7 @@ if(el){
 
 el = document.getElementById("users_password");
 if(el){
-    createRoot(el).render(<UserFormulaire context="create" element={null} />)
+    createRoot(el).render(<UserPassword />)
 }
 
 let exportData = document.getElementById("users_export");

@@ -11,6 +11,7 @@ import { LoaderElements } from "@commonComponents/Elements/Loader";
 import Formulaire from "@commonFunctions/formulaire";
 import Validateur from "@commonFunctions/validateur";
 import Sort       from "@commonFunctions/sort";
+import {Password} from "@commonComponents/Modules/User/Password";
 
 const URL_SELECT_SOCIETIES  = "api_selection_societies";
 const URL_INDEX_ELEMENTS    = "admin_users_index";
@@ -229,39 +230,8 @@ class Form extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className="line">
-                        <div className="line-col-1">
-                            <div className="title">Mot de passe</div>
-                            <div className="subtitle">
-                                <p>Règles de création pour le mot de passe :</p>
-                                <ul>
-                                    <li>Au moins 12 caractères</li>
-                                    <li>Au moins 1 minuscule</li>
-                                    <li>Au moins 1 majuscule</li>
-                                    <li>Au moins 1 chiffre</li>
-                                    <li>Au moins 1 caractère spécial</li>
-                                </ul>
-                                <u>
-                                    {context === "create"
-                                        ? "Laisser les champs vides pour générer un mot de passe aléatoire."
-                                        : "Laisser les champs vides pour ne pas modifier le mot de passe."
-                                    }
-                                </u>
-                            </div>
-                        </div>
-                        <div className="line-col-2">
-                            <div className="line line-2">
-                                <Input identifiant="password"  valeur={password}  {...paramsInput0}
-                                       password={true} type="password" autocomplete="new-password">
-                                    Mot de passe
-                                </Input>
-                                <Input identifiant="password2" valeur={password2} {...paramsInput0}
-                                       password={true} type="password" autocomplete="new-password">
-                                    Confirmer le mot de passe
-                                </Input>
-                            </div>
-                        </div>
-                    </div>
+
+                    <Password context={context} password={password} password2={password2} params={params} />
                 </div>
 
                 <div className="line-buttons">
