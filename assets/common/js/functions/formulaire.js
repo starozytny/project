@@ -1,6 +1,22 @@
+const axios = require("axios");
 const toastr = require("toastr");
 const moment = require("moment");
 require("moment/locale/fr");
+
+const Validateur = require("@commonFunctions/validateur");
+
+function generiqueSendForm (self, context, paramsToValidate, url, data, urlReload) {
+    let validate = Validateur.validateur(paramsToValidate)
+    if(!validate.code){
+        showErrors(this, validate);
+    }else {
+        loader(true);
+        axios({ method: context === "update" ? "PUT" : "POST", url: url, data: data })
+            .then(function (response) { location.href = urlReload; })
+            .catch(function (error) { displayErrors(self, error); loader(false); })
+        ;
+    }
+}
 
 function loader(status){
     let loader = document.querySelector('#loader');
@@ -51,6 +67,7 @@ function updateValueCheckbox(e, items, value){
 }
 
 module.exports = {
+    generiqueSendForm,
     loader,
     setValue,
     setValueDate,

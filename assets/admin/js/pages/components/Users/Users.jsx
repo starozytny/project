@@ -15,7 +15,7 @@ import { Filter }           from "@commonComponents/Elements/Filter";
 import { Button }           from "@commonComponents/Elements/Button";
 import { Modal }            from "@commonComponents/Elements/Modal";
 import { ModalDelete }      from "@commonComponents/Shortcut/Modal";
-import { MailFormulaire }   from "@commonComponents/Modules/MailForm";
+import { MailFormulaire }   from "@commonComponents/Modules/Mail/MailForm";
 
 import { UsersList } from "@adminPages/Users/UsersList";
 

@@ -15,7 +15,6 @@ import Formulaire from "@commonFunctions/formulaire";
 import Inputs     from "@commonFunctions/inputs";
 import Validateur from "@commonFunctions/validateur";
 import ModalFunc  from "@commonFunctions/modal";
-import {LoaderTxt} from "@commonComponents/Elements/Loader";
 
 const URL_CREATE_ELEMENT    = "api_mails_send";
 const TEXT_CREATE           = "Envoyer le message";

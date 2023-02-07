@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import axios   from 'axios';
 import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
 import { Checkbox, Input } from "@commonComponents/Elements/Fields";
@@ -10,7 +9,6 @@ import { Button }           from "@commonComponents/Elements/Button";
 
 import Formulaire from "@commonFunctions/formulaire";
 import Inputs     from "@commonFunctions/inputs";
-import Validateur from "@commonFunctions/validateur";
 
 const URL_INDEX_ELEMENTS    = "admin_agenda_index";
 const URL_CREATE_ELEMENT    = "api_agenda_events_create";
@@ -121,20 +119,7 @@ class Form extends Component {
             ]];
         }
 
-        let validate = Validateur.validateur(paramsToValidate)
-        if(!validate.code){
-            Formulaire.showErrors(this, validate);
-        }else {
-            Formulaire.loader(true);
-            let self = this;
-
-            axios({ method: context === "update" ? "PUT" : "POST", url: url, data: this.state })
-                .then(function (response) {
-                    location.href = Routing.generate(URL_INDEX_ELEMENTS);
-                })
-                .catch(function (error) { Formulaire.displayErrors(self, error); Formulaire.loader(false); })
-            ;
-        }
+        Formulaire.generiqueSendForm(this, context, paramsToValidate, url, this.state, Routing.generate(URL_INDEX_ELEMENTS));
     }
 
     render () {
