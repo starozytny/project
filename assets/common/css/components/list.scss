@@ -5,7 +5,18 @@
 
   .items{
     & > .item{
+      position: relative;
       padding: 12px;
+
+      &.highlight{
+        &:before{
+          content: "";
+          position: absolute;
+          top: 0; left: 0;
+          display: block;
+          width: 4px; height: 100%;
+        }
+      }
 
       .sub{
         font-size: 14px;

@@ -120,6 +120,7 @@ export class Users extends Component {
     }
 
     render () {
+        const { highlight } = this.props;
         const { sessionName, data, dataImmuable, currentData, element, loadingData, perPage, currentPage, filters } = this.state;
 
         let filtersItems = [
@@ -145,7 +146,7 @@ export class Users extends Component {
                                          onClick={this.handlePaginationClick}
                                          onPerPage={this.handlePerPage} onSorter={this.handleSorter} />
 
-                    <UsersList data={currentData} onModal={this.handleModal} />
+                    <UsersList data={currentData} highlight={parseInt(highlight)} onModal={this.handleModal} />
 
                     <Pagination ref={this.pagination} sessionName={sessionName} items={data} taille={data.length}
                                 perPage={perPage} onUpdate={this.handleUpdateData} onChangeCurrentPage={this.handleChangeCurrentPage}/>

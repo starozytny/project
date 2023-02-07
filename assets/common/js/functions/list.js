@@ -6,7 +6,7 @@ const SearchFunction = require("@commonFunctions/search");
 const FilterFunction = require("@commonFunctions/filter");
 
 function getData (self, routName, perPage, sorter, highlight) {
-    highlight = highlight !== "" ? parseInt(highlight) : null;
+    highlight = parseInt(highlight);
     axios({ method: "GET", url: Routing.generate(routName), data: {} })
         .then(function (response) {
             let data = response.data;

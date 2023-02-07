@@ -6,6 +6,12 @@
 
   .items{
     & > .item{
+      &.highlight{
+        &:before{
+          background-color: var(--warning);
+        }
+      }
+
       .image{
         border-radius: 4px;
       }
