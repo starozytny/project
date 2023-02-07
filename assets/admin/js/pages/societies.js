@@ -7,9 +7,11 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import { Societies } from "@adminPages/Societies/Societies";
 import { SocietyFormulaire } from "@adminPages/Societies/SocietyForm";
-import { SocietyRead } from "@adminPages/Societies/SocietyRead";
+import { Users } from "@adminPages/Users/Users";
 
 Routing.setRoutingData(routes);
+
+const URL_GET_USERS = "api_users_society";
 
 let el = document.getElementById("societies_list");
 if(el){
@@ -31,8 +33,7 @@ if(el){
 }
 
 
-el = document.getElementById("societies_read");
+el = document.getElementById("societies_users");
 if(el){
-    createRoot(el).render(<SocietyRead settings={JSON.parse(el.dataset.settings)}
-                                       elem={JSON.parse(el.dataset.obj)} />)
+    createRoot(el).render(<Users urlGetData={Routing.generate(URL_GET_USERS, {'society': el.dataset.id})} />)
 }

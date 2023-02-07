@@ -6,10 +6,50 @@
 {% block main_content %}
     {% include "layout/components/admin/page_toolbar.html.twig" with { page_back: path('admin_societies_index', {'h': elem.id}) } %}
 
-    <div id="societies_read"
-         data-obj="{{ obj }}"
-         data-settings="{{ settings }}"
-    >
-        {% include "layout/components/loader.html.twig" %}
+    <div class="page-profil-0">
+        <div class="page-profil-header">
+            <div class="profil-header-avatar">
+                <img src={{ elem.logoFile }} />
+            </div>
+            <div class="profil-header-infos">
+                <div class="name">{{ elem.name }}</div>
+                <div class="sub">CODE: {{ elem.code }}</div>
+            </div>
+        </div>
+
+        <div class="page-profil-body">
+            <div class="col-1">
+                <div class="profil-card">
+                    <div class="title">Détails</div>
+                    <div class="content-infos content-infos-details">
+                        <div class="item">
+                            <span class="icon-shield"></span>
+                            <div>
+                                {% if settings.multipleDatabase == false or elem.isActivated %}
+                                    <div class="badge badge-soc-1">Activée</div>
+                                {% else %}
+                                    <div class="badge badge-soc-0">Inactive</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="item">
+                            <span class="icon-settings"></span>
+                            <div>{{ elem.manager }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-2">
+                <div class="profil-card">
+                    <div class="title">Utilisateurs</div>
+                    <div class="content-infos content-infos-users">
+                        <div id="societies_users" data-id="{{ elem.id }}">
+                            {% include "layout/components/loader.html.twig" %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}

@@ -7,7 +7,6 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import { Users } from "@adminPages/Users/Users";
 import { UserFormulaire } from "@adminPages/Users/UserForm";
-import { UserRead } from "@adminPages/Users/UserRead";
 import { UserExport } from "@adminPages/Users/UserExport";
 
 Routing.setRoutingData(routes);
@@ -26,12 +25,6 @@ el = document.getElementById("users_create");
 if(el){
     createRoot(el).render(<UserFormulaire context="create" element={null} />)
 }
-
-el = document.getElementById("users_read");
-if(el){
-    createRoot(el).render(<UserRead elem={JSON.parse(el.dataset.obj)} />)
-}
-
 
 let exportData = document.getElementById("users_export");
 if(exportData){
