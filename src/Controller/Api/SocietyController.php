@@ -93,7 +93,7 @@ class SocietyController extends AbstractController
         }
 
         $repository->save($obj, true);
-        return $apiResponse->apiJsonResponseSuccessful("ok");
+        return $apiResponse->apiJsonResponse($obj, Society::LIST);
     }
 
     #[Route('/create', name: 'create', options: ['expose' => true], methods: 'POST')]

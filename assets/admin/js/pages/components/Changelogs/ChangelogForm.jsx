@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import axios from "axios";
 import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
 import { Input, Radiobox }  from "@commonComponents/Elements/Fields";
@@ -8,6 +9,7 @@ import { Trumb }            from "@commonComponents/Elements/Trumb";
 import { Button }           from "@commonComponents/Elements/Button";
 
 import Formulaire from "@commonFunctions/formulaire";
+import Validateur from "@commonFunctions/validateur";
 
 const URL_INDEX_ELEMENTS    = "admin_changelogs_index";
 const URL_CREATE_ELEMENT    = "api_changelogs_create";
@@ -76,7 +78,17 @@ class Form extends Component {
             {type: "text",  id: 'content', value: content},
         ];
 
-        Formulaire.generiqueSendForm(this, context, paramsToValidate, url, this.state, Routing.generate(URL_INDEX_ELEMENTS));
+        let validate = Validateur.validateur(paramsToValidate)
+        if(!validate.code){
+            Formulaire.showErrors(this, validate);
+        }else {
+            let self = this;
+            Formulaire.loader(true);
+            axios({ method: context === "update" ? "PUT" : "POST", url: url, data: this.state })
+                .then(function (response) { location.href = Routing.generate(URL_INDEX_ELEMENTS, {'h': response.data.id}); })
+                .catch(function (error) { Formulaire.displayErrors(self, error); Formulaire.loader(false); })
+            ;
+        }
     }
 
     render () {
