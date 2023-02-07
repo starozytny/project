@@ -233,6 +233,14 @@ class Form extends Component {
                         <div className="line-col-1">
                             <div className="title">Mot de passe</div>
                             <div className="subtitle">
+                                <p>Règles de création pour le mot de passe :</p>
+                                <ul>
+                                    <li>Au moins 12 caractères</li>
+                                    <li>Au moins 1 minuscule</li>
+                                    <li>Au moins 1 majuscule</li>
+                                    <li>Au moins 1 chiffre</li>
+                                    <li>Au moins 1 caractère spécial</li>
+                                </ul>
                                 {context === "create"
                                     ? "Laisser les champs vides pour générer un mot de passe aléatoire."
                                     : "Laisser les champs vides pour ne pas modifier le mot de passe."
