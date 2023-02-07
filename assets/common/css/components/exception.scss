@@ -1,4 +1,10 @@
 .exception-page{
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-color: #1b2432;
+  color: #f8f8f8;
+
   h1{
     font-size: 4em;
   }
@@ -11,10 +17,35 @@
   }
 }
 
-.exceptions-actions{
-  .btn{
-    width: calc(100% - 48px);
-    margin-bottom: 12px;
+.exception-page-container{
+  padding: 1.8rem 1.2rem;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border-radius: 4px;
+  width: auto;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  text-align: center;
+  padding: 10px 20px;
+
+  & > [class^="icon-"]{
+    margin-right: 6px;
+  }
+}
+
+$data:
+        "primary" #1E87F0FF var(--alpha),
+;
+
+@each $name, $bg, $txt in $data {
+  .btn-#{$name}{
+    background-color: $bg;
+    color: $txt;
   }
 }
 
@@ -25,11 +56,19 @@
 //                     | |  |_|\___/_____|  |_|    | |
 //                     |__|                       |__|
 @media (min-width: 1024px) {
-  .exception-page{
+  .exception-page {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-    margin-top: 72px;
+    justify-content: center;
+  }
+
+  .exception-page-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.8rem;
+    max-width: 1280px;
+    margin: 0 auto;
 
     .exception-content{
       width: 50%;
@@ -37,13 +76,6 @@
     .exception-illu{
       margin-left: 10%;
       width: calc(50% - 10%);
-    }
-  }
-  .exceptions-actions{
-    .btn{
-      width: auto;
-      margin-right: 12px;
-      margin-bottom: 0;
     }
   }
 }
