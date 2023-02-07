@@ -12,7 +12,7 @@ import { Button } from "@commonComponents/Elements/Button";
 
 const URL_PASSWORD_UPDATE = "api_users_password_update";
 
-export class Reinit extends Component {
+export class UserPassword extends Component {
     constructor(props) {
         super(props);
 
@@ -41,18 +41,19 @@ export class Reinit extends Component {
 
         // check validate success
         if(!validate.code){
-            Formulaire.showErrors(this, validate);
+            this.setState({ errors: validate.errors });
         }else{
-            Formulaire.loader(true);
+            Formulaire.showErrors(this, validate);
             let self = this;
             axios({ method: "POST", url: Routing.generate(URL_PASSWORD_UPDATE, {'token': token}), data: self.state })
                 .then(function (response) {
-                    self.setState({ success: response.data.message });
+                    self.setState({  password: "", passwordConfirm: "", success: response.data.message, errors: [] });
                     setTimeout(function (){
                         window.location.href = Routing.generate("app_login");
-                    }, 2500)
+                    }, 5000)
                 })
-                .catch(function (error) { Formulaire.displayErrors(self, error); Formulaire.loader(false); })
+                .catch(function (error) { Formulaire.displayErrors(self, error); })
+                .then(function (){ Formulaire.loader(false); })
             ;
         }
     }
