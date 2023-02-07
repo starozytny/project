@@ -7,6 +7,7 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import { Societies } from "@adminPages/Societies/Societies";
 import { SocietyFormulaire } from "@adminPages/Societies/SocietyForm";
+import { SocietyRead } from "@adminPages/Societies/SocietyRead";
 
 Routing.setRoutingData(routes);
 
@@ -27,4 +28,11 @@ if(el){
     createRoot(el).render(<SocietyFormulaire context="create"
                                              settings={JSON.parse(el.dataset.settings)}
                                              element={null} />)
+}
+
+
+el = document.getElementById("societies_read");
+if(el){
+    createRoot(el).render(<SocietyRead settings={JSON.parse(el.dataset.settings)}
+                                       elem={JSON.parse(el.dataset.obj)} />)
 }

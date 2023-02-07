@@ -39,4 +39,15 @@ class SocietyController extends AbstractController
 
         return $this->render('admin/pages/societies/update.html.twig', ['elem' => $elem, 'obj' => $obj, 'settings' => $settings]);
     }
+
+    #[Route('/societe/consulter/{id}', name: 'read', options: ['expose' => true])]
+    public function read(Society $elem, SettingsService $settingsService, SerializerInterface $serializer): Response
+    {
+        $settings = $settingsService->getSettings();
+
+        $settings = $serializer->serialize($settings, 'json', ['groups' => Settings::IS_MULTIPLE_DB]);
+        $obj      = $serializer->serialize($elem,     'json', ['groups' => Society::LIST]);
+
+        return $this->render('admin/pages/societies/read.html.twig', ['elem' => $elem, 'obj' => $obj, 'settings' => $settings]);
+    }
 }

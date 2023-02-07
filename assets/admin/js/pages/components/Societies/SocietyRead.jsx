@@ -1,18 +1,15 @@
 import React from 'react';
 import PropTypes from "prop-types";
 
-export function UserRead ({ elem }) {
+export function SocietyRead ({ elem, settings }) {
     return <div className="page-profil-0">
         <div className="page-profil-header">
             <div className="profil-header-avatar">
-                {elem.avatarFile
-                    ? <img src={elem.avatarFile} alt="avatar"/>
-                    : <div className="avatar-letter">{elem.lastname.slice(0,1) + elem.firstname.slice(0,1)}</div>
-                }
+                <img src={elem.logoFile} alt="logo"/>
             </div>
             <div className="profil-header-infos">
-                <div className="name">{elem.lastname} {elem.firstname}</div>
-                <div className="sub">ID: {elem.username}</div>
+                <div className="name">{elem.name}</div>
+                <div className="sub">CODE: {elem.code}</div>
             </div>
         </div>
 
@@ -24,20 +21,15 @@ export function UserRead ({ elem }) {
                         <div className="item">
                             <span className="icon-shield" />
                             <div>
-                                <span className={"badge badge-user-" + elem.highRoleCode}>{elem.highRole}</span>
+                                {!settings.multipleDatabase || elem.isActivated
+                                    ? <div className="badge badge-soc-1">Activée</div>
+                                    : <div className="badge badge-soc-0">Inactive</div>
+                                }
                             </div>
-                        </div>
-                        <div className="item">
-                            <span className="icon-bank" />
-                            <div>{elem.society.code} - {elem.society.name}</div>
                         </div>
                         <div className="item">
                             <span className="icon-settings" />
                             <div>{elem.manager}</div>
-                        </div>
-                        <div className="item">
-                            <span className="icon-email" />
-                            <div>{elem.email}</div>
                         </div>
                     </div>
                 </div>
@@ -46,6 +38,7 @@ export function UserRead ({ elem }) {
     </div>
 }
 
-UserRead.propTypes = {
-    elem: PropTypes.object.isRequired
+SocietyRead.propTypes = {
+    elem: PropTypes.object.isRequired,
+    settings: PropTypes.object.isRequired,
 }

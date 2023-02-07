@@ -1,6 +1,57 @@
 @import "../vars/vars";
 
 @import "components/components";
+@import "../components/profil";
 
-@import "components/societies/list";
+$data:
+        "0" var(--dangerOpacity4) var(--danger),
+        "1" var(--primaryOpacity4) var(--primary)
+;
 
+@each $name, $bg, $txt in $data {
+  .badge-soc-#{$name} {
+    background: $bg;
+    color: $txt;
+  }
+}
+
+.page-profil-0{
+  .content-infos-details{
+    @include flex(column, flex-start, flex-start, 8px);
+
+    & > .item{
+      @include flex(row, flex-start, flex-start, 8px);
+    }
+  }
+}
+
+.items-societies{
+  .item-infos{
+    $col2: 170px; $col3: 138px; $col4: 64px; $colGap: 24px;
+
+    //                      __   _____ __    ___    __
+    //                     | _| |___  / /_  ( _ )  |_ |
+    //    _____ _____ _____| |     / / '_ \ / _ \   | |_____ _____ _____
+    //   |_____|_____|_____| |    / /| (_) | (_) |  | |_____|_____|_____|
+    //                     | |   /_/  \___/ \___/   | |
+    //                     |__|                    |__|
+    @media (min-width:768px) {
+      & > .col-1{ width: calc(100% - $col2 - $col3 - $col4 - $colGap); }
+      & > .col-2{ width: $col2; }
+      & > .col-3{ width: $col3; }
+      & > .col-4.actions{ width: $col4; }
+    }
+
+    //                      __   _  ___ ____  _  _     __
+    //                     | _| / |/ _ \___ \| || |   |_ |
+    //    _____ _____ _____| |  | | | | |__) | || |_   | |_____ _____ _____
+    //   |_____|_____|_____| |  | | |_| / __/|__   _|  | |_____|_____|_____|
+    //                     | |  |_|\___/_____|  |_|    | |
+    //                     |__|                       |__|
+    @media (min-width: 1024px) {
+      $col2: 280px;
+      & > .col-1{ width: calc(100% - $col2 - $col3 - $col4 - $colGap); }
+      & > .col-2{ width: $col2; }
+    }
+  }
+}

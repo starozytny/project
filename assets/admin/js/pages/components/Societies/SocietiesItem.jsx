@@ -4,7 +4,8 @@ import Routing   from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
 import { ButtonIcon } from "@commonComponents/Elements/Button";
 
-const URL_UPDATE_PAGE = "admin_societies_update"
+const URL_UPDATE_PAGE = "admin_societies_update";
+const URL_READ_PAGE   = "admin_societies_read";
 
 export function SocietiesItem ({ elem, highlight, settings, onModal })
 {
@@ -19,14 +20,15 @@ export function SocietiesItem ({ elem, highlight, settings, onModal })
     })
 
     let urlUpdate = Routing.generate(URL_UPDATE_PAGE, {'id': elem.id});
+    let urlRead   = Routing.generate(URL_READ_PAGE,   {'id': elem.id});
 
     return <div className={"item" + (nHighlight ? " highlight": "")} ref={refItem}>
         <div className="item-content">
             <div className="item-infos">
                 <div className="col-1 col-with-image">
-                    <div className="image">
+                    <a href={urlRead} className="image">
                         <img src={elem.logoFile} alt="logo"/>
-                    </div>
+                    </a>
                     <div className="infos">
                         <div className="name">{elem.code} - {elem.name}</div>
                     </div>
@@ -36,11 +38,11 @@ export function SocietiesItem ({ elem, highlight, settings, onModal })
                 </div>
                 <div className="col-3">
                     {!settings.multipleDatabase || elem.isActivated
-                        ? <div className="badge badge-1">Activée</div>
+                        ? <div className="badge badge-soc-1">Activée</div>
                         : (elem.isGenerated
-                            ? <div className="badge badge-btn badge-1" onClick={() => onModal("activate", elem)}>Cliquez pour activer</div>
+                            ? <div className="badge badge-btn badge-soc-1" onClick={() => onModal("activate", elem)}>Cliquez pour activer</div>
                             : <div className="badges-col">
-                                <div className="badge badge-btn badge-0" onClick={() => onModal("generate", elem)}>Cliquez pour générer</div>
+                                <div className="badge badge-btn badge-soc-0" onClick={() => onModal("generate", elem)}>Cliquez pour générer</div>
                                 <div className="badge badge-disabled">Cliquez pour activer</div>
                             </div>
                         )
