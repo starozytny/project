@@ -99,18 +99,30 @@
                 </div>
                 <div class="card-body">
                     <div class="changelogs-view">
-                        {% for elem in changelogs %}
-                            <div class="changelog-view changelog-type-{{ elem.type }}">
+                        {% if changelogs | length <= 0 %}
+                            <div class="changelog-view changelog-type-1">
                                 <div class="col-1">
-                                    <span class="icon-{{ elem.icon }}"></span>
+                                    <span class="icon-follow"></span>
                                 </div>
                                 <div class="col-2">
-                                    <div class="name">{{ elem.name }}</div>
-                                    <div class="date">{{ elem.createdAt | format_datetime('full', 'short', locale="fr") | replace({":": "h"}) | capitalize }}</div>
-                                    <div class="content">{{ elem.content | raw }}</div>
+                                    <div class="name">Site internet à jour</div>
+                                    <div class="date">{{ "now" | date | format_datetime('full', 'short', locale="fr") | replace({":": "h"}) | capitalize }}</div>
                                 </div>
                             </div>
-                        {% endfor %}
+                        {% else %}
+                            {% for elem in changelogs %}
+                                <div class="changelog-view changelog-type-{{ elem.type }}">
+                                    <div class="col-1">
+                                        <span class="icon-{{ elem.icon }}"></span>
+                                    </div>
+                                    <div class="col-2">
+                                        <div class="name">{{ elem.name }}</div>
+                                        <div class="date">{{ elem.createdAt | format_datetime('full', 'short', locale="fr") | replace({":": "h"}) | capitalize }}</div>
+                                        <div class="content">{{ elem.content | raw }}</div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
                     </div>
                 </div>
             </div>

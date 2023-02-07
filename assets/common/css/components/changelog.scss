@@ -16,6 +16,7 @@
 
 .changelog-view{
   @include flex(row, flex-start, flex-start, 8px);
+  width: 100%;
 
   & > .col-1{
     position: relative;
