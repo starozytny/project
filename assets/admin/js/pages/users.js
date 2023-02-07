@@ -7,13 +7,14 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import { Users } from "@adminPages/Users/Users";
 import { UserFormulaire } from "@adminPages/Users/UserForm";
+import { UserRead } from "@adminPages/Users/UserRead";
 import { UserExport } from "@adminPages/Users/UserExport";
 
 Routing.setRoutingData(routes);
 
 let el = document.getElementById("users_list");
 if(el){
-    createRoot(el).render(<Users />)
+    createRoot(el).render(<Users {...el.dataset} />)
 }
 
 el = document.getElementById("users_update");
@@ -25,6 +26,12 @@ el = document.getElementById("users_create");
 if(el){
     createRoot(el).render(<UserFormulaire context="create" element={null} />)
 }
+
+el = document.getElementById("users_read");
+if(el){
+    createRoot(el).render(<UserRead element={JSON.parse(el.dataset.obj)} />)
+}
+
 
 let exportData = document.getElementById("users_export");
 if(exportData){

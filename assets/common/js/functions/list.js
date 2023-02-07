@@ -5,13 +5,31 @@ const Formulaire     = require("@commonFunctions/formulaire");
 const SearchFunction = require("@commonFunctions/search");
 const FilterFunction = require("@commonFunctions/filter");
 
-function getData (self, routName, perPage, sorter) {
+function getData (self, routName, perPage, sorter, highlight) {
+    highlight = highlight !== "" ? parseInt(highlight) : null;
     axios({ method: "GET", url: Routing.generate(routName), data: {} })
         .then(function (response) {
             let data = response.data;
             if(sorter) data.sort(sorter);
-            let currentData = data.slice(0, perPage);
-            self.setState({ data: data, dataImmuable: data, currentData: currentData, loadingData: false })
+
+            let offset = 0, currentPage = 0;
+            if(highlight){
+                data.forEach((elem, index) => {
+                    if(elem.id === highlight){
+                        offset = index
+                    }
+                })
+            }
+
+            let pageCount = Math.ceil(data.length / perPage);
+            if(pageCount !== 0){
+                currentPage = Math.trunc(offset / perPage);
+            }
+
+            let start = currentPage * perPage;
+            let currentData = data.slice(start, start + perPage);
+
+            self.setState({ data: data, dataImmuable: data, currentData: currentData, currentPage: currentPage, loadingData: false })
         })
         .catch(function (error) { Formulaire.displayErrors(self, error); })
     ;

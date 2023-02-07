@@ -4,7 +4,6 @@
 {% set page_subtitle %}Modifier les informations relatives au changelog : #{{ elem.id }}.{% endset %}
 
 {% block main_content %}
-
     {% include "layout/components/admin/page_toolbar.html.twig" with { page_back: path('admin_changelogs_index') } %}
 
     <div id="changelogs_update"

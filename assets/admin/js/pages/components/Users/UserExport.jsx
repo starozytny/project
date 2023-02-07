@@ -39,8 +39,7 @@ export function UserExport () {
         }
     }
 
-    return <ButtonIcon icon={icon} type="default" tooltipWidth={128}
-                       onClick={handleDownload}>
+    return <ButtonIcon icon={icon} type="default" tooltipWidth={128} onClick={handleDownload}>
         Exporter les données
     </ButtonIcon>
 }

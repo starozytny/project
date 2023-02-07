@@ -7,11 +7,13 @@ import 'moment/locale/fr';
 
 import { ButtonIcon, ButtonIconDropdown } from "@commonComponents/Elements/Button";
 
-const URL_UPDATE_PAGE = "admin_users_update"
+const URL_UPDATE_PAGE = "admin_users_update";
+const URL_READ_PAGE   = "admin_users_read";
 
 export function UsersItem ({ elem, onModal })
 {
     let urlUpdate = Routing.generate(URL_UPDATE_PAGE, {'id': elem.id});
+    let urlRead   = Routing.generate(URL_READ_PAGE,   {'id': elem.id});
 
     let lastLoginAt = elem.lastLoginAt ? moment(elem.lastLoginAt) : null;
 
@@ -28,12 +30,12 @@ export function UsersItem ({ elem, onModal })
         <div className="item-content">
             <div className="item-infos">
                 <div className="col-1 col-with-image">
-                    <div className="image">
+                    <a href={urlRead} className="image">
                         {elem.avatarFile
                             ? <img src={elem.avatarFile} alt="avatar"/>
                             : <div className="avatar-letter">{elem.lastname.slice(0,1) + elem.firstname.slice(0,1)}</div>
                         }
-                    </div>
+                    </a>
                     <div className="infos">
                         <div className="name">{elem.lastname} {elem.firstname}</div>
                         <div className="sub">{elem.society.code} - {elem.society.name}</div>
