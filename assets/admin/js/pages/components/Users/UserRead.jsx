@@ -22,18 +22,22 @@ export function UserRead ({ elem }) {
                     <div className="title">Détails</div>
                     <div className="content-infos content-infos-details">
                         <div className="item">
-                            <span className="icon-bank" />
-                            <div>{elem.society.code} - {elem.society.name}</div>
-                        </div>
-                        <div className="item">
-                            <span className="icon-email" />
-                            <div>{elem.email}</div>
-                        </div>
-                        <div className="item">
                             <span className="icon-shield" />
                             <div>
                                 <span className={"badge badge-user-" + elem.highRoleCode}>{elem.highRole}</span>
                             </div>
+                        </div>
+                        <div className="item">
+                            <span className="icon-bank" />
+                            <div>{elem.society.code} - {elem.society.name}</div>
+                        </div>
+                        <div className="item">
+                            <span className="icon-settings" />
+                            <div>{elem.manager}</div>
+                        </div>
+                        <div className="item">
+                            <span className="icon-email" />
+                            <div>{elem.email}</div>
                         </div>
                     </div>
                 </div>

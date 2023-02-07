@@ -49,7 +49,6 @@ export function UsersItem ({ elem, highlight, onModal })
                     <div className="infos">
                         <div className="name">{elem.lastname} {elem.firstname}</div>
                         <div className="sub">{elem.society.code} - {elem.society.name}</div>
-                        <div className="sub">{elem.manager !== "default" ? elem.manager : ""}</div>
                         <div className="sub">{lastLoginAt ? "connecté " + lastLoginAt.fromNow() : ""}</div>
                     </div>
                 </div>
