@@ -10,7 +10,7 @@
         path: path('admin_societies_index'), matchRoute: ['admin_societies_index', 'admin_societies_create', 'admin_societies_update']
     },
     { name: "Utilisateurs", icon: "group",
-        path: path('admin_users_index'), matchRoute: ['admin_users_index', 'admin_users_create', 'admin_users_update']
+        path: path('admin_users_index'), matchRoute: ['admin_users_index', 'admin_users_create', 'admin_users_update', 'admin_users_read']
     },
     { name: "Changelogs", icon: "refresh1",
         path: path('admin_changelogs_index'), matchRoute: ['admin_changelogs_index', 'admin_changelogs_create', 'admin_changelogs_update']
@@ -22,7 +22,11 @@
         path: path('admin_agenda_index'), matchRoute: ['admin_agenda_index', 'admin_agenda_create', 'admin_agenda_update']
     },
     { name: "FAQ", icon: "question-1",
-        path: path('admin_help_faq_index'), matchRoute: ['admin_help_faq_index', 'admin_help_faq_create', 'admin_help_faq_update']
+        path: path('admin_help_faq_index'), matchRoute: [
+            'admin_help_faq_index',
+            'admin_help_faq_categories_create', 'admin_help_faq_categories_update',
+            'admin_help_faq_questions_create', 'admin_help_faq_questions_update'
+        ]
     },
 ] %}
 
