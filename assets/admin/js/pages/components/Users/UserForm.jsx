@@ -241,10 +241,12 @@ class Form extends Component {
                                     <li>Au moins 1 chiffre</li>
                                     <li>Au moins 1 caractère spécial</li>
                                 </ul>
-                                {context === "create"
-                                    ? "Laisser les champs vides pour générer un mot de passe aléatoire."
-                                    : "Laisser les champs vides pour ne pas modifier le mot de passe."
-                                }
+                                <u>
+                                    {context === "create"
+                                        ? "Laisser les champs vides pour générer un mot de passe aléatoire."
+                                        : "Laisser les champs vides pour ne pas modifier le mot de passe."
+                                    }
+                                </u>
                             </div>
                         </div>
                         <div className="line-col-2">
