@@ -4,12 +4,12 @@ import PropTypes from 'prop-types';
 import axios   from 'axios';
 import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
-import {Input, InputView, Radiobox} from "@commonComponents/Elements/Fields";
+import { Input, Radiobox }  from "@commonComponents/Elements/Fields";
 import { Button }           from "@commonComponents/Elements/Button";
+import { LoaderTxt }        from "@commonComponents/Elements/Loader";
 
 import Formulaire from "@commonFunctions/formulaire";
 import Validateur from "@commonFunctions/validateur";
-import {LoaderElements, LoaderTxt} from "@commonComponents/Elements/Loader";
 
 const URL_INDEX_ELEMENTS    = "admin_help_faq_index";
 const URL_CREATE_ELEMENT    = "api_help_faq_categories_create";
@@ -75,6 +75,8 @@ class Form extends Component {
 
     handleChange = (e) => { this.setState({[e.currentTarget.name]: e.currentTarget.value}) }
 
+    handleClick = (icon) => { this.setState({ icon }) }
+
     handleSubmit = (e) => {
         e.preventDefault();
 
@@ -116,6 +118,15 @@ class Form extends Component {
 
         let params = { errors: errors, onChange: this.handleChange }
 
+        let error;
+        if(errors && errors.length !== 0){
+            errors.map(err => {
+                if(err.name === "icon"){
+                    error = err.message
+                }
+            })
+        }
+
         return <>
             <form onSubmit={this.handleSubmit}>
                 <div className="line-container">
@@ -143,12 +154,19 @@ class Form extends Component {
                             </div>
                             {loadIcons
                                 ? <LoaderTxt text="Chargement des icônes" />
-                                : <div className="line">
-                                    {icons.map((icon, index) => {
-                                        return <div key={index}>
-                                            <span className={"icon-" + icon}></span>
+                                : <div className="line line-icons">
+                                    <div className={'form-group' + (error ? " form-group-error" : "")}>
+                                        <label htmlFor="icon">Icône</label>
+                                        <div className="icons-choice">
+                                            {icons.map((choice, index) => {
+                                                return <div className={"icon-choice" + (choice === icon ? " active" : "")} key={index}
+                                                            onClick={() => this.handleClick(choice)}>
+                                                    <span className={"icon-" + choice}></span>
+                                                </div>
+                                            })}
                                         </div>
-                                    })}
+                                        <div className="error">{error ? <><span className='icon-error'/>{error}</> : null}</div>
+                                    </div>
                                 </div>
                             }
                         </div>
