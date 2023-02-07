@@ -4,6 +4,14 @@ import PropTypes from "prop-types";
 import { Input } from "@commonComponents/Elements/Fields";
 
 export function Password ({ context, password, password2, params }) {
+
+    let valide0 = false;
+    if(password !== ""){
+        if((/[a-z]+/).test(password)){
+            valide0 = true
+        }
+    }
+
     return <div className="line">
         <div className="line-col-1">
             <div className="title">Mot de passe</div>
@@ -11,7 +19,7 @@ export function Password ({ context, password, password2, params }) {
                 <p>Règles de création pour le mot de passe :</p>
                 <ul>
                     <li>Au moins 12 caractères</li>
-                    <li>Au moins 1 minuscule</li>
+                    <li className={valide0 ? "txt-primary" : ""}>Au moins 1 minuscule</li>
                     <li>Au moins 1 majuscule</li>
                     <li>Au moins 1 chiffre</li>
                     <li>Au moins 1 caractère spécial</li>
