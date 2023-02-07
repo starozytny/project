@@ -106,6 +106,11 @@ function toFormatCalendar(value, retour = "") {
     return retour;
 }
 
+function toDateFormat(date, format = 'LLL', retour = "") {
+    if(date === null) return retour;
+    return moment(date).format('LT').replace(':', 'h');
+}
+
 module.exports = {
     sanitizeString,
     addZeroToNumber,
@@ -114,5 +119,6 @@ module.exports = {
     toFormatBytesToSize,
     toFormatCalendar,
     capitalize,
-    removeAccents
+    removeAccents,
+    toDateFormat,
 }
