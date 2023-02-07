@@ -12,7 +12,7 @@ Routing.setRoutingData(routes);
 
 let el = document.getElementById("changelogs_list");
 if(el){
-    createRoot(el).render(<Changelogs />)
+    createRoot(el).render(<Changelogs {...el.dataset} />)
 }
 
 el = document.getElementById("changelogs_update");

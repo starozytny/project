@@ -5,7 +5,7 @@ import { Alert } from "@commonComponents/Elements/Alert";
 
 import { ChangelogsItem } from "@adminPages/Changelogs/ChangelogsItem";
 
-export function ChangelogsList ({ data, onDelete }) {
+export function ChangelogsList ({ data, highlight, onModal }) {
     return <div className="list">
         <div className="list-table">
             <div className="items items-changelogs">
@@ -22,7 +22,7 @@ export function ChangelogsList ({ data, onDelete }) {
 
                 {data.length > 0
                     ? data.map((elem) => {
-                        return <ChangelogsItem key={elem.id} elem={elem} onDelete={onDelete} />;
+                        return <ChangelogsItem key={elem.id} elem={elem} highlight={highlight} onModal={onModal} />;
                     })
                     : <Alert>Aucune donnée enregistrée.</Alert>
                 }
@@ -33,5 +33,6 @@ export function ChangelogsList ({ data, onDelete }) {
 
 ChangelogsList.propTypes = {
     data: PropTypes.array.isRequired,
-    onDelete: PropTypes.func.isRequired,
+    onModal: PropTypes.func.isRequired,
+    highlight: PropTypes.number,
 }

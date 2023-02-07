@@ -41,7 +41,7 @@ export class Changelogs extends Component {
 
     componentDidMount = () => { this.handleGetData(); }
 
-    handleGetData = () => { List.getData(this, URL_GET_DATA, this.state.perPage, this.state.sorter); }
+    handleGetData = () => { List.getData(this, URL_GET_DATA, this.state.perPage, this.state.sorter, this.props.highlight); }
 
     handleUpdateData = (currentData) => { this.setState({ currentData }) }
 
@@ -74,6 +74,7 @@ export class Changelogs extends Component {
     handleSorter = (nb) => { List.changeSorter(this, this.state.data, this.state.perPage, sortersFunction, nb); }
 
     render () {
+        const { highlight } = this.props;
         const { sessionName, data, currentData, element, loadingData, perPage, currentPage, filters } = this.state;
 
         let filtersItems = [
@@ -99,7 +100,7 @@ export class Changelogs extends Component {
                                          onClick={this.handlePaginationClick}
                                          onPerPage={this.handlePerPage} onSorter={this.handleSorter} />
 
-                    <ChangelogsList data={currentData} onDelete={this.handleModal} />
+                    <ChangelogsList data={currentData} highlight={parseInt(highlight)} onModal={this.handleModal} />
 
                     <Pagination ref={this.pagination} sessionName={sessionName} items={data} taille={data.length}
                                 perPage={perPage} onUpdate={this.handleUpdateData} onChangeCurrentPage={this.handleChangeCurrentPage}/>

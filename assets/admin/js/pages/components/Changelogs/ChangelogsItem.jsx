@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import PropTypes from 'prop-types';
 import Routing   from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
@@ -13,8 +13,19 @@ import { Checkbox }   from "@commonComponents/Elements/Fields";
 const URL_UPDATE_PAGE    = "admin_changelogs_update";
 const URL_UPDATE_PUBLISH = "api_changelogs_switch_publish";
 
-export function ChangelogsItem ({ elem, onDelete })
+export function ChangelogsItem ({ elem, highlight, onModal })
 {
+    const refItem = useRef(null);
+
+    let nHighlight = highlight === elem.id;
+
+    useEffect(() => {
+        if(nHighlight && refItem.current){
+            refItem.current.scrollIntoView({block: "center"})
+        }
+    })
+
+
     const [loadSwitch, setLoadSwitch]   = useState(false);
     const [isPublished, setIsPublished] = useState([elem.isPublished ? 1 : 0]);
 
@@ -42,7 +53,7 @@ export function ChangelogsItem ({ elem, onDelete })
     let icons = ["icon-question", "icon-warning", "icon-error"];
     let texts = ["txt-primary", "txt-warning", "txt-danger"];
 
-    return <div className="item">
+    return <div className={"item" + (nHighlight ? " highlight": "")} ref={refItem}>
         <div className="item-content">
             <div className="item-infos">
                 <div className="col-1">
@@ -68,7 +79,7 @@ export function ChangelogsItem ({ elem, onDelete })
                 </div>
                 <div className="col-4 actions">
                     <ButtonIcon outline={true} icon="pencil" onClick={urlUpdate} element="a">Modifier</ButtonIcon>
-                    <ButtonIcon outline={true} icon="trash" onClick={() => onDelete("delete", elem)}>Supprimer</ButtonIcon>
+                    <ButtonIcon outline={true} icon="trash" onClick={() => onModal("delete", elem)}>Supprimer</ButtonIcon>
                 </div>
             </div>
         </div>
@@ -77,5 +88,5 @@ export function ChangelogsItem ({ elem, onDelete })
 
 ChangelogsItem.propTypes = {
     elem: PropTypes.object.isRequired,
-    onDelete: PropTypes.func.isRequired,
+    onModal: PropTypes.func.isRequired,
 }
