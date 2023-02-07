@@ -26,6 +26,11 @@ if(el){
     createRoot(el).render(<UserFormulaire context="create" element={null} />)
 }
 
+el = document.getElementById("users_password");
+if(el){
+    createRoot(el).render(<UserFormulaire context="create" element={null} />)
+}
+
 let exportData = document.getElementById("users_export");
 if(exportData){
     createRoot(exportData).render(<UserExport />)
