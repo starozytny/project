@@ -53,7 +53,7 @@ export class Users extends Component {
     componentDidMount = () => { this.handleGetData(); }
 
     handleGetData = () => {
-        let url = this.props.urlGetData ? this.props.urlGetData : URL_GET_DATA;
+        let url = this.props.urlGetData ? this.props.urlGetData : Routing.generate(URL_GET_DATA);
         List.getData(this, url, this.state.perPage, this.state.sorter, this.props.highlight);
     }
 

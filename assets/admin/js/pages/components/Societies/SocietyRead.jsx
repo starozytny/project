@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from "prop-types";
 
+import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
+
 import { Users } from "@adminPages/Users/Users";
 
-const URL_GET_USERS = "api_users_list";
+const URL_GET_USERS = "api_users_society";
 
 export function SocietyRead ({ elem, settings }) {
     return <div className="page-profil-0">
@@ -43,7 +45,7 @@ export function SocietyRead ({ elem, settings }) {
                 <div className="profil-card">
                     <div className="title">Utilisateurs</div>
                     <div className="content-infos content-infos-users">
-                        <Users urlGetData={URL_GET_USERS} />
+                        <Users urlGetData={Routing.generate(URL_GET_USERS, {'society': elem.id})} />
                     </div>
                 </div>
             </div>

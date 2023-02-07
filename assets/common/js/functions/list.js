@@ -1,12 +1,11 @@
 const axios      = require("axios");
-const Routing    = require('@publicFolder/bundles/fosjsrouting/js/router.min.js');
 
 const Formulaire     = require("@commonFunctions/formulaire");
 const SearchFunction = require("@commonFunctions/search");
 const FilterFunction = require("@commonFunctions/filter");
 
-function getData (self, routName, perPage, sorter, highlight) {
-    axios({ method: "GET", url: Routing.generate(routName), data: {} })
+function getData (self, url, perPage, sorter, highlight) {
+    axios({ method: "GET", url: url, data: {} })
         .then(function (response) {
             let data = response.data;
             if(sorter) data.sort(sorter);

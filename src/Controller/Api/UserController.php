@@ -35,6 +35,11 @@ class UserController extends AbstractController
     {
         return $apiResponse->apiJsonResponse($repository->findAll(), User::LIST);
     }
+    #[Route('/society/{society}', name: 'society', options: ['expose' => true], methods: 'GET')]
+    public function society(Society $society, UserRepository $repository, ApiResponse $apiResponse): Response
+    {
+        return $apiResponse->apiJsonResponse($repository->findBy(['society' => $society]), User::LIST);
+    }
 
     public function submitForm($type, UserRepository $repository, User $obj, Request $request, ApiResponse $apiResponse,
                                ValidatorService $validator, DataMain $dataEntity, ObjectManager $em,

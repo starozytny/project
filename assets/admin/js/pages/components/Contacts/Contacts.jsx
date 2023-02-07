@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 
+import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
+
 import Sort from "@commonFunctions/sort";
 import List from "@commonFunctions/list";
 
@@ -41,7 +43,7 @@ export class Contacts extends Component {
 
     componentDidMount = () => { this.handleGetData(); }
 
-    handleGetData = () => { List.getData(this, URL_GET_DATA, this.state.perPage, this.state.sorter); }
+    handleGetData = () => { List.getData(this, Routing.generate(URL_GET_DATA), this.state.perPage, this.state.sorter); }
 
     handleUpdateData = (currentData) => { this.setState({ currentData }) }
 
