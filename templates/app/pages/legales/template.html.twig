@@ -1,0 +1,24 @@
+{% extends 'app/layout/layout.html.twig' %}
+
+{% block noindex %}
+    <meta name="robots" content="noindex">
+    <meta name="googlebot" content="noindex">
+{% endblock %}
+
+{% set societyName = "SocietyName" %}
+{% set websiteName = "WebsiteName" %}
+{% set websiteUrl = "https://websiteName.fr" %}
+{% set addressPostale = "Adresse postale ***** " %}
+{% set websitePhone = "04 ** ** ** **" %}
+{% set websiteEmail = "web@logilink.fr" %}
+{% set websiteSiret = "0000000000000" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('app_legales') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('app_legales') }}
+{% endblock %}

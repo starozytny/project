@@ -1,0 +1,106 @@
+{% extends 'app/pages/legales/template.html.twig' %}
+
+{% block title %}Gestion des cookies {{ parent() }}{% endblock %}
+
+{% block main_content %}
+    <div class="main-content main-content-legal">
+        <h1>Gestion des cookies</h1>
+
+        <section class="legales">
+            <div>
+                <h2>Qu'est ce qu'un cookie ?</h2>
+                <p>
+                    Un "cookie" est une suite d'informations, généralement de petite taille et
+                    identifié par un nom, qui peut être transmis à votre navigateur par un site
+                    web sur lequel vous vous connectez. Votre navigateur web le conservera pendant
+                    une certaine durée, et le renverra au serveur web chaque fois que vous vous
+                    y re-connecterez. Les cookies ont de multiples usages : ils peuvent servir à
+                    mémoriser votre identifiant client auprès d'un site marchand, le contenu courant
+                    de votre panier d'achat, un identifiant permettant de tracer votre navigation
+                    pour des finalités statistiques ou publicitaires, etc.
+                </p>
+            </div>
+
+            <div>
+                <h2>Configurer son navigateur pour bloquer les cookies</h2>
+                <p>
+                    Les cookies sont stockés dans votre navigateur. Vous avez la possibilité de configurer
+                    les paramètre de votre navigateur pour vous opposer directement à l'enregistrement des cookies.
+                    <br>
+                    Toutefois, Certaines fonctionnalités du site pourraient en être affectées. <br>
+                    <br>
+                    Voici les procédures à suivre pour bloquer les cookies selon le navigateur que vous utilisez.
+                </p>
+                <ul>
+                    <li><a target="_blank" rel="external" href="https://support.google.com/accounts/answer/61416?hl=fr">Désactivation des cookies sur Google Chrome</a></li>
+                    <li><a target="_blank" rel="external" href="https://support.mozilla.org/fr/kb/activer-desactiver-cookies">Désactivation des cookies sur Mozilla Firefox</a></li>
+                    <li><a target="_blank" rel="external" href="https://support.microsoft.com/hub/4338813/windows-help">Désactivation des cookies sur Internet Explorer</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h2>Choix d'utilisation global des cookies</h2>
+                <p style="margin-bottom: 12px;">
+                    Notre site internet utilise des cookies pour vous offrir la meilleure expérience utilisateur.
+                    Plus d'informations dans notre <a href="{{ path('app_politique') }}">politique de confidentialité</a>
+                </p>
+                <div id="cookies-global-response" class="cookies-global-response" data-consent="{{ consent }}"></div>
+            </div>
+
+            <div>
+                <h2>Cookies nécessaires</h2>
+                <p>
+                    Les cookies nécessaires contribuent à rendre notre site internet utilisable.
+                    Par exemple, pour la navigation entre les pages, l'accès aux zones sécurisées,
+                    la mémorisation de votre choix d'acceptation ou refus des cookies etc..
+                    Notre site internet ne peut pas fonctionner sans ces cookies.
+                </p>
+            </div>
+
+            <div>
+                <h2>Cookies tiers</h2>
+                <p>
+                    <b>Matomo</b> <br>
+                    Matomo Analytics (anciennement Piwik Analytics) est une solution de mesure d'audience qui utilise des cookies.
+                    Ce site web utilise Matomo Analytics avec une configuration conforme à la réglementation sur la
+                    protection des données personnelles et aux recommandations de la CNIL (Commission Nationale de l'Informatique et des Libertés).
+                    Cette configuration permet notamment de rendre anonyme les données des
+                    visiteurs et de limiter le délai de conservation de ces données à 13 mois maximum.
+                    <br><br>
+                    <u>_pk_id :</u> Cookie qui stocke un identifiant unique pour “reconnaître” le visiteur. Durée de vie : 13 mois.
+                    <br>
+                    <u>_pk_ses :</u> Cookie qui stocke des informations concernant la visite. Durée de vie : 30 minutes.
+                    <br><br>
+
+                    Les visiteurs ne sont pas suivis d’un site Web à un autre <br>
+                    Les « empreintes numériques » changent quotidiennement pour chaque visiteur, ce qui signifie
+                    qu’aucun visiteur ne peut être suivi pendant plusieurs jours sur le même site Web,
+                    et aucun profil d’utilisateur ne peut être généré lorsque les cookies sont désactivés. <br>
+                    Les données ne sont pas utilisées à d’autres fins que l’analyse. <br>
+                    Le centre de données se situe en Europe.
+                </p>
+
+                <div class="matomo-iframe-display">
+                    <p>
+                        <br><br>
+                        Avec cette configuration, <u>le consentement préalable au dépôt des cookies Matomo Analytics n'est pas obligatoire</u>. Vous pouvez néanmoins
+                        vous opposer à tout moment au dépôt des cookies Matomo Analytics en décochant la case ci-dessous :
+                    </p>
+
+                    <iframe class="matomo-iframe"
+                            src="https://matomo.demodirecte.fr/index.php?module=CoreAdminHome&action=optOut&language=fr&backgroundColor=&fontColor=&fontSize=&fontFamily=Poppins"
+                    ></iframe>
+                </div>
+
+                <!-- <p>
+                    Nous avons suivi la documentation de Google afin de vérouiller les cookies lorsque vous
+                    refusez l'utilisateur de leurs cookies.
+                    <br>
+                    Il existe un module complémentaire de navigateur fourni par Google pour la désactivation de Google Analytics.
+                    <br>
+                    <a href="https://tools.google.com/dlpage/gaoptout/" target="_blank">Lien vers le module complémentaire de Google</a>
+                </p> -->
+            </div>
+        </section>
+    </div>
+{% endblock %}

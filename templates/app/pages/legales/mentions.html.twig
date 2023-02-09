@@ -1,0 +1,71 @@
+{% extends 'app/pages/legales/template.html.twig' %}
+
+{% block page_title %}Mentions légales {{ parent() }}{% endblock %}
+
+{% block main_content %}
+    <div class="main-content main-content-legal">
+        <h1>Mentions légales</h1>
+
+        <section class="legales">
+            <div>
+                <h2>Editeur du site</h2>
+                <p>
+                    Ce site est édité par la société {{ societyName }}. <br>
+                    Numéro de SIRET : {{ websiteSiret }} <br>
+                    Adresse de la société : {{ addressPostale }}. <br>
+                    Téléphone : {{ websitePhone }}
+                </p>
+            </div>
+            <div>
+                <h2>Hébergement</h2>
+                <p>
+                    Le site est hébergé par la société O2switch, société du groupe Zohey <br>
+                    SARL au capital de 100 000€ <br>
+                    RCS : Clermont-Ferrand - SIRET : 510 909 807 00024 <br>
+                    Téléphone : 04 44 44 60 40
+                </p>
+            </div>
+            <div>
+                <h2>Conditions générales d'utilisation</h2>
+                <div>
+                    <h3>Propriété intellectuelle</h3>
+                    <p>
+                        L'ensemble des éléments constitutifs de ce site, sauf mentionné, (textes, photos, images, mise en page,
+                        graphisme, etc. ) sont la propriété exclusive de son éditeur et font l'objet d'une
+                        protection légale inscrite au Code de la propriété intellectuelle. Toute copie,
+                        modification, diffusion, reproduction, sous quelque forme que ce soit, de tout ou
+                        partie du contenu de ce site sans l'autorisation expresse préalable et écrite de
+                        l'éditeur est interdite. Toute personne violant ces dispositions est passible des
+                        sanctions pénales prévues par la loi.
+                    </p>
+                    <p>
+                        Crédit illustration de la page d'erreur : <br>
+                        <a href='https://fr.freepik.com/vecteurs/voyage'>Voyage vecteur créé par stories - fr.freepik.com</a>
+                    </p>
+                </div>
+                <div>
+                    <h3>Liens externes</h3>
+                    <p>
+                        Les liens présents dans les pages de ce site ont été incorporés à titre de commodités.
+                        N'étant pas propriétaire de ceux-ci et ne disposant sur eux d'aucun contrôle, la société
+                        {{ societyName }} décline toutes responsabilités quant au contenu publié par ces sites tiers, y
+                        compris les liens et services qu'ils mettent en oeuvre.
+                        <br>
+                        Tout lien dirigeant vers le présent site doit cibler sa page d'accueil et ne peut être
+                        autorisé sans le consentement préalable écrit de la société la société {{ societyName }}.
+                    </p>
+                </div>
+                <div>
+                    <h3>Conception du site</h3>
+                    <p>
+                        <a href="https://logilink.fr" target="_blank">Logilink Marseille - Sites immobilier</a>
+                        <br>
+                        Editeur spécialisé dans le domaine de l'immobilier et la gestion des entreprises,
+                        Logilink développe des logiciels modernes, fiables et performants en réponse à
+                        toutes vos exigences professionnelles.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}

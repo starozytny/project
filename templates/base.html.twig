@@ -13,8 +13,13 @@
         {% block stylesheets %}
             {{ encore_entry_link_tags('common_app') }}
         {% endblock %}
+
+        {% set consent = "logilinkLocalCookie" %} <!-- CONSENT Value -->
     </head>
     <body>
+
+        <div id="cookies" data-consent="{{ consent }}"></div>
+
         <div>
             {# --------------- BODY ---------------- #}
             {% block body %}{% endblock %}

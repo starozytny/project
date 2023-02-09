@@ -1,0 +1,101 @@
+{% extends 'app/pages/legales/template.html.twig' %}
+
+{% block title %}Politique de confidentialité {{ parent() }}{% endblock %}
+
+{% block main_content %}
+    <div class="main-content main-content-legal">
+        <h1>Politique de confidentialité</h1>
+
+        <section class="legales">
+            <div>
+                <p>
+                    {{ websiteName }} est susceptible de recueillir des données personnelles vous concernant dans le cadre de
+                    l'utilisation du site internet <b>{{ websiteUrl }}</b>,
+                    conformément au réglement général sur la protection des données (RGPD) et à la loi Informatique et Libertés.
+                </p>
+            </div>
+
+            <div>
+                <h2>Traitement des données personnelles</h2>
+                <p>
+                    Liste et descriptions des traitements de données personnelles effectués sur le site internet.
+                </p>
+                <ol>
+                    <li>
+                        <p><b>Formulaire de contact</b></p>
+                        <ul>
+                            <li><i>Données :</i> Nom et prénom, adresse-email</li>
+                            <li><i>Caractère du recueil :</i> Obligatoire pour identifier l'utilisateur et répondre au mieux à sa demande.</li>
+                            <li><i>Finalités :</i> Gestion des demandes de contact. Pouvoir répondre à la demande effectuée l'utilisateur par e-mail.</li>
+                            <li><i>Durée de conservation : </i>Maximum 3 ans à compter du dernier contact avec la personne concernée.</li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+
+            <div>
+                <h2>Destinataires des données</h2>
+                <p>
+                    Le responsable du traitement de ces données est {{ societyName }} dont les coordonnées figurent dans la partie "Droits des utilisateurs concernés".
+                    <br><br>
+                    Le traitement des données décrits ci-dessus, sont effectués uniquement par le personnel du site internet et les prestataires habilités. <br>
+                    Type de prestataires habilités : éditeur de logiciel, hébergeur, développeur. <br>
+                    Vos données ne sont pas transférées en dehors de l'Union Européenne.
+                </p>
+            </div>
+
+            <div>
+                <h2>Droits des utilisateurs concernés</h2>
+                <p>
+                    Conformément au règlement RGPD 2016/679 et de la loi n°78-17 modifiée dite « Informatique et Libertés »
+                    concernant le traitement des données à caractère personnel, l'utilisateur possède les droits ci-après énumérés :
+                </p>
+                <ul>
+                    <li>Droit d'accès et de rectification de vos données personnelles.</li>
+                    <li>Droit à l’effacement de vos données personnelles (« droit à l’oubli »).</li>
+                    <li>Droit à la portabilité des données.</li>
+                    <li>Droit à l'opposition du traitement des données.</li>
+                    <li>Droit de ne pas faire l'objet d'une décision fondée exclusivement sur un procédé automatisé.</li>
+                    <li>Droit de déterminer le sort des données après sa mort.</li>
+                </ul>
+                <p>
+                    Ces droits peuvent être exercés sur demande par courrier à
+                    l'adresse suivante : <br>
+                    {{ societyName }} - {{ addressPostale }} - France
+                    {% if websiteEmail %}
+                        <br><br>
+                        <u>ou</u> par courriel : {{ websiteEmail }}
+                    {% endif %}
+                </p>
+                <p>
+                    <br>
+                    Dans le cas où le responsable du traitement des données décide de ne pas répondre à la demande de l'utilisateur,
+                    et que l'utilisateur souhaite contester cette décision, ou, s'il pense qu'il est porté atteinte à l'un des
+                    droits énumérés ci-dessus, il est en droit de saisir la CNIL (Commission Nationale de l'Informatique et des Libertés,
+                    <a href="https://www.cnil.fr" target="_blank" rel="external">https://www.cnil.fr</a>) ou tout juge compétent.
+                </p>
+
+            </div>
+
+            <div>
+                <h2>Mesures d'audience</h2>
+                <ul>
+                    <li>
+                        <b>Matomo</b> <br>
+                        <p>
+                            Matomo Analytics (anciennement Piwik Analytics) est une solution de mesure d'audience qui utilise des cookies.
+                            Ce site web utilise Matomo Analytics avec une configuration conforme à la réglementation sur la protection des
+                            données personnelles et aux recommandations de la CNIL (Commission Nationale de l'Informatique et des Libertés).
+                            Cette configuration permet notamment de rendre anonyme les données des visiteurs et de limiter le délai de
+                            conservation de ces données à 13 mois maximum.
+                        </p>
+                    </li>
+                </ul>
+                <p>
+                    L'utilisateur peut paramétrer les cookies utilisés par le site à l'adresse suivante :
+                    <a href="{{ path('app_cookies') }}">{{ websiteUrl }}/legales/gestion-cookies</a>
+                </p>
+            </div>
+        </section>
+    </div>
+{% endblock %}

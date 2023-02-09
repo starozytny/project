@@ -15,8 +15,27 @@ class AppController extends AbstractController
     }
 
     #[Route('/contact', name: 'app_contact')]
-    public function create(): Response
+    public function contact(): Response
     {
         return $this->render('app/pages/contact/create.html.twig');
     }
+
+    #[Route('/legales/mentions-legales', name: 'app_mentions')]
+    public function mentions(): Response
+    {
+        return $this->render('app/pages/legales/mentions.html.twig');
+    }
+
+    #[Route('/legales/politique-confidentialite', name: 'app_politique', options: ['expose' => true])]
+    public function politique(): Response
+    {
+        return $this->render('app/pages/legales/politique.html.twig');
+    }
+
+    #[Route('/legales/cookies', name: 'app_cookies', options: ['expose' => true])]
+    public function cookies(): Response
+    {
+        return $this->render('app/pages/legales/cookies.html.twig');
+    }
+
 }
