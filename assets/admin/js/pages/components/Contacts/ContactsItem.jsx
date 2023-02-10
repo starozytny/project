@@ -46,8 +46,10 @@ export function ContactsItem ({ elem, onDelete })
                 <div className="col-2">
                     <div dangerouslySetInnerHTML={{ __html: elem.message }} />
                 </div>
-                <div className="col-3" onClick={handleSwitch}>
-                    <span className={"icon-vision" + (seen ? "" : "-not")}></span>
+                <div className="col-3">
+                    <ButtonIcon outline={true} icon={"vision" + (seen ? "" : "-not")} tooltipWidth={50} onClick={handleSwitch}>
+                        {seen ? "Lu" : "Non lu"}
+                    </ButtonIcon>
                 </div>
                 <div className="col-4 actions">
                     <ButtonIcon outline={true} icon="trash" onClick={() => onDelete("delete", elem)}>Supprimer</ButtonIcon>
