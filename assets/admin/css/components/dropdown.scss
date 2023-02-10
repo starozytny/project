@@ -18,10 +18,8 @@
   .dropdown-items{
     background-color: var(--color0);
 
-    .item{
-      label{
-        color: var(--alpha);
-      }
+    .item label, a{
+      color: var(--alpha);
     }
   }
 }

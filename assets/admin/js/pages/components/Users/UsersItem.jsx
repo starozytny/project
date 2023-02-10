@@ -7,8 +7,9 @@ import 'moment/locale/fr';
 
 import { ButtonIcon, ButtonIconDropdown } from "@commonComponents/Elements/Button";
 
-const URL_UPDATE_PAGE = "admin_users_update";
-const URL_READ_PAGE   = "admin_users_read";
+const URL_UPDATE_PAGE   = "admin_users_update";
+const URL_READ_PAGE     = "admin_users_read";
+const URL_PASSWORD_PAGE = "admin_users_password";
 
 export function UsersItem ({ elem, highlight, onModal })
 {
@@ -22,14 +23,18 @@ export function UsersItem ({ elem, highlight, onModal })
         }
     })
 
-    let urlUpdate = Routing.generate(URL_UPDATE_PAGE, {'id': elem.id});
-    let urlRead   = Routing.generate(URL_READ_PAGE,   {'id': elem.id});
+    let urlUpdate = Routing.generate(URL_UPDATE_PAGE,   {'id': elem.id});
+    let urlRead   = Routing.generate(URL_READ_PAGE,     {'id': elem.id});
+    let urlPass   = Routing.generate(URL_PASSWORD_PAGE, {'id': elem.id});
 
     let lastLoginAt = elem.lastLoginAt ? moment(elem.lastLoginAt) : null;
 
     let menu = [
         { data: <a onClick={() => onModal("reinit", elem)}>
                 <span className="icon-refresh" /> <span>Générer un nouveau mot de passe</span>
+        </a> },
+        { data: <a href={urlPass}>
+                <span className="icon-padlock" /> <span>Modifier son mot de passe</span>
         </a> },
         { data: <a onClick={() => onModal("mail", elem)}>
                 <span className="icon-email-edit" /> <span>Envoyer un mail</span>

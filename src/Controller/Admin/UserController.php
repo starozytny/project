@@ -38,7 +38,7 @@ class UserController extends AbstractController
         return $this->render('admin/pages/users/read.html.twig', ['elem' => $elem, 'obj' => $obj]);
     }
 
-    #[Route('/utilisateur/mot-de-passe/{id}', name: 'password')]
+    #[Route('/utilisateur/mot-de-passe/{id}', name: 'password', options: ['expose' => true])]
     public function password(User $elem): Response
     {
         return $this->render('admin/pages/users/password.html.twig', ['elem' => $elem]);
