@@ -231,7 +231,7 @@ class Form extends Component {
                         </div>
                     </div>
 
-                    <Password context={context} password={password} password2={password2} params={paramsInput0} />
+                    <Password template="inline" context={context} password={password} password2={password2} params={paramsInput0} />
                 </div>
 
                 <div className="line-buttons">
