@@ -11,5 +11,5 @@ Routing.setRoutingData(routes);
 
 let el = document.getElementById("storage_list");
 if(el){
-    createRoot(el).render(<Storage directories={JSON.parse(el.dataset.directories)} />)
+    createRoot(el).render(<Storage />)
 }

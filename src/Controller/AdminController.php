@@ -9,7 +9,6 @@ use App\Repository\Main\SettingsRepository;
 use App\Repository\Main\SocietyRepository;
 use App\Repository\Main\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -63,23 +62,6 @@ class AdminController extends AbstractController
     #[Route('/stockage', name: 'storage_index')]
     public function storage(): Response
     {
-        $finder = new Finder();
-
-        $finder->directories()->in($this->getParameter('private_directory'))->depth('== 0');
-
-        $directories = [];
-        if($finder->hasResults()){
-            foreach ($finder as $file) {
-                $directories[] = [
-                    'name' => $file->getRelativePathname(),
-                    'timeAt' => $file->getATime(),
-                    'size' => $file->getSize()
-                ];
-            }
-        }
-
-        return $this->render('admin/pages/storage/index.html.twig', [
-            'directories' => json_encode($directories)
-        ]);
+        return $this->render('admin/pages/storage/index.html.twig');
     }
 }

@@ -3,6 +3,7 @@
 @import "components/components";
 
 .storage {
+  @include flex(column, flex-start, flex-start, 1.2rem);
   padding: 0 1.2rem;
 
   .icon-more{
@@ -12,16 +13,18 @@
 }
 
 .storage-section{
+  width: 100%;
+
   & > .title{
     font-size: 20px;
     @include fontSemibold();
+    margin-bottom: 12px;
   }
 }
 
 .directories{
   @include flex(row, flex-start, flex-start, 12px);
   flex-wrap: wrap;
-  margin-top: 0.8rem;
 
   .directory{
     background-color: var(--color0Opacity4);
@@ -57,5 +60,47 @@
 @media (min-width:1024px) {
   .storage{
     padding: 0 1.8rem;
+  }
+}
+
+.items-files{
+
+  .name{
+    @include flex(row, flex-start, flex-start, 8px);
+    color: var(--alpha);
+  }
+
+  $col2: 100px; $col3: 140px; $col4: 60px; $colGap: 24px;
+
+  //                      __   _____ __    ___    __
+  //                     | _| |___  / /_  ( _ )  |_ |
+  //    _____ _____ _____| |     / / '_ \ / _ \   | |_____ _____ _____
+  //   |_____|_____|_____| |    / /| (_) | (_) |  | |_____|_____|_____|
+  //                     | |   /_/  \___/ \___/   | |
+  //                     |__|                    |__|
+  @media (min-width:768px) {
+    .item-infos{
+      & > .col-1{
+        width: calc(100% - $col2 - $col3 - $col4 - $colGap);
+      }
+      & > .col-2{ width: $col2; }
+      & > .col-3{ width: $col3; }
+      & > .col-4.actions{ width: $col4; }
+    }
+  }
+
+  //                      __   _  ___ ____  _  _     __
+  //                     | _| / |/ _ \___ \| || |   |_ |
+  //    _____ _____ _____| |  | | | | |__) | || |_   | |_____ _____ _____
+  //   |_____|_____|_____| |  | | |_| / __/|__   _|  | |_____|_____|_____|
+  //                     | |  |_|\___/_____|  |_|    | |
+  //                     |__|                       |__|
+  @media (min-width: 1024px) {
+    .item-infos{
+      & > .col-1{
+        width: calc(100% - $col2 - $col3 - $col4 - $colGap);
+      }
+      & > .col-2{ width: $col2; }
+    }
   }
 }
