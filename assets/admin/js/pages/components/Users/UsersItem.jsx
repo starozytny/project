@@ -34,10 +34,13 @@ export function UsersItem ({ elem, highlight, onModal })
                 <span className="icon-refresh" /> <span>Générer un nouveau mot de passe</span>
         </a> },
         { data: <a href={urlPass}>
-                <span className="icon-padlock" /> <span>Modifier son mot de passe</span>
+                <span className="icon-lock-1" /> <span>Modifier son mot de passe</span>
         </a> },
         { data: <a onClick={() => onModal("mail", elem)}>
                 <span className="icon-email-edit" /> <span>Envoyer un mail</span>
+        </a> },
+        { data: <a onClick={() => onModal("blocked", elem)}>
+                <span className={"icon-" + (elem.blocked ? "unlock" : "disabled")} /> <span>{elem.blocked ? "Débloquer" : "Bloquer"}</span>
         </a> }
     ]
 

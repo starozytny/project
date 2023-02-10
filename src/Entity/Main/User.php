@@ -86,6 +86,10 @@ class User extends DataEntity implements UserInterface, PasswordAuthenticatedUse
     #[Groups(['user_list', 'user_form'])]
     private ?Society $society = null;
 
+    #[ORM\Column]
+    #[Groups(['user_list'])]
+    private ?bool $blocked = false;
+
     /**
      * @throws Exception
      */
@@ -351,6 +355,18 @@ class User extends DataEntity implements UserInterface, PasswordAuthenticatedUse
     public function setSociety(?Society $society): self
     {
         $this->society = $society;
+
+        return $this;
+    }
+
+    public function isBlocked(): ?bool
+    {
+        return $this->blocked;
+    }
+
+    public function setBlocked(bool $blocked): self
+    {
+        $this->blocked = $blocked;
 
         return $this;
     }

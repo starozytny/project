@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 
 import { Button } from "@commonComponents/Elements/Button";
-import ModalFunc from "@commonFunctions/modal";
 
 export class Modal extends Component {
     constructor(props) {
@@ -15,7 +14,29 @@ export class Modal extends Component {
         }
     }
 
-    handleClick = (e) => { ModalFunc.initListener(this.props.identifiant); }
+    handleClick = (e) => {
+        const { identifiant } = this.props;
+        let body = document.querySelector("body");
+        let modal = document.getElementById(identifiant);
+        let btns = document.querySelectorAll(".close-modal");
+
+        body.style.overflow = "hidden";
+        modal.style.display = "block"
+
+        window.onclick = (e) => {
+            if(e.target === modal){
+                body.style.overflow = "auto";
+                modal.style.display = "none";
+            }
+        }
+
+        btns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                body.style.overflow = "auto";
+                modal.style.display = "none";
+            })
+        })
+    }
 
     handleClose = (e) => {
         const { identifiant } = this.props;

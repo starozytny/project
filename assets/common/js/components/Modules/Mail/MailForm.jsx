@@ -14,7 +14,6 @@ import { Alert }            from "@commonComponents/Elements/Alert";
 import Formulaire from "@commonFunctions/formulaire";
 import Inputs     from "@commonFunctions/inputs";
 import Validateur from "@commonFunctions/validateur";
-import ModalFunc  from "@commonFunctions/modal";
 
 const URL_CREATE_ELEMENT    = "api_mails_send";
 const TEXT_CREATE           = "Envoyer le message";
@@ -71,7 +70,16 @@ class Form extends Component {
     componentDidMount = () => {
         Inputs.initDateInput(this.handleChangeDate, this.handleChange, new Date());
         if(this.props.initListener){
-            ModalFunc.initListener(this.props.identifiant);
+            let body = document.querySelector("body");
+            let modal = document.getElementById(this.props.identifiant);
+            let btns = document.querySelectorAll(".close-modal");
+
+            btns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    body.style.overflow = "auto";
+                    modal.style.display = "none";
+                })
+            })
         }
     }
 

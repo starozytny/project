@@ -48,6 +48,7 @@ export class Users extends Component {
         this.delete = React.createRef();
         this.reinit = React.createRef();
         this.mail = React.createRef();
+        this.blocked = React.createRef();
     }
 
     componentDidMount = () => { this.handleGetData(); }
@@ -71,13 +72,16 @@ export class Users extends Component {
 
     handleModal = (identifiant, elem) => {
         let ref;
+
         if (identifiant === "delete"){
             ref = this.delete;
         }else if(identifiant === "reinit"){
             ref = this.reinit;
             modalReinit(this);
-        }else{
+        }else if(identifiant === "mail"){
             ref = this.mail;
+        }else if(identifiant === "blocked"){
+            ref = this.blocked;
         }
         ref.current.handleClick();
         this.setState({ element: elem })
@@ -118,7 +122,7 @@ export class Users extends Component {
                 self.reinit.current.handleUpdateCloseTxt("Fermer");
                 instance.interceptors.request.clear();
             })
-            .catch(function (error) { console.log(error);Formulaire.displayErrors(self, error); })
+            .catch(function (error) { Formulaire.displayErrors(self, error); })
         ;
     }
 
@@ -163,6 +167,7 @@ export class Users extends Component {
                     <Modal ref={this.reinit} identifiant="reinit" maxWidth={414} title="Générer un nouveau mot de passe" content={null} footer={null}/>
                     <Modal ref={this.mail} identifiant="mail" maxWidth={768} margin={2} title="Envoyer un mail" isForm={true}
                            content={<MailFormulaire identifiant="mail" element={element} tos={dataImmuable} />} footer={null} />
+                    <Modal ref={this.blocked} identifiant="blocked" maxWidth={414} title="Blocage de l'utilisateur" content={null} footer={null}/>
                 </>
             }
         </>
