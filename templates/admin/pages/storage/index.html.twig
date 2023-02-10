@@ -1,0 +1,12 @@
+{% extends 'admin/pages/storage/template.html.twig' %}
+
+{% set page_title %}Stockage{% endset %}
+{% set page_subtitle %}Explorateur du stockage privé{% endset %}
+
+{% block main_content %}
+    <div id="storage_list"
+         data-directories="{{ directories }}"
+    >
+        {% include "layout/components/loader.html.twig" %}
+    </div>
+{% endblock %}

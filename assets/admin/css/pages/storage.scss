@@ -1,0 +1,61 @@
+@import "../vars/vars";
+
+@import "components/components";
+
+.storage {
+  padding: 0 1.2rem;
+
+  .icon-more{
+    display: inline-block;
+    transform: rotate(90deg);
+  }
+}
+
+.storage-section{
+  & > .title{
+    font-size: 20px;
+    @include fontSemibold();
+  }
+}
+
+.directories{
+  @include flex(row, flex-start, flex-start, 12px);
+  flex-wrap: wrap;
+  margin-top: 0.8rem;
+
+  .directory{
+    background-color: var(--color0Opacity4);
+    border-radius: 4px;
+    width: 142px; height: 112px;
+    padding: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+
+    &:hover{
+      background-color: var(--color0Opacity6);
+    }
+
+    .directory-header{
+      @include flex(row, center, space-between, 8px);
+      margin-bottom: 12px;
+    }
+
+    .directory-body{
+      .name{
+        @include fontSemibold();
+      }
+    }
+  }
+}
+
+//                      __   _  ___ ____  _  _     __
+//                     | _| / |/ _ \___ \| || |   |_ |
+//    _____ _____ _____| |  | | | | |__) | || |_   | |_____ _____ _____
+//   |_____|_____|_____| |  | | |_| / __/|__   _|  | |_____|_____|_____|
+//                     | |  |_|\___/_____|  |_|    | |
+//                     |__|                       |__|
+@media (min-width:1024px) {
+  .storage{
+    padding: 0 1.8rem;
+  }
+}
