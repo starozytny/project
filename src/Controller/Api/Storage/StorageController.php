@@ -33,6 +33,9 @@ class StorageController extends AbstractController
     {
         $finder = new Finder();
 
+        // TODO : In JAVASCRIPT, get only dir not path
+
+
         $deepFolder = "";
         for($i = 1; $i <= $deep ; $i++){
             $deepFolder .= "*/";
