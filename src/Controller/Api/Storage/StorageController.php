@@ -5,6 +5,8 @@ namespace App\Controller\Api\Storage;
 use App\Service\ApiResponse;
 use App\Service\StorageService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -24,5 +26,41 @@ class StorageController extends AbstractController
             'directories' => json_encode($directories),
             'files' => json_encode($files),
         ]);
+    }
+
+    #[Route('/download/{deep}/{dir}/{filename}', name: 'download', options: ['expose' => true], methods: 'GET')]
+    public function download(Request $request, $deep, $dir, $filename, ApiResponse $apiResponse): BinaryFileResponse|Response
+    {
+        $finder = new Finder();
+
+        $deepFolder = "";
+        for($i = 1; $i <= $deep ; $i++){
+            $deepFolder .= "*/";
+        }
+
+        $finder->files()->in($this->getParameter('private_directory') . $deepFolder . $dir);
+        if(!$finder->hasResults()){
+            return $apiResponse->apiJsonResponseBadRequest("Le fichier n'existe pas.");
+        }
+
+        $filePath = null;
+        foreach ($finder as $item) {
+            if($item->getRelativePathname() == $filename){
+                $filePath = $item->getLinkTarget();
+            }
+        }
+
+        if(!file_exists($filePath)){
+            return $apiResponse->apiJsonResponseBadRequest("Le fichier n'existe pas.");
+        }
+
+        $type = $request->query->get('file');
+        if($type){
+            return $this->file($filePath);
+        }
+
+        return $apiResponse->apiJsonResponseCustom(['url' => $this->generateUrl('api_storage_download', [
+            'deep' => $deep, 'dir' => $dir, 'filename' => $filename, 'file' => 1
+        ])]);
     }
 }

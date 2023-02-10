@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component, useState} from 'react';
 import PropTypes from "prop-types";
 
 import axios   from "axios";
@@ -7,11 +7,12 @@ import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 import Formulaire from "@commonFunctions/formulaire";
 import Sanitaze   from "@commonFunctions/sanitaze";
 
-import { LoaderTxt } from "@commonComponents/Elements/Loader";
-import { Alert } from "@commonComponents/Elements/Alert";
-import {ButtonIcon} from "@commonComponents/Elements/Button";
+import { ButtonIcon }   from "@commonComponents/Elements/Button";
+import { LoaderTxt }    from "@commonComponents/Elements/Loader";
+import { Alert }        from "@commonComponents/Elements/Alert";
 
 const URL_CLICK_DIRECTORY = "api_storage_directory";
+const URL_DOWNLOAD_FILE   = "api_storage_download";
 
 export class Storage extends Component {
     constructor(props) {
@@ -42,7 +43,7 @@ export class Storage extends Component {
                 .then(function (response) {
                     let data = response.data;
                     self.setState({
-                        directory: path === "" ? ".." : path,
+                        directory: path === "" ? ".." : path.replace('/', ''),
                         directories: JSON.parse(data.directories),
                         files: JSON.parse(data.files),
                         backs: isBack ? nBacks : [...backs, ...[path]],
@@ -58,8 +59,6 @@ export class Storage extends Component {
         const { loadData, backs, directories, files, directory } = this.state;
 
         let back = backs[backs.length - 2];
-
-        console.log(files);
 
         return <div className="storage">
             <div className="storage-section">
@@ -96,7 +95,7 @@ export class Storage extends Component {
 
                             {files.length > 0
                                 ? files.map((elem, index) => {
-                                    return <File elem={elem} key={index} />;
+                                    return <File elem={elem} directory={directory} deep={backs.length - 2} key={index} />;
                                 })
                                 : <Alert>Aucun fichier dans le dossier.</Alert>
                             }
@@ -127,15 +126,43 @@ Directory.propTypes = {
     isBack: PropTypes.bool.isRequired
 }
 
-function File ({ elem }) {
+function File ({ elem, directory, deep }) {
+    let [loadData, setLoadData] = useState(false)
+    let [icon, setIcon] = useState("file")
+
+    let handleDownload = (e) => {
+        e.preventDefault();
+        let self = this;
+
+        if(!loadData){
+            setLoadData(true);
+            setIcon("chart-3");
+
+            axios({ method: "GET", url: Routing.generate(URL_DOWNLOAD_FILE, {'deep': deep, 'dir': directory, 'filename': elem.name}), data: {} })
+                .then(function (response){
+                    const link = document.createElement('a');
+                    link.href = response.data.url;
+                    link.setAttribute('download', elem.name);
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+
+                    setLoadData(false);
+                })
+                .catch(function (error) { console.log(error); console.log(error.response); Formulaire.displayErrors(self, error); })
+                .then(function () { setIcon("file"); })
+            ;
+        }
+    }
+
     return <div className="item">
         <div className="item-content">
             <div className="item-infos">
                 <div className="col-1">
-                    <a className="name">
-                        <span className="icon-file" />
+                    <div className="name" onClick={handleDownload}>
+                        <span className={"icon-" + icon} />
                         <span>{elem.name}</span>
-                    </a>
+                    </div>
                 </div>
                 <div className="col-2">
                     <div className="sub">{Sanitaze.toFormatBytesToSize(elem.size)}</div>
@@ -149,4 +176,10 @@ function File ({ elem }) {
             </div>
         </div>
     </div>
+}
+
+File.propTypes = {
+    elem: PropTypes.object.isRequired,
+    directory: PropTypes.string.isRequired,
+    deep: PropTypes.number.isRequired
 }

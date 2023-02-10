@@ -67,7 +67,11 @@
 
   .name{
     @include flex(row, flex-start, flex-start, 8px);
-    color: var(--alpha);
+    cursor: pointer;
+
+    &:hover{
+      text-decoration: underline;
+    }
   }
 
   $col2: 100px; $col3: 140px; $col4: 60px; $colGap: 24px;
