@@ -61,8 +61,8 @@ export class Modal extends Component {
         } : null;
 
         let nContent = contentUpdated ? contentUpdated : content;
-        if(typeof content === "string"){
-            nContent = <div dangerouslySetInnerHTML={{__html: content}} />;
+        if(typeof nContent === "string"){
+            nContent = <div dangerouslySetInnerHTML={{__html: nContent}} />;
         }
 
         return <div id={identifiant} className="modal">

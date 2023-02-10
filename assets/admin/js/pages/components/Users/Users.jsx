@@ -191,10 +191,13 @@ export class Users extends Component {
                         Etes-vous sûr de vouloir supprimer définitivement cet utilisateur ?
                     </ModalDelete>
 
-                    <Modal ref={this.reinit} identifiant="reinit" maxWidth={414} title="Générer un nouveau mot de passe" content={null} footer={null}/>
+                    <Modal ref={this.reinit} identifiant="reinit" maxWidth={414}
+                           title={element ? "Générer un nouveau mot de passe pour " + element.lastname : ""}
+                           content={null} footer={null}/>
                     <Modal ref={this.mail} identifiant="mail" maxWidth={768} margin={2} title="Envoyer un mail" isForm={true}
                            content={<MailFormulaire identifiant="mail" element={element} tos={dataImmuable} />} footer={null} />
-                    <Modal ref={this.blocked} identifiant="blocked" maxWidth={414} title={element && element.blocked ? "Déblocage" : "Blocage de l'utilisateur"}
+                    <Modal ref={this.blocked} identifiant="blocked" maxWidth={414}
+                           title={element ? (element.blocked ? "Déblocage" : "Blocage") + " de " + element.lastname : ""}
                            content={null} footer={null}/>
                 </>
             }
