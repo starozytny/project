@@ -29,7 +29,12 @@
                 {% endif %}
             </div>
             <div class="profil-header-infos">
-                <div class="name">{{ elem.lastname }} {{ elem.firstname }}</div>
+                <div class="name {{ elem.blocked ? "blocked" : "" -}}">
+                    <span>{{ elem.lastname }} {{ elem.firstname }}</span>
+                    {% if elem.blocked %}
+                        <span class="icon-disabled"></span>
+                    {% endif %}
+                </div>
                 <div class="sub">ID: {{ elem.username }}</div>
             </div>
         </div>
@@ -39,6 +44,14 @@
                 <div class="profil-card">
                     <div class="title">Détails</div>
                     <div class="content-infos content-infos-details">
+                        {% if elem.blocked %}
+                            <div class="item txt-danger">
+                                <span class="icon-disabled"></span>
+                                <div>
+                                    Bloqué
+                                </div>
+                            </div>
+                        {% endif %}
                         <div class="item">
                             <span class="icon-shield"></span>
                             <div>
