@@ -44,18 +44,10 @@
                 <div class="profil-card">
                     <div class="title">Détails</div>
                     <div class="content-infos content-infos-details">
-                        {% if elem.blocked %}
-                            <div class="item txt-danger">
-                                <span class="icon-disabled"></span>
-                                <div>
-                                    Bloqué
-                                </div>
-                            </div>
-                        {% endif %}
                         <div class="item">
                             <span class="icon-shield"></span>
                             <div>
-                                <span class="badge badge-user-{{ elem.highRoleCode }}">{{ elem.highRole }}</span>
+                                <span class="badge badge-user-{{ elem.blocked ? "blocked" : elem.highRoleCode }}">{{ elem.highRole }}</span>
                             </div>
                         </div>
                         <div class="item">

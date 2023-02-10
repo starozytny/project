@@ -25,6 +25,13 @@
             {% block body %}{% endblock %}
         </div>
 
+        {% for label, messages in app.flashes %}
+            <div>{{ label }}</div>
+            {% for message in messages %}
+                <pre>{{ message }}</pre>
+            {% endfor %}
+        {% endfor %}
+
         {% block javascripts %}
             {{ encore_entry_script_tags('common_app') }}
         {% endblock %}

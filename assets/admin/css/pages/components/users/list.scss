@@ -1,7 +1,8 @@
 $data:
         "0" var(--grey) var(--txt),
         "1" var(--primaryOpacity4) var(--primary),
-        "2" var(--dangerOpacity4) var(--danger),
+        "2" var(--successOpacity4) var(--success),
+        "blocked" var(--dangerOpacity4) var(--danger),
 ;
 
 @each $name, $bg, $txt in $data {
