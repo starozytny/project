@@ -219,6 +219,16 @@ class UserController extends AbstractController
         return $apiResponse->apiJsonResponseSuccessful("Veuillez noter le nouveau mot de passe : " . $pass);
     }
 
+    #[Route('/password/switch/blocked/{token}', name: 'switch_blocked', options: ['expose' => true], methods: 'put')]
+    public function switchBlocked($token, ApiResponse $apiResponse, UserRepository $repository): Response
+    {
+        $user = $repository->findOneBy(['token' => $token]);
+        $user->setBlocked(!$user->isBlocked());
+
+        $repository->save($user, true);
+        return $apiResponse->apiJsonResponse($user, User::LIST);
+    }
+
     #[Route('/export/{format}', name: 'export', options: ['expose' => true], methods: 'get')]
     public function export(Request $request, Export $export, $format, UserRepository $repository, ApiResponse $apiResponse): BinaryFileResponse|JsonResponse
     {

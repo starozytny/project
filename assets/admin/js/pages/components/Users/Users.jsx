@@ -22,6 +22,7 @@ import { UsersList } from "@adminPages/Users/UsersList";
 const URL_GET_DATA        = "api_users_list";
 const URL_DELETE_ELEMENT  = "api_users_delete";
 const URL_REINIT_PASSWORD = "api_users_password_reinit";
+const URL_SWITCH_BLOCKED  = "api_users_switch_blocked";
 
 let SORTER = Sort.compareLastname;
 let sorters = [
@@ -82,6 +83,7 @@ export class Users extends Component {
             ref = this.mail;
         }else if(identifiant === "blocked"){
             ref = this.blocked;
+            modalBlocked(this, elem);
         }
         ref.current.handleClick();
         this.setState({ element: elem })
@@ -120,6 +122,31 @@ export class Users extends Component {
                 self.reinit.current.handleUpdateContent("<p>"+ response.data.message +"</p>");
                 self.reinit.current.handleUpdateFooter(null);
                 self.reinit.current.handleUpdateCloseTxt("Fermer");
+                instance.interceptors.request.clear();
+            })
+            .catch(function (error) { Formulaire.displayErrors(self, error); })
+        ;
+    }
+
+    handleBlocked = (e) => {
+        const { element } = this.state;
+        let self = this;
+        let instance = axios.create();
+        instance.interceptors.request.use((config) => {
+            self.blocked.current.handleUpdateFooter(<Button type={element.blocked ? "primary" : "danger"} icon="chart-3" isLoader={true}>
+                {element.blocked ? "Débloquer" : "Bloquer"}
+            </Button>);
+            return config;
+        }, function(error) {
+            modalBlocked(self, element);
+            return Promise.reject(error);
+        });
+        instance({ method: "PUT", url: Routing.generate(URL_SWITCH_BLOCKED, {'token': element.token}), data: {} })
+            .then(function (response) {
+                let elem = response.data;
+                toastr.info(elem.blocked ? "Utilisateur bloqué" : "Utilisateur débloqué");
+                modalBlocked(self, elem);
+                self.handleUpdateList(elem, "update")
                 instance.interceptors.request.clear();
             })
             .catch(function (error) { Formulaire.displayErrors(self, error); })
@@ -167,7 +194,8 @@ export class Users extends Component {
                     <Modal ref={this.reinit} identifiant="reinit" maxWidth={414} title="Générer un nouveau mot de passe" content={null} footer={null}/>
                     <Modal ref={this.mail} identifiant="mail" maxWidth={768} margin={2} title="Envoyer un mail" isForm={true}
                            content={<MailFormulaire identifiant="mail" element={element} tos={dataImmuable} />} footer={null} />
-                    <Modal ref={this.blocked} identifiant="blocked" maxWidth={414} title="Blocage de l'utilisateur" content={null} footer={null}/>
+                    <Modal ref={this.blocked} identifiant="blocked" maxWidth={414} title={element && element.blocked ? "Déblocage" : "Blocage de l'utilisateur"}
+                           content={null} footer={null}/>
                 </>
             }
         </>
@@ -178,4 +206,15 @@ function modalReinit (self) {
     self.reinit.current.handleUpdateContent(<p>Le nouveau mot de passe est généré automatiquement et prendra la place du mot de passe actuel.</p>);
     self.reinit.current.handleUpdateFooter(<Button onClick={self.handleReinitPassword} type="primary">Confirmer la génération</Button>);
     self.reinit.current.handleUpdateCloseTxt("Annuler");
+}
+
+function modalBlocked (self, element) {
+    self.blocked.current.handleUpdateContent(<p>
+        Le blocage d'un utilisateur lui interdit l'accès au site par ce compte. <br/><br/>
+        Le déblocage d'un utilisateur lui redonne accès au site par ce compte.
+    </p>);
+    self.blocked.current.handleUpdateFooter(<Button type={element.blocked ? "primary" : "danger"} onClick={self.handleBlocked}>
+        {element.blocked ? "Débloquer" : "Bloquer"}
+    </Button>);
+    self.blocked.current.handleUpdateCloseTxt("Annuler");
 }

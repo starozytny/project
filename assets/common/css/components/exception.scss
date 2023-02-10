@@ -16,38 +16,38 @@
   h2 + p {
     margin-bottom: 24px;
   }
+
+  .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border-radius: 4px;
+    width: auto;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    text-align: center;
+    padding: 10px 20px;
+
+    & > [class^="icon-"]{
+      margin-right: 6px;
+    }
+  }
+
+  $data:
+          "primary" #1E87F0FF var(--alpha),
+;
+
+  @each $name, $bg, $txt in $data {
+    .btn-#{$name}{
+      background-color: $bg;
+      color: $txt;
+    }
+  }
 }
 
 .exception-page-container{
   padding: 1.8rem 1.2rem;
-}
-
-.btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  border-radius: 4px;
-  width: auto;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  text-align: center;
-  padding: 10px 20px;
-
-  & > [class^="icon-"]{
-    margin-right: 6px;
-  }
-}
-
-$data:
-        "primary" #1E87F0FF var(--alpha),
-;
-
-@each $name, $bg, $txt in $data {
-  .btn-#{$name}{
-    background-color: $bg;
-    color: $txt;
-  }
 }
 
 //                      __   _  ___ ____  _  _     __

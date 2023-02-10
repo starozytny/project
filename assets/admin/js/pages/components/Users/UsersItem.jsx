@@ -55,7 +55,10 @@ export function UsersItem ({ elem, highlight, onModal })
                         }
                     </a>
                     <div className="infos">
-                        <div className="name">{elem.lastname} {elem.firstname}</div>
+                        <div className={"name" + (elem.blocked ? " blocked" : "")}>
+                            <span>{elem.lastname} {elem.firstname}</span>
+                            {elem.blocked ? <span className="icon-disabled" /> : null}
+                        </div>
                         <div className="sub">{elem.society.code} - {elem.society.name}</div>
                         <div className="sub">{lastLoginAt ? "connecté " + lastLoginAt.fromNow() : ""}</div>
                     </div>

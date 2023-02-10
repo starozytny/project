@@ -11,6 +11,20 @@ $data:
   }
 }
 
+.blocked{
+  color: var(--danger);
+
+  span:first-child{
+    text-decoration: line-through;
+  }
+
+  [class^="icon-"]{
+    display: inline-block;
+    margin-left: 4px;
+    font-size: 14px;
+  }
+}
+
 .page-profil-0{
   .content-infos-details{
     @include flex(column, flex-start, flex-start, 8px);
