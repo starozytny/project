@@ -220,11 +220,15 @@ class UserController extends AbstractController
     }
 
     #[Route('/password/switch/blocked/{token}', name: 'switch_blocked', options: ['expose' => true], methods: 'put')]
-    #[IsGranted('ROLE_DEVELOPER')]
+    #[IsGranted('ROLE_ADMIN')]
     public function switchBlocked($token, ApiResponse $apiResponse, UserRepository $repository): Response
     {
         $user = $repository->findOneBy(['token' => $token]);
-        $user->setRoles($user->isBlocked() ? ["ROLE_USER"] : ["ROLE_BLOCKED"]);
+
+        if($user->getHighRoleCode() === User::CODE_ROLE_DEVELOPER){
+            return $apiResponse->apiJsonResponseBadRequest("Vous n'avez pas l'autorisation de bloquer cet utilisateur.");
+        }
+
         $user->setBlocked(!$user->isBlocked());
 
         $repository->save($user, true);
