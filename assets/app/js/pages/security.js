@@ -20,19 +20,22 @@ if(el){
     createRoot(el).render(<Reinit {...el.dataset} />)
 }
 
-let btnSeePassword = document.querySelector('.btn-see-password');
-if(btnSeePassword){
+let inputShow = document.querySelector('.input-show');
+if(inputShow){
     let seePassword = false;
-    let inputSeePassword = document.querySelector('#password');
-    btnSeePassword.addEventListener('click', function (e){
+    let inputPassword = document.querySelector('#password');
+    let iconPassword  = document.getElementById('password-icon');
+    inputShow.addEventListener('click', function (e){
         if(seePassword){
             seePassword = false;
-            inputSeePassword.type = "password";
-            btnSeePassword.classList.remove("active");
+            inputPassword.type = "password";
+            iconPassword.classList.remove("icon-vision-not");
+            iconPassword.classList.add("icon-vision");
         }else{
             seePassword = true;
-            inputSeePassword.type = "text";
-            btnSeePassword.classList.add("active");
+            inputPassword.type = "text";
+            iconPassword.classList.add("icon-vision-not");
+            iconPassword.classList.remove("icon-vision");
         }
     })
 }
