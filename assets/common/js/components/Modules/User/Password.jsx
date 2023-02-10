@@ -5,11 +5,12 @@ import { Input } from "@commonComponents/Elements/Fields";
 
 export function Password ({ context, password, password2, params }) {
 
-    let valide0 = false;
+    let valide0 = "", valide1 = "", valide2 = "", valide3 = "";
     if(password !== ""){
-        if((/[a-z]+/).test(password)){
-            valide0 = true
-        }
+        if((/[a-z]+/).test(password)) valide0 = "valid";
+        if((/[A-Z]+/).test(password)) valide1 = "valid";
+        if((/[0-9]+/).test(password)) valide2 = "valid";
+        if(password.length >= 10) valide3 = "valid";
     }
 
     return <div className="line">
@@ -17,17 +18,16 @@ export function Password ({ context, password, password2, params }) {
             <div className="title">Mot de passe</div>
             <div className="subtitle">
                 <p>Règles de création pour le mot de passe :</p>
-                <ul>
-                    <li>Au moins 12 caractères</li>
-                    <li className={valide0 ? "txt-primary" : ""}>Au moins 1 minuscule</li>
-                    <li>Au moins 1 majuscule</li>
-                    <li>Au moins 1 chiffre</li>
-                    <li>Au moins 1 caractère spécial</li>
+                <ul className="password-rules">
+                    <li className={valide3}>Au moins 10 caractères</li>
+                    <li className={valide0}>Au moins 1 minuscule</li>
+                    <li className={valide1}>Au moins 1 majuscule</li>
+                    <li className={valide2}>Au moins 1 chiffre</li>
                 </ul>
                 {context
                     ? (context === "create"
                             ? <b>Laisser les champs vides pour générer un mot de passe aléatoire.</b>
-                            : <u>"Laisser les champs vides pour ne pas modifier le mot de passe.</u>
+                            : <u>Laisser les champs vides pour ne pas modifier le mot de passe.</u>
                     )
                     : null
                 }

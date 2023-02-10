@@ -2,5 +2,10 @@
 
 @import "components/components";
 @import "../components/profil";
+@import "../components/password";
 
 @import "components/users/list";
+
+.password-rules{
+  margin: 12px 0;
+}

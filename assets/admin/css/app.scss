@@ -47,10 +47,11 @@ b, strong{
 
 
 $data:
+        "alpha"   var(--alpha),
         "primary" var(--primary),
         "warning" var(--warning),
         "danger"  var(--danger),
-        "alpha"   var(--alpha),
+        "success" var(--success),
 ;
 
 @each $name, $txt in $data {

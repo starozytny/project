@@ -7,11 +7,11 @@ import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 import { Checkbox, Input, InputFile, SelectCustom } from "@commonComponents/Elements/Fields";
 import { Button }         from "@commonComponents/Elements/Button";
 import { LoaderElements } from "@commonComponents/Elements/Loader";
+import { Password }       from "@commonComponents/Modules/User/Password";
 
 import Formulaire from "@commonFunctions/formulaire";
 import Validateur from "@commonFunctions/validateur";
 import Sort       from "@commonFunctions/sort";
-import {Password} from "@commonComponents/Modules/User/Password";
 
 const URL_SELECT_SOCIETIES  = "api_selection_societies";
 const URL_INDEX_ELEMENTS    = "admin_users_index";
@@ -231,7 +231,7 @@ class Form extends Component {
                         </div>
                     </div>
 
-                    <Password context={context} password={password} password2={password2} params={params} />
+                    <Password context={context} password={password} password2={password2} params={paramsInput0} />
                 </div>
 
                 <div className="line-buttons">
