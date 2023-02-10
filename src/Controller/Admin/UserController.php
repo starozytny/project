@@ -39,9 +39,8 @@ class UserController extends AbstractController
     }
 
     #[Route('/utilisateur/mot-de-passe/{id}', name: 'password')]
-    public function password(User $elem, SerializerInterface $serializer): Response
+    public function password(User $elem): Response
     {
-        $obj = $serializer->serialize($elem, 'json', ['groups' => User::LIST]);
-        return $this->render('admin/pages/users/password.html.twig', ['elem' => $elem, 'obj' => $obj]);
+        return $this->render('admin/pages/users/password.html.twig', ['elem' => $elem]);
     }
 }

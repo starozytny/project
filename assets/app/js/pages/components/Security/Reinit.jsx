@@ -6,10 +6,9 @@ import Routing    from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 import Formulaire from "@commonFunctions/formulaire";
 import Validateur from "@commonFunctions/validateur";
 
-import { Alert }  from "@commonComponents/Elements/Alert";
-import { Input }  from "@commonComponents/Elements/Fields";
-import { Button } from "@commonComponents/Elements/Button";
-import {Password} from "@commonComponents/Modules/User/Password";
+import { Alert }    from "@commonComponents/Elements/Alert";
+import { Button }   from "@commonComponents/Elements/Button";
+import { Password } from "@commonComponents/Modules/User/Password";
 
 const URL_PASSWORD_UPDATE = "api_users_password_update";
 

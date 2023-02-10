@@ -6,9 +6,9 @@ import Routing    from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 import Formulaire from "@commonFunctions/formulaire";
 import Validateur from "@commonFunctions/validateur";
 
-import { Input }  from "@commonComponents/Elements/Fields";
-import { Button } from "@commonComponents/Elements/Button";
-import {Password} from "@commonComponents/Modules/User/Password";
+import { Button }   from "@commonComponents/Elements/Button";
+import { Password } from "@commonComponents/Modules/User/Password";
+import { Alert }    from "@commonComponents/Elements/Alert";
 
 const URL_PASSWORD_UPDATE = "api_users_password_update";
 
@@ -19,7 +19,8 @@ export class UserPassword extends Component {
         this.state = {
             password: "",
             password2: "",
-            errors: []
+            errors: [],
+            success: false
         }
     }
 
@@ -40,12 +41,13 @@ export class UserPassword extends Component {
 
         // check validate success
         if(!validate.code){
-            this.setState({ errors: validate.errors });
-        }else{
             Formulaire.showErrors(this, validate);
+        }else{
+            Formulaire.loader(true);
             let self = this;
-            axios({ method: "POST", url: Routing.generate(URL_PASSWORD_UPDATE, {'token': token}), data: self.state })
+            axios({ method: "POST", url: Routing.generate(URL_PASSWORD_UPDATE, {'token': token}), data: this.state })
                 .then(function (response) {
+                    self.setState({ success: "Mot de passe modifié." })
                 })
                 .catch(function (error) { Formulaire.displayErrors(self, error); })
                 .then(function (){ Formulaire.loader(false); })
@@ -55,14 +57,15 @@ export class UserPassword extends Component {
 
     render () {
         const { context } = this.props;
-        const { errors, password, password2 } = this.state;
+        const { errors, success, password, password2 } = this.state;
 
         let params = { errors: errors, onChange: this.handleChange }
 
         return <div className="formulaire">
             <form onSubmit={this.handleSubmit}>
                 <div className="line-container">
-                    <Password context={context} password={password} password2={password2} params={params} />
+                    <Password template="inline" context={context} password={password} password2={password2} params={params} />
+                    {success && <div className="line"><Alert type="info">{success}</Alert></div>}
                 </div>
                 <div className="line-buttons">
                     <Button isSubmit={true} type="primary">Modifier son mot de passe</Button>

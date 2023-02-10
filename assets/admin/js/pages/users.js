@@ -29,7 +29,7 @@ if(el){
 
 el = document.getElementById("users_password");
 if(el){
-    createRoot(el).render(<UserPassword />)
+    createRoot(el).render(<UserPassword token={el.dataset.token}/>)
 }
 
 let exportData = document.getElementById("users_export");
