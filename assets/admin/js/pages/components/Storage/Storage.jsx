@@ -77,32 +77,35 @@ export class Storage extends Component {
                 </div>
             </div>
 
-            {directory !== ".." && <div className="storage-section">
+            <div className="storage-section">
                 <div className="title">Fichiers de {directory}</div>
                 <div className="content-infos">
-                    <div className="list-table">
-                        <div className="items items-files">
-                            <div className="item item-header">
-                                <div className="item-content">
-                                    <div className="item-infos">
-                                        <div className="col-1">Fichier</div>
-                                        <div className="col-2">Taille</div>
-                                        <div className="col-3">Infos</div>
-                                        <div className="col-4 actions" />
+                    {loadData
+                        ? <LoaderTxt />
+                        : <div className="list-table">
+                            <div className="items items-files">
+                                <div className="item item-header">
+                                    <div className="item-content">
+                                        <div className="item-infos">
+                                            <div className="col-1">Fichier</div>
+                                            <div className="col-2">Taille</div>
+                                            <div className="col-3">Infos</div>
+                                            <div className="col-4 actions" />
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            {files.length > 0
-                                ? files.map((elem, index) => {
-                                    return <File elem={elem} directory={directory} deep={backs.length - 2} key={index} />;
-                                })
-                                : <Alert>Aucun fichier dans le dossier.</Alert>
-                            }
+                                {files.length > 0
+                                    ? files.map((elem, index) => {
+                                        return <File elem={elem} directory={directory} deep={backs.length - 2} key={index} />;
+                                    })
+                                    : <Alert>Aucun fichier dans le dossier.</Alert>
+                                }
+                            </div>
                         </div>
-                    </div>
+                    }
                 </div>
-            </div>}
+            </div>
         </div>
     }
 }
@@ -138,7 +141,9 @@ function File ({ elem, directory, deep }) {
             setLoadData(true);
             setIcon("chart-3");
 
-            axios({ method: "GET", url: Routing.generate(URL_DOWNLOAD_FILE, {'deep': deep, 'dir': directory, 'filename': elem.name}), data: {} })
+            let tab = directory.split("/");
+            let dir = tab[tab.length - 1];
+            axios({ method: "GET", url: Routing.generate(URL_DOWNLOAD_FILE, {'deep': deep, 'dir': dir === ".." ? "racine" : dir, 'filename': elem.name}), data: {} })
                 .then(function (response){
                     const link = document.createElement('a');
                     link.href = response.data.url;

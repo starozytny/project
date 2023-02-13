@@ -33,15 +33,14 @@ class StorageController extends AbstractController
     {
         $finder = new Finder();
 
-        // TODO : In JAVASCRIPT, get only dir not path
-
-
         $deepFolder = "";
-        for($i = 1; $i <= $deep ; $i++){
-            $deepFolder .= "*/";
+        if($deep >= 1){
+            for($i = 1; $i <= $deep ; $i++){
+                $deepFolder .= "*/";
+            }
         }
 
-        $finder->files()->in($this->getParameter('private_directory') . $deepFolder . $dir);
+        $finder->files()->in($this->getParameter('private_directory') . $deepFolder . ($dir == "racine" ? "" : $dir));
         if(!$finder->hasResults()){
             return $apiResponse->apiJsonResponseBadRequest("Le fichier n'existe pas.");
         }
