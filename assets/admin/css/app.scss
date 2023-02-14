@@ -2,26 +2,26 @@
 @import "vars/vars";
 @import "vars/variables";
 
-@import "./components/layout";
-@import "./components/menu";
-@import "./components/footer";
-@import "./components/page";
+@import "components/layout";
+@import "components/menu";
+@import "components/footer";
+@import "components/page";
 
-@import "./components/avatar";
+@import "components/avatar";
 
-@import "./components/notification";
-@import "./components/loader";
-@import "./components/button";
-@import "./components/dropdown";
-@import "./components/tooltip";
-@import "./components/alert";
-@import "./components/badge";
-@import "./components/list";
-@import "./components/pagination";
-@import "./components/toolbar";
-@import "./components/form";
-@import "./components/modal";
-@import "./components/mail";
+@import "components/notification";
+@import "components/loader";
+@import "components/button";
+@import "components/dropdown";
+@import "components/tooltip";
+@import "components/elements/alert";
+@import "components/badge";
+@import "components/list";
+@import "components/pagination";
+@import "components/toolbar";
+@import "components/form";
+@import "components/modal";
+@import "components/mail";
 
 html{
   background-color: var(--color1);

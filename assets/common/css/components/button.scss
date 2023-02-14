@@ -1,37 +1,76 @@
-button{
-  border: none;
+.txt-link, .txt-button, .btn-icon, .btn{
+  @include flex(row, center, center, 6px);
 }
 
-.btn-icon, .btn {
+.btn-icon, .btn, .txt-button {
   position: relative;
-  @include flex(row, center, center);
-  border-radius: 4px;
   width: auto;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
   text-align: center;
+  border: 1px solid transparent;
+  background-color: transparent;
+
+  &.btn-loader-with-text,
+  &.btn-loader-without-text{
+    cursor: initial;
+
+    &:hover{
+      opacity: 1;
+    }
+  }
+}
+
+.txt-button{
+  padding: 6px;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 }
 
 .btn-icon{
   padding: 6px;
+
+  span:not(.tooltip, [class^="icon-"]){
+    font-size: 14px;
+    transform: translateY(2px);
+  }
 }
 
 .btn{
-  padding: 10px 20px;
+  padding: 8px 20px;
+  transition: opacity 0.2s ease-in-out;
 
-  & > [class^="icon-"]{
-    margin-right: 6px;
+  &:hover{
+    opacity: 0.75;
   }
 }
 
-.btn-loader{
-  span:last-child{
+.btn.btn-loader,
+.btn.btn-loader-without-text{
+
+  [class^="icon-"]{
+    position: absolute;
+    top: 10px; left: 0;
+    width: 100%;
+  }
+
+  span:not([class^="icon-"]){
     opacity: 0;
   }
-  & > [class^="icon-"]{
-    position: absolute;
-    top: 10px;
-    left: 43%;
-    margin-right: 0;
+}
+
+.txt-link, .txt-button, .btn{
+  & > [class^="icon"]{
+    display: inline-block;
+    transform: translateY(-1px);
+  }
+}
+
+//                      __   _  ___ ____  _  _     __
+//                     | _| / |/ _ \___ \| || |   |_ |
+//    _____ _____ _____| |  | | | | |__) | || |_   | |_____ _____ _____
+//   |_____|_____|_____| |  | | |_| / __/|__   _|  | |_____|_____|_____|
+//                     | |  |_|\___/_____|  |_|    | |
+//                     |__|                       |__|
+@media (min-width: 1024px) {
+  .txt-link, .txt-button, .btn-icon, .btn {
+    cursor: pointer;
   }
 }

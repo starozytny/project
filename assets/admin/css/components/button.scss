@@ -1,24 +1,45 @@
 @import "../../../common/css/components/button";
 
-.btn{
-  &:hover{
-    opacity: 0.9;
-  }
+.txt-button, .btn, .btn-icon{
+  border-radius: var(--radius);
 }
 
 $data:
-        "default" var(--color0) var(--grey),
-        "cancel" var(--grey) var(--txt),
-        "primary" var(--primary) var(--alpha),
-        "warning" var(--warning) var(--alpha),
-        "danger" var(--danger) var(--alpha),
+        "primary" var(--primary) var(--primary) var(--alpha),
+        "warning" var(--warning) var(--warning) var(--alpha),
+        "danger" var(--danger) var(--danger) var(--alpha),
+        "success" var(--success) var(--success) var(--alpha),
+        "grey3" var(--grey3) var(--grey3) var(--alpha),
+        "grey4" var(--grey4) var(--grey4) var(--alpha),
+        "default" var(--alpha) var(--grey2) var(--txt),
 ;
 
-@each $name, $bg, $txt in $data {
+@each $name, $bg, $border, $txt in $data {
   .btn-#{$name},
-  .btn-icon-#{$name}{
+  .btn-icon-#{$name} {
     background-color: $bg;
+    border-color: $border;
     color: $txt;
+  }
+}
+
+
+$data:
+        "primary" var(--primaryOpacity1) var(--primary) var(--alpha),
+        "warning" var(--warningOpacity1) var(--warning) var(--alpha),
+        "danger" var(--dangerOpacity1) var(--danger) var(--alpha),
+        "success" var(--successOpacity1) var(--success) var(--alpha),
+        "grey3" var(--grey3Opacity1) var(--grey3) var(--alpha),
+        "grey4" var(--grey4Opacity1) var(--grey4) var(--alpha),
+        "default" var(--grey2Opacity1) var(--txt) var(--txt),
+;
+
+@each $name, $bg, $border, $txt in $data {
+  .txt-button-#{$name} {
+    &:hover{
+      background-color: $bg;
+      color: $border;
+    }
   }
 }
 

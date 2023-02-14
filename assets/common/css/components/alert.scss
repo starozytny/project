@@ -1,25 +1,27 @@
 .alert{
-  @include flex(row, flex-start, flex-start);
-  padding: 12px;
-  border-radius: 4px;
-  transition: all 0.2s ease-in-out;
+  @include flex(row, stretch, flex-start);
   width: 100%;
 
+  &:before{
+    content: "";
+    display: block;
+    width: 6px;
+  }
+
+  p{
+    padding: var(--espaceEls);
+  }
+
   p, ul li{
-    font-size: 14px;
+    font-size: 15px;
   }
 
   [class^="icon-"] {
-    & + p,
-    & + div{
-      margin-left: 8px;
-      font-size: 14px;
-    }
+    padding: var(--espaceEls) 0 var(--espaceEls) var(--espaceEls);
   }
 
   .title{
     display: block;
-    @include fontSemibold();
     margin-bottom: 4px;
   }
 }

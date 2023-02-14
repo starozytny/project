@@ -15,7 +15,9 @@
         <div class="content">
             <form action="{{ path('app_login') }}" method="post" class="form-login">
                 {% if error %}
-                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                    <div class="alert alert-danger">
+                        <p>{{ error.messageKey|trans(error.messageData, 'security') }}</p>
+                    </div>
                 {% endif %}
 
                 <div class="line">
