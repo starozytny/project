@@ -1,5 +1,13 @@
 @import "../../../common/css/components/notification";
 
+#notifs_list{
+  .btn-icon-default{
+    background-color: var(--color0);
+    color: var(--grey);
+    border-color: var(--color2Opacity4);
+  }
+}
+
 .notifications-items{
   background-color: var(--color1);
   color: var(--alpha);
