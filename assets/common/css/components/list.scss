@@ -20,11 +20,11 @@
 
       .sub{
         font-size: 14px;
-        color: var(--grey);
+        color: var(--grey3);
       }
 
       &:not(:last-child){
-        border-bottom: 1px solid var(--grey);
+        border-bottom: 1px solid var(--grey3);
       }
 
       .name{

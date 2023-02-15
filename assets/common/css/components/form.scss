@@ -82,7 +82,7 @@
 
 
 input, textarea, select, .input-view, .select-multiple-custom > .select-input{
-  border: 1px solid var(--grey);
+  border: 1px solid var(--grey3);
   padding: 8px 10px;
   border-radius: 4px;
   font-size: 14px;
@@ -131,7 +131,7 @@ textarea{
 
   label{
     padding: 5px 8px 3px 8px;
-    border: 2px dashed var(--grey);
+    border: 2px dashed var(--grey3);
     background: var(--alpha);
     color: var(--txt);
     cursor: pointer;
@@ -163,7 +163,7 @@ textarea{
 }
 
 .input-view{
-  background-color: var(--grey);
+  background-color: var(--grey3);
   cursor: not-allowed;
 }
 
@@ -242,7 +242,7 @@ textarea{
       }
 
       &.highlight{
-        background-color: var(--grey);
+        background-color: var(--grey3);
       }
 
       &:last-child{
@@ -344,7 +344,7 @@ textarea{
       font-size: 15px;
       padding: 6px 6px 2px 6px;
       border-radius: 4px;
-      border: 2px dashed var(--grey);
+      border: 2px dashed var(--grey3);
       text-align: center;
       width: 100%;
       opacity: 0.8;
@@ -375,7 +375,7 @@ textarea{
       z-index: 0;
       width: 56px; height: 28px;
       border-radius: 100px;
-      background-color: var(--grey);
+      background-color: var(--grey3);
       transition: background-color 0.2s ease-in-out;
       cursor: pointer;
 
@@ -449,7 +449,7 @@ textarea{
   @include scrollbar();
   background-color: var(--alpha);
   border-radius: 8px;
-  box-shadow: 0 6px 12px var(--grey);
+  box-shadow: 0 6px 12px var(--grey3);
   z-index: 500;
 
   &.active{
@@ -469,7 +469,7 @@ textarea{
     }
 
     & > .item:not(:last-child){
-      border-bottom: 1px solid var(--grey);
+      border-bottom: 1px solid var(--grey3);
     }
   }
 }

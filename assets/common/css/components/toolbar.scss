@@ -16,7 +16,7 @@
   .search-icon{
     position: absolute;
     top: 7px; left: 6px;
-    color: var(--grey);
+    color: var(--grey3);
     transition: color 0.2s ease-in-out;
 
     &.active{
@@ -28,11 +28,11 @@
 .filters{
   .dropdown-btn{
     display: inline-block;
-    border: 1px solid var(--grey);
+    border: 1px solid var(--grey3);
     border-radius: 4px;
     padding: 7px 12px 6px 10px;
     cursor: pointer;
-    color: var(--grey);
+    color: var(--grey3);
     transition: color 0.2s ease-in-out;
 
     &:hover{
@@ -87,7 +87,7 @@
     gap: 8px;
 
     & > .btn-icon{
-      border: 1px solid var(--grey);
+      border: 1px solid var(--grey3);
       border-radius: 8px;
       padding: 8px;
 

@@ -17,7 +17,7 @@
   background-color: var(--alpha);
   @include flex(column, flex-start, space-between);
   overflow: hidden;
-  border: 1px solid var(--grey);
+  border: 1px solid var(--grey3);
 
   &:before{
     content: '';
@@ -37,7 +37,7 @@
   padding: 24px;
   position: relative;
   z-index: 2;
-  border-bottom: 1px solid var(--grey);
+  border-bottom: 1px solid var(--grey3);
 
   .biscuit{
     margin-bottom: 12px;
@@ -109,7 +109,7 @@
     & > div{
       background-color: var(--alpha);
       border-radius: 4px;
-      box-shadow: 0 4px 12px var(--grey);
+      box-shadow: 0 4px 12px var(--grey3);
     }
 
     & > div:first-child{
@@ -134,7 +134,7 @@
   .cookies-choices {
 
     & > div {
-      background-color: var(--grey);
+      background-color: var(--grey3);
     }
   }
 }

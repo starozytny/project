@@ -47,7 +47,7 @@
 
   .notif-header{
     @include flex(row, center, space-between, 8px);
-    border-bottom: 1px solid var(--grey);
+    border-bottom: 1px solid var(--grey3);
 
     & > span:first-child{ @include fontSemibold(); }
 
@@ -110,7 +110,7 @@
 
   .notif-actions{
     @include flex(column, center, flex-start, 8px);
-    border-top: 1px solid var(--grey);
+    border-top: 1px solid var(--grey3);
 
     a {
       color: var(--primary);

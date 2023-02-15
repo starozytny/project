@@ -3,7 +3,7 @@
 .line{
   label{
     text-transform: uppercase;
-    color: var(--grey);
+    color: var(--grey3);
     @include fontSemibold();
     font-size: 13px;
   }
@@ -11,12 +11,12 @@
 
 .checkbox-item, .radiobox-item{
   label{
-    border: 2px solid var(--grey);
+    border: 2px solid var(--grey3);
   }
 
   &:hover{
     label{
-      color: var(--grey);
+      color: var(--grey3);
       border-color: var(--primary);
     }
   }
@@ -81,10 +81,10 @@
 input, textarea, select, .input-view{
   background-color: var(--color4);
   border-color: var(--color3Opacity4);
-  color: var(--grey);
+  color: var(--grey3);
 
   &::placeholder{
-    color: var(--grey);
+    color: var(--grey3);
   }
 }
 
@@ -93,7 +93,7 @@ input, textarea, select, .input-view{
     background-color: var(--color4);
 
     .infos{
-      color: var(--grey);
+      color: var(--grey3);
     }
   }
 
@@ -107,5 +107,5 @@ input, textarea, select, .input-view{
 }
 
 .input-show{
-  color: var(--grey);
+  color: var(--grey3);
 }

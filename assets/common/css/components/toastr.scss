@@ -34,7 +34,7 @@
     &:before{
       content: "";
       position: absolute;
-      background-color: var(--grey);
+      background-color: var(--grey3);
       display: block;
       width: 6px;
       height: 100%;
@@ -63,10 +63,10 @@
     transition: all 0.2s ease-in-out;
     padding-left: 15px;
     color: var(--txt);
-    box-shadow: 0 0 12px var(--grey);
+    box-shadow: 0 0 12px var(--grey3);
   }
 
   & > div:hover {
-    box-shadow: 0 0 12px var(--grey);
+    box-shadow: 0 0 12px var(--grey3);
   }
 }
