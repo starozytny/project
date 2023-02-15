@@ -3,42 +3,38 @@ import PropTypes from 'prop-types';
 
 export function Button(props){
     const { icon, type="default", isSubmit=false, outline=false, children, onClick, element="button", target="_self",
-        isLoader=false, loaderWithText=false } = props;
+        isLoader=false, loaderWithText=false, iconPosition="before" } = props;
 
     let loaderClasse = isLoader ? " btn-loader-" + (loaderWithText ? "with-text" : "without-text") : ""
 
     if(element === "button"){
         return <button className={`btn${loaderClasse} btn-${outline ? "outline-" : ""}${type}`}
                        type={isSubmit ? "submit" : "button"} onClick={onClick}>
-            {icon && <span className={`icon-${icon}`} />}
-            {children && <span>{children}</span>}
+            <Content icon={icon} iconPosition={iconPosition} children={children} />
         </button>
     }else{
         return <a className={`btn${loaderClasse} btn-${outline ? "outline-" : ""}${type}`}
                   target={target} href={onClick}>
-            {icon && <span className={`icon-${icon}`} />}
-            {children && <span>{children}</span>}
+            <Content icon={icon} iconPosition={iconPosition} children={children} />
         </a>
     }
 }
 
 export function TxtButton(props){
     const { icon, type="default", isSubmit=false, children, onClick, element="button", target="_self",
-        isLoader=false, loaderWithText=false } = props;
+        isLoader=false, loaderWithText=false, iconPosition="before" } = props;
 
     let loaderClasse = isLoader ? " btn-loader-" + (loaderWithText ? "with-text" : "without-text") : ""
 
     if(element === "button"){
         return <button className={`txt-button${loaderClasse} txt-button-${type}`}
                        type={isSubmit ? "submit" : "button"} onClick={onClick}>
-            {icon && <span className={`icon-${icon}`} />}
-            {children && <span>{children}</span>}
+            <Content icon={icon} iconPosition={iconPosition} children={children} />
         </button>
     }else{
         return <a className={`txt-button${loaderClasse} txt-button-${type}`}
                   target={target} href={onClick}>
-            {icon && <span className={`icon-${icon}`} />}
-            {children && <span>{children}</span>}
+            <Content icon={icon} iconPosition={iconPosition} children={children} />
         </a>
     }
 }
@@ -66,7 +62,12 @@ export function ButtonIcon(props){
 }
 
 export function ButtonIconDropdown(props){
-    const { items, children, customBtn=null } = props;
+    const { items, children, customBtn=null, customTop=null, customWidth=null } = props;
+
+    let divStyle0 = customTop ? { top: customTop + "px" } : {};
+    let divStyle1 = customWidth ? { width: customWidth + "px" } : {};
+
+    let divStyle = {...divStyle0, ...divStyle1}
 
     return <div className="dropdown">
         <div className="dropdown-btn">
@@ -75,7 +76,7 @@ export function ButtonIconDropdown(props){
                 : <ButtonIcon {...props}>{children}</ButtonIcon>
             }
         </div>
-        <div className="dropdown-items">
+        <div className="dropdown-items" style={divStyle}>
             {items.map((item, index) => {
                 if(item && item.data){
                     return <div className="item" key={index}>
@@ -87,6 +88,13 @@ export function ButtonIconDropdown(props){
     </div>
 }
 
+function Content ({icon, iconPosition, children}) {
+    return <>
+        {(icon && iconPosition === "before") && <span className={`icon-${icon}`} />}
+        {children && <span>{children}</span>}
+        {(icon && iconPosition === "after") && <span className={`icon-${icon}`} />}
+    </>
+}
 
 Button.propTypes = {
     icon: PropTypes.string,
@@ -101,7 +109,8 @@ Button.propTypes = {
     element: PropTypes.string,
     target: PropTypes.string,
     isLoader: PropTypes.bool,
-    loaderWithText: PropTypes.bool
+    loaderWithText: PropTypes.bool,
+    iconPosition: PropTypes.string
 }
 
 TxtButton.propTypes = {
@@ -116,7 +125,8 @@ TxtButton.propTypes = {
     element: PropTypes.string,
     target: PropTypes.string,
     isLoader: PropTypes.bool,
-    loaderWithText: PropTypes.bool
+    loaderWithText: PropTypes.bool,
+    iconPosition: PropTypes.string
 }
 
 ButtonIcon.propTypes = {
@@ -138,8 +148,8 @@ ButtonIcon.propTypes = {
 
 
 ButtonIconDropdown.propTypes = {
-    icon: PropTypes.string.isRequired,
     items: PropTypes.array.isRequired,
+    icon: PropTypes.string,
     type: PropTypes.string,
     isSubmit: PropTypes.bool,
     outline: PropTypes.bool,
@@ -152,4 +162,5 @@ ButtonIconDropdown.propTypes = {
     element: PropTypes.string,
     target: PropTypes.string,
     tooltipWidth: PropTypes.number,
+    customBtn: PropTypes.node,
 }

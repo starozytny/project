@@ -8,18 +8,20 @@ import { StyleguideColors }      from "@adminPages/Styleguide/Generals/Styleguid
 import { StyleguideIcons }       from "@adminPages/Styleguide/Generals/StyleguideIcons";
 import { StyleguideAlerts }      from "@adminPages/Styleguide/Components/StyleguideAlerts";
 import { StyleguideButtons }     from "@adminPages/Styleguide/Components/StyleguideButtons";
+import { StyleguideDropdowns }   from "@adminPages/Styleguide/Components/StyleguideDropdowns";
 import { StyleguideBreadcrumbs } from "@adminPages/Styleguide/Components/StyleguideBreadcrumbs";
 
 export function Styleguide () {
-    const [context, setContext] = useState("comp-buttons");
+    const [context, setContext] = useState("comp-dropdowns");
 
     let content;
     switch (context){
-        case "gene-icons":  content = <StyleguideIcons />; break;
-        case "gene-colors": content = <StyleguideColors />; break;
-        case "comp-alerts": content = <StyleguideAlerts />; break;
+        case "gene-icons":     content = <StyleguideIcons />; break;
+        case "gene-colors":    content = <StyleguideColors />; break;
+        case "comp-alerts":    content = <StyleguideAlerts />; break;
+        case "comp-dropdowns": content = <StyleguideDropdowns />; break;
+        case "comp-buttons":   content = <StyleguideButtons />; break;
         case "comp-breadcrumbs": content = <StyleguideBreadcrumbs />; break;
-        case "comp-buttons": content = <StyleguideButtons />; break;
         default: content = <StyleguideList onChangeContext={setContext} />; break;
     }
 
