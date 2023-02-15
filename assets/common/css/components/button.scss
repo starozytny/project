@@ -12,10 +12,7 @@
   &.btn-loader-with-text,
   &.btn-loader-without-text{
     cursor: initial;
-
-    &:hover{
-      opacity: 1;
-    }
+    opacity: 1;
   }
 }
 
@@ -35,16 +32,17 @@
 
 .btn{
   padding: 8px 20px;
+  opacity: 0.75;
   transition: opacity 0.2s ease-in-out;
+  min-height: 36px;
 
   &:hover{
-    opacity: 0.75;
+    opacity: 1;
   }
 }
 
 .btn.btn-loader,
 .btn.btn-loader-without-text{
-
   [class^="icon-"]{
     position: absolute;
     top: 10px; left: 0;

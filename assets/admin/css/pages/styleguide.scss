@@ -154,7 +154,7 @@
   }
 }
 
-.styleguide-colors-line, .styleguide-icons{
+.styleguide-colors-line, .styleguide-icons, .styleguide-buttons-line{
   @include flex(row, flex-start, flex-start, var(--espaceEls));
   flex-wrap: wrap;
 }
