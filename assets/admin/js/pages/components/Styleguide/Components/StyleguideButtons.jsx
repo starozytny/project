@@ -1,10 +1,9 @@
 import React from "react";
 
-import {Button, ButtonIcon, TxtButton} from "@commonComponents/Elements/Button";
+import { Button, ButtonIcon, TxtButton } from "@commonComponents/Elements/Button";
 
 export function StyleguideButtons ()
 {
-
    return <div className="styleguide-content-col">
        <section className="styleguide-section">
            <div className="styleguide-section-title">Basic</div>
@@ -90,6 +89,7 @@ export function StyleguideButtons ()
                </div>
                <div className="styleguide-buttons-line">
                    <ButtonIcon icon="star">Default</ButtonIcon>
+                   <ButtonIcon icon="star" text="Default" />
                    <ButtonIcon icon="star" />
                </div>
                <div className="styleguide-buttons-line">
@@ -113,6 +113,7 @@ export function StyleguideButtons ()
                </div>
                <div className="styleguide-buttons-line">
                    <ButtonIcon outline={true} icon="star">Default</ButtonIcon>
+                   <ButtonIcon outline={true} icon="star" text="Default" />
                    <ButtonIcon outline={true} icon="star" />
                </div>
                <div className="styleguide-buttons-line">

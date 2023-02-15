@@ -24,6 +24,10 @@ export function StyleguideList ({ onChangeContext })
             content: "Consulter les différentes formes de buttons."
         },
         {
+            name: "Dropdown", textLink: "Voir les dropdowns", context: "comp-dropdowns",
+            content: "Consulter les différentes formes de dropdowns."
+        },
+        {
             name: "Alerts", textLink: "Voir les alerts", context: "comp-alerts",
             content: "Consulter les différentes formes d'alertes."
         }

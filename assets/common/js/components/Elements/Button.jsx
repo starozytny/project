@@ -66,11 +66,14 @@ export function ButtonIcon(props){
 }
 
 export function ButtonIconDropdown(props){
-    const { items, children } = props;
+    const { items, children, customBtn=null } = props;
 
     return <div className="dropdown">
         <div className="dropdown-btn">
-            <ButtonIcon {...props}>{children}</ButtonIcon>
+            {customBtn
+                ? customBtn
+                : <ButtonIcon {...props}>{children}</ButtonIcon>
+            }
         </div>
         <div className="dropdown-items">
             {items.map((item, index) => {

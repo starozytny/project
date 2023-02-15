@@ -21,24 +21,27 @@
   transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 }
 
+.btn-icon, .btn{
+  opacity: 0.75;
+  transition: opacity 0.2s ease-in-out;
+
+  &:hover{
+    opacity: 1;
+  }
+}
+
 .btn-icon{
   padding: 6px;
 
   span:not(.tooltip, [class^="icon-"]){
     font-size: 14px;
-    transform: translateY(2px);
+    transform: translateY(1px);
   }
 }
 
 .btn{
   padding: 8px 20px;
-  opacity: 0.75;
-  transition: opacity 0.2s ease-in-out;
   min-height: 36px;
-
-  &:hover{
-    opacity: 1;
-  }
 }
 
 .btn.btn-loader,
