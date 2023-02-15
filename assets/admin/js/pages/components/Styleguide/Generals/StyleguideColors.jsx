@@ -41,16 +41,16 @@ export function StyleguideColors ()
         {shortname: 'Success', name: 'success', value: '#2ed47a'},
     ]
     let basicsOpacity4 = [
-        {shortname: '[0.4] Primary', name: 'primaryOpacity4', value: '#A5CFF9'},
-        {shortname: '[0.4] Warning', name: 'warningOpacity4', value: '#FEDEAB'},
-        {shortname: '[0.4] Danger',  name: 'dangerOpacity4',  value: '#FCC3BD'},
-        {shortname: '[0.4] Success', name: 'successOpacity4', value: '#A5CFF9'},
+        {shortname: '[0.4] Primary', name: 'primaryOpacity4', value: 'rgba(30, 135, 240, 0.1)'},
+        {shortname: '[0.4] Warning', name: 'warningOpacity4', value: 'rgba(253, 173, 45, 0.1)'},
+        {shortname: '[0.4] Danger',  name: 'dangerOpacity4',  value: 'rgba(247, 104, 91, 0.1)'},
+        {shortname: '[0.4] Success', name: 'successOpacity4', value: 'rgba(46, 212, 122, 0.1)'},
     ]
     let basicsOpacity1 = [
-        {shortname: '[0.1] Primary', name: 'primaryOpacity1', value: '#E8F3FD'},
-        {shortname: '[0.1] Warning', name: 'warningOpacity1', value: '#FFF7EA'},
-        {shortname: '[0.1] Danger',  name: 'dangerOpacity1',  value: '#FEF0EE'},
-        {shortname: '[0.1] Success', name: 'successOpacity1', value: '#EAFBF1'},
+        {shortname: '[0.1] Primary', name: 'primaryOpacity1', value: 'rgba(30, 135, 240, 0.4)'},
+        {shortname: '[0.1] Warning', name: 'warningOpacity1', value: 'rgba(253, 173, 45, 0.4)'},
+        {shortname: '[0.1] Danger',  name: 'dangerOpacity1',  value: 'rgba(247, 104, 91, 0.4)'},
+        {shortname: '[0.1] Success', name: 'successOpacity1', value: 'rgba(46, 212, 122, 0.4)'},
     ]
     let greys = [
         {shortname: 'Grey 0', name: 'grey0', value: '#fafafa'},
@@ -60,18 +60,18 @@ export function StyleguideColors ()
         {shortname: 'Grey 4', name: 'grey4', value: '#838383'},
     ]
     let greysOpacity4 = [
-        {shortname: '[0.4] Grey 0', name: 'grey0Opacity4', value: '#FDFDFD'},
-        {shortname: '[0.4] Grey 1', name: 'grey1Opacity4', value: '#F6F6F6'},
-        {shortname: '[0.4] Grey 2', name: 'grey2Opacity4', value: '#E9E9E9'},
-        {shortname: '[0.4] Grey 3', name: 'grey3Opacity4', value: '#DBDBDB'},
-        {shortname: '[0.4] Grey 4', name: 'grey4Opacity4', value: '#CDCDCD'},
+        {shortname: '[0.4] Grey 0', name: 'grey0Opacity4', value: 'rgba(250, 250, 250, 0.1)'},
+        {shortname: '[0.4] Grey 1', name: 'grey1Opacity4', value: 'rgba(232, 232, 232, 0.1)'},
+        {shortname: '[0.4] Grey 2', name: 'grey2Opacity4', value: 'rgba(199, 199, 199, 0.1)'},
+        {shortname: '[0.4] Grey 3', name: 'grey3Opacity4', value: 'rgba(166, 166, 166, 0.1)'},
+        {shortname: '[0.4] Grey 4', name: 'grey4Opacity4', value: 'rgba(131, 131, 131, 0.1)'},
     ]
     let greysOpacity1 = [
-        {shortname: '[0.1] Grey 0', name: 'grey0Opacity1', value: '#FEFEFE'},
-        {shortname: '[0.1] Grey 1', name: 'grey1Opacity1', value: '#FDFDFD'},
-        {shortname: '[0.1] Grey 2', name: 'grey2Opacity1', value: '#F9F9F9'},
-        {shortname: '[0.1] Grey 3', name: 'grey3Opacity1', value: '#F6F6F6'},
-        {shortname: '[0.1] Grey 4', name: 'grey4Opacity1', value: '#F2F2F2'},
+        {shortname: '[0.1] Grey 0', name: 'grey0Opacity1', value: 'rgba(250, 250, 250, 0.4)'},
+        {shortname: '[0.1] Grey 1', name: 'grey1Opacity1', value: 'rgba(232, 232, 232, 0.4)'},
+        {shortname: '[0.1] Grey 2', name: 'grey2Opacity1', value: 'rgba(199, 199, 199, 0.4)'},
+        {shortname: '[0.1] Grey 3', name: 'grey3Opacity1', value: 'rgba(166, 166, 166, 0.4)'},
+        {shortname: '[0.1] Grey 4', name: 'grey4Opacity1', value: 'rgba(131, 131, 131, 0.4)'},
     ]
 
     return <div className="styleguide-content-col">
