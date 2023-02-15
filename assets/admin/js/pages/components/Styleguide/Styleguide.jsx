@@ -5,12 +5,16 @@ import { Button } from "@commonComponents/Elements/Button";
 import { StyleguideList } from "@adminPages/Styleguide/StyleguideList";
 
 import { StyleguideAlerts } from "@adminPages/Styleguide/Components/StyleguideAlerts";
+import { StyleguideColors } from "@adminPages/Styleguide/Generals/StyleguideColors";
 
 export function Styleguide () {
-    const [context, setContext] = useState("comp-alerts");
+    const [context, setContext] = useState("gene-colors");
 
     let content;
     switch (context){
+        case "gene-colors":
+            content = <StyleguideColors />
+            break;
         case "comp-alerts":
             content = <StyleguideAlerts />
             break;

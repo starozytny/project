@@ -10,7 +10,7 @@
   transition: opacity 0.4s ease-in-out;
 }
 
-.btn-icon, .btn{
+*:has(> .tooltip){
   &:hover{
     .tooltip{
       top: -24px;

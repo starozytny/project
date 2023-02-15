@@ -14,8 +14,7 @@
   }
 }
 
-
-$icons:
+$data:
         "primary" var(--primaryOpacity1) var(--primary) var(--primaryOpacity4),
         "warning" var(--warningOpacity1) var(--warning) var(--warningOpacity4),
         "danger" var(--dangerOpacity1) var(--danger) var(--dangerOpacity4),
@@ -23,7 +22,7 @@ $icons:
         "grey4" var(--grey4Opacity1) var(--grey4) var(--grey4Opacity4),
 ;
 
-@each $name, $bg, $txt, $border in $icons {
+@each $name, $bg, $txt, $border in $data {
   .alert-#{$name} {
     background: $bg;
     color: $txt;

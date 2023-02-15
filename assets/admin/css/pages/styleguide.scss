@@ -54,6 +54,91 @@
   flex-wrap: wrap;
 }
 
+.styleguide-colors{
+  @include flex(column, flex-start, flex-start, var(--espaceEls));
+
+  .item{
+    position: relative;
+    border: 8px solid #2c2a46;
+    background-color: #2c2a46;
+    border-radius: calc(var(--radius) * 2);
+    cursor: pointer;
+    width: 180px;
+
+    .item-header{
+      @include flex(row, center, center);
+      height: 64px;
+      border-radius: var(--radius);
+
+      &:hover{
+        span{
+          opacity: 0.75;
+        }
+      }
+
+      span{
+        opacity: 0;
+        font-size: 12px;
+        transition: opacity 0.2s ease-in-out;
+      }
+    }
+
+    .item-body{
+      padding: var(--espaceEls);
+      font-size: 14px;
+      opacity: 0.8;
+      transition: opacity 0.2s ease-in-out;
+
+      &:hover{
+        opacity: 1;
+      }
+    }
+  }
+
+  $data:
+          "primary" var(--primary),
+          "warning" var(--warning),
+          "danger" var(--danger),
+          "success" var(--success),
+          "primaryOpacity4" var(--primaryOpacity4),
+          "warningOpacity4" var(--warningOpacity4),
+          "dangerOpacity4" var(--dangerOpacity4),
+          "successOpacity4" var(--successOpacity4),
+          "primaryOpacity1" var(--primaryOpacity1),
+          "warningOpacity1" var(--warningOpacity1),
+          "dangerOpacity1" var(--dangerOpacity1),
+          "successOpacity1" var(--successOpacity1),
+          "grey0" var(--grey0),
+          "grey1" var(--grey1),
+          "grey2" var(--grey2),
+          "grey3" var(--grey3),
+          "grey4" var(--grey4),
+          "grey0Opacity1" var(--grey0Opacity1),
+          "grey1Opacity1" var(--grey1Opacity1),
+          "grey2Opacity1" var(--grey2Opacity1),
+          "grey3Opacity1" var(--grey3Opacity1),
+          "grey4Opacity1" var(--grey4Opacity1),
+          "grey0Opacity4" var(--grey0Opacity4),
+          "grey1Opacity4" var(--grey1Opacity4),
+          "grey2Opacity4" var(--grey2Opacity4),
+          "grey3Opacity4" var(--grey3Opacity4),
+          "grey4Opacity4" var(--grey4Opacity4),
+;
+
+  @each $name, $bg in $data {
+    .item-#{$name} {
+      .item-header{
+        background: $bg;
+      }
+    }
+  }
+}
+
+.styleguide-colors-line{
+  @include flex(row, flex-start, flex-start, var(--espaceEls));
+  flex-wrap: wrap;
+}
+
 //                      __   _  ___ ____  _  _     __
 //                     | _| / |/ _ \___ \| || |   |_ |
 //    _____ _____ _____| |  | | | | |__) | || |_   | |_____ _____ _____

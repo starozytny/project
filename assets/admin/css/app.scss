@@ -45,6 +45,14 @@ b, strong{
   @include fontBold();
 }
 
+#toast-container{
+  .toast{
+    .toast-title{
+      @include fontSemibold();
+    }
+  }
+}
+
 
 $data:
         "alpha"   var(--alpha),
