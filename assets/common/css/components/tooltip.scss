@@ -1,9 +1,9 @@
 .tooltip{
   position: absolute;
   top: -2000px; right: 0;
-  font-size: 12px;
+  font-size: 13px;
   background: var(--grey3);
-  padding: 3px 8px 2px 8px;
+  padding: 5px 8px 4px 8px;
   border-radius: 4px;
   opacity: 0;
   z-index: -1;
@@ -13,7 +13,7 @@
 *:has(> .tooltip){
   &:hover{
     .tooltip{
-      top: -24px;
+      top: -28px;
       opacity: 1;
       z-index: 1;
     }
