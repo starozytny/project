@@ -6,21 +6,17 @@ import { StyleguideList } from "@adminPages/Styleguide/StyleguideList";
 
 import { StyleguideAlerts } from "@adminPages/Styleguide/Components/StyleguideAlerts";
 import { StyleguideColors } from "@adminPages/Styleguide/Generals/StyleguideColors";
+import { StyleguideIcons }  from "@adminPages/Styleguide/Generals/StyleguideIcons";
 
 export function Styleguide () {
-    const [context, setContext] = useState("gene-colors");
+    const [context, setContext] = useState("gene-icons");
 
     let content;
     switch (context){
-        case "gene-colors":
-            content = <StyleguideColors />
-            break;
-        case "comp-alerts":
-            content = <StyleguideAlerts />
-            break;
-        default:
-            content = <StyleguideList onChangeContext={setContext} />
-            break;
+        case "gene-icons":  content = <StyleguideIcons />; break;
+        case "gene-colors": content = <StyleguideColors />; break;
+        case "comp-alerts": content = <StyleguideAlerts />; break;
+        default: content = <StyleguideList onChangeContext={setContext} />; break;
     }
 
     return <>

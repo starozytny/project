@@ -150,9 +150,19 @@
   }
 }
 
-.styleguide-colors-line{
+.styleguide-colors-line, .styleguide-icons{
   @include flex(row, flex-start, flex-start, var(--espaceEls));
   flex-wrap: wrap;
+}
+
+.styleguide-icons{
+  .btn-icon{
+    font-size: 20px;
+  }
+
+  .icon-chart-3{
+    animation: none;
+  }
 }
 
 //                      __   _  ___ ____  _  _     __

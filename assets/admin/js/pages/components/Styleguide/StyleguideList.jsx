@@ -6,14 +6,18 @@ export function StyleguideList ({ onChangeContext })
     let generals = [
         {
             name: "Colors", textLink: "Voir les colors", context: "gene-colors",
-            content: "Consulter la palette de couleurs."
+            content: "Consulter la palette de couleurs du dashboard."
+        },
+        {
+            name: "Icons", textLink: "Voir les icons", context: "gene-icons",
+            content: "Consulter la liste des icônes disponibles."
         }
     ]
 
     let components = [
         {
             name: "Alerts", textLink: "Voir les alerts", context: "comp-alerts",
-            content: "Consulter les différentes formes d'alerts."
+            content: "Consulter les différentes formes d'alertes."
         }
     ]
 
