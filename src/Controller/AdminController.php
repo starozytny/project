@@ -64,4 +64,10 @@ class AdminController extends AbstractController
     {
         return $this->render('admin/pages/storage/index.html.twig');
     }
+
+    #[Route('/styleguide', name: 'styleguide_index')]
+    public function styleguide(): Response
+    {
+        return $this->render('admin/pages/styleguide/index.html.twig');
+    }
 }
