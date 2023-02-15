@@ -1,14 +1,16 @@
-@import "../../../../common/css/components/alert";
+@import "../../../../common/css/components/elements/alert";
 
 .alert{
   border-radius: var(--radius);
 
-  &:before{
-    border-radius: var(--radius) 0 0 var(--radius);
-  }
+  .alert-container{
+    &:before{
+      border-radius: var(--radius) 0 0 var(--radius);
+    }
 
-  .title{
-    @include fontSemibold();
+    .title{
+      @include fontSemibold();
+    }
   }
 }
 
@@ -26,8 +28,10 @@ $icons:
     background: $bg;
     color: $txt;
 
-    &:before{
-      background-color: $border;
+    .alert-container{
+      &:before{
+        background-color: $border;
+      }
     }
   }
 }

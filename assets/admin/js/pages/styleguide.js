@@ -5,11 +5,11 @@ import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min';
 
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { Storage } from "@adminPages/Storage/Storage";
+import { Styleguide } from "@adminPages/Styleguide/Styleguide";
 
 Routing.setRoutingData(routes);
 
-let el = document.getElementById("storage_list");
+let el = document.getElementById("styleguide_list");
 if(el){
-    createRoot(el).render(<Storage />)
+    createRoot(el).render(<Styleguide />)
 }

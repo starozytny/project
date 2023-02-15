@@ -1,0 +1,25 @@
+.card{
+  width: 296px;
+
+  .card-header-name{
+    font-size: 18px;
+  }
+}
+
+.card-0{
+  .card-header{
+    padding: var(--espaceDiv) var(--espaceDiv) calc(var(--espaceDiv) / 2) var(--espaceDiv);
+  }
+
+  .card-body{
+    padding: calc(var(--espaceDiv) / 2) var(--espaceDiv);
+  }
+
+  .card-footer{
+    padding: calc(var(--espaceDiv) / 2) var(--espaceDiv) calc(var(--espaceDiv) / 2) var(--espaceDiv);
+
+    &.actions{
+      @include flex(row, center, flex-end, var(--espaceEls));
+    }
+  }
+}

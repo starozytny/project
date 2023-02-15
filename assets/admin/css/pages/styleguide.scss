@@ -1,0 +1,67 @@
+@import "../vars/vars";
+
+.styleguide {
+  padding: 0 1.2rem;
+}
+
+.card-0{
+  .actions{
+    .txt-link{
+      [class^="icon-"]{
+        transition: transform 0.2s linear;
+      }
+
+      &:hover{
+        [class^="icon-"]{
+          transform: translate(4px, -1px);
+        }
+      }
+    }
+  }
+}
+
+.styleguide-content-col{
+  @include flex(column, flex-start, flex-start, var(--espaceDiv));
+
+  .styleguide-section{
+    width: 100%;
+  }
+}
+
+.styleguide-section{
+  background-color: var(--color0Opacity4);
+  border-radius: calc(var(--radius) * 2);
+  padding: var(--espaceDiv);
+}
+
+.styleguide-section-title{
+  @include fontSemibold();
+  font-size: 20px;
+  margin-bottom: 0.8rem;
+}
+
+.styleguide-section-content{
+  @include flex(column, flex-start, flex-start, var(--espaceEls));
+}
+
+.styleguide-section-content-row{
+  @include flex(row, flex-start, flex-start, var(--espaceEls));
+  flex-wrap: wrap;
+}
+
+.styleguide-row{
+  @include flex(row, flex-start, flex-start, var(--espaceEls));
+  flex-wrap: wrap;
+}
+
+//                      __   _  ___ ____  _  _     __
+//                     | _| / |/ _ \___ \| || |   |_ |
+//    _____ _____ _____| |  | | | | |__) | || |_   | |_____ _____ _____
+//   |_____|_____|_____| |  | | |_| / __/|__   _|  | |_____|_____|_____|
+//                     | |  |_|\___/_____|  |_|    | |
+//                     |__|                       |__|
+@media (min-width:1024px) {
+  .styleguide{
+    padding: 0 1.8rem;
+  }
+}
