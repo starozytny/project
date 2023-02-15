@@ -59,8 +59,8 @@
 
   .item{
     position: relative;
-    border: 8px solid #2c2a46;
-    background-color: #2c2a46;
+    border: 8px solid var(--color0Opacity1);
+    background-color: var(--color0Opacity1);
     border-radius: calc(var(--radius) * 2);
     cursor: pointer;
     width: 180px;
@@ -69,6 +69,7 @@
       @include flex(row, center, center);
       height: 64px;
       border-radius: var(--radius);
+      background-color: white;
 
       &:hover{
         span{
@@ -123,6 +124,21 @@
           "grey2Opacity4" var(--grey2Opacity4),
           "grey3Opacity4" var(--grey3Opacity4),
           "grey4Opacity4" var(--grey4Opacity4),
+          "color0" var(--color0),
+          "color1" var(--color1),
+          "color2" var(--color2),
+          "color3" var(--color3),
+          "color4" var(--color4),
+          "color0Opacity4" var(--color0Opacity4),
+          "color1Opacity4" var(--color1Opacity4),
+          "color2Opacity4" var(--color2Opacity4),
+          "color3Opacity4" var(--color3Opacity4),
+          "color4Opacity4" var(--color4Opacity4),
+          "color0Opacity1" var(--color0Opacity1),
+          "color1Opacity1" var(--color1Opacity1),
+          "color2Opacity1" var(--color2Opacity1),
+          "color3Opacity1" var(--color3Opacity1),
+          "color4Opacity1" var(--color4Opacity1),
 ;
 
   @each $name, $bg in $data {
