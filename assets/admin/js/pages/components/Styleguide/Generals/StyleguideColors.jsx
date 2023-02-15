@@ -21,18 +21,18 @@ export function StyleguideColors ()
         {shortname: 'Color 4', name: 'color4', value: '#605f6b'},
     ]
     let colorsCustomsOpacity4 = [
-        {shortname: '[0.4] Color 0', name: 'color0Opacity4', value: '#121420'},
-        {shortname: '[0.4] Color 1', name: 'color1Opacity4', value: '#1b2432'},
-        {shortname: '[0.4] Color 2', name: 'color2Opacity4', value: '#2c2b3c'},
-        {shortname: '[0.4] Color 3', name: 'color3Opacity4', value: '#403f4c'},
-        {shortname: '[0.4] Color 4', name: 'color4Opacity4', value: '#605f6b'},
+        {shortname: '[0.4] Color 0', name: 'color0Opacity4', value: 'rgba(18, 20, 32, 0.4)'},
+        {shortname: '[0.4] Color 1', name: 'color1Opacity4', value: 'rgba(27, 36, 50, 0.4)'},
+        {shortname: '[0.4] Color 2', name: 'color2Opacity4', value: 'rgba(44, 43, 60, 0.4)'},
+        {shortname: '[0.4] Color 3', name: 'color3Opacity4', value: 'rgba(64, 63, 76, 0.4)'},
+        {shortname: '[0.4] Color 4', name: 'color4Opacity4', value: 'rgba(96, 95, 107, 0.4)'},
     ]
     let colorsCustomsOpacity1 = [
-        {shortname: '[0.1] Color 0', name: 'color0Opacity1', value: '#121420'},
-        {shortname: '[0.1] Color 1', name: 'color1Opacity1', value: '#1b2432'},
-        {shortname: '[0.1] Color 2', name: 'color2Opacity1', value: '#2c2b3c'},
-        {shortname: '[0.1] Color 3', name: 'color3Opacity1', value: '#403f4c'},
-        {shortname: '[0.1] Color 4', name: 'color4Opacity1', value: '#605f6b'},
+        {shortname: '[0.1] Color 0', name: 'color0Opacity1', value: 'rgba(18, 20, 32, 0.1)'},
+        {shortname: '[0.1] Color 1', name: 'color1Opacity1', value: 'rgba(27, 36, 50, 0.1)'},
+        {shortname: '[0.1] Color 2', name: 'color2Opacity1', value: 'rgba(44, 43, 60, 0.1)'},
+        {shortname: '[0.1] Color 3', name: 'color3Opacity1', value: 'rgba(64, 63, 76, 0.1)'},
+        {shortname: '[0.1] Color 4', name: 'color4Opacity1', value: 'rgba(96, 95, 107, 0.1)'},
     ]
     let basics = [
         {shortname: 'Primary', name: 'primary', value: '#1e87f0'},
