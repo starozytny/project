@@ -16,6 +16,14 @@ export function StyleguideList ({ onChangeContext })
 
     let components = [
         {
+            name: "Breadcrumb", textLink: "Voir le breadcrumb", context: "comp-breadcrumbs",
+            content: "Consulter le fonctionnement et style du fil d'Ariane."
+        },
+        {
+            name: "Buttons", textLink: "Voir les buttons", context: "comp-buttons",
+            content: "Consulter les différentes formes de buttons."
+        },
+        {
             name: "Alerts", textLink: "Voir les alerts", context: "comp-alerts",
             content: "Consulter les différentes formes d'alertes."
         }
