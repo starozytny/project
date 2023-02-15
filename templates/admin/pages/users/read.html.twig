@@ -3,6 +3,11 @@
 {% set page_title %}{{ elem.username }} #{{ elem.id }}{% endset %}
 {% set page_subtitle %}Profil de l'utilisateur {{ elem.lastname }} {{ elem.firstname }}.{% endset %}
 
+{% block breadcrumb %}
+    {% set breadcrumbs = breadcrumbs | merge([{ text: page_title }]) %}
+    {{ parent() }}
+{% endblock %}
+
 {% block main_content %}
     <div class="page-actions">
         <div class="col-1">

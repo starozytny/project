@@ -1,5 +1,9 @@
 {% extends 'admin/layout/layout.html.twig' %}
 
+{% set breadcrumbs = [
+    { icon: 'group', text: "Utilisateurs"  }
+] %}
+
 {% block stylesheets %}
     {{ parent() }}
     {{ encore_entry_link_tags('admin_users') }}

@@ -1,5 +1,9 @@
 {% extends 'admin/layout/layout.html.twig' %}
 
+{% set breadcrumbs = [
+    { icon: 'book-1', text: 'Styleguide', url: path('admin_styleguide_index')  }
+] %}
+
 {% block stylesheets %}
     {{ parent() }}
     {{ encore_entry_link_tags('admin_styleguide') }}

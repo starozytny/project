@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import toastr from "toastr";
-import {ButtonIcon} from "@commonComponents/Elements/Button";
-import {LoaderElements} from "@commonComponents/Elements/Loader";
+
+import { ButtonIcon }     from "@commonComponents/Elements/Button";
+import { LoaderElements } from "@commonComponents/Elements/Loader";
 
 export function StyleguideIcons ()
 {
-
     const [icons, setIcons] = useState([])
     const [copy, setCopy] = useState(null);
 

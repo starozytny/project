@@ -1,5 +1,9 @@
 {% extends 'admin/layout/layout.html.twig' %}
 
+{% set breadcrumbs = [
+    { icon: 'calendar', text: page_title  }
+] %}
+
 {% block stylesheets %}
     {{ parent() }}
     {{ encore_entry_link_tags('admin_agenda') }}

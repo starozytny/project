@@ -3,6 +3,11 @@
 {% set page_title %}Création d'un changelog{% endset %}
 {% set page_subtitle %}Tenez au courant vos utilisateurs des dernières modifications du site !{% endset %}
 
+{% block breadcrumb %}
+    {% set breadcrumbs = breadcrumbs | merge([{ text: page_title }]) %}
+    {{ parent() }}
+{% endblock %}
+
 {% block main_content %}
     {% include "layout/components/admin/page_toolbar.html.twig" with { page_back: path('admin_changelogs_index') } %}
 

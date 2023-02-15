@@ -3,6 +3,11 @@
 {% set page_title %}Création d'un évènement{% endset %}
 {% set page_subtitle %}Ajouter un rendez-vous à votre agenda{% endset %}
 
+{% block breadcrumb %}
+    {% set breadcrumbs = breadcrumbs | merge([{ text: page_title }]) %}
+    {{ parent() }}
+{% endblock %}
+
 {% block main_content %}
     {% include "layout/components/admin/page_toolbar.html.twig" with { page_back: path('admin_agenda_index') } %}
 

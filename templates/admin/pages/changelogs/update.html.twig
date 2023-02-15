@@ -3,6 +3,11 @@
 {% set page_title %}Modifier {{ elem.name }} #{{ elem.id }}{% endset %}
 {% set page_subtitle %}Modifier les informations relatives au changelog : #{{ elem.id }}.{% endset %}
 
+{% block breadcrumb %}
+    {% set breadcrumbs = breadcrumbs | merge([{ text: page_title }]) %}
+    {{ parent() }}
+{% endblock %}
+
 {% block main_content %}
     {% include "layout/components/admin/page_toolbar.html.twig" with { page_back: path('admin_changelogs_index', {'h': elem.id}) } %}
 

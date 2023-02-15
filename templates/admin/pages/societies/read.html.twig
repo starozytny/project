@@ -3,6 +3,11 @@
 {% set page_title %}{{ elem.name }} #{{ elem.id }}{% endset %}
 {% set page_subtitle %}Profil de la société {{ elem.code }} - {{ elem.name }}.{% endset %}
 
+{% block breadcrumb %}
+    {% set breadcrumbs = breadcrumbs | merge([{ text: page_title }]) %}
+    {{ parent() }}
+{% endblock %}
+
 {% block main_content %}
     {% include "layout/components/admin/page_toolbar.html.twig" with { page_back: path('admin_societies_index', {'h': elem.id}) } %}
 
