@@ -10,12 +10,14 @@ import { StyleguideAlerts }      from "@adminPages/Styleguide/Components/Stylegu
 import { StyleguideButtons }     from "@adminPages/Styleguide/Components/StyleguideButtons";
 import { StyleguideDropdowns }   from "@adminPages/Styleguide/Components/StyleguideDropdowns";
 import { StyleguideBreadcrumbs } from "@adminPages/Styleguide/Components/StyleguideBreadcrumbs";
+import { StyleguideTexts }       from "@adminPages/Styleguide/Formulaires/StyleguideTexts";
 
 export function Styleguide () {
-    const [context, setContext] = useState("comp-dropdowns");
+    const [context, setContext] = useState("form-texts");
 
     let content;
     switch (context){
+        case "form-texts":     content = <StyleguideTexts />; break;
         case "gene-icons":     content = <StyleguideIcons />; break;
         case "gene-colors":    content = <StyleguideColors />; break;
         case "comp-alerts":    content = <StyleguideAlerts />; break;

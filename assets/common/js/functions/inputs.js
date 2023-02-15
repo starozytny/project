@@ -5,62 +5,6 @@ require("moment/locale/fr");
 const axios = require("axios");
 const Sort = require("@commonFunctions/sort");
 
-function initDateInput(onChangeDate, onInput, minDate, maxDate = new Date(2060, 0, 1)) {
-    let inputs = document.querySelectorAll('.js-datepicker');
-    inputs.forEach(input => {
-        let picker = datepicker(input, {
-            onSelect: instance => {
-                onChangeDate(instance.el.name, moment(instance.dateSelected).format('DD/MM/YYYY'))
-            },
-            formatter: (input, date, instance) => {
-                input.value = date.toLocaleDateString("fr-FR")
-            },
-            customDays: ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'],
-            customMonths: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
-            overlayButton: "Valider",
-            overlayPlaceholder: 'Année (AAAA)',
-            minDate: minDate, maxDate: maxDate,
-        })
-
-        input.addEventListener('change', (e) => onInput(e, picker))
-    })
-}
-
-function dateInput (e, picker, source) {
-    let value = e.currentTarget.value;
-
-    if(value.length > 10){
-        return source;
-    }
-
-    if (/^\d+(\/\d+)*$/.test(value)){
-        value = value
-            .replace(/^(\d{2})(\d)$/, "$1/$2")
-            .replace(/^(\d{2}\/\d{2})(\d+)$/, "$1/$2");
-    }
-
-    return value;
-}
-
-function timeInput (e, source) {
-    let value = e.currentTarget.value;
-
-    if(value.length > 5){
-        return source;
-    }
-
-    if(value.length === 3){
-        let hours = value.slice(0,2);
-        let minutes = value.slice(2,4);
-
-        if(minutes !== "h"){
-            return hours + "h" + minutes;
-        }
-    }
-
-    return value;
-}
-
 function processData(allText)
 {
     let allTextLines = allText.split(/\r\n|\n/);
@@ -121,6 +65,101 @@ function cityInput(self, e, source, zipcodes, nameStateCity = "city")
     }
 }
 
+function initDateInput(onChangeDate, onInput, minDate, maxDate = new Date(2060, 0, 1)) {
+    let inputs = document.querySelectorAll('.js-datepicker');
+    inputs.forEach(input => {
+        let picker = datepicker(input, {
+            onSelect: instance => {
+                onChangeDate(instance.el.name, moment(instance.dateSelected).format('DD/MM/YYYY'))
+            },
+            formatter: (input, date, instance) => {
+                input.value = date.toLocaleDateString("fr-FR")
+            },
+            customDays: ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'],
+            customMonths: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+            overlayButton: "Valider",
+            overlayPlaceholder: 'Année (AAAA)',
+            minDate: minDate, maxDate: maxDate,
+        })
+
+        input.addEventListener('change', (e) => onInput(e, picker))
+    })
+}
+
+function dateInput (e, picker, source) {
+    let value = e.currentTarget.value;
+
+    if(value.length > 10){
+        return source;
+    }
+
+    if (/^\d+(\/\d+)*$/.test(value)){
+        value = value
+            .replace(/^(\d{2})(\d)$/, "$1/$2")
+            .replace(/^(\d{2}\/\d{2})(\d+)$/, "$1/$2");
+    }
+
+    return value;
+}
+
+function timeInput (e, source) {
+    let value = e.currentTarget.value;
+
+    if(value.length > 5){
+        return source;
+    }
+
+    if(value.length === 3){
+        let hours = value.slice(0,2);
+        let minutes = value.slice(2,4);
+
+        if(minutes !== "h"){
+            return hours + "h" + minutes;
+        }
+    }
+
+    return value;
+}
+
+function textAlphaInput (e, source) {
+    let value = e.currentTarget.value;
+
+    if(!(/^[a-zA-Z]*$/).test(value)){
+        value = source;
+    }
+
+    return value;
+}
+
+function textNumericInput (e, source) {
+    let value = e.currentTarget.value;
+
+    if(!(/^[0-9]*$/).test(value)){
+        value = source;
+    }
+
+    return value;
+}
+
+function textNumericWithMinusInput (e, source) {
+    let value = e.currentTarget.value;
+
+    if(!(/^-?[0-9]*$/).test(value)){
+        value = source;
+    }
+
+    return value;
+}
+
+function textMoneyMinusInput (e, source) {
+    let value = e.currentTarget.value;
+
+    if(!(/^-?[0-9.]*$/).test(value)){
+        value = source;
+    }
+
+    return value;
+}
 
 module.exports = {
     initDateInput,
@@ -128,4 +167,8 @@ module.exports = {
     timeInput,
     getZipcodes,
     cityInput,
+    textAlphaInput,
+    textNumericInput,
+    textNumericWithMinusInput,
+    textMoneyMinusInput,
 }
