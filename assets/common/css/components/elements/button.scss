@@ -22,7 +22,6 @@
 }
 
 .btn-icon, .btn{
-  opacity: 0.75;
   transition: opacity 0.2s ease-in-out;
 
   &:hover{
@@ -32,6 +31,7 @@
 
 .btn-icon{
   padding: 6px;
+  opacity: 0.75;
 
   span:not(.tooltip, [class^="icon-"]){
     font-size: 14px;
@@ -42,6 +42,7 @@
 .btn{
   padding: 8px 20px;
   min-height: 36px;
+  opacity: 0.80;
 }
 
 .btn.btn-loader,

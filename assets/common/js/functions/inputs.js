@@ -121,43 +121,23 @@ function timeInput (e, source) {
     return value;
 }
 
-function textAlphaInput (e, source) {
-    let value = e.currentTarget.value;
-
-    if(!(/^[a-zA-Z]*$/).test(value)){
-        value = source;
-    }
-
+function textAlphaInput (value, source) {
+    if(!(/^[a-zA-Z]*$/).test(value)) value = source;
     return value;
 }
 
-function textNumericInput (e, source) {
-    let value = e.currentTarget.value;
-
-    if(!(/^[0-9]*$/).test(value)){
-        value = source;
-    }
-
+function textNumericInput (value, source) {
+    if(!(/^[0-9]*$/).test(value)) value = source;
     return value;
 }
 
-function textNumericWithMinusInput (e, source) {
-    let value = e.currentTarget.value;
-
-    if(!(/^-?[0-9]*$/).test(value)){
-        value = source;
-    }
-
+function textNumericWithMinusInput (value, source) {
+    if(!(/^-?[0-9]*$/).test(value)) value = source;
     return value;
 }
 
-function textMoneyMinusInput (e, source) {
-    let value = e.currentTarget.value;
-
-    if(!(/^-?[0-9.]*$/).test(value)){
-        value = source;
-    }
-
+function textMoneyMinusInput (value, source) {
+    if(!(/^-?[0-9.]*$/).test(value)) value = source;
     return value;
 }
 

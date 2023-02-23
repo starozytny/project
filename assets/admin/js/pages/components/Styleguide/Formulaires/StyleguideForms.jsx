@@ -4,7 +4,7 @@ import Inputs from "@commonFunctions/inputs";
 
 import { Input } from "@commonComponents/Elements/Fields";
 
-export class StyleguideTexts extends Component
+export class StyleguideForms extends Component
 {
     constructor(props) {
         super(props);
@@ -23,10 +23,10 @@ export class StyleguideTexts extends Component
         let name = e.currentTarget.name;
         let value = e.currentTarget.value;
 
-        if(name === "txt2") value = Inputs.textAlphaInput(e, this.state[name]);
-        if(name === "txt3") value = Inputs.textNumericInput(e, this.state[name]);
-        if(name === "txt4") value = Inputs.textNumericWithMinusInput(e, this.state[name]);
-        if(name === "txt5") value = Inputs.textMoneyMinusInput(e, this.state[name]);
+        if(name === "txt2") value = Inputs.textAlphaInput(value, this.state[name]);
+        if(name === "txt3") value = Inputs.textNumericInput(value, this.state[name]);
+        if(name === "txt4") value = Inputs.textNumericWithMinusInput(value, this.state[name]);
+        if(name === "txt5") value = Inputs.textMoneyMinusInput(value, this.state[name]);
 
         this.setState({ [name]: value })
     }
@@ -38,7 +38,7 @@ export class StyleguideTexts extends Component
 
         return <div className="styleguide-content-col">
             <section className="styleguide-section">
-                <div className="styleguide-section-title">Basic</div>
+                <div className="styleguide-section-title">Texts</div>
                 <div className="styleguide-section-content">
                     <div className="line line-2">
                         <Input identifiant="txt1" valeur={txt1} {...params}>Text libre</Input>
@@ -50,6 +50,7 @@ export class StyleguideTexts extends Component
                     </div>
                     <div className="line line-2">
                         <Input identifiant="txt5" valeur={txt5} {...params}>Text money</Input>
+                        <div className="form-group" />
                     </div>
                 </div>
             </section>
