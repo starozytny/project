@@ -115,7 +115,7 @@ class Form extends Component {
         e.preventDefault();
 
         const { context, url } = this.props;
-        const { username, firstname, lastname, password, passwordConfirm, email, roles, society } = this.state;
+        const { username, firstname, lastname, password, password2, email, roles, society } = this.state;
 
         this.setState({ errors: [] });
 
@@ -130,7 +130,7 @@ class Form extends Component {
         if(context === "create"){
             if(password !== ""){
                 paramsToValidate = [...paramsToValidate,
-                    ...[{type: "password", id: 'password', value: password, idCheck: 'passwordConfirm', valueCheck: passwordConfirm}]
+                    ...[{type: "password", id: 'password', value: password, idCheck: 'password2', valueCheck: password2}]
                 ];
             }
         }
