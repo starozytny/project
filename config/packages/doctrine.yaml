@@ -4,8 +4,8 @@ doctrine:
         connections:
             default:
                 url: '%env(resolve:DATABASE_URL)%'
-            init001:
-                url: '%env(resolve:DATABASE_URL_CLIENT_001)%'
+#            init001:
+#                url: '%env(resolve:DATABASE_URL_CLIENT_001)%'
     orm:
         auto_generate_proxy_classes: true
         default_entity_manager: default
@@ -19,15 +19,15 @@ doctrine:
                         dir: '%kernel.project_dir%/src/Entity'
                         prefix: App\Entity
                         alias: App
-            init001:
-                naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
-                connection: init001
-                mappings:
-                    Init001:
-                        is_bundle: false
-                        dir: '%kernel.project_dir%/src/Entity/Init'
-                        prefix: App\Entity\Init
-                        alias: Init001
+#            init001:
+#                naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+#                connection: init001
+#                mappings:
+#                    Init001:
+#                        is_bundle: false
+#                        dir: '%kernel.project_dir%/src/Entity/Init'
+#                        prefix: App\Entity\Init
+#                        alias: Init001
 when@test:
     doctrine:
         dbal:
