@@ -125,7 +125,7 @@ class Form extends Component {
             {type: "text",  id: 'lastname',  value: lastname},
             {type: "email", id: 'email',     value: email},
             {type: "array", id: 'roles',     value: roles},
-            {type: "text",  id: 'society',    value: society}
+            {type: "text",  id: 'society',   value: society}
         ];
         if(context === "create"){
             if(password !== ""){

@@ -23,10 +23,6 @@
 
 .btn-icon, .btn{
   transition: opacity 0.2s ease-in-out;
-
-  &:hover{
-    opacity: 1;
-  }
 }
 
 .btn-icon{
@@ -37,12 +33,20 @@
     font-size: 14px;
     transform: translateY(1px);
   }
+
+  &:hover{
+    opacity: 1;
+  }
 }
 
 .btn{
   padding: 8px 20px;
   min-height: 36px;
-  opacity: 0.80;
+  opacity: 1;
+
+  &:hover{
+    opacity: 0.9;
+  }
 }
 
 .btn.btn-loader,

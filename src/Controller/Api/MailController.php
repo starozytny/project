@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class MailController extends AbstractController
 {
     #[Route('/mail/send', name: 'send', options: ['expose' => true], methods: 'post')]
-    public function forget(Request $request, ApiResponse $apiResponse,
+    public function send(Request $request, ApiResponse $apiResponse,
                            SanitizeData $sanitizeData, MailerService $mailerService, FileUploader $fileUploader): Response
     {
         $data = json_decode($request->get('data'));

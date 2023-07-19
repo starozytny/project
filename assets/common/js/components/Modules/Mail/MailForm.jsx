@@ -6,7 +6,7 @@ import toastr  from 'toastr';
 import { uid } from 'uid'
 import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
-import {Input, InputFile, SelectMultipleCustom} from "@commonComponents/Elements/Fields";
+import { Input, InputFile, SelectMultipleCustom } from "@commonComponents/Elements/Fields";
 import { Trumb }            from "@commonComponents/Elements/Trumb";
 import { Button }           from "@commonComponents/Elements/Button";
 import { Alert }            from "@commonComponents/Elements/Alert";
