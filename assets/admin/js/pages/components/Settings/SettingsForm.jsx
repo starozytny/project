@@ -10,7 +10,7 @@ import Validateur       from "@commonFunctions/validateur";
 import { Checkbox, Input, InputFile } from "@commonComponents/Elements/Fields";
 import { Button }       from "@commonComponents/Elements/Button";
 
-const URL_UPDATE_ELEMENT = "api_settings_update";
+const URL_UPDATE_ELEMENT = "admin_settings_update";
 
 export class SettingsFormulaire extends Component {
     constructor(props) {
@@ -79,7 +79,7 @@ export class SettingsFormulaire extends Component {
 
             axios({ method: "POST", url: Routing.generate(URL_UPDATE_ELEMENT), data: formData, headers: {'Content-Type': 'multipart/form-data'} })
                 .then(function (response) {
-                    toastr.info("Paramètres mis à jours");
+                    toastr.info(response.data.message);
                     setTimeout(() => { location.reload() }, 2000)
                 })
                 .catch(function (error) { Formulaire.displayErrors(self, error); Formulaire.loader(false); })
