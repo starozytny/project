@@ -11,7 +11,7 @@ import { Users } from "@adminPages/Users/Users";
 
 Routing.setRoutingData(routes);
 
-const URL_GET_USERS = "api_users_society";
+const URL_GET_USERS = "intern_api_users_society";
 
 let el = document.getElementById("societies_list");
 if(el){

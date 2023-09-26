@@ -11,8 +11,8 @@ import Formulaire from "@commonFunctions/formulaire";
 import Validateur from "@commonFunctions/validateur";
 
 const URL_INDEX_ELEMENTS    = "admin_societies_index";
-const URL_CREATE_ELEMENT    = "api_societies_create";
-const URL_UPDATE_GROUP      = "api_societies_update";
+const URL_CREATE_ELEMENT    = "intern_api_societies_create";
+const URL_UPDATE_GROUP      = "intern_api_societies_update";
 const TEXT_CREATE           = "Ajouter la société";
 const TEXT_UPDATE           = "Enregistrer les modifications";
 

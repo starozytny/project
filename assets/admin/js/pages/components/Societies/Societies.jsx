@@ -17,10 +17,10 @@ import { Button }                           from "@commonComponents/Elements/But
 import { ModalDelete }                      from "@commonComponents/Shortcut/Modal";
 import { LoaderElements, LoaderTxt }        from "@commonComponents/Elements/Loader";
 
-const URL_GET_DATA          = "api_societies_list";
-const URL_DELETE_ELEMENT    = "api_societies_delete";
-const URL_ACTIVATE_ELEMENT  = "api_societies_activate";
-const URL_GENERATE_ELEMENT  = "api_societies_generate";
+const URL_GET_DATA          = "intern_api_societies_list";
+const URL_DELETE_ELEMENT    = "intern_api_societies_delete";
+const URL_ACTIVATE_ELEMENT  = "intern_api_societies_activate";
+const URL_GENERATE_ELEMENT  = "intern_api_societies_generate";
 
 let SORTER = Sort.compareCode;
 let sorters = [

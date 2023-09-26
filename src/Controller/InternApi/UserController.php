@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Api;
+namespace App\Controller\InternApi;
 
 use App\Entity\Main\Society;
 use App\Entity\Main\User;
@@ -25,7 +25,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route('/api/users', name: 'api_users_')]
+#[Route('/intern/api/users', name: 'intern_api_users_')]
 class UserController extends AbstractController
 {
     #[Route('/list', name: 'list', options: ['expose' => true], methods: 'GET')]

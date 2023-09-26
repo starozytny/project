@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Api\Help;
+namespace App\Controller\InternApi\Help;
 
 use App\Entity\Main\Help\HeCategory;
 use App\Entity\Main\Help\HeQuestion;
@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/api/help/faq/questions', name: 'api_help_faq_questions_')]
+#[Route('/intern/api/help/faq/questions', name: 'intern_api_help_faq_questions_')]
 class QuestionController extends AbstractController
 {
     public function submitForm($type, HeQuestionRepository $repository, HeQuestion $obj, Request $request, ApiResponse $apiResponse,

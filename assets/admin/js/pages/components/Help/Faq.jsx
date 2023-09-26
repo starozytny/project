@@ -9,7 +9,7 @@ import { LoaderElements } from "@commonComponents/Elements/Loader";
 
 import { FaqList } from "@commonComponents/Modules/Help/FaqList";
 
-const URL_GET_DATA = "api_help_faq_list";
+const URL_GET_DATA = "intern_api_help_faq_list";
 
 export class Faq extends Component {
     constructor(props) {

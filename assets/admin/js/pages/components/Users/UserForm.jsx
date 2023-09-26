@@ -13,10 +13,10 @@ import Formulaire from "@commonFunctions/formulaire";
 import Validateur from "@commonFunctions/validateur";
 import Sort       from "@commonFunctions/sort";
 
-const URL_SELECT_SOCIETIES  = "api_selection_societies";
+const URL_SELECT_SOCIETIES  = "intern_api_selection_societies";
 const URL_INDEX_ELEMENTS    = "admin_users_index";
-const URL_CREATE_ELEMENT    = "api_users_create";
-const URL_UPDATE_GROUP      = "api_users_update";
+const URL_CREATE_ELEMENT    = "intern_api_users_create";
+const URL_UPDATE_GROUP      = "intern_api_users_update";
 const TEXT_CREATE           = "Ajouter l'utilisateur";
 const TEXT_UPDATE           = "Enregistrer les modifications";
 

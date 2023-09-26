@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Api;
+namespace App\Controller\InternApi;
 
 use App\Entity\Main\Settings;
 use App\Entity\Main\Society;
@@ -23,7 +23,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Serializer\SerializerInterface;
 
-#[Route('/api/societies', name: 'api_societies_')]
+#[Route('/intern/api/societies', name: 'intern_api_societies_')]
 #[IsGranted('ROLE_ADMIN')]
 class SocietyController extends AbstractController
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Api;
+namespace App\Controller\InternApi;
 
 use App\Entity\Main\Changelog;
 use App\Repository\Main\ChangelogRepository;
@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route('/api/changelogs', name: 'api_changelogs_')]
+#[Route('/intern/api/changelogs', name: 'intern_api_changelogs_')]
 #[IsGranted('ROLE_ADMIN')]
 class ChangelogController extends AbstractController
 {

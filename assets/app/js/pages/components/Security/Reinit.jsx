@@ -10,7 +10,7 @@ import { Alert }    from "@commonComponents/Elements/Alert";
 import { Button }   from "@commonComponents/Elements/Button";
 import { Password } from "@commonComponents/Modules/User/Password";
 
-const URL_PASSWORD_UPDATE = "api_users_password_update";
+const URL_PASSWORD_UPDATE = "intern_api_users_password_update";
 
 export class Reinit extends Component {
     constructor(props) {

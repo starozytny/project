@@ -12,8 +12,8 @@ import Formulaire from "@commonFunctions/formulaire";
 import Validateur from "@commonFunctions/validateur";
 
 const URL_INDEX_ELEMENTS    = "admin_help_faq_index";
-const URL_CREATE_ELEMENT    = "api_help_faq_categories_create";
-const URL_UPDATE_GROUP      = "api_help_faq_categories_update";
+const URL_CREATE_ELEMENT    = "intern_api_help_faq_categories_create";
+const URL_UPDATE_GROUP      = "intern_api_help_faq_categories_update";
 const TEXT_CREATE           = "Ajouter la catégorie";
 const TEXT_UPDATE           = "Enregistrer les modifications";
 

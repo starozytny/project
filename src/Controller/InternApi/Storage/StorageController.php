@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Api\Storage;
+namespace App\Controller\InternApi\Storage;
 
 use App\Service\ApiResponse;
 use App\Service\StorageService;
@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route('/api/storage', name: 'api_storage_')]
+#[Route('/intern/api/storage', name: 'intern_api_storage_')]
 #[IsGranted('ROLE_ADMIN')]
 class StorageController extends AbstractController
 {
@@ -61,7 +61,7 @@ class StorageController extends AbstractController
             return $this->file($filePath);
         }
 
-        return $apiResponse->apiJsonResponseCustom(['url' => $this->generateUrl('api_storage_download', [
+        return $apiResponse->apiJsonResponseCustom(['url' => $this->generateUrl('intern_api_storage_download', [
             'deep' => $deep, 'dir' => $dir, 'filename' => $filename, 'file' => 1
         ])]);
     }

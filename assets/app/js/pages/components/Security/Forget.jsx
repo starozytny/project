@@ -11,7 +11,7 @@ import { Input }  from "@commonComponents/Elements/Fields";
 import { Button } from "@commonComponents/Elements/Button";
 import { Modal }  from "@commonComponents/Elements/Modal";
 
-const URL_FORGET_PASSWORD = "api_users_password_forget";
+const URL_FORGET_PASSWORD = "intern_api_users_password_forget";
 
 export class Forget extends Component {
     constructor(props) {

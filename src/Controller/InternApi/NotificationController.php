@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Api;
+namespace App\Controller\InternApi;
 
 use App\Entity\Main\Notification;
 use App\Repository\Main\NotificationRepository;
@@ -10,7 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/api/notifications', name: 'api_notifications_')]
+#[Route('/intern/api/notifications', name: 'intern_api_notifications_')]
 class NotificationController extends AbstractController
 {
     #[Route('/list', name: 'list', options: ['expose' => true], methods: 'GET')]

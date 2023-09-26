@@ -11,8 +11,8 @@ import Formulaire from "@commonFunctions/formulaire";
 import Inputs     from "@commonFunctions/inputs";
 
 const URL_INDEX_ELEMENTS    = "admin_agenda_index";
-const URL_CREATE_ELEMENT    = "api_agenda_events_create";
-const URL_UPDATE_GROUP      = "api_agenda_events_update";
+const URL_CREATE_ELEMENT    = "intern_api_agenda_events_create";
+const URL_UPDATE_GROUP      = "intern_api_agenda_events_update";
 const TEXT_CREATE           = "Ajouter l'évènement";
 const TEXT_UPDATE           = "Enregistrer les modifications";
 

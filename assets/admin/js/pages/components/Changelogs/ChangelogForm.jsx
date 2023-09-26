@@ -12,8 +12,8 @@ import Formulaire from "@commonFunctions/formulaire";
 import Validateur from "@commonFunctions/validateur";
 
 const URL_INDEX_ELEMENTS    = "admin_changelogs_index";
-const URL_CREATE_ELEMENT    = "api_changelogs_create";
-const URL_UPDATE_GROUP      = "api_changelogs_update";
+const URL_CREATE_ELEMENT    = "intern_api_changelogs_create";
+const URL_UPDATE_GROUP      = "intern_api_changelogs_update";
 const TEXT_CREATE           = "Ajouter le changelog";
 const TEXT_UPDATE           = "Enregistrer les modifications";
 

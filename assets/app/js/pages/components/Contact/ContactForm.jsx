@@ -11,7 +11,7 @@ import Formulaire from "@commonFunctions/formulaire";
 import Validateur from "@commonFunctions/validateur";
 import {Alert} from "@commonComponents/Elements/Alert";
 
-const URL_CREATE_ELEMENT    = "api_contacts_create";
+const URL_CREATE_ELEMENT    = "intern_api_contacts_create";
 const TEXT_CREATE           = "Envoyer la demande";
 
 export function ContactFormulaire ()

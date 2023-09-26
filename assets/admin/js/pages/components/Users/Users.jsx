@@ -19,10 +19,10 @@ import { MailFormulaire }   from "@commonComponents/Modules/Mail/MailForm";
 
 import { UsersList } from "@adminPages/Users/UsersList";
 
-const URL_GET_DATA        = "api_users_list";
+const URL_GET_DATA        = "intern_api_users_list";
 const URL_DELETE_ELEMENT  = "admin_users_delete";
-const URL_REINIT_PASSWORD = "api_users_password_reinit";
-const URL_SWITCH_BLOCKED  = "api_users_switch_blocked";
+const URL_REINIT_PASSWORD = "intern_api_users_password_reinit";
+const URL_SWITCH_BLOCKED  = "intern_api_users_switch_blocked";
 
 let SORTER = Sort.compareLastname;
 let sorters = [

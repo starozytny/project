@@ -11,7 +11,7 @@ import { ButtonIcon } from "@commonComponents/Elements/Button";
 import { Checkbox }   from "@commonComponents/Elements/Fields";
 
 const URL_UPDATE_PAGE    = "admin_changelogs_update";
-const URL_UPDATE_PUBLISH = "api_changelogs_switch_publish";
+const URL_UPDATE_PUBLISH = "intern_api_changelogs_switch_publish";
 
 export function ChangelogsItem ({ elem, highlight, onModal })
 {

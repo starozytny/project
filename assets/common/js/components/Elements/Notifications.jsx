@@ -10,10 +10,10 @@ import Sort       from "@commonFunctions/sort";
 import { ButtonIcon }   from "@commonComponents/Elements/Button";
 import { LoadIcon }     from "@commonComponents/Elements/Loader";
 
-const URL_GET_DATA          = "api_notifications_list";
-const URL_SWITCH_ALL_SEEN   = "api_notifications_switch_all_seen";
-const URL_DELETE_ALL        = "api_notifications_delete_all";
-const URL_DELETE_ELEMENT    = "api_notifications_delete";
+const URL_GET_DATA          = "intern_api_notifications_list";
+const URL_SWITCH_ALL_SEEN   = "intern_api_notifications_switch_all_seen";
+const URL_DELETE_ALL        = "intern_api_notifications_delete_all";
+const URL_DELETE_ELEMENT    = "intern_api_notifications_delete";
 
 export class Notifications extends Component {
     constructor(props) {

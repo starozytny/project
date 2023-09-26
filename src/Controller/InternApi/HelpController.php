@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Api;
+namespace App\Controller\InternApi;
 
 use App\Entity\Main\Help\HeCategory;
 use App\Entity\Main\Help\HeQuestion;
@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 
-#[Route('/api/help/faq', name: 'api_help_faq_')]
+#[Route('/intern/api/help/faq', name: 'intern_api_help_faq_')]
 class HelpController extends AbstractController
 {
     #[Route('/list', name: 'list', options: ['expose' => true], methods: 'GET')]

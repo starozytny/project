@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Api\Help;
+namespace App\Controller\InternApi\Help;
 
 use App\Entity\Main\Help\HeCategory;
 use App\Repository\Main\Help\HeCategoryRepository;
@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/api/help/faq/categories', name: 'api_help_faq_categories_')]
+#[Route('/intern/api/help/faq/categories', name: 'intern_api_help_faq_categories_')]
 class CategoryController extends AbstractController
 {
     public function submitForm($type, HeCategoryRepository $repository, HeCategory $obj, Request $request, ApiResponse $apiResponse,

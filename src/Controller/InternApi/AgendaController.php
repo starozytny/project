@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Api;
+namespace App\Controller\InternApi;
 
 use App\Entity\Main\Agenda\AgEvent;
 use App\Repository\Main\Agenda\AgEventRepository;
@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/api/agenda/events/', name: 'api_agenda_events_')]
+#[Route('/intern/api/agenda/events/', name: 'intern_api_agenda_events_')]
 class AgendaController extends AbstractController
 {
     #[Route('/list', name: 'list', options: ['expose' => true], methods: 'GET')]

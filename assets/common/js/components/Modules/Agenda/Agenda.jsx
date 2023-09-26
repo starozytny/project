@@ -17,7 +17,7 @@ import Formulaire        from "@commonFunctions/formulaire";
 
 import { LoaderElements } from "@commonComponents/Elements/Loader";
 
-const URL_GET_DATA       = "api_agenda_events_list";
+const URL_GET_DATA       = "intern_api_agenda_events_list";
 const URL_UPDATE_ELEMENT = "admin_agenda_update";
 
 export class Agenda extends Component {

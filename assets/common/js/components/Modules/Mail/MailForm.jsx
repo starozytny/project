@@ -15,7 +15,7 @@ import Formulaire from "@commonFunctions/formulaire";
 import Inputs     from "@commonFunctions/inputs";
 import Validateur from "@commonFunctions/validateur";
 
-const URL_CREATE_ELEMENT    = "api_mails_send";
+const URL_CREATE_ELEMENT    = "intern_api_mails_send";
 const TEXT_CREATE           = "Envoyer le message";
 
 export function MailFormulaire ({ identifiant, element, tos })

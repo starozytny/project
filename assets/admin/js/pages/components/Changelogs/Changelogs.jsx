@@ -13,8 +13,8 @@ import { LoaderElements }   from "@commonComponents/Elements/Loader";
 import { Filter }           from "@commonComponents/Elements/Filter";
 import { ModalDelete }      from "@commonComponents/Shortcut/Modal";
 
-const URL_GET_DATA        = "api_changelogs_list";
-const URL_DELETE_ELEMENT  = "api_changelogs_delete";
+const URL_GET_DATA        = "intern_api_changelogs_list";
+const URL_DELETE_ELEMENT  = "intern_api_changelogs_delete";
 
 let SORTER = Sort.compareCreatedAtInverse;
 let sorters = [

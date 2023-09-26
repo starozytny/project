@@ -10,7 +10,7 @@ import { Button }   from "@commonComponents/Elements/Button";
 import { Password } from "@commonComponents/Modules/User/Password";
 import { Alert }    from "@commonComponents/Elements/Alert";
 
-const URL_PASSWORD_UPDATE = "api_users_password_update";
+const URL_PASSWORD_UPDATE = "intern_api_users_password_update";
 
 export class UserPassword extends Component {
     constructor(props) {

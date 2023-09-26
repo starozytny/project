@@ -14,11 +14,11 @@ const URL_INDEX_ELEMENTS  = "admin_help_faq_index";
 
 const URL_CREATE_CATEGORY = "admin_help_faq_categories_create";
 const URL_UPDATE_CATEGORY = "admin_help_faq_categories_update";
-const URL_DELETE_CATEGORY = "api_help_faq_categories_delete";
+const URL_DELETE_CATEGORY = "intern_api_help_faq_categories_delete";
 
 const URL_CREATE_QUESTION = "admin_help_faq_questions_create";
 const URL_UPDATE_QUESTION = "admin_help_faq_questions_update";
-const URL_DELETE_QUESTION = "api_help_faq_questions_delete";
+const URL_DELETE_QUESTION = "intern_api_help_faq_questions_delete";
 
 export function FaqList ({ role, categories, questions, defaultCategory })
 {

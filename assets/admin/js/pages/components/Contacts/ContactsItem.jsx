@@ -9,7 +9,7 @@ import Sanitaze   from "@commonFunctions/sanitaze";
 
 import { ButtonIcon } from "@commonComponents/Elements/Button";
 
-const URL_UPDATE_SEEN = "api_contacts_switch_seen";
+const URL_UPDATE_SEEN = "intern_api_contacts_switch_seen";
 
 export function ContactsItem ({ elem, onDelete })
 {
