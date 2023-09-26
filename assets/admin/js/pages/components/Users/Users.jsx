@@ -20,7 +20,7 @@ import { MailFormulaire }   from "@commonComponents/Modules/Mail/MailForm";
 import { UsersList } from "@adminPages/Users/UsersList";
 
 const URL_GET_DATA        = "api_users_list";
-const URL_DELETE_ELEMENT  = "api_users_delete";
+const URL_DELETE_ELEMENT  = "admin_users_delete";
 const URL_REINIT_PASSWORD = "api_users_password_reinit";
 const URL_SWITCH_BLOCKED  = "api_users_switch_blocked";
 

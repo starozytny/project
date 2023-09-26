@@ -7,7 +7,6 @@ use App\Entity\Main\User;
 use App\Repository\Main\UserRepository;
 use App\Service\ApiResponse;
 use App\Service\Data\DataMain;
-use App\Service\Export;
 use App\Service\FileUploader;
 use App\Service\MailerService;
 use App\Service\SanitizeData;
@@ -17,7 +16,6 @@ use DateTime;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,6 +29,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class UserController extends AbstractController
 {
     #[Route('/list', name: 'list', options: ['expose' => true], methods: 'GET')]
+    #[IsGranted('ROLE_ADMIN')]
     public function list(UserRepository $repository, ApiResponse $apiResponse): Response
     {
         return $apiResponse->apiJsonResponse($repository->findAll(), User::LIST);
@@ -113,24 +112,6 @@ class UserController extends AbstractController
         $em = $doctrine->getManager();
         return $this->submitForm("update", $repository, $obj, $request, $apiResponse, $validator, $dataEntity,
             $em, $passwordHasher, $fileUploader);
-    }
-
-    #[Route('/delete/{id}', name: 'delete', options: ['expose' => true], methods: 'DELETE')]
-    #[IsGranted('ROLE_ADMIN')]
-    public function delete(User $obj, UserRepository $repository, ApiResponse $apiResponse, FileUploader $fileUploader): Response
-    {
-        if ($obj->getHighRoleCode() === User::CODE_ROLE_DEVELOPER) {
-            return $apiResponse->apiJsonResponseForbidden();
-        }
-
-        if ($obj === $this->getUser()) {
-            return $apiResponse->apiJsonResponseBadRequest('Vous ne pouvez pas vous supprimer.');
-        }
-
-        $repository->remove($obj, true);
-
-        $fileUploader->deleteFile($obj->getAvatar(), User::FOLDER);
-        return $apiResponse->apiJsonResponseSuccessful("ok");
     }
 
     #[Route('/password/forget', name: 'password_forget', options: ['expose' => true], methods: 'post')]

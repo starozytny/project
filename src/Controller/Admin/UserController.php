@@ -6,12 +6,14 @@ use App\Entity\Main\User;
 use App\Repository\Main\UserRepository;
 use App\Service\ApiResponse;
 use App\Service\Export;
+use App\Service\FileUploader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Serializer\SerializerInterface;
 
 #[Route('/admin/utilisateurs', name: 'admin_users_')]
@@ -41,6 +43,23 @@ class UserController extends AbstractController
     {
         $obj = $serializer->serialize($elem, 'json', ['groups' => User::LIST]);
         return $this->render('admin/pages/users/read.html.twig', ['elem' => $elem, 'obj' => $obj]);
+    }
+
+    #[Route('/utilisateur/supprimer/{id}', name: 'delete', options: ['expose' => true], methods: 'DELETE')]
+    public function delete(User $obj, UserRepository $repository, ApiResponse $apiResponse, FileUploader $fileUploader): Response
+    {
+        if ($obj->getHighRoleCode() === User::CODE_ROLE_DEVELOPER) {
+            return $apiResponse->apiJsonResponseForbidden();
+        }
+
+        if ($obj === $this->getUser()) {
+            return $apiResponse->apiJsonResponseBadRequest('Vous ne pouvez pas vous supprimer.');
+        }
+
+        $repository->remove($obj, true);
+
+        $fileUploader->deleteFile($obj->getAvatar(), User::FOLDER);
+        return $apiResponse->apiJsonResponseSuccessful("ok");
     }
 
     #[Route('/utilisateur/mot-de-passe/{id}', name: 'password', options: ['expose' => true])]
