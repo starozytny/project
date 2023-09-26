@@ -7,7 +7,7 @@ import Formulaire from "@commonFunctions/formulaire";
 
 import { ButtonIcon } from "@commonComponents/Elements/Button";
 
-const URL_EXPORT_ELEMENTS = "api_users_export";
+const URL_EXPORT_ELEMENTS = "admin_users_export";
 
 export function UserExport () {
 

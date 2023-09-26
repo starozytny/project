@@ -247,47 +247,4 @@ class UserController extends AbstractController
         $repository->save($user, true);
         return $apiResponse->apiJsonResponse($user, User::LIST);
     }
-
-    #[Route('/export/{format}', name: 'export', options: ['expose' => true], methods: 'get')]
-    public function export(Request $request, Export $export, $format, UserRepository $repository, ApiResponse $apiResponse): BinaryFileResponse|JsonResponse
-    {
-        $nameFile = 'utilisateurs';
-        $nameFolder = 'export/';
-
-        if($format == 'excel'){
-            $fileName = $nameFile . '.xlsx';
-            $header = [['ID', 'Nom/Prenom', 'Identifiant', 'Role', 'Email', 'Date de creation']];
-        }else{
-            $fileName = $nameFile . '.csv';
-            $header = [['id', 'name', 'username', 'role', 'email', 'createAt']];
-
-            header('Content-Type: application/csv');
-            header('Content-Disposition: attachment; filename="'.$fileName.'"');
-        }
-
-        $type = $request->query->get('file');
-        if($type){
-            return $this->file($this->getParameter('private_directory'). $nameFolder . $fileName);
-        }
-
-        $objs = $repository->findBy([], ['lastname' => 'ASC']);
-        $data = [];
-
-        foreach ($objs as $obj) {
-            $tmp = [
-                $obj->getId(),
-                $obj->getLastname() . " " . $obj->getFirstname(),
-                $obj->getUsername(),
-                $obj->getHighRole(),
-                $obj->getEmail(),
-                date_format($obj->getCreatedAt(), 'd/m/Y'),
-            ];
-            if(!in_array($tmp, $data)){
-                $data[] = $tmp;
-            }
-        }
-
-        $export->createFile($format, 'Liste des ' . $nameFile, $fileName , $header, $data, 6, $nameFolder);
-        return $apiResponse->apiJsonResponseCustom(['url' => $this->generateUrl('api_users_export', ['format' => $format, 'file' => 1])]);
-    }
 }
