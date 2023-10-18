@@ -14,11 +14,13 @@ class MailerService
 {
     private MailerInterface $mailer;
     private SettingsService $settingsService;
+    private string $appEnv;
 
-    public function __construct(MailerInterface $mailer, SettingsService $settingsService)
+    public function __construct($appEnv, MailerInterface $mailer, SettingsService $settingsService)
     {
         $this->mailer = $mailer;
         $this->settingsService = $settingsService;
+        $this->appEnv = $appEnv;
     }
 
     public function sendMail(array $to, $subject, $text, $html, $params, $cc=[], $cci=[], $replyTo=null, $files = [], $from=null, $fromName=null): bool|string
@@ -36,6 +38,9 @@ class MailerService
 
         $i = 0;
         foreach($to as $item){
+            if($this->appEnv != "prod"){
+                $item = $this->settingsService->getEmailExpediteurGlobal();
+            }
             if($i == 0) $email->to(new Address($item));
             else $email->addTo(new Address($item));
             $i++;
@@ -45,6 +50,9 @@ class MailerService
 
         $i = 0;
         foreach($cc as $item){
+            if($this->appEnv != "prod"){
+                $item = $this->settingsService->getEmailExpediteurGlobal();
+            }
             if($i == 0) $email->cc(new Address($item));
             else $email->addCc(new Address($item));
             $i++;
@@ -52,6 +60,9 @@ class MailerService
 
         $i = 0;
         foreach($cci as $item){
+            if($this->appEnv != "prod"){
+                $item = $this->settingsService->getEmailExpediteurGlobal();
+            }
             if($i == 0) $email->bcc(new Address($item));
             else $email->addBcc(new Address($item));
             $i++;
