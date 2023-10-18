@@ -33,17 +33,19 @@ class AdminDatabaseUpdateCommand extends Command
 
         $societies = $this->em->getRepository(Society::class)->findAll();
         foreach($societies as $society){
-            $command = $this->getApplication()->find('do:sc:up');
-            $arguments = [
-                'command' => 'do:sc:up',
-                '--force' => true,
-                '--em' => $society->getManager()
-            ];
-            $greetInput = new ArrayInput($arguments);
-            try {
-                $command->run($greetInput, $output);
-            } catch (ExceptionInterface $e) {
-                $io->error('Erreur run do:sc:up : ' . $e);
+            if($society->isIsActivated()){
+                $command = $this->getApplication()->find('do:sc:up');
+                $arguments = [
+                    'command' => 'do:sc:up',
+                    '--force' => true,
+                    '--em' => $society->getManager()
+                ];
+                $greetInput = new ArrayInput($arguments);
+                try {
+                    $command->run($greetInput, $output);
+                } catch (ExceptionInterface $e) {
+                    $io->error('Erreur run do:sc:up : ' . $e);
+                }
             }
         }
 
