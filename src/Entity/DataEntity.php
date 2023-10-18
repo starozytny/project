@@ -13,6 +13,13 @@ class DataEntity
         return $createdAt;
     }
 
+    public function initNewDate(): \DateTime
+    {
+        $createdAt = new \DateTime();
+        $createdAt->setTimezone(new \DateTimeZone("Europe/Paris"));
+        return $createdAt;
+    }
+
     /**
      * @throws Exception
      */
