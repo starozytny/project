@@ -11,6 +11,7 @@ use App\Entity\Main\Notification;
 use App\Entity\Main\Settings;
 use App\Entity\Main\Society;
 use App\Entity\Main\User;
+use App\Entity\Main\UserMail;
 use App\Service\SanitizeData;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -31,6 +32,20 @@ class DataMain
             ->setFirstname($this->sanitizeData->sanitizeString($data->firstname))
             ->setLastname($this->sanitizeData->sanitizeString($data->lastname))
             ->setEmail($data->email)
+        ;
+    }
+
+    public function setDataUserMail(UserMail $obj, $data): UserMail
+    {
+        $password = $this->sanitizeData->trimData($data->mailPassword);
+        if(!$obj->getPassword() || $obj->getPassword() && $password){
+            $obj->setPassword($password);
+        }
+
+        return ($obj)
+            ->setHote($this->sanitizeData->trimData($data->mailHote))
+            ->setPort($this->sanitizeData->trimData($data->mailPort))
+            ->setUsername($this->sanitizeData->trimData($data->mailUsername))
         ;
     }
 

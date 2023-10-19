@@ -4,6 +4,7 @@ namespace App\Controller\InternApi;
 
 use App\Entity\Main\Society;
 use App\Entity\Main\User;
+use App\Entity\Main\UserMail;
 use App\Repository\Main\UserRepository;
 use App\Service\ApiResponse;
 use App\Service\Data\DataMain;
@@ -62,19 +63,29 @@ class UserController extends AbstractController
             }
         }
 
+        if($data->mailHote !== ""){
+            $userMail = $dataEntity->setDataUserMail($obj->getUserMail() ?: new UserMail(), $data);
+            $obj->setUserMail($userMail);
+            $em->persist($userMail);
+        }
+
         $obj->setSociety($society);
         $obj->setManager($society->getManager());
 
-        if($em->getRepository(User::class)->findOneBy(['username' => $obj->getUsername()])){
-            return $apiResponse->apiJsonResponseValidationFailed([
-                ["name" => "username", "message" => "Ce nom d'utilisateur existe déjà."]
-            ]);
+        if($existe = $em->getRepository(User::class)->findOneBy(['username' => $obj->getUsername()])){
+            if($type == "create" || ($type == "update" && $existe->getId() != $obj->getId())){
+                return $apiResponse->apiJsonResponseValidationFailed([
+                    ["name" => "username", "message" => "Ce nom d'utilisateur existe déjà."]
+                ]);
+            }
         }
 
-        if($em->getRepository(User::class)->findOneBy(['email' => $obj->getEmail()])){
-            return $apiResponse->apiJsonResponseValidationFailed([
-                ["name" => "email", "message" => "Cette addresse e-mail existe déjà."]
-            ]);
+        if($existe = $em->getRepository(User::class)->findOneBy(['email' => $obj->getEmail()])){
+            if($type == "create" || ($type == "update" && $existe->getId() != $obj->getId())){
+                return $apiResponse->apiJsonResponseValidationFailed([
+                    ["name" => "email", "message" => "Cette addresse e-mail existe déjà."]
+                ]);
+            }
         }
 
         $noErrors = $validator->validate($obj);

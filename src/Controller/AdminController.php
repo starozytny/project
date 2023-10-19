@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Main\Settings;
+use App\Entity\Main\User;
 use App\Repository\Main\ChangelogRepository;
 use App\Repository\Main\ContactRepository;
 use App\Repository\Main\SettingsRepository;
@@ -131,6 +132,30 @@ class AdminController extends AbstractController
     #[Route('/styleguide', name: 'styleguide_index')]
     public function styleguide(): Response
     {
+        return $this->render('admin/pages/styleguide/index.html.twig');
+    }
+
+    #[Route('/mails', name: 'mails_index')]
+    public function mails(): Response
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+        $userMail = $user->getUserMail();
+
+        if($userMail){
+            $serveur = '{'.$userMail->getHote().':'.$userMail->getPort().'/imap/ssl}INBOX';
+
+            $mailbox = imap_open($serveur, $userMail->getUsername(), $userMail->getPassword());
+            $emails = imap_search($mailbox, 'SINCE "18 October 2023"');
+
+//            dump($mailbox);
+//            dump($emails ? count($emails) : false);
+
+            imap_close($mailbox);
+        }
+
+
+
         return $this->render('admin/pages/styleguide/index.html.twig');
     }
 }
