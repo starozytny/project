@@ -13,6 +13,7 @@ use App\Service\ApiResponse;
 use App\Service\MultipleDatabase\MultipleDatabase;
 use App\Service\SanitizeData;
 use App\Service\ValidatorService;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -136,26 +137,91 @@ class AdminController extends AbstractController
     }
 
     #[Route('/mails', name: 'mails_index')]
-    public function mails(): Response
+    public function mails(Request $request, PaginatorInterface $paginator): Response
     {
         /** @var User $user */
         $user = $this->getUser();
         $userMail = $user->getUserMail();
 
+        $pagination = null;
         if($userMail){
             $serveur = '{'.$userMail->getHote().':'.$userMail->getPort().'/imap/ssl}INBOX';
 
             $mailbox = imap_open($serveur, $userMail->getUsername(), $userMail->getPassword());
-            $emails = imap_search($mailbox, 'SINCE "18 October 2023"');
 
-//            dump($mailbox);
-//            dump($emails ? count($emails) : false);
+            if ($mailbox) {
+                $emailsId = imap_search($mailbox, 'SINCE "18 October 2023"');
 
-            imap_close($mailbox);
+                $emails = [];
+                foreach ($emailsId as $email_id) {
+                    $header = imap_fetchheader($mailbox, $email_id);
+                    $body = $this->get_part($mailbox, $email_id, 'TEXT/HTML');
+
+                    $body = imap_qprint($body);
+
+                    // Faites quelque chose avec les en-têtes et le corps de l'e-mail
+                    $emails[] = [
+                        'body' => $body
+                    ];
+                }
+
+                dump($emails);
+
+                $pagination = $paginator->paginate($emails, $request->query->getInt('page', 1), 10);
+
+
+
+                imap_close($mailbox);
+            }
         }
 
 
 
-        return $this->render('admin/pages/styleguide/index.html.twig');
+        return $this->render('admin/pages/mails/index.html.twig', [
+            'pagination' => $pagination
+        ]);
+    }
+
+    function get_mime_type(&$structure) {
+        $primary_mime_type = array("TEXT", "MULTIPART", "MESSAGE", "APPLICATION", "AUDIO", "IMAGE", "VIDEO", "OTHER");
+        if($structure->subtype) {
+            return $primary_mime_type[(int) $structure->type] . '/' . $structure->subtype;
+        }
+        return "TEXT/PLAIN";
+    }
+
+
+    function get_part($mbox, $i, $mime_type, $structure = false, $part_number = false) {
+        if (!$structure) {
+            $structure = imap_fetchstructure($mbox, $i);
+        }
+        if($structure) {
+            if($mime_type == $this->get_mime_type($structure)) {
+                if(!$part_number) {
+                    $part_number = "1";
+                }
+                $text = imap_fetchbody($mbox, $i, $part_number);
+                if($structure->encoding == 3) {
+                    return imap_base64($text);
+                } else if ($structure->encoding == 4) {
+                    return imap_qprint($text);
+                } else {
+                    return $text;
+                }
+            }
+            if ($structure->type == 1) { /* multipart */
+                foreach($structure->parts as $index => $sub_structure){
+                    $prefix = "";
+                    if ($part_number) {
+                        $prefix = $part_number . '.';
+                    }
+                    $data = $this->get_part($mbox, $i, $mime_type, $sub_structure, $prefix . (@$index + 1));
+                    if ($data) {
+                        return $data;
+                    }
+                }
+            }
+        }
+        return false;
     }
 }
