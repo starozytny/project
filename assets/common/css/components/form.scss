@@ -109,6 +109,10 @@ input, textarea, select, .input-view, .select-multiple-custom > .select-input{
 
 textarea{
   resize: vertical;
+
+  & + .tox-tinymce{
+    width: 100%;
+  }
 }
 
 .form-group{
