@@ -4,6 +4,8 @@ namespace App\Entity\Main;
 
 use App\Entity\DataEntity;
 use App\Repository\Main\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Exception;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -94,6 +96,9 @@ class User extends DataEntity implements UserInterface, PasswordAuthenticatedUse
     #[Groups(['user_form'])]
     private ?UserMail $userMail = null;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Mail::class)]
+    private Collection $mails;
+
     /**
      * @throws Exception
      */
@@ -101,6 +106,7 @@ class User extends DataEntity implements UserInterface, PasswordAuthenticatedUse
     {
         $this->createdAt = $this->initNewDateImmutable();
         $this->token = $this->initToken();
+        $this->mails = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -383,6 +389,36 @@ class User extends DataEntity implements UserInterface, PasswordAuthenticatedUse
     public function setUserMail(?UserMail $userMail): static
     {
         $this->userMail = $userMail;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Mail>
+     */
+    public function getMails(): Collection
+    {
+        return $this->mails;
+    }
+
+    public function addMail(Mail $mail): static
+    {
+        if (!$this->mails->contains($mail)) {
+            $this->mails->add($mail);
+            $mail->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMail(Mail $mail): static
+    {
+        if ($this->mails->removeElement($mail)) {
+            // set the owning side to null (unless already changed)
+            if ($mail->getUser() === $this) {
+                $mail->setUser(null);
+            }
+        }
 
         return $this;
     }

@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Main\Mail;
 use App\Entity\Main\Settings;
 use App\Entity\Main\User;
 use App\Repository\Main\ChangelogRepository;
 use App\Repository\Main\ContactRepository;
+use App\Repository\Main\MailRepository;
 use App\Repository\Main\SettingsRepository;
 use App\Repository\Main\SocietyRepository;
 use App\Repository\Main\UserRepository;
@@ -137,13 +139,15 @@ class AdminController extends AbstractController
     }
 
     #[Route('/mails', name: 'mails_index')]
-    public function mails(Request $request, PaginatorInterface $paginator): Response
+    public function mails(Request $request, MailRepository $repository, SerializerInterface $serializer,
+                          PaginatorInterface $paginator): Response
     {
         /** @var User $user */
         $user = $this->getUser();
         $userMail = $user->getUserMail();
 
-        $pagination = null;
+        $mails = $repository->findAll();
+
         if($userMail){
             $serveur = '{'.$userMail->getHote().':'.$userMail->getPort().'/imap/ssl}INBOX';
 
@@ -152,33 +156,49 @@ class AdminController extends AbstractController
             if ($mailbox) {
                 $emailsId = imap_search($mailbox, 'SINCE "18 October 2023"');
 
-                $emails = [];
                 foreach ($emailsId as $email_id) {
-                    $header = imap_fetchheader($mailbox, $email_id);
-                    $body = $this->get_part($mailbox, $email_id, 'TEXT/HTML');
 
-                    $body = imap_qprint($body);
+                    $find = false;
+                    foreach($mails as $m){
+                        if($m->getImapId() == $email_id){
+                            $find = true;
+                        }
+                    }
 
-                    // Faites quelque chose avec les en-têtes et le corps de l'e-mail
-                    $emails[] = [
-                        'body' => $body
-                    ];
+                    if(!$find){
+                        $header  = imap_headerinfo($mailbox, $email_id);
+                        $body = $this->get_part($mailbox, $email_id, 'TEXT/PLAIN');
+                        $body = str_replace("<",'"', $body);
+                        $body = str_replace(">",'"', $body);
+                        $body = str_replace("\r\n",'<br />', $body);
+
+                        $nImapMail = (new Mail())
+                            ->setExpeditor($header->from[0]->mailbox . "@" . $header->from[0]->host)
+                            ->setSubject($header->subject)
+                            ->setMessage(utf8_encode($body))
+                            ->setUser($user)
+                            ->setImapId($email_id)
+                        ;
+
+                        $repository->save($nImapMail);
+                    }
                 }
 
-                dump($emails);
-
-                $pagination = $paginator->paginate($emails, $request->query->getInt('page', 1), 10);
-
-
-
                 imap_close($mailbox);
+                $repository->flush();
             }
         }
+        $mails = $repository->findAll();
 
+        dump($mails);
 
+        $pagination = $paginator->paginate($mails, $request->query->getInt('page', 1), 10);
+
+        $data = $serializer->serialize($pagination->getItems(), 'json', ['groups' => Mail::LIST]);
 
         return $this->render('admin/pages/mails/index.html.twig', [
-            'pagination' => $pagination
+            'data' => $data,
+            'pagination' => $pagination,
         ]);
     }
 

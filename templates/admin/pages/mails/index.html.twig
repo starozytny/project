@@ -4,20 +4,17 @@
 {% set page_subtitle %}Boite mail configuré en IMAP.{% endset %}
 
 {% block main_content %}
-    <div class="main-content" style="filter: invert(100%)">
+    <div class="main-content">
         <div class="count">
             {{ pagination.getTotalItemCount }}
         </div>
-        <div>
-            {# table body #}
-            {% for item in pagination %}
-                <div>{{ item.body | raw }}</div>
-                <br>
-                <hr>
-                <br>
-            {% endfor %}
+
+        <div id="mails"
+             data-donnees="{{ data }}"
+        >
+            {% include "layout/components/loader.html.twig" %}
         </div>
-        {# display navigation #}
+
         <div class="navigation">
             {{ knp_pagination_render(pagination) }}
         </div>
