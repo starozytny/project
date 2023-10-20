@@ -11,6 +11,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: ChangelogRepository::class)]
 class Changelog extends DataEntity
 {
+    const FOLDER = "images/editor/changelogs";
+
     const LIST = ['changelog_list'];
     const FORM = ['changelog_form'];
 

@@ -603,30 +603,6 @@ TextArea.propTypes = {
     placeholder: PropTypes.string,
     height: PropTypes.string,
 }
-//
-// /***************************************
-//  * Time Classique
-//  ***************************************/
-// export function TextArea (props) {
-//     const { identifiant, valeur, onChange, children, placeholder="", autocomplete="on", height="80px" } = props;
-//     let content = <>
-//             <textarea name={identifiant} id={identifiant} value={valeur} style={{height: height}}
-//                       placeholder={placeholder} onChange={onChange} autoComplete={autocomplete} />
-//     </>
-//
-//     return (<Structure {...props} content={content} label={children} />)
-// }
-//
-// TextArea.propTypes = {
-//     identifiant: PropTypes.string.isRequired,
-//     valeur: PropTypes.node.isRequired,
-//     errors: PropTypes.array.isRequired,
-//     onChange: PropTypes.func.isRequired,
-//     children: PropTypes.node,
-//     autocomplete: PropTypes.string,
-//     placeholder: PropTypes.string,
-//     height: PropTypes.string,
-// }
 
 /***************************************
  * STRUCTURE

@@ -1,3 +1,7 @@
+.tox-tinymce-aux{
+  z-index: 10000 !important;
+}
+
 .line-critere{
   position: absolute;
   width: 0;
@@ -44,6 +48,10 @@
     @include flex(column, flex-start, flex-start);
     margin-bottom: 8px;
     width: 100%;
+
+    .tox-tinymce{
+      border-width: 1px;
+    }
   }
 }
 
@@ -52,7 +60,10 @@
     color: var(--error) !important;
   }
 
-  input, textarea, select, .input-view, .trumbowyg-box, .trumbowyg-editor, .select-multiple-custom > .select-input{
+  input, textarea, select, .input-view,
+  .trumbowyg-box, .trumbowyg-editor,
+  .select-multiple-custom > .select-input,
+  .tox-tinymce{
     border-color: var(--error);
     color: var(--error);
     background-color: var(--errorBackground);

@@ -7,9 +7,9 @@ import { uid } from 'uid'
 import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
 import { Input, InputFile, SelectMultipleCustom } from "@commonComponents/Elements/Fields";
-import { Trumb }            from "@commonComponents/Elements/Trumb";
 import { Button }           from "@commonComponents/Elements/Button";
 import { Alert }            from "@commonComponents/Elements/Alert";
+import { TinyMCE }          from "@commonComponents/Elements/TinyMCE";
 
 import Formulaire from "@commonFunctions/formulaire";
 import Inputs     from "@commonFunctions/inputs";
@@ -59,6 +59,7 @@ class Form extends Component {
             openCc: false,
             openCci: false,
             loadSendData: false,
+            resetTextArea: false
         }
 
         this.select0 = React.createRef();
@@ -85,11 +86,8 @@ class Form extends Component {
 
     handleChange = (e) => { this.setState({[e.currentTarget.name]: e.currentTarget.value}) }
 
-    handleChangeTrumb = (e) => {
-        let name = e.currentTarget.id;
-        let text = e.currentTarget.innerHTML;
-
-        this.setState({[name]: {value: [name].value, html: text}})
+    handleChangeTinyMCE = (name, html) => {
+        this.setState({ [name]: {value: this.state[name].value, html: html} })
     }
 
     handleSelect = (name, value) => {
@@ -168,7 +166,7 @@ class Form extends Component {
 
     render () {
         const { tos } = this.props;
-        const { errors, success, loadSendData, to, cc, cci, name, message, openCc, openCci, files } = this.state;
+        const { errors, success, loadSendData, to, cc, cci, name, message, resetTextArea, openCc, openCci, files } = this.state;
 
         let params = { errors: errors, onChange: this.handleChange }
         let params1 = { errors: errors, onClick: this.handleSelect, onDeClick: this.handleDeselect }
@@ -198,9 +196,10 @@ class Form extends Component {
                     </div>
 
                     <div className="line">
-                        <Trumb identifiant="message" valeur={message.value} errors={errors} onChange={this.handleChangeTrumb}>
+                        <TinyMCE type={2} identifiant='message' valeur={message.value}
+                                 errors={errors} onUpdateData={this.handleChangeTinyMCE} key={resetTextArea}>
                             Message
-                        </Trumb>
+                        </TinyMCE>
                     </div>
 
                     <div className="line">
