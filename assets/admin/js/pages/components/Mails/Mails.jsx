@@ -1,15 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+import { createPortal } from 'react-dom';
 
 import parse from 'html-react-parser';
 
 import Sanitaze from '@commonFunctions/sanitaze';
 
 import { Button, ButtonIcon } from "@commonComponents/Elements/Button";
+import { Modal } from "@commonComponents/Elements/Modal";
+
+import { MailFormulaire } from "@commonComponents/Modules/Mail/MailForm";
 
 export function Mails ({ donnees, totalMails }) {
 
+    const formRef = useRef(null);
     const [context, setContext] = useState('sent');
     const [element, setElement] = useState(null);
+
+    let handleFormMail = (element) => {
+        formRef.current.handleClick();
+        setElement(element);
+    }
 
     let menu = [
         { context: 'sent',  icon: "email-tracking", label: "Envoyés",           total: totalMails },
@@ -39,11 +49,10 @@ export function Mails ({ donnees, totalMails }) {
 
     let data = JSON.parse(donnees);
 
-    console.log(data)
     return <div className="boite-mail">
         <div className="col-1">
             <div className="mail-add">
-                <Button icon="email-edit" type="primary">Nouveau message</Button>
+                <Button icon="email-edit" type="primary" onClick={() => handleFormMail(null)}>Nouveau message</Button>
             </div>
             <div className="mail-menu">
                 <div className="items">{menuItems}</div>
@@ -141,6 +150,11 @@ export function Mails ({ donnees, totalMails }) {
                     : null}
             </div>
         </div>
+        {createPortal(
+            <Modal ref={formRef} identifiant="mail" maxWidth={768} margin={2} title="Envoyer un mail" isForm={true}
+                   content={<MailFormulaire identifiant="mail" element={element} tos={[]} />} footer={null} />,
+            document.body)
+        }
     </div>
 }
 
