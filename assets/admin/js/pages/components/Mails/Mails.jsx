@@ -1,20 +1,18 @@
 import React, { useState } from 'react';
 
 import parse from 'html-react-parser';
+
 import Sanitaze from '@commonFunctions/sanitaze';
 
-import {Button, ButtonIcon} from "@commonComponents/Elements/Button";
+import { Button, ButtonIcon } from "@commonComponents/Elements/Button";
 
 export function Mails ({ donnees, totalMails }) {
 
-    const [context, setContext] = useState('mails');
+    const [context, setContext] = useState('sent');
     const [element, setElement] = useState(null);
 
-    console.log(totalMails);
-
     let menu = [
-        { context: 'mails', icon: "email",          label: "Boite réception",   total: totalMails },
-        { context: 'sent',  icon: "email-tracking", label: "Envoyés",           total: 0 },
+        { context: 'sent',  icon: "email-tracking", label: "Envoyés",           total: totalMails },
         { context: 'draft', icon: "pencil",         label: "Brouillon",         total: 0 },
         { context: 'trash', icon: "trash",          label: "Corbeille",         total: 0 },
     ];

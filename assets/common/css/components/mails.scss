@@ -1,7 +1,8 @@
 .boite-mail{
   @include flex(column, stretch, flex-start);
   border-radius: var(--radius2);
-  border: 1px solid var(--color0Opacity4);
+  border: 1px solid var(--color0);
+  background-color: var(--color0Opacity4);
   min-height: 100vh;
 
   & > .col-1, & > .col-2, & > .col-3{
@@ -18,8 +19,8 @@
   }
 
   & > .col-2{
-    border-top: 1px solid var(--color0Opacity4);
-    border-bottom: 1px solid var(--color0Opacity4);
+    border-top: 1px solid var(--color0);
+    border-bottom: 1px solid var(--color0);
   }
 
   & > .col-3{

@@ -5,7 +5,6 @@
 
 {% block main_content %}
     <div class="main-content">
-
         <div id="mails"
              data-total-mails="{{ pagination.getTotalItemCount }}"
              data-donnees="{{ data }}"
@@ -16,8 +15,5 @@
         <div class="navigation">
             {{ knp_pagination_render(pagination) }}
         </div>
-    </div>
-    <div id="mails">
-        {% include "layout/components/loader.html.twig" %}
     </div>
 {% endblock %}
