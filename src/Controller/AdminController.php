@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Main\Mail;
 use App\Entity\Main\Settings;
-use App\Entity\Main\User;
 use App\Repository\Main\ChangelogRepository;
 use App\Repository\Main\ContactRepository;
 use App\Repository\Main\MailRepository;
@@ -142,55 +141,15 @@ class AdminController extends AbstractController
     public function mails(Request $request, MailRepository $repository, SerializerInterface $serializer,
                           PaginatorInterface $paginator): Response
     {
-        /** @var User $user */
-        $user = $this->getUser();
-        $userMail = $user->getUserMail();
+//        /** @var User $user */
+//        $user = $this->getUser();
+//        $userMail = $user->getUserMail();
+//        if($userMail){
+//            $serveur = '{'.$userMail->getHote().':'.$userMail->getPort().'/imap/ssl}INBOX';
+//            $mailbox = imap_open($serveur, $userMail->getUsername(), $userMail->getPassword());
+//        }
 
-        $mails = $repository->findAll();
-
-        if($userMail){
-            $serveur = '{'.$userMail->getHote().':'.$userMail->getPort().'/imap/ssl}INBOX';
-
-            $mailbox = imap_open($serveur, $userMail->getUsername(), $userMail->getPassword());
-
-            if ($mailbox) {
-                $emailsId = imap_search($mailbox, 'SINCE "18 October 2023"');
-
-                foreach ($emailsId as $email_id) {
-
-                    $find = false;
-                    foreach($mails as $m){
-                        if($m->getImapId() == $email_id){
-                            $find = true;
-                        }
-                    }
-
-                    if(!$find){
-                        $header  = imap_headerinfo($mailbox, $email_id);
-                        $body = $this->get_part($mailbox, $email_id, 'TEXT/PLAIN');
-                        $body = str_replace("<",'"', $body);
-                        $body = str_replace(">",'"', $body);
-                        $body = str_replace("\r\n",'<br />', $body);
-
-                        $nImapMail = (new Mail())
-                            ->setExpeditor($header->from[0]->mailbox . "@" . $header->from[0]->host)
-                            ->setSubject($header->subject)
-                            ->setMessage(utf8_encode($body))
-                            ->setUser($user)
-                            ->setImapId($email_id)
-                        ;
-
-                        $repository->save($nImapMail);
-                    }
-                }
-
-                imap_close($mailbox);
-                $repository->flush();
-            }
-        }
-        $mails = $repository->findAll();
-
-        dump($mails);
+        $mails = $repository->findBy([], ['createdAt' => 'DESC']);
 
         $pagination = $paginator->paginate($mails, $request->query->getInt('page', 1), 10);
 
@@ -200,48 +159,5 @@ class AdminController extends AbstractController
             'data' => $data,
             'pagination' => $pagination,
         ]);
-    }
-
-    function get_mime_type(&$structure) {
-        $primary_mime_type = array("TEXT", "MULTIPART", "MESSAGE", "APPLICATION", "AUDIO", "IMAGE", "VIDEO", "OTHER");
-        if($structure->subtype) {
-            return $primary_mime_type[(int) $structure->type] . '/' . $structure->subtype;
-        }
-        return "TEXT/PLAIN";
-    }
-
-
-    function get_part($mbox, $i, $mime_type, $structure = false, $part_number = false) {
-        if (!$structure) {
-            $structure = imap_fetchstructure($mbox, $i);
-        }
-        if($structure) {
-            if($mime_type == $this->get_mime_type($structure)) {
-                if(!$part_number) {
-                    $part_number = "1";
-                }
-                $text = imap_fetchbody($mbox, $i, $part_number);
-                if($structure->encoding == 3) {
-                    return imap_base64($text);
-                } else if ($structure->encoding == 4) {
-                    return imap_qprint($text);
-                } else {
-                    return $text;
-                }
-            }
-            if ($structure->type == 1) { /* multipart */
-                foreach($structure->parts as $index => $sub_structure){
-                    $prefix = "";
-                    if ($part_number) {
-                        $prefix = $part_number . '.';
-                    }
-                    $data = $this->get_part($mbox, $i, $mime_type, $sub_structure, $prefix . (@$index + 1));
-                    if ($data) {
-                        return $data;
-                    }
-                }
-            }
-        }
-        return false;
     }
 }

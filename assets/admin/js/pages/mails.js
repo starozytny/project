@@ -11,5 +11,5 @@ Routing.setRoutingData(routes);
 
 let el = document.getElementById("mails");
 if(el){
-    createRoot(el).render(<Mails data={JSON.parse(el.dataset.donnees)} />)
+    createRoot(el).render(<Mails {...el.dataset} />)
 }

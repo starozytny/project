@@ -5,11 +5,9 @@
 
 {% block main_content %}
     <div class="main-content">
-{#        <div class="count">#}
-{#            {{ pagination.getTotalItemCount }}#}
-{#        </div>#}
 
         <div id="mails"
+             data-total-mails="{{ pagination.getTotalItemCount }}"
              data-donnees="{{ data }}"
         >
             {% include "layout/components/loader.html.twig" %}

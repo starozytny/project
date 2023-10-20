@@ -1,11 +1,46 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import parse from 'html-react-parser';
 import Sanitaze from '@commonFunctions/sanitaze';
 
-import { Button } from "@commonComponents/Elements/Button";
+import {Button, ButtonIcon} from "@commonComponents/Elements/Button";
 
-export function Mails ({ data }) {
+export function Mails ({ donnees, totalMails }) {
+
+    const [context, setContext] = useState('mails');
+    const [element, setElement] = useState(null);
+
+    console.log(totalMails);
+
+    let menu = [
+        { context: 'mails', icon: "email",          label: "Boite réception",   total: totalMails },
+        { context: 'sent',  icon: "email-tracking", label: "Envoyés",           total: 0 },
+        { context: 'draft', icon: "pencil",         label: "Brouillon",         total: 0 },
+        { context: 'trash', icon: "trash",          label: "Corbeille",         total: 0 },
+    ];
+
+    let menuActive = null;
+    let menuItems = menu.map((item, index) => {
+        let active = false;
+        if(item.context === context){
+            menuActive = item;
+            active = true;
+        }
+
+        return <div className={"item " + active} key={index} onClick={() => setContext(item.context)}>
+            <div className="name">
+                <span className={"icon-" + item.icon} />
+                <span>{item.label}</span>
+            </div>
+
+            <div className="total">
+                <span>{item.total}</span>
+            </div>
+        </div>
+    })
+
+    let data = JSON.parse(donnees);
+
     console.log(data)
     return <div className="boite-mail">
         <div className="col-1">
@@ -13,35 +48,14 @@ export function Mails ({ data }) {
                 <Button icon="email-edit" type="primary">Nouveau message</Button>
             </div>
             <div className="mail-menu">
-                <div className="items">
-                    <div className="item true">
-                        <div className="name">
-                            <span className="icon-email"></span>
-                            <span>Test menu link 1</span>
-                        </div>
-
-                        <div className="total">
-                            <span>15</span>
-                        </div>
-                    </div>
-                    <div className="item">
-                        <div className="name">
-                            <span className="icon-email"></span>
-                            <span>Test menu link 2</span>
-                        </div>
-
-                        <div className="total">
-                            <span>15</span>
-                        </div>
-                    </div>
-                </div>
+                <div className="items">{menuItems}</div>
             </div>
         </div>
         <div className="col-2">
             <div className="mail-list">
                 <div className="title">
-                    <span className="icon-email"></span>
-                    <span>Test menu link 1</span>
+                    <span className={"icon-" + menuActive.icon} />
+                    <span>{menuActive.label}</span>
                 </div>
                 <div className="actions">
                     <div>
@@ -50,30 +64,96 @@ export function Mails ({ data }) {
                 </div>
 
                 <div className="items">
-                    {data.map(elem => {
-                        return <div className="item" key={elem.id}>
-                            <div className="expeditor">
-                                <div className="avatar-letter">
-                                    <span>AA</span>
+                    {data.length !== 0
+                        ? data.map(elem => {
+                            return <div className="item" key={elem.id}
+                                        onClick={() => setElement(elem)}
+                            >
+                                <div className="expeditor">
+                                    <div className="avatar-letter">
+                                        <span>AA</span>
+                                    </div>
+                                    <div className="content">
+                                        <div className="name">{elem.expeditor}</div>
+                                        <div className="subject">{elem.subject}</div>
+                                    </div>
                                 </div>
-                                <div className="content">
-                                    <div className="name">{elem.expeditor}</div>
-                                    <div className="subject">{elem.subject}</div>
+                                <div className="createdAt">
+                                    <div>{Sanitaze.toDateFormat(elem.createdAt)}</div>
                                 </div>
                             </div>
-                            <div className="createdAt">
-                                <div>{Sanitaze.toDateFormat(elem.createdAt)}</div>
-                            </div>
-                        </div>
-                    })}
+                        })
+                        : <div className="item">Aucun résultat.</div>
+                    }
                 </div>
             </div>
         </div>
 
         <div className="col-3" id="read">
             <div className="mail-item">
+                {element
+                    ? <div className="item">
+                        <div className="actions">
+                            <div className="col-1">
+                                <div className="createdAt">{Sanitaze.toDateFormat(element.createdAt)}</div>
+                            </div>
+                            <div className="col-2">
+                                <ButtonIcon icon="trash">Corbeille</ButtonIcon>
+                            </div>
+                        </div>
 
+                        <div className="item-header">
+                            <div className="avatar-letter">
+                                <span>AA</span>
+                            </div>
+                            <div className="content">
+                                <div className="name">
+                                    <div><span>De</span> <span>:</span></div>
+                                    <div className="items"><span>{element.expeditor}</span></div>
+                                </div>
+                                <Destinators prefix="A" data={element.destinators} />
+                                {element.cc.length !== 0 ? <Destinators prefix="Cc" data={element.cc} /> : null}
+                                {element.bcc.length !== 0 ? <Destinators prefix="Cci" data={element.bcc} /> : null}
+                            </div>
+                        </div>
+
+                        <div className="item-body">
+                            <div className="badges">
+                                <div className={`badge badge-${element.theme}`}>Thème utilisé : {element.theme}</div>
+                            </div>
+                            <div className="subject">{element.subject}</div>
+                            <div className="message">{parse(element.message)}</div>
+                            <div className="files">
+                                {element.files.map((file, index) => {
+                                    return <a className="file" key={index}
+                                              download={file} target="_blank"
+                                              href={Routing.generate('user_mails_attachement', {'filename': file})}
+                                    >
+                                        <span className="icon">
+                                            <span className="icon-file" />
+                                        </span>
+                                        <span className="infos">
+                                            <span className="name">Pièce jointe {index + 1}</span>
+                                        </span>
+                                    </a>
+                                })}
+                            </div>
+                        </div>
+                    </div>
+                    : null}
             </div>
+        </div>
+    </div>
+}
+
+
+function Destinators ({ prefix, data }) {
+    return <div className="destinators">
+        <div><span>{prefix}</span> <span>:</span></div>
+        <div className="items">
+            {data.map((dest, index) => {
+                return <span key={index}>{dest.value}</span>
+            })}
         </div>
     </div>
 }
