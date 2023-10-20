@@ -196,7 +196,7 @@ class Form extends Component {
                     </div>
 
                     <div className="line">
-                        <TinyMCE type={2} identifiant='message' valeur={message.value}
+                        <TinyMCE type={99} identifiant='message' valeur={message.value}
                                  errors={errors} onUpdateData={this.handleChangeTinyMCE} key={resetTextArea}>
                             Message
                         </TinyMCE>

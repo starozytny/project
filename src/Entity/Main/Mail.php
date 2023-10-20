@@ -3,8 +3,8 @@
 namespace App\Entity\Main;
 
 use App\Entity\DataEntity;
-use App\Entity\Eum\Mail\StatusType;
-use App\Entity\Eum\Mail\ThemeType;
+use App\Entity\Enum\Mail\StatusType;
+use App\Entity\Enum\Mail\ThemeType;
 use App\Repository\Main\MailRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;

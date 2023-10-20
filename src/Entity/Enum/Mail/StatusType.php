@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entity\Eum\Mail;
+namespace App\Entity\Enum\Mail;
 
 enum StatusType: int
 {

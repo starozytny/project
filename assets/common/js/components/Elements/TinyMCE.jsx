@@ -39,7 +39,7 @@ export function TinyMCE (props){
                 'image', 'autoresize', 'emoticons'
             ],
             toolbar: 'undo redo | blocks | ' +
-                'bold italic forecolor | image emoticons | ' +
+                'bold italic forecolor | ' + (type === 99 ? '' : 'image') + ' emoticons | ' +
                 'alignleft aligncenter alignright alignjustify | ' +
                 'bullist numlist outdent indent | ' +
                 'removeformat | help',
