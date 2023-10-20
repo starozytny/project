@@ -1,0 +1,119 @@
+.mail-list{
+  .title{
+    @include flex(row, center, flex-start, var(--espaceEls));
+    padding: var(--espaceDiv);
+    border-bottom: 1px solid var(--color2Opacity4);
+    @include fontSemibold();
+    text-transform: uppercase;
+
+    [class^="icon-"]{
+      font-weight: 600;
+    }
+  }
+
+  .actions{
+    padding: var(--espaceDiv);
+    border-bottom: 1px solid var(--grey4Opacity4);
+
+    & > div {
+      cursor: pointer;
+      color: var(--grey2);
+      transition: color 0.2s ease-in-out;
+
+      &:hover{
+        color: var(--alpha);
+      }
+    }
+  }
+
+  .items{
+    overflow: auto;
+    @include scrollbar();
+    max-height: 100vh;
+
+    &::-webkit-scrollbar{
+      width: 3px;
+    }
+  }
+
+  .item{
+    @include flex(column, flex-start, space-between, var(--espaceDiv));
+    cursor: pointer;
+    padding: var(--espaceDiv);
+    transition: background-color 0.2s ease-in-out;
+
+    &.true, &:hover{
+      background-color: var(--primaryOpacity4);
+    }
+
+    &:not(:last-child){
+      border-bottom: 1px solid var(--grey4Opacity4);
+    }
+
+    .expeditor{
+      @include flex(row, flex-start, flex-start, var(--espaceEls));
+      width: calc(100% - 12px);
+
+      .content{
+        width: calc(100% - 32px - 8px);
+        overflow: auto;
+        @include scrollbar();
+
+        &::-webkit-scrollbar{
+          height: 3px;
+        }
+      }
+
+      .name{
+        @include fontSemibold();
+        margin-bottom: 4px;
+      }
+
+      .subject{
+        font-size: 15px;
+        color: var(--grey3);
+        @include overflowText();
+      }
+    }
+
+    .createdAt{
+      width: 100%;
+      font-size: 12px;
+      color: var(--grey3);
+      text-align: right;
+    }
+  }
+
+
+  @media (min-width:768px) {
+    .item{
+      flex-direction: row;
+
+      .expeditor{
+        width: calc(100% - 172px - 12px);
+      }
+
+      .createdAt{
+        width: 172px;
+      }
+    }
+  }
+
+  @media (min-width:1280px) {
+    .title{
+      padding: 24px;
+    }
+
+    .item{
+      flex-direction: column;
+
+      .expeditor{
+        width: calc(100% - 12px);
+      }
+
+      .createdAt{
+        width: 100%;
+      }
+    }
+  }
+}

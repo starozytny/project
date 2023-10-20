@@ -1,0 +1,173 @@
+.boite-mail{
+  .mail-item{
+    .actions{
+      @include flex(row, center, space-between);
+
+      .createdAt{
+        font-size: 15px;
+        color: var(--grey3);
+      }
+    }
+
+    .item-header{
+      @include flex(row, flex-start, flex-start);
+      margin-top: 12px;
+      overflow: auto;
+      @include scrollbar();
+
+      &::-webkit-scrollbar{
+        height: 3px;
+      }
+
+      .avatar{
+        width: 56px; height: 56px;
+
+        span{
+          font-size: 20px;
+        }
+      }
+
+      .content{
+        width: calc(100% - 56px - 12px);
+        margin-left: 12px;
+
+        .createdAt{
+          margin-bottom: 12px;
+          margin-top: 2px;
+        }
+
+        .destinators, .name{
+          @include flex(row, flex-start, flex-start);
+
+          & > div:first-child{
+            @include flex(row, flex-start, space-between);
+            width: 44px;
+            color: var(--grey3);
+          }
+
+          & > div:last-child{
+            width: calc(100% - 44px - 4px);
+            margin-left: 4px;
+          }
+
+          .items{
+            span{
+              display: inline-block;
+            }
+
+            span:not(:last-child){
+              margin-right: 4px;
+            }
+          }
+        }
+
+        .name{
+          .items{
+            span{
+              @include fontSemibold();
+            }
+          }
+        }
+
+        .destinators{
+          &:not(&.name){
+            margin-bottom: 8px;
+          }
+
+          .items{
+            span{
+              background-color: var(--primaryShadow2);
+              border-radius: 4px;
+              padding: 2px 4px;
+              font-size: 15px;
+              margin-bottom: 4px;
+            }
+          }
+        }
+      }
+    }
+
+    .item-body{
+      .subject{
+        @include fontSemibold();
+        font-size: 20px;
+        border-top: 1px solid var(--greyShadow);
+        border-bottom: 1px solid var(--greyShadow);
+        margin: 24px 0;
+        padding: 12px 0;
+      }
+
+      .badges{
+        text-align: right;
+        margin-bottom: 12px;
+      }
+
+      .message{
+        min-height: 10vh;
+      }
+
+      .files{
+        @include flex(row, flex-start, flex-start);
+        flex-wrap: wrap;
+        border-top: 1px solid var(--greyShadow);
+        padding-top: 24px;
+
+        & > .file{
+          @include flex(row, stretch, flex-start);
+          width: calc(100% - 24px);
+          border: 1px solid var(--grey);
+          border-radius: 4px;
+          padding: 12px;
+          color: var(--grey3);
+          box-shadow: 0 4px 12px var(--greyShadow);
+          cursor: pointer;
+
+          .icon{
+            transition: all 0.2s ease-in-out;
+          }
+
+          &:hover{
+            .icon{
+              transform: scale(1.05);
+            }
+          }
+
+          &:not(:last-child){
+            margin-bottom: 8px;
+          }
+
+          .name{
+            color: var(--txt);
+            margin-left: 8px;
+            font-size: 15px;
+            @include fontSemibold();
+          }
+        }
+      }
+    }
+  }
+}
+
+//                      __   _____ __    ___    __
+//                     | _| |___  / /_  ( _ )  |_ |
+//    _____ _____ _____| |     / / '_ \ / _ \   | |_____ _____ _____
+//   |_____|_____|_____| |    / /| (_) | (_) |  | |_____|_____|_____|
+//                     | |   /_/  \___/ \___/   | |
+//                     |__|                    |__|
+@media (min-width:768px) {
+  .boite-mail {
+    .mail-item {
+      .item-body{
+        .files{
+          width: calc(100% + 12px);
+
+          & > .file{
+            width: calc(33% - 24px - 12px);
+            margin-bottom: 8px;
+            margin-right: 12px;
+          }
+        }
+      }
+    }
+  }
+}
