@@ -185,7 +185,7 @@ class Form extends Component {
         return <>
             <div className="modal-body">
                 <form onSubmit={this.handleSubmit}>
-                    <div class="line">
+                    <div className="line">
                         <InputView valeur={(fromName + ' <' + from + '>').trim()} errors={errors}>De</InputView>
                     </div>
                     <div className="line line-send-mail-ccs">

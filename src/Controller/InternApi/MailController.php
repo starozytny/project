@@ -2,7 +2,6 @@
 
 namespace App\Controller\InternApi;
 
-use App\Entity\Enum\Mail\StatusType;
 use App\Entity\Main\Mail;
 use App\Repository\Main\MailRepository;
 use App\Service\ApiResponse;
@@ -11,6 +10,7 @@ use App\Service\FileUploader;
 use App\Service\MailerService;
 use App\Service\SanitizeData;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -50,7 +50,9 @@ class MailController extends AbstractController
                 $subject,
                 'app/email/template/random_classique.html.twig',
                 ['subject' => $subject, 'message' => $data->message->html],
-                $cc, $bcc, null, $files, $data->from, $data->fromName ?: $data->from
+                $cc, $bcc, null,
+                $files,
+                $data->from, $data->fromName ?: $data->from
             )) {
                 return $apiResponse->apiJsonResponseValidationFailed([[
                     'name' => 'to',
@@ -70,5 +72,11 @@ class MailController extends AbstractController
         $repository->save($obj, true);
 
         return $apiResponse->apiJsonResponseSuccessful("ok");
+    }
+
+    #[Route('/mail/attachment/{filename}', name: 'attachment', options: ['expose' => true], methods: 'get')]
+    public function attachment($filename): BinaryFileResponse
+    {
+        return $this->file($this->getParameter('private_directory') . Mail::FOLDER_FILES . "/" . $filename);
     }
 }

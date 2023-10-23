@@ -19,6 +19,7 @@
     }
 
     .content{
+      @include flex(column, flex-start, flex-start, var(--espaceEls));
       width: calc(100% - 32px - 12px);
 
       .destinators, .name{
@@ -35,13 +36,8 @@
         }
 
         .items{
-          span{
-            display: inline-block;
-          }
-
-          span:not(:last-child){
-            margin-right: 4px;
-          }
+          @include flex(row, flex-start, flex-start, 4px);
+          flex-wrap: wrap;
         }
       }
 
@@ -56,11 +52,10 @@
       .destinators{
         .items{
           span{
-            background-color: var(--primaryShadow2);
+            background-color: var(--primaryOpacity4);
             border-radius: var(--radius);
             padding: 2px 4px;
             font-size: 15px;
-            margin-bottom: 4px;
           }
         }
       }
@@ -87,51 +82,30 @@
     }
 
     .files{
-      @include flex(row, flex-start, flex-start);
+      @include flex(row, flex-start, flex-start, var(--espaceEls));
       flex-wrap: wrap;
       border-top: 1px solid var(--grey4Opacity4);
-      padding-top: 24px;
+      padding-top: var(--espaceDiv);
 
       & > .file{
         @include flex(row, stretch, flex-start, var(--espaceEls));
         border: 1px solid var(--grey4);
         border-radius: var(--radius);
-        padding: var(--espaceDiv);
+        padding: var(--espaceEls);
         color: var(--grey3);
-        box-shadow: 0 4px 12px var(--grey4Opacity4);
+        box-shadow: 0 4px 12px var(--color0Opacity4);
         cursor: pointer;
-
-        .icon{
-          transition: transform 0.2s ease-in-out;
-        }
+        transition: color 0.2s ease;
 
         &:hover{
-          .icon{
-            transform: scale(1.05);
-          }
+          color: var(--alpha);
         }
 
         .name{
-          color: var(--txt);
           font-size: 15px;
           @include fontSemibold();
         }
       }
     }
   }
-
-  @media (min-width:768px) {
-    .item-body{
-      .files{
-        width: calc(100% + 12px);
-
-        & > .file{
-          width: calc(33% - 24px - 12px);
-          margin-bottom: 8px;
-          margin-right: 12px;
-        }
-      }
-    }
-  }
-
 }

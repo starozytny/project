@@ -47,7 +47,6 @@ class Mail extends DataEntity
     private array $files = [];
 
     #[ORM\Column]
-    #[Groups(['mail_list'])]
     private ?int $theme = ThemeType::None;
 
     #[ORM\Column]
@@ -158,6 +157,14 @@ class Mail extends DataEntity
         $this->theme = $theme;
 
         return $this;
+    }
+
+    #[Groups(['mail_list'])]
+    public function getThemeString(): string
+    {
+        $values = ["simple"];
+
+        return $values[$this->theme];
     }
 
     public function isIsTrash(): ?bool

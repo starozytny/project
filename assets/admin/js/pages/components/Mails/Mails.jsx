@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { createPortal } from 'react-dom';
 
 import parse from 'html-react-parser';
+import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min';
 
 import Sanitaze from '@commonFunctions/sanitaze';
 
@@ -9,6 +10,8 @@ import { Button, ButtonIcon } from "@commonComponents/Elements/Button";
 import { Modal } from "@commonComponents/Elements/Modal";
 
 import { MailFormulaire } from "@commonComponents/Modules/Mail/MailForm";
+
+const URL_GET_ATTACHMENT = "intern_api_mails_attachment";
 
 export function Mails ({ totalMails, donnees, from, fromName }) {
 
@@ -125,21 +128,22 @@ export function Mails ({ totalMails, donnees, from, fromName }) {
 
                         <div className="item-body">
                             <div className="badges">
-                                <div className={`badge badge-${element.theme}`}>Thème utilisé : {element.theme}</div>
+                                <div className="badge">Thème : {element.themeString}</div>
                             </div>
                             <div className="subject">{element.subject}</div>
                             <div className="message">{parse(element.message)}</div>
                             <div className="files">
                                 {element.files.map((file, index) => {
+                                    console.log(file)
                                     return <a className="file" key={index}
                                               download={file} target="_blank"
-                                              href={Routing.generate('user_mails_attachement', {'filename': file})}
+                                              href={Routing.generate(URL_GET_ATTACHMENT, {'filename': file})}
                                     >
                                         <span className="icon">
                                             <span className="icon-file" />
                                         </span>
                                         <span className="infos">
-                                            <span className="name">Pièce jointe {index + 1}</span>
+                                            <span className="name">PJ {index + 1}</span>
                                         </span>
                                     </a>
                                 })}
@@ -164,7 +168,7 @@ function Destinators ({ prefix, data }) {
         <div><span>{prefix}</span> <span>:</span></div>
         <div className="items">
             {data.map((dest, index) => {
-                return <span key={index}>{dest.value}</span>
+                return <span key={index}>{dest}</span>
             })}
         </div>
     </div>

@@ -198,7 +198,7 @@ textarea{
       &.active{
         & + input{
           padding: 0;
-          max-width: calc(20% - 4px);
+          max-width: calc(35% - 4px);
           transform: translateY(-2px);
         }
       }
