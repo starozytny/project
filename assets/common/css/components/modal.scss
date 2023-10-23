@@ -37,7 +37,7 @@
   @include flex(row, center, space-between);
   gap: 8px;
   font-size: 18px;
-  border-bottom: 1px solid var(--greyOpacity4);
+  border-bottom: 1px solid var(--grey1Opacity4);
 
   .title{
     @include fontSemibold();
@@ -51,7 +51,7 @@
 .modal-footer {
   @include flex(row, flex-start, flex-end);
   gap: 8px;
-  border-top: 1px solid var(--greyOpacity4);
+  border-top: 1px solid var(--grey1Opacity4);
 
   .alert{
     width: auto;

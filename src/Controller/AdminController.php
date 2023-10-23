@@ -142,9 +142,10 @@ class AdminController extends AbstractController
     public function mails(Request $request, MailRepository $repository, SerializerInterface $serializer,
                           PaginatorInterface $paginator, SettingsService $settingsService): Response
     {
-        $mails = $repository->findBy([], ['createdAt' => 'DESC']);
+        $mailsSent = $repository->findBy(['isTrash' => false], ['createdAt' => 'DESC']);
+        $mailsTrash = $repository->findBy(['isTrash' => true], ['createdAt' => 'DESC']);
 
-        $pagination = $paginator->paginate($mails, $request->query->getInt('page', 1), 10);
+        $pagination = $paginator->paginate($mailsSent, $request->query->getInt('page', 1), 10);
 
         $data = $serializer->serialize($pagination->getItems(), 'json', ['groups' => Mail::LIST]);
 
@@ -152,7 +153,8 @@ class AdminController extends AbstractController
             'data' => $data,
             'pagination' => $pagination,
             'from' => $settingsService->getEmailExpediteurGlobal(),
-            'fromName' => $settingsService->getWebsiteName()
+            'fromName' => $settingsService->getWebsiteName(),
+            'totalTrash' => count($mailsTrash)
         ]);
     }
 }

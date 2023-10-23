@@ -11,6 +11,7 @@ use App\Service\MailerService;
 use App\Service\SanitizeData;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/intern/api/mails', name: 'intern_api_mails_')]
 class MailController extends AbstractController
 {
-    #[Route('/mail/send', name: 'send', options: ['expose' => true], methods: 'post')]
+    #[Route('/mail/send', name: 'mail_send', options: ['expose' => true], methods: 'post')]
     public function send(Request $request, ApiResponse $apiResponse, SanitizeData $sanitizeData,
                          MailerService $mailerService, FileUploader $fileUploader, DataMain $dataMain,
                          MailRepository $repository): Response
@@ -71,12 +72,21 @@ class MailController extends AbstractController
 
         $repository->save($obj, true);
 
-        return $apiResponse->apiJsonResponseSuccessful("ok");
+        return $apiResponse->apiJsonResponse($obj, Mail::LIST);
     }
 
-    #[Route('/mail/attachment/{filename}', name: 'attachment', options: ['expose' => true], methods: 'get')]
+    #[Route('/mail/attachment/{filename}', name: 'mail_attachment', options: ['expose' => true], methods: 'get')]
     public function attachment($filename): BinaryFileResponse
     {
         return $this->file($this->getParameter('private_directory') . Mail::FOLDER_FILES . "/" . $filename);
+    }
+
+    #[Route('/mail/trash/{id}', name: 'mail_trash', options: ['expose' => true], methods: 'put')]
+    public function trash(Mail $obj, ApiResponse $apiResponse, MailRepository $repository): JsonResponse
+    {
+        $obj->setIsTrash(true);
+
+        $repository->save($obj, true);
+        return $apiResponse->apiJsonResponse($obj, Mail::LIST);
     }
 }

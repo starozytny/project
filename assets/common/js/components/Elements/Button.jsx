@@ -5,17 +5,18 @@ export function Button(props){
     const { icon, type="default", isSubmit=false, outline=false, children, onClick, element="button", target="_self",
         isLoader=false, loaderWithText=false, iconPosition="before" } = props;
 
-    let loaderClasse = isLoader ? " btn-loader-" + (loaderWithText ? "with-text" : "without-text") : ""
+    let loaderClasse = isLoader ? " btn-loader-" + (loaderWithText ? "with-text" : "without-text") : "";
+    let iconCustom = isLoader ? 'chart-3' : icon;
 
     if(element === "button"){
         return <button className={`btn${loaderClasse} btn-${outline ? "outline-" : ""}${type}`}
                        type={isSubmit ? "submit" : "button"} onClick={onClick}>
-            <Content icon={icon} iconPosition={iconPosition} children={children} />
+            <Content icon={iconCustom} iconPosition={iconPosition} children={children} />
         </button>
     }else{
         return <a className={`btn${loaderClasse} btn-${outline ? "outline-" : ""}${type}`}
                   target={target} href={onClick}>
-            <Content icon={icon} iconPosition={iconPosition} children={children} />
+            <Content icon={iconCustom} iconPosition={iconPosition} children={children} />
         </a>
     }
 }
@@ -24,17 +25,18 @@ export function TxtButton(props){
     const { icon, type="default", isSubmit=false, children, onClick, element="button", target="_self",
         isLoader=false, loaderWithText=false, iconPosition="before" } = props;
 
-    let loaderClasse = isLoader ? " btn-loader-" + (loaderWithText ? "with-text" : "without-text") : ""
+    let loaderClasse = isLoader ? " btn-loader-" + (loaderWithText ? "with-text" : "without-text") : "";
+    let iconCustom = isLoader ? 'chart-3' : icon;
 
     if(element === "button"){
         return <button className={`txt-button${loaderClasse} txt-button-${type}`}
                        type={isSubmit ? "submit" : "button"} onClick={onClick}>
-            <Content icon={icon} iconPosition={iconPosition} children={children} />
+            <Content icon={iconCustom} iconPosition={iconPosition} children={children} />
         </button>
     }else{
         return <a className={`txt-button${loaderClasse} txt-button-${type}`}
                   target={target} href={onClick}>
-            <Content icon={icon} iconPosition={iconPosition} children={children} />
+            <Content icon={iconCustom} iconPosition={iconPosition} children={children} />
         </a>
     }
 }
@@ -44,17 +46,18 @@ export function ButtonIcon(props){
         type="default", isSubmit=false, element="button", target="_self", download=false, tooltipWidth=null, isLoader=false } = props;
 
     let divStyle = tooltipWidth ? { width: tooltipWidth + "px" } : null;
-    let loaderClasse = isLoader ? " btn-loader-without-text" : ""
+    let loaderClasse = isLoader ? " btn-loader-without-text" : "";
+    let iconCustom = isLoader ? 'chart-3' : icon;
 
     if(element === "button"){
         return <button className={`btn-icon${loaderClasse} btn-icon-${outline ? "outline-" : ""}${type}`} type={isSubmit ? "submit" : "button"} onClick={onClick}>
-            <span className={`icon-${icon}`} />
+            <span className={`icon-${iconCustom}`} />
             {text && <span>{text}</span>}
             {children && <span className="tooltip" style={divStyle}>{children}</span>}
         </button>
     }else{
         return <a className={`btn-icon${loaderClasse} btn-icon-${outline ? "outline-" : ""}${type}`} target={target} download={download} href={onClick}>
-            <span className={`icon-${icon}`} />
+            <span className={`icon-${iconCustom}`} />
             {text && <span>{text}</span>}
             {children && <span className="tooltip" style={divStyle}>{children}</span>}
         </a>

@@ -6,7 +6,7 @@ import toastr  from 'toastr';
 import { uid } from 'uid'
 import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
-import {Input, InputFile, InputView, SelectMultipleCustom} from "@commonComponents/Elements/Fields";
+import { Input, InputFile, InputView, SelectMultipleCustom } from "@commonComponents/Elements/Fields";
 import { Button }           from "@commonComponents/Elements/Button";
 import { Alert }            from "@commonComponents/Elements/Alert";
 import { TinyMCE }          from "@commonComponents/Elements/TinyMCE";
@@ -15,10 +15,10 @@ import Formulaire from "@commonFunctions/formulaire";
 import Inputs     from "@commonFunctions/inputs";
 import Validateur from "@commonFunctions/validateur";
 
-const URL_CREATE_ELEMENT    = "intern_api_mails_send";
+const URL_CREATE_ELEMENT    = "intern_api_mails_mail_send";
 const TEXT_CREATE           = "Envoyer le message";
 
-export function MailFormulaire ({ identifiant, element, tos, from, fromName })
+export function MailFormulaire ({ identifiant, element, tos, from, fromName, onUpdateList=null })
 {
     let nTos = [];
     if(tos){
@@ -35,6 +35,8 @@ export function MailFormulaire ({ identifiant, element, tos, from, fromName })
         to={element ? [{uid: uid(), value: element.email}] : []}
         from={from}
         fromName={fromName}
+
+        onUpdateList={onUpdateList}
 
         initListener={!!element}
         key={element ? element.id : 0}
@@ -88,6 +90,14 @@ class Form extends Component {
                 })
             })
         }
+    }
+
+    handleCloseModal = () => {
+        let body = document.querySelector("body");
+        let modal = document.getElementById(this.props.identifiant);
+
+        body.style.overflow = "auto";
+        modal.style.display = "none";
     }
 
     handleChange = (e) => { this.setState({[e.currentTarget.name]: e.currentTarget.value}) }
@@ -166,8 +176,12 @@ class Form extends Component {
                             message: {value: "", html: ""},
                             resetTextArea: true
                         });
+
+                        if(self.props.onUpdateList){
+                            self.props.onUpdateList(response.data, 'create')
+                        }
                     })
-                    .catch(function (error) { Formulaire.displayErrors(self, error);  })
+                    .catch(function (error) { console.log(error); Formulaire.displayErrors(self, error);  })
                     .then(function () { Formulaire.loader(false); self.setState({ loadSendData: false })  })
                 ;
             }
@@ -230,7 +244,7 @@ class Form extends Component {
                     ? <Button onClick={this.handleSubmit} type="primary">{TEXT_CREATE}</Button>
                     : <Button onClick={this.handleSubmit} type="primary" icon="chart-3" isLoader={true}>{TEXT_CREATE}</Button>
                 }
-                <div className="close-modal"><Button type="reverse">Annuler</Button></div>
+                <div className="close-modal"><Button type="reverse" onClick={this.handleCloseModal}>Annuler</Button></div>
             </div>
         </>
     }

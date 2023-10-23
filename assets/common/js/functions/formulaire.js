@@ -52,7 +52,9 @@ function showErrors(self, validate, text="Veuillez vérifier les informations tr
 function displayErrors(self, error, message="Veuillez vérifier les informations transmises."){
     if(Array.isArray(error.response.data)){
         toastr.error(message);
-        self.setState({ errors: error.response.data });
+        if(self){
+            self.setState({ errors: error.response.data });
+        }
     }else{
         if(error.response.data.message){
             toastr.error(error.response.data.message)

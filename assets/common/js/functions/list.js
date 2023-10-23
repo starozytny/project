@@ -101,7 +101,34 @@ function update (context, data, element) {
     return newData;
 }
 
-function updateData (element, context, data, sorter,) {
+function updateDataMuta (element, context, data, sorter) {
+    let nData = [];
+    switch (context){
+        case "delete":
+            nData = data.filter(el => el.id !== element.id);
+            break;
+        case "update":
+            nData = data.map(el => {
+                if (el.id === element.id) {
+                    return { ...element, ...element };
+                } else {
+                    return element;
+                }
+            });
+            break;
+        default:
+            nData = [...data, element];
+            break;
+    }
+
+    if(sorter){
+        nData.sort(sorter);
+    }
+
+    return nData;
+}
+
+function updateData (element, context, data, sorter) {
     let newData = update(context, data, element);
     if(sorter){
         newData.sort(sorter)
@@ -142,6 +169,8 @@ module.exports = {
     filter,
     changePerPage,
     changeSorter,
+    updateDataMuta,
+    updateData,
     updateListPagination,
     updatePerPage,
     setCurrentPage,
