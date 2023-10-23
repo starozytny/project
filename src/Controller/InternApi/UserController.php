@@ -4,7 +4,6 @@ namespace App\Controller\InternApi;
 
 use App\Entity\Main\Society;
 use App\Entity\Main\User;
-use App\Entity\Main\UserMail;
 use App\Repository\Main\UserRepository;
 use App\Service\ApiResponse;
 use App\Service\Data\DataMain;
@@ -61,12 +60,6 @@ class UserController extends AbstractController
             if($data->password != ""){
                 $obj->setPassword($passwordHasher->hashPassword($obj, $data->password));
             }
-        }
-
-        if($data->mailHote !== ""){
-            $userMail = $dataEntity->setDataUserMail($obj->getUserMail() ?: new UserMail(), $data);
-            $obj->setUserMail($userMail);
-            $em->persist($userMail);
         }
 
         $obj->setSociety($society);

@@ -92,10 +92,6 @@ class User extends DataEntity implements UserInterface, PasswordAuthenticatedUse
     #[Groups(['user_list'])]
     private ?bool $blocked = false;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[Groups(['user_form'])]
-    private ?UserMail $userMail = null;
-
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Mail::class)]
     private Collection $mails;
 
@@ -377,18 +373,6 @@ class User extends DataEntity implements UserInterface, PasswordAuthenticatedUse
     public function setBlocked(bool $blocked): self
     {
         $this->blocked = $blocked;
-
-        return $this;
-    }
-
-    public function getUserMail(): ?UserMail
-    {
-        return $this->userMail;
-    }
-
-    public function setUserMail(?UserMail $userMail): static
-    {
-        $this->userMail = $userMail;
 
         return $this;
     }
