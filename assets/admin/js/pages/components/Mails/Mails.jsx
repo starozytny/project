@@ -33,9 +33,20 @@ export function Mails ({ context, totalS, totalT, donnees, from, fromName }) {
     const [data, setData] = useState(JSON.parse(donnees));
     const [totalSent, setTotalSent] = useState(parseInt(totalS));
     const [totalTrash, setTotalTrash] = useState(parseInt(totalT));
+    const [selection, setSelection] = useState(false);
+    const [selections, setSelections] = useState([]);
 
+    let handleSelect = (elem) => {
+        let find = selections.find((sel => sel === elem.id));
 
-    let handleModal = (identifiant, element) => {
+        if(!find){
+            setSelections([...selections, elem.id]);
+        }else{
+            setSelections(selections.filter(sel => sel !== elem.id))
+        }
+    }
+
+    let handleModal = (identifiant, elem) => {
         let ref;
         switch (identifiant){
             case 'formRef': ref = formRef; break;
@@ -45,20 +56,20 @@ export function Mails ({ context, totalS, totalT, donnees, from, fromName }) {
         }
         if(ref){
             ref.current.handleClick();
-            setElement(element);
+            setElement(elem);
         }
     }
 
-    let handleUpdateList = (element, context) => {
-        setData(List.updateDataMuta(element, context, data, SORTER));
+    let handleUpdateList = (elem, context) => {
+        setData(List.updateDataMuta(elem, context, data, SORTER));
     }
 
-    let handleTrash = (element) => {
+    let handleTrash = (elem) => {
         if(!load){
             setLoad(true);
             trashRef.current.handleUpdateFooter(<Button onClick={null} isLoader={true} type="danger">Confirmer</Button>)
 
-            axios({ method: "PUT", url: Routing.generate(URL_TRASH_ELEMENT, {'id': element.id}), data: {} })
+            axios({ method: "PUT", url: Routing.generate(URL_TRASH_ELEMENT, {'id': elem.id}), data: {} })
                 .then(function (response) {
                     setTotalSent(totalSent - 1);
                     setTotalTrash(totalTrash + 1);
@@ -72,12 +83,12 @@ export function Mails ({ context, totalS, totalT, donnees, from, fromName }) {
         }
     }
 
-    let handleRestore = (element) => {
+    let handleRestore = (elem) => {
         if(!load){
             setLoad(true);
             restoreRef.current.handleUpdateFooter(<Button onClick={null} isLoader={true} type="primary">Confirmer</Button>)
 
-            axios({ method: "PUT", url: Routing.generate(URL_RESTORE_ELEMENT, {'id': element.id}), data: {} })
+            axios({ method: "PUT", url: Routing.generate(URL_RESTORE_ELEMENT, {'id': elem.id}), data: {} })
                 .then(function (response) {
                     setTotalSent(totalSent + 1);
                     setTotalTrash(totalTrash - 1);
@@ -132,81 +143,90 @@ export function Mails ({ context, totalS, totalT, donnees, from, fromName }) {
                     <span className={"icon-" + menuActive.icon} />
                     <span>{menuActive.label}</span>
                 </div>
-                <div className="actions">
-                    <div>
-                        <span>Sélectionner des message</span>
-                    </div>
-                </div>
+                {/*<div className="actions">*/}
+                {/*    <div onClick={() => setSelection(!selection)}>*/}
+                {/*        <span>Sélectionner des messages</span>*/}
+                {/*    </div>*/}
+                {/*</div>*/}
 
                 <div className="items">
-                    <ItemMail data={data} setElement={setElement} />
+                    <ItemMail data={data} setElement={setElement}
+                              selection={selection} selections={selections} onSelect={handleSelect} />
                 </div>
             </div>
         </div>
 
         <div className="col-3" id="read">
             <div className="mail-item">
-                {element
-                    ? <div className="item">
-                        <div className="actions">
-                            <div className="col-1">
-                                <div className="createdAt">{Sanitaze.toDateFormat(element.createdAt)}</div>
-                            </div>
-                            <div className="col-2">
-                                {context === "corbeille"
-                                    ? <>
-                                        <ButtonIcon icon="refresh1" onClick={() => handleModal('restoreRef', element)}>
-                                            Restaurer
-                                        </ButtonIcon>
-                                    </>
-                                    : <>
-                                        <ButtonIcon icon="trash" onClick={() => handleModal('trashRef', element)} type="danger">
-                                            Corbeille
-                                        </ButtonIcon>
-                                    </>
-                                }
-                            </div>
-                        </div>
-
-                        <div className="item-header">
-                            <div className="avatar-letter">
-                                <span className="icon-email-tracking"></span>
-                            </div>
-                            <div className="content">
-                                <div className="name">
-                                    <div><span>De</span> <span>:</span></div>
-                                    <div className="items"><span>{element.expeditor}</span></div>
-                                </div>
-                                <Destinators prefix="A" data={element.destinators} />
-                                {element.cc.length !== 0 ? <Destinators prefix="Cc" data={element.cc} /> : null}
-                                {element.bcc.length !== 0 ? <Destinators prefix="Cci" data={element.bcc} /> : null}
-                            </div>
-                        </div>
-
-                        <div className="item-body">
-                            <div className="badges">
-                                <div className="badge">Thème : {element.themeString}</div>
-                            </div>
-                            <div className="subject">{element.subject}</div>
-                            <div className="message">{parse(element.message)}</div>
-                            <div className="files">
-                                {element.files.map((file, index) => {
-                                    return <a className="file" key={index}
-                                              download={file} target="_blank"
-                                              href={Routing.generate(URL_GET_ATTACHMENT, {'filename': file})}
-                                    >
-                                        <span className="icon">
-                                            <span className="icon-file" />
-                                        </span>
-                                        <span className="infos">
-                                            <span className="name">PJ {index + 1}</span>
-                                        </span>
-                                    </a>
-                                })}
-                            </div>
+                {selection
+                    ? <div class="item">
+                        <div style={{marginBottom: "12px"}}>
+                            Actions sur les éléments sélectionnés
                         </div>
                     </div>
-                    : null}
+                    : (element
+                            ? <div className="item">
+                                <div className="actions">
+                                    <div className="col-1">
+                                        <div className="createdAt">{Sanitaze.toDateFormat(element.createdAt)}</div>
+                                    </div>
+                                    <div className="col-2">
+                                        {context === "corbeille"
+                                            ? <>
+                                                <ButtonIcon icon="refresh1" onClick={() => handleModal('restoreRef', element)}>
+                                                    Restaurer
+                                                </ButtonIcon>
+                                            </>
+                                            : <>
+                                                <ButtonIcon icon="trash" onClick={() => handleModal('trashRef', element)} type="danger">
+                                                    Corbeille
+                                                </ButtonIcon>
+                                            </>
+                                        }
+                                    </div>
+                                </div>
+
+                                <div className="item-header">
+                                    <div className="avatar-letter">
+                                        <span className="icon-email-tracking"></span>
+                                    </div>
+                                    <div className="content">
+                                        <div className="name">
+                                            <div><span>De</span> <span>:</span></div>
+                                            <div className="items"><span>{element.expeditor}</span></div>
+                                        </div>
+                                        <Destinators prefix="A" data={element.destinators} />
+                                        {element.cc.length !== 0 ? <Destinators prefix="Cc" data={element.cc} /> : null}
+                                        {element.bcc.length !== 0 ? <Destinators prefix="Cci" data={element.bcc} /> : null}
+                                    </div>
+                                </div>
+
+                                <div className="item-body">
+                                    <div className="badges">
+                                        <div className="badge">Thème : {element.themeString}</div>
+                                    </div>
+                                    <div className="subject">{element.subject}</div>
+                                    <div className="message">{parse(element.message)}</div>
+                                    <div className="files">
+                                        {element.files.map((file, index) => {
+                                            return <a className="file" key={index}
+                                                      download={file} target="_blank"
+                                                      href={Routing.generate(URL_GET_ATTACHMENT, {'filename': file})}
+                                            >
+                                            <span className="icon">
+                                                <span className="icon-file" />
+                                            </span>
+                                                <span className="infos">
+                                                <span className="name">PJ {index + 1}</span>
+                                            </span>
+                                            </a>
+                                        })}
+                                    </div>
+                                </div>
+                            </div>
+                            : null
+                        )
+                    }
             </div>
         </div>
         {createPortal(
@@ -249,15 +269,21 @@ function Destinators ({ prefix, data }) {
     </div>
 }
 
-function Item ({ data, setElement }) {
+function Item ({ data, setElement, selection, selections, onSelect }) {
     return (data.length !== 0
         ? data.map(elem => {
-            return <div className="item" key={elem.id}
-                        onClick={() => setElement(elem)}
+            return <div className={`item${selections.includes(elem.id) ? " selected" : ""}`} key={elem.id}
+                        onClick={selection ? () => onSelect(elem) : () => setElement(elem)}
             >
                 <div className="expeditor">
                     <div className="avatar-letter">
-                        <span className="icon-email-tracking"></span>
+                        {selection
+                            ? (selections.includes(elem.id)
+                                ? <span className="icon-check1"></span>
+                                : null
+                            )
+                            : <span className="icon-email-tracking"></span>
+                        }
                     </div>
                     <div className="content">
                         <div className="name">{elem.expeditor}</div>

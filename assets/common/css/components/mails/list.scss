@@ -42,7 +42,7 @@
     padding: var(--espaceDiv);
     transition: background-color 0.2s ease-in-out;
 
-    &.true, &:hover{
+    &.selected, &:hover{
       background-color: var(--primaryOpacity4);
     }
 
