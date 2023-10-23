@@ -13,6 +13,7 @@ use App\Repository\Main\UserRepository;
 use App\Service\ApiResponse;
 use App\Service\MultipleDatabase\MultipleDatabase;
 use App\Service\SanitizeData;
+use App\Service\SettingsService;
 use App\Service\ValidatorService;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -139,16 +140,8 @@ class AdminController extends AbstractController
 
     #[Route('/mails', name: 'mails_index')]
     public function mails(Request $request, MailRepository $repository, SerializerInterface $serializer,
-                          PaginatorInterface $paginator): Response
+                          PaginatorInterface $paginator, SettingsService $settingsService): Response
     {
-//        /** @var User $user */
-//        $user = $this->getUser();
-//        $userMail = $user->getUserMail();
-//        if($userMail){
-//            $serveur = '{'.$userMail->getHote().':'.$userMail->getPort().'/imap/ssl}INBOX';
-//            $mailbox = imap_open($serveur, $userMail->getUsername(), $userMail->getPassword());
-//        }
-
         $mails = $repository->findBy([], ['createdAt' => 'DESC']);
 
         $pagination = $paginator->paginate($mails, $request->query->getInt('page', 1), 10);
@@ -158,6 +151,8 @@ class AdminController extends AbstractController
         return $this->render('admin/pages/mails/index.html.twig', [
             'data' => $data,
             'pagination' => $pagination,
+            'from' => $settingsService->getEmailExpediteurGlobal(),
+            'fromName' => $settingsService->getWebsiteName()
         ]);
     }
 }

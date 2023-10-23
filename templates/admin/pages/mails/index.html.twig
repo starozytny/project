@@ -8,6 +8,8 @@
         <div id="mails"
              data-total-mails="{{ pagination.getTotalItemCount }}"
              data-donnees="{{ data }}"
+             data-from="{{ from }}"
+             data-from-name="{{ fromName }}"
         >
             {% include "layout/components/loader.html.twig" %}
         </div>

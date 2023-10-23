@@ -3,7 +3,6 @@
 namespace App\Entity\Main;
 
 use App\Entity\DataEntity;
-use App\Entity\Enum\Mail\StatusType;
 use App\Entity\Enum\Mail\ThemeType;
 use App\Repository\Main\MailRepository;
 use Doctrine\DBAL\Types\Types;
@@ -13,6 +12,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: MailRepository::class)]
 class Mail extends DataEntity
 {
+    const FOLDER_FILES = "emails";
+
     const LIST = ['mail_list'];
 
     #[ORM\Id]
@@ -20,10 +21,6 @@ class Mail extends DataEntity
     #[ORM\Column]
     #[Groups(['mail_list'])]
     private ?int $id = null;
-
-    #[ORM\Column]
-    #[Groups(['mail_list'])]
-    private ?int $status = StatusType::Inbox;
 
     #[ORM\Column(length: 255)]
     #[Groups(['mail_list'])]
@@ -69,9 +66,6 @@ class Mail extends DataEntity
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $imapId = null;
-
     public function __construct()
     {
         $this->createdAt = $this->initNewDateImmutable();
@@ -80,18 +74,6 @@ class Mail extends DataEntity
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getStatus(): ?int
-    {
-        return $this->status;
-    }
-
-    public function setStatus(int $status): static
-    {
-        $this->status = $status;
-
-        return $this;
     }
 
     public function getExpeditor(): ?string
@@ -222,18 +204,6 @@ class Mail extends DataEntity
     public function setUser(?User $user): static
     {
         $this->user = $user;
-
-        return $this;
-    }
-
-    public function getImapId(): ?int
-    {
-        return $this->imapId;
-    }
-
-    public function setImapId(?int $imapId): static
-    {
-        $this->imapId = $imapId;
 
         return $this;
     }

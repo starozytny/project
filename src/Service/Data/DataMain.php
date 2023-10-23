@@ -7,6 +7,7 @@ use App\Entity\Main\Changelog;
 use App\Entity\Main\Contact;
 use App\Entity\Main\Help\HeCategory;
 use App\Entity\Main\Help\HeQuestion;
+use App\Entity\Main\Mail;
 use App\Entity\Main\Notification;
 use App\Entity\Main\Settings;
 use App\Entity\Main\Society;
@@ -130,5 +131,28 @@ class DataMain
             ->setName($this->sanitizeData->trimData($data->name))
             ->setContent($this->sanitizeData->trimData($data->content->html))
         ;
+    }
+
+    public function setDataMail(Mail $obj, $data): Mail
+    {
+        return ($obj)
+            ->setSubject($this->sanitizeData->trimData($data->subject))
+            ->setDestinators($this->setTab($data->to))
+            ->setCc($this->setTab($data->cc))
+            ->setBcc($this->setTab($data->bcc))
+            ->setExpeditor($this->sanitizeData->trimData($data->from))
+            ->setMessage($this->sanitizeData->trimData($data->message->html))
+            ->setTheme((int) $data->theme)
+        ;
+    }
+
+    private function setTab($data): array
+    {
+        $values = [];
+        foreach ($data as $dest){
+            $values[] = $dest->value;
+        }
+
+        return $values;
     }
 }

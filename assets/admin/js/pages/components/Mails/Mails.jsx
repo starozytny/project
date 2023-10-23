@@ -10,7 +10,7 @@ import { Modal } from "@commonComponents/Elements/Modal";
 
 import { MailFormulaire } from "@commonComponents/Modules/Mail/MailForm";
 
-export function Mails ({ donnees, totalMails }) {
+export function Mails ({ totalMails, donnees, from, fromName }) {
 
     const formRef = useRef(null);
     const [context, setContext] = useState('sent');
@@ -22,9 +22,8 @@ export function Mails ({ donnees, totalMails }) {
     }
 
     let menu = [
-        { context: 'sent',  icon: "email-tracking", label: "Envoyés",           total: totalMails },
-        { context: 'draft', icon: "pencil",         label: "Brouillon",         total: 0 },
-        { context: 'trash', icon: "trash",          label: "Corbeille",         total: 0 },
+        { context: 'sent',  icon: "email-tracking", label: "Envoyés",   total: totalMails },
+        { context: 'trash', icon: "trash",          label: "Corbeille", total: 0 },
     ];
 
     let menuActive = null;
@@ -152,7 +151,8 @@ export function Mails ({ donnees, totalMails }) {
         </div>
         {createPortal(
             <Modal ref={formRef} identifiant="mail" maxWidth={768} margin={2} title="Envoyer un mail" isForm={true}
-                   content={<MailFormulaire identifiant="mail" element={element} tos={[]} />} footer={null} />,
+                   content={<MailFormulaire identifiant="mail" element={element} tos={[]} from={from} fromName={fromName} />}
+                   footer={null} />,
             document.body)
         }
     </div>

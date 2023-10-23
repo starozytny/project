@@ -23,7 +23,7 @@ class MailerService
         $this->appEnv = $appEnv;
     }
 
-    public function sendMail(array $to, $subject, $text, $html, $params, $cc=[], $cci=[], $replyTo=null, $files = [], $from=null, $fromName=null): bool|string
+    public function sendMail(array $to, $subject, $text, $html, $params, $cc=[], $bcc=[], $replyTo=null, $files = [], $from=null, $fromName=null): bool|string
     {
         $from = ($from == null) ? $this->settingsService->getEmailExpediteurGlobal() : $from;
         $fromName = ($fromName == null) ? $this->settingsService->getWebsiteName() : $fromName;
@@ -59,7 +59,7 @@ class MailerService
         }
 
         $i = 0;
-        foreach($cci as $item){
+        foreach($bcc as $item){
             if($this->appEnv != "prod"){
                 $item = $this->settingsService->getEmailExpediteurGlobal();
             }

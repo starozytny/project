@@ -6,7 +6,7 @@ import toastr  from 'toastr';
 import { uid } from 'uid'
 import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
-import { Input, InputFile, SelectMultipleCustom } from "@commonComponents/Elements/Fields";
+import {Input, InputFile, InputView, SelectMultipleCustom} from "@commonComponents/Elements/Fields";
 import { Button }           from "@commonComponents/Elements/Button";
 import { Alert }            from "@commonComponents/Elements/Alert";
 import { TinyMCE }          from "@commonComponents/Elements/TinyMCE";
@@ -18,7 +18,7 @@ import Validateur from "@commonFunctions/validateur";
 const URL_CREATE_ELEMENT    = "intern_api_mails_send";
 const TEXT_CREATE           = "Envoyer le message";
 
-export function MailFormulaire ({ identifiant, element, tos })
+export function MailFormulaire ({ identifiant, element, tos, from, fromName })
 {
     let nTos = [];
     if(tos){
@@ -27,11 +27,14 @@ export function MailFormulaire ({ identifiant, element, tos })
             if(val) nTos.push({ value: val, label: val, inputName: val, identifiant: "to-mail-" + index });
         })
     }
+
     return <Form
         identifiant={identifiant}
         url={Routing.generate(URL_CREATE_ELEMENT)}
         tos={nTos}
         to={element ? [{uid: uid(), value: element.email}] : []}
+        from={from}
+        fromName={fromName}
 
         initListener={!!element}
         key={element ? element.id : 0}
@@ -49,15 +52,18 @@ class Form extends Component {
         super(props);
 
         this.state = {
+            from: props.from,
+            fromName: props.fromName,
             to: props.to,
             cc: [],
-            cci: [],
-            name: "",
+            bcc: [],
+            subject: "",
             message: {value: "", html: ""},
+            theme: 0,
             errors: [],
             success: null,
             openCc: false,
-            openCci: false,
+            openBcc: false,
             loadSendData: false,
             resetTextArea: false
         }
@@ -104,7 +110,7 @@ class Form extends Component {
         let ref;
         if(name === "to") ref = this.select0;
         else if(name === "cc") ref = this.select1;
-        else if(name === "cci") ref = this.select2;
+        else if(name === "bcc") ref = this.select2;
         ref.current.handleClose(null, "");
     }
 
@@ -121,13 +127,13 @@ class Form extends Component {
         e.preventDefault();
 
         const { url } = this.props;
-        const { loadSendData, to, name, message } = this.state;
+        const { loadSendData, to, subject, message } = this.state;
 
         this.setState({ errors: [], success: null });
 
         let paramsToValidate = [
             {type: "array",  id: 'to',      value: to},
-            {type: "text",   id: 'name',    value: name},
+            {type: "text",   id: 'subject', value: subject},
             {type: "text",   id: 'message', value: message.html},
         ];
 
@@ -154,7 +160,12 @@ class Form extends Component {
                 axios({ method: "POST", url: url, data: formData, headers: {'Content-Type': 'multipart/form-data'} })
                     .then(function (response) {
                         toastr.info("Message envoyé.");
-                        self.setState({ success: "Message envoyé.", name: "", message: {value: "", html: ""} });
+                        self.setState({
+                            success: "Message envoyé.",
+                            subject: "",
+                            message: {value: "", html: ""},
+                            resetTextArea: true
+                        });
                     })
                     .catch(function (error) { Formulaire.displayErrors(self, error);  })
                     .then(function () { Formulaire.loader(false); self.setState({ loadSendData: false })  })
@@ -166,7 +177,7 @@ class Form extends Component {
 
     render () {
         const { tos } = this.props;
-        const { errors, success, loadSendData, to, cc, cci, name, message, resetTextArea, openCc, openCci, files } = this.state;
+        const { errors, success, loadSendData, from, fromName, to, cc, bcc, subject, message, resetTextArea, openCc, openBcc, files } = this.state;
 
         let params = { errors: errors, onChange: this.handleChange }
         let params1 = { errors: errors, onClick: this.handleSelect, onDeClick: this.handleDeselect }
@@ -174,25 +185,28 @@ class Form extends Component {
         return <>
             <div className="modal-body">
                 <form onSubmit={this.handleSubmit}>
+                    <div class="line">
+                        <InputView valeur={(fromName + ' <' + from + '>').trim()} errors={errors}>De</InputView>
+                    </div>
                     <div className="line line-send-mail-ccs">
                         <SelectMultipleCustom ref={this.select0} identifiant="to" inputValue="" inputValues={to}
                                               items={tos} {...params1}>À</SelectMultipleCustom>
-                        {(!openCc || ! openCci) && <div className="ccs">
+                        {(!openCc || ! openBcc) && <div className="ccs">
                             {!openCc && <div onClick={() => this.setState({ openCc: true })}>Cc</div>}
-                            {!openCci && <div onClick={() => this.setState({ openCci: true })}>Cci</div>}
+                            {!openBcc && <div onClick={() => this.setState({ openBcc: true })}>Cci</div>}
                         </div>}
                     </div>
                     {openCc && <div className="line">
                         <SelectMultipleCustom ref={this.select1} identifiant="cc" inputValue="" inputValues={cc}
                                               items={tos} {...params1}>Cc</SelectMultipleCustom>
                     </div>}
-                    {openCci && <div className="line">
-                        <SelectMultipleCustom ref={this.select2} identifiant="cci" inputValue="" inputValues={cci}
+                    {openBcc && <div className="line">
+                        <SelectMultipleCustom ref={this.select2} identifiant="bcc" inputValue="" inputValues={bcc}
                                               items={tos} {...params1}>Cci</SelectMultipleCustom>
                     </div>}
 
                     <div className="line">
-                        <Input identifiant="name" valeur={name} {...params}>Objet</Input>
+                        <Input identifiant="subject" valeur={subject} {...params}>Objet</Input>
                     </div>
 
                     <div className="line">

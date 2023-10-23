@@ -157,8 +157,11 @@ class UserController extends AbstractController
 
         $user->setLostAt(new \DateTime()); // no set timezone to compare expired
         $user->setLostCode($code);
-        $url = $this->generateUrl('app_password_reinit',
-            ['token' => $user->getToken(), 'code' => $code], UrlGeneratorInterface::ABSOLUTE_URL);
+        $url = $this->generateUrl(
+            'app_password_reinit',
+            ['token' => $user->getToken(), 'code' => $code], UrlGeneratorInterface::ABSOLUTE_URL)
+        ;
+
         if(!$mailerService->sendMail(
             [$user->getEmail()],
             "Mot de passe oublié pour le site " . $settingsService->getWebsiteName(),
