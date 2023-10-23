@@ -112,7 +112,7 @@ function updateDataMuta (element, context, data, sorter) {
                 if (el.id === element.id) {
                     return { ...element, ...element };
                 } else {
-                    return element;
+                    return el;
                 }
             });
             break;
