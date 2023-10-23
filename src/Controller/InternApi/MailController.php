@@ -34,7 +34,7 @@ class MailController extends AbstractController
             foreach($request->files as $file){
                 $filename = $fileUploader->upload($file, Mail::FOLDER_FILES, false);
                 $files[] = $fileUploader->getPrivateDirectory() . Mail::FOLDER_FILES .'/' . $filename;
-                $filesName[] = $file;
+                $filesName[] = $filename;
             }
         }
 
