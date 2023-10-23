@@ -15,18 +15,20 @@ import { Modal } from "@commonComponents/Elements/Modal";
 
 import { MailFormulaire } from "@commonComponents/Modules/Mail/MailForm";
 
-const URL_GET_ATTACHMENT = "intern_api_mails_mail_attachment";
-const URL_TRASH_ELEMENT  = "intern_api_mails_mail_trash";
+const URL_INDEX_PAGE      = "admin_mails_index";
+const URL_GET_ATTACHMENT  = "intern_api_mails_mail_attachment";
+const URL_TRASH_ELEMENT   = "intern_api_mails_mail_trash";
+const URL_RESTORE_ELEMENT = "intern_api_mails_mail_restore";
 
 const SORTER = Sort.compareCreatedAtInverse;
 
-export function Mails ({ totalS, totalT, donnees, from, fromName }) {
+export function Mails ({ context, totalS, totalT, donnees, from, fromName }) {
 
     const formRef = useRef(null);
     const trashRef = useRef(null);
+    const restoreRef = useRef(null);
 
     const [load, setLoad] = useState(false);
-    const [context, setContext] = useState('sent');
     const [element, setElement] = useState(null);
     const [data, setData] = useState(JSON.parse(donnees));
     const [totalSent, setTotalSent] = useState(parseInt(totalS));
@@ -38,6 +40,7 @@ export function Mails ({ totalS, totalT, donnees, from, fromName }) {
         switch (identifiant){
             case 'formRef': ref = formRef; break;
             case 'trashRef': ref = trashRef; break;
+            case 'restoreRef': ref = restoreRef; break;
             default:break;
         }
         if(ref){
@@ -53,7 +56,7 @@ export function Mails ({ totalS, totalT, donnees, from, fromName }) {
     let handleTrash = (element) => {
         if(!load){
             setLoad(true);
-            trashRef.current.handleUpdateFooter(<Button onClick={null} isLoader={true} type="primary">Confirmer</Button>)
+            trashRef.current.handleUpdateFooter(<Button onClick={null} isLoader={true} type="danger">Confirmer</Button>)
 
             axios({ method: "PUT", url: Routing.generate(URL_TRASH_ELEMENT, {'id': element.id}), data: {} })
                 .then(function (response) {
@@ -69,9 +72,28 @@ export function Mails ({ totalS, totalT, donnees, from, fromName }) {
         }
     }
 
+    let handleRestore = (element) => {
+        if(!load){
+            setLoad(true);
+            restoreRef.current.handleUpdateFooter(<Button onClick={null} isLoader={true} type="primary">Confirmer</Button>)
+
+            axios({ method: "PUT", url: Routing.generate(URL_RESTORE_ELEMENT, {'id': element.id}), data: {} })
+                .then(function (response) {
+                    setTotalSent(totalSent + 1);
+                    setTotalTrash(totalTrash - 1);
+                    setData(List.updateData(response.data, 'delete', data, SORTER));
+                    setElement(null);
+                    restoreRef.current.handleClose();
+                })
+                .catch(function (error) { Formulaire.displayErrors(null, error); })
+                .then(function () { setLoad(false) })
+            ;
+        }
+    }
+
     let menu = [
-        { context: 'sent',  icon: "email-tracking", label: "Envoyés",   total: totalSent },
-        { context: 'trash', icon: "trash",          label: "Corbeille", total: totalTrash },
+        { context: 'envoyes',   icon: "email-tracking", label: "Envoyés",   total: totalSent },
+        { context: 'corbeille', icon: "trash",          label: "Corbeille", total: totalTrash },
     ];
 
     let menuActive = null;
@@ -82,20 +104,21 @@ export function Mails ({ totalS, totalT, donnees, from, fromName }) {
             active = true;
         }
 
-        return <div className={"item " + active} key={index} onClick={() => setContext(item.context)}>
+        return <a href={Routing.generate(URL_INDEX_PAGE, {'type': item.context})} className={"item " + active} key={index} >
             <div className="name">
                 <span className={"icon-" + item.icon} />
                 <span>{item.label}</span>
             </div>
 
-            <div className="total">
-                <span>{item.total}</span>
-            </div>
-        </div>
+            <div className="total"><span>{item.total}</span></div>
+        </a>
     })
 
     return <div className="boite-mail">
         <div className="col-1">
+            <div className="mail-add">
+                Les réponses ne sont pas récupérées dans cette boite.
+            </div>
             <div className="mail-add">
                 <Button icon="email-edit" type="primary" onClick={() => handleModal('formRef', null)}>Nouveau message</Button>
             </div>
@@ -130,13 +153,24 @@ export function Mails ({ totalS, totalT, donnees, from, fromName }) {
                                 <div className="createdAt">{Sanitaze.toDateFormat(element.createdAt)}</div>
                             </div>
                             <div className="col-2">
-                                <ButtonIcon icon="trash" onClick={() => handleModal('trashRef', element)}>Corbeille</ButtonIcon>
+                                {context === "corbeille"
+                                    ? <>
+                                        <ButtonIcon icon="refresh1" onClick={() => handleModal('restoreRef', element)}>
+                                            Restaurer
+                                        </ButtonIcon>
+                                    </>
+                                    : <>
+                                        <ButtonIcon icon="trash" onClick={() => handleModal('trashRef', element)} type="danger">
+                                            Corbeille
+                                        </ButtonIcon>
+                                    </>
+                                }
                             </div>
                         </div>
 
                         <div className="item-header">
                             <div className="avatar-letter">
-                                <span>AA</span>
+                                <span className="icon-email-tracking"></span>
                             </div>
                             <div className="content">
                                 <div className="name">
@@ -187,7 +221,16 @@ export function Mails ({ totalS, totalT, donnees, from, fromName }) {
             <Modal ref={trashRef} identifiant="trash" maxWidth={414}
                    title="Déplacer dans la corbeille"
                    content="Déplacer le mail sélectionné dans la corbeille ?"
-                   footer={<Button onClick={() => handleTrash(element)} type="primary">Confirmer</Button>}
+                   footer={<Button onClick={() => handleTrash(element)} type="danger">Confirmer</Button>}
+                   key={element ? element.id : 0} />,
+            document.body)
+        }
+
+        {createPortal(
+            <Modal ref={restoreRef} identifiant="restore" maxWidth={414}
+                   title="Restaurer un email"
+                   content="Restaurer le mail sélectionné dans la boite d'envois ?"
+                   footer={<Button onClick={() => handleRestore(element)} type="primary">Confirmer</Button>}
                    key={element ? element.id : 0} />,
             document.body)
         }
@@ -214,7 +257,7 @@ function Item ({ data, setElement }) {
             >
                 <div className="expeditor">
                     <div className="avatar-letter">
-                        <span>AA</span>
+                        <span className="icon-email-tracking"></span>
                     </div>
                     <div className="content">
                         <div className="name">{elem.expeditor}</div>

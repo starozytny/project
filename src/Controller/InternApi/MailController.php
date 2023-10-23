@@ -89,4 +89,13 @@ class MailController extends AbstractController
         $repository->save($obj, true);
         return $apiResponse->apiJsonResponse($obj, Mail::LIST);
     }
+
+    #[Route('/mail/restore/{id}', name: 'mail_restore', options: ['expose' => true], methods: 'put')]
+    public function restore(Mail $obj, ApiResponse $apiResponse, MailRepository $repository): JsonResponse
+    {
+        $obj->setIsTrash(false);
+
+        $repository->save($obj, true);
+        return $apiResponse->apiJsonResponse($obj, Mail::LIST);
+    }
 }

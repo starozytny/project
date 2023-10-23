@@ -138,23 +138,25 @@ class AdminController extends AbstractController
         return $this->render('admin/pages/styleguide/index.html.twig');
     }
 
-    #[Route('/mails', name: 'mails_index')]
-    public function mails(Request $request, MailRepository $repository, SerializerInterface $serializer,
+    #[Route('/mails/{type}', name: 'mails_index', options: ['expose' => true])]
+    public function mails(Request $request, $type, MailRepository $repository, SerializerInterface $serializer,
                           PaginatorInterface $paginator, SettingsService $settingsService): Response
     {
         $mailsSent = $repository->findBy(['isTrash' => false], ['createdAt' => 'DESC']);
         $mailsTrash = $repository->findBy(['isTrash' => true], ['createdAt' => 'DESC']);
 
-        $pagination = $paginator->paginate($mailsSent, $request->query->getInt('page', 1), 10);
+        $pagination = $paginator->paginate($type == "corbeille" ? $mailsTrash : $mailsSent, $request->query->getInt('page', 1), 10);
 
         $data = $serializer->serialize($pagination->getItems(), 'json', ['groups' => Mail::LIST]);
 
         return $this->render('admin/pages/mails/index.html.twig', [
+            'type' => $type,
             'data' => $data,
             'pagination' => $pagination,
             'from' => $settingsService->getEmailExpediteurGlobal(),
             'fromName' => $settingsService->getWebsiteName(),
-            'totalTrash' => count($mailsTrash)
+            'totalSent' => count($mailsSent),
+            'totalTrash' => count($mailsTrash),
         ]);
     }
 }

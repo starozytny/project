@@ -1,12 +1,13 @@
 {% extends 'admin/pages/mails/template.html.twig' %}
 
-{% set page_title %}Boite mail{% endset %}
-{% set page_subtitle %}Boite mail configuré en IMAP.{% endset %}
+{% set page_title %}Boite d'envois{% endset %}
+{% set page_subtitle %}Les réponses ne sont pas récupérées.{% endset %}
 
 {% block main_content %}
     <div class="main-content">
         <div id="mails"
-             data-total-s="{{ pagination.getTotalItemCount }}"
+             data-context="{{ type }}"
+             data-total-s="{{ totalSent }}"
              data-total-t="{{ totalTrash }}"
              data-donnees="{{ data }}"
              data-from="{{ from }}"
