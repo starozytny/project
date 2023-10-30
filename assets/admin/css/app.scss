@@ -26,12 +26,9 @@
 @import "components/mail";
 @import "components/mails";
 
-html{
-  background-color: var(--color1);
-}
-
 body {
   color: var(--alpha);
+  background-color: var(--color1);
   @include fontRegular();
 }
 

@@ -63,3 +63,28 @@
 
   --color0Opacity6: rgba(18, 20, 32, 0.6);
 }
+
+.light-mode{
+  --txt: #fdfdfd;
+  --alpha: #101010;
+
+  --color0: #f9f7f3;
+  --color1: #f0efeb;
+  --color2: #f8edeb;
+  --color3: #f5f3f4;
+  --color4: #fefefe;
+
+  --color0Opacity1: rgba(249, 247, 243, 0.1);
+  --color1Opacity1: rgba(240, 239, 235, 0.1);
+  --color2Opacity1: rgba(248, 237, 235, 0.1);
+  --color3Opacity1: rgba(245, 243, 244, 0.1);
+  --color4Opacity1: rgba(254, 254, 254, 0.1);
+
+  --color0Opacity4: rgba(249, 247, 243, 0.4);
+  --color1Opacity4: rgba(240, 239, 235, 0.4);
+  --color2Opacity4: rgba(248, 237, 235, 0.4);
+  --color3Opacity4: rgba(245, 243, 244, 0.4);
+  --color4Opacity4: rgba(254, 254, 254, 0.4);
+
+  --color0Opacity6: rgba(249, 247, 243, 0.6);
+}
