@@ -65,26 +65,91 @@
 }
 
 .light-mode{
+  --grey2: #939393;
+
+  --grey2Opacity1: rgba(147, 147, 147, 0.1);
+
+  --grey2Opacity4: rgba(147, 147, 147, 0.4);
+
   --txt: #fdfdfd;
   --alpha: #101010;
 
-  --color0: #f9f7f3;
-  --color1: #f0efeb;
-  --color2: #f8edeb;
-  --color3: #f5f3f4;
-  --color4: #fefefe;
+  --color0: #293241;
+  --color1: #fdfdfd;
+  --color2: #F5F5F5;
+  --color3: #F0F0F0;
+  --color4: #EBEBEB;
 
-  --color0Opacity1: rgba(249, 247, 243, 0.1);
-  --color1Opacity1: rgba(240, 239, 235, 0.1);
-  --color2Opacity1: rgba(248, 237, 235, 0.1);
-  --color3Opacity1: rgba(245, 243, 244, 0.1);
-  --color4Opacity1: rgba(254, 254, 254, 0.1);
+  --color0Opacity1: rgba(200, 200, 200, 0.1);
+  --color1Opacity1: rgba(250, 250, 250, 0.1);
+  --color2Opacity1: rgba(245, 245, 245, 0.1);
+  --color3Opacity1: rgba(240, 240, 240, 0.1);
+  --color4Opacity1: rgba(235, 235, 235, 0.1);
 
-  --color0Opacity4: rgba(249, 247, 243, 0.4);
-  --color1Opacity4: rgba(240, 239, 235, 0.4);
-  --color2Opacity4: rgba(248, 237, 235, 0.4);
-  --color3Opacity4: rgba(245, 243, 244, 0.4);
-  --color4Opacity4: rgba(254, 254, 254, 0.4);
+  --color0Opacity4: rgba(200, 200, 200, 0.4);
+  --color1Opacity4: rgba(250, 250, 250, 0.4);
+  --color2Opacity4: rgba(245, 245, 245, 0.4);
+  --color3Opacity4: rgba(240, 240, 240, 0.4);
+  --color4Opacity4: rgba(235, 235, 235, 0.4);
 
   --color0Opacity6: rgba(249, 247, 243, 0.6);
+
+  nav,
+  .nav-menu .nav-item,
+  .pagination-container a,
+  .loader-content{
+    color: var(--txt)
+  }
+
+  .pagination-container a{
+    background-color: var(--color4);
+    color: var(--alpha);
+  }
+
+  .list-table{
+    background-color: transparent;
+    border: 1px solid var(--color2);
+  }
+
+  .list-table .items > .item:not(.item-header):hover{
+    background-color: var(--color4);
+  }
+
+  .dropdown .dropdown-items{
+    background-color: var(--color1);
+  }
+
+  .tooltip{
+    background-color: var(--alpha);
+  }
+
+  $data:
+          "primary" var(--primary) var(--primary) var(--txt),
+          "warning" var(--warning) var(--warning) var(--txt),
+          "danger" var(--danger) var(--danger) var(--txt),
+          "success" var(--success) var(--success) var(--txt),
+          "grey3" var(--grey3) var(--grey3) var(--txt),
+          "grey4" var(--grey4) var(--grey4) var(--txt),
+          "default" var(--txt) var(--grey2) var(--alpha),
+;
+
+  @each $name, $bg, $border, $txt in $data {
+    .btn-#{$name},
+    .btn-icon-#{$name} {
+      background-color: $bg;
+      border-color: $border;
+      color: $txt;
+    }
+
+    .btn-outline-#{$name},
+    .btn-icon-outline-#{$name} {
+      border-color: $border;
+      color: $border;
+    }
+  }
+
+  [class*="btn-outline-"],
+  [class*="btn-icon-outline-"]{
+    background-color: var(--color1);
+  }
 }
