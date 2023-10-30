@@ -33,7 +33,7 @@ export function Theme ()
     }
 
     return <div className="btn-icon btn-icon-outline-default" onClick={handleSwitch}>
-        <span className={`icon-${theme ? "light" : "moon"}`}></span>
-        <span className="tooltip" style={{width: '108px'}}>Thème {theme ? "clair" : "sombre"}</span>
+        <span className={`icon-${theme ? "moon" : "light"}`}></span>
+        <span className="tooltip" style={{width: '108px'}}>Thème {theme ? "sombre" : "clair"}</span>
     </div>
 }
