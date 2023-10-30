@@ -151,6 +151,10 @@
     background-color: var(--color2);
   }
 
+  .avatar-letter{
+    background-color: var(--color4);
+  }
+
   $data:
           "primary" var(--primary) var(--primary) var(--txt),
           "warning" var(--warning) var(--warning) var(--txt),
