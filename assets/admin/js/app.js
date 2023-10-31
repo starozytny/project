@@ -17,7 +17,7 @@ if(notifs){
 
 let theme = document.getElementById("theme_switcher");
 if(theme){
-    createRoot(theme).render(<Theme />)
+    createRoot(theme).render(<Theme {...theme.dataset} />)
 }
 
 menu();

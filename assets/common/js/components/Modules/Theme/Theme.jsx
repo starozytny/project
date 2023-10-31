@@ -1,17 +1,14 @@
 import React, { useState, useEffect } from 'react';
 
-export function Theme ()
+export function Theme ({ consent })
 {
     const [theme, setTheme] = useState(null);
 
     const light = "light-mode";
 
     let body = document.querySelector('body');
-    let consent = body.dataset.consent;
 
     useEffect(() => {
-        let body = document.querySelector('body');
-
         let st = localStorage.getItem(consent);
         if(st && st === light){
             body.classList.add(light)
