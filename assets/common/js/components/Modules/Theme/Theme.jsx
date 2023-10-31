@@ -13,13 +13,15 @@ export function Theme ({ consent, initTheme })
         let st = localStorage.getItem(consent);
         if(st){
             if(st === light){
-                body.classList.add(light)
-                body.classList.remove(dark)
-                setTheme(light)
+                lightTheme()
             }else if(st === dark){
-                body.classList.add(dark)
-                body.classList.remove(light)
-                setTheme(dark)
+                darkTheme()
+            }
+        }else{
+            if(theme === light){
+                lightTheme()
+            }else if(theme === dark){
+                darkTheme()
             }
         }
     }, []);
@@ -27,16 +29,24 @@ export function Theme ({ consent, initTheme })
 
     let  handleSwitch = () => {
         if(body.classList.contains(light)){
-            body.classList.add(dark)
-            body.classList.remove(light)
-            setTheme(dark)
+            darkTheme()
             localStorage.setItem(consent, dark)
         }else{
-            body.classList.add(light)
-            body.classList.remove(dark)
-            setTheme(light)
+            lightTheme()
             localStorage.setItem(consent, light)
         }
+    }
+
+    function lightTheme () {
+        body.classList.add(light)
+        body.classList.remove(dark)
+        setTheme(light)
+    }
+
+    function darkTheme () {
+        body.classList.add(dark)
+        body.classList.remove(light)
+        setTheme(dark)
     }
 
     return <div className="btn-icon btn-icon-outline-default" onClick={handleSwitch}>
@@ -44,3 +54,5 @@ export function Theme ({ consent, initTheme })
         <span className="tooltip" style={{width: '108px'}}>Thème {theme ? "sombre" : "clair"}</span>
     </div>
 }
+
+
