@@ -48,7 +48,7 @@
                                 <span class="icon-settings"></span>
                                 <span class="tooltip">Paramètres</span>
                             </a>
-                            <div id="theme_switcher">
+                            <div id="theme_switcher" data-consent="logilinkLocalTheme" data-init-theme="dark-mode">
                                 {% include "layout/components/admin/loaders/btn-icon.html.twig" with { type: 'outline-default' } %}
                             </div>
                             <a href="{{ path('app_logout') }}" class="btn-icon btn-icon-outline-default">
