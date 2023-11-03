@@ -98,9 +98,18 @@
   }
 }
 
-
 @media (min-width: 768px) {
   .toolbar{
     flex-direction: row;
+  }
+
+  .search-bar{
+    .icon-search{
+      display: block;
+      transform: translateY(1px);
+    }
+    input{
+      padding: 8.5px 10px 8.5px 32px;
+    }
   }
 }
