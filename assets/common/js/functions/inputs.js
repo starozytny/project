@@ -75,7 +75,8 @@ function initDateInput(onChangeDate, onInput, minDate, maxDate = new Date(2060, 
             formatter: (input, date, instance) => {
                 input.value = date.toLocaleDateString("fr-FR")
             },
-            customDays: ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'],
+            startDay: 1,
+            customDays: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
             customMonths: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
             overlayButton: "Valider",
             overlayPlaceholder: 'Année (AAAA)',
