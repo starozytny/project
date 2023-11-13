@@ -64,8 +64,8 @@ export function ChangelogsItem ({ elem, highlight, onModal })
                         </div>
                         <div className="sub">
                             {elem.updatedAt
-                                ? "Modifié : " + Sanitaze.toFormatCalendar(elem.updatedAt)
-                                : Sanitaze.toFormatCalendar(elem.createdAt)
+                                ? "Modifié : " + Sanitaze.toDateFormat(elem.updatedAt)
+                                : Sanitaze.toDateFormat(elem.createdAt)
                             }
                         </div>
                     </div>
