@@ -6,20 +6,6 @@ use Exception;
 
 class DataEntity
 {
-    public function initNewDateImmutable(): \DateTimeImmutable
-    {
-        $createdAt = new \DateTimeImmutable();
-        $createdAt->setTimezone(new \DateTimeZone("Europe/Paris"));
-        return $createdAt;
-    }
-
-    public function initNewDate(): \DateTime
-    {
-        $createdAt = new \DateTime();
-        $createdAt->setTimezone(new \DateTimeZone("Europe/Paris"));
-        return $createdAt;
-    }
-
     /**
      * @throws Exception
      */

@@ -100,7 +100,7 @@ class User extends DataEntity implements UserInterface, PasswordAuthenticatedUse
      */
     public function __construct()
     {
-        $this->createdAt = $this->initNewDateImmutable();
+        $this->createdAt = new \DateTimeImmutable();
         $this->token = $this->initToken();
         $this->mails = new ArrayCollection();
     }
@@ -268,7 +268,6 @@ class User extends DataEntity implements UserInterface, PasswordAuthenticatedUse
 
     public function setUpdatedAt(?\DateTime $updatedAt): self
     {
-        $updatedAt->setTimezone(new \DateTimeZone("Europe/Paris"));
         $this->updatedAt = $updatedAt;
 
         return $this;
@@ -281,7 +280,6 @@ class User extends DataEntity implements UserInterface, PasswordAuthenticatedUse
 
     public function setLastLoginAt(?\DateTime $lastLoginAt): self
     {
-        $lastLoginAt->setTimezone(new \DateTimeZone("Europe/Paris"));
         $this->lastLoginAt = $lastLoginAt;
 
         return $this;

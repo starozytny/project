@@ -148,7 +148,7 @@ class UserController extends AbstractController
 
         $code = uniqid($user->getId());
 
-        $user->setLostAt(new \DateTime()); // no set timezone to compare expired
+        $user->setLostAt(new \DateTime());
         $user->setLostCode($code);
         $url = $this->generateUrl(
             'app_password_reinit',

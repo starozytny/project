@@ -48,7 +48,7 @@ class Changelog extends DataEntity
 
     public function __construct()
     {
-        $this->createdAt = $this->initNewDateImmutable();
+        $this->createdAt = new \DateTimeImmutable();
     }
 
     public function getId(): ?int
@@ -123,7 +123,6 @@ class Changelog extends DataEntity
 
     public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
-        $updatedAt->setTimezone(new \DateTimeZone("Europe/Paris"));
         $this->updatedAt = $updatedAt;
 
         return $this;

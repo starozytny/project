@@ -6,7 +6,7 @@
 
 {% block body %}
     <div>
-        <div>Demande de contact réalisé par : {{ contact.name }}, le {{ contact.createdAt | date('d/m/Y \\à H:i', "Europe/Paris") }}</div>
+        <div>Demande de contact réalisé par : {{ contact.name }}, le {{ contact.createdAt | date('d/m/Y \\à H:i') }}</div>
         <div>Email  de contact : {{ contact.email }}</div>
         <p style="width: 540px;">
             Message : <br>
