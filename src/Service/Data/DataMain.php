@@ -64,7 +64,7 @@ class DataMain
         ;
     }
 
-    public function createDataNotification($name, $icon, User|UserInterface $user, $url = null): void
+    public function createDataNotification($name, $icon, $user, $url = null): void
     {
         $obj = (new Notification())
             ->setName($this->sanitizeData->trimData($name))
