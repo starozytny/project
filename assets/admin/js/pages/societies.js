@@ -1,15 +1,10 @@
 import "../../css/pages/societies.scss"
 
-const routes = require('@publicFolder/js/fos_js_routes.json');
-import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min';
-
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { Societies } from "@adminPages/Societies/Societies";
 import { SocietyFormulaire } from "@adminPages/Societies/SocietyForm";
 import { Users } from "@adminPages/Users/Users";
-
-Routing.setRoutingData(routes);
 
 const URL_GET_USERS = "intern_api_users_society";
 
