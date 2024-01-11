@@ -7,33 +7,33 @@ import List from "@commonFunctions/list";
 
 import { ChangelogsList } from "@adminPages/Changelogs/ChangelogsList";
 
+import { Search } from "@commonComponents/Elements/Search";
+import { Filter } from "@commonComponents/Elements/Filter";
+import { ModalDelete } from "@commonComponents/Shortcut/Modal";
+import { LoaderElements } from "@commonComponents/Elements/Loader";
 import { Pagination, TopSorterPagination } from "@commonComponents/Elements/Pagination";
-import { Search }           from "@commonComponents/Elements/Search";
-import { LoaderElements }   from "@commonComponents/Elements/Loader";
-import { Filter }           from "@commonComponents/Elements/Filter";
-import { ModalDelete }      from "@commonComponents/Shortcut/Modal";
 
 const URL_GET_DATA        = "intern_api_changelogs_list";
 const URL_DELETE_ELEMENT  = "intern_api_changelogs_delete";
 
-let SORTER = Sort.compareCreatedAtInverse;
-let sorters = [
-    { value: 0, label: 'Création',  identifiant: 'sorter-created' },
-    { value: 1, label: 'Nom',       identifiant: 'sorter-nom' },
-]
-let sortersFunction = [Sort.compareCreatedAtInverse, Sort.compareName];
+const SESSION_PERPAGE = "project.perpage.changelogs";
+const SESSION_FILTERS = "project.filters.changelogs";
 
 export class Changelogs extends Component {
     constructor(props) {
         super(props);
 
+        let saveNbPerPage = sessionStorage.getItem(SESSION_PERPAGE);
+        let perPage = saveNbPerPage !== null ? parseInt(saveNbPerPage) : 20;
+
+        let saveFilters = props.highlight ? sessionStorage.getItem(SESSION_FILTERS) : null;
+
         this.state = {
-            perPage: 20,
+            perPage: perPage,
             currentPage: 0,
-            sorter: SORTER,
-            sessionName: "local.changelogs.list.pagination",
+            sorter: Sort.compareCreatedAtInverse,
             loadingData: true,
-            filters: [],
+            filters: saveFilters !== null ? JSON.parse(saveFilters) : [],
             element: null,
         }
 
@@ -43,7 +43,10 @@ export class Changelogs extends Component {
 
     componentDidMount = () => { this.handleGetData(); }
 
-    handleGetData = () => { List.getData(this, Routing.generate(URL_GET_DATA), this.state.perPage, this.state.sorter, this.props.highlight); }
+    handleGetData = () => {
+        const { perPage, sorter, filters } = this.state;
+        List.getData(this, Routing.generate(URL_GET_DATA), perPage, sorter, this.props.highlight, filters, this.handleFilters);
+    }
 
     handleUpdateData = (currentData) => { this.setState({ currentData }) }
 
@@ -52,14 +55,9 @@ export class Changelogs extends Component {
         List.search(this, 'changelog', search, dataImmuable, perPage, sorter, true, filters, this.handleFilters)
     }
 
-    handleFilters = (filters) => {
+    handleFilters = (filters, nData = null) => {
         const { dataImmuable, perPage, sorter } = this.state;
-        return List.filter(this, 'type', dataImmuable, filters, perPage, sorter);
-    }
-
-    handleModal = (identifiant, elem) => {
-        this.delete.current.handleClick();
-        this.setState({ element: elem })
+        return List.filter(this, 'type', nData ? nData : dataImmuable, filters, perPage, sorter, SESSION_FILTERS);
     }
 
     handleUpdateList = (element, context) => {
@@ -71,13 +69,16 @@ export class Changelogs extends Component {
 
     handleChangeCurrentPage = (currentPage) => { this.setState({ currentPage }); }
 
-    handlePerPage = (perPage) => { List.changePerPage(this, this.state.data, perPage, this.state.sorter); }
+    handlePerPage = (perPage) => { List.changePerPage(this, this.state.data, perPage, this.state.sorter, SESSION_PERPAGE); }
 
-    handleSorter = (nb) => { List.changeSorter(this, this.state.data, this.state.perPage, sortersFunction, nb); }
+    handleModal = (identifiant, elem) => {
+        this.delete.current.handleClick();
+        this.setState({ element: elem })
+    }
 
     render () {
         const { highlight } = this.props;
-        const { sessionName, data, currentData, element, loadingData, perPage, currentPage, filters } = this.state;
+        const { data, currentData, element, loadingData, perPage, currentPage, filters } = this.state;
 
         let filtersItems = [
             {value: 0, label: "Information",    id: "f-info"},
@@ -98,13 +99,13 @@ export class Changelogs extends Component {
                         </div>
                     </div>
 
-                    <TopSorterPagination taille={data.length} currentPage={currentPage} perPage={perPage} sorters={sorters}
+                    <TopSorterPagination taille={data.length} currentPage={currentPage} perPage={perPage}
                                          onClick={this.handlePaginationClick}
-                                         onPerPage={this.handlePerPage} onSorter={this.handleSorter} />
+                                         onPerPage={this.handlePerPage} />
 
                     <ChangelogsList data={currentData} highlight={parseInt(highlight)} onModal={this.handleModal} />
 
-                    <Pagination ref={this.pagination} sessionName={sessionName} items={data} taille={data.length}
+                    <Pagination ref={this.pagination} items={data} taille={data.length} currentPage={currentPage}
                                 perPage={perPage} onUpdate={this.handleUpdateData} onChangeCurrentPage={this.handleChangeCurrentPage}/>
 
                     <ModalDelete refModal={this.delete} element={element} routeName={URL_DELETE_ELEMENT}

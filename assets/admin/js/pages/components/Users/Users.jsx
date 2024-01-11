@@ -55,7 +55,6 @@ export class Users extends Component {
             currentPage: 0,
             sorter: sorter,
             nbSorter: nbSorter,
-            sessionName: "local.users.list.pagination",
             loadingData: true,
             filters: saveFilters !== null ? JSON.parse(saveFilters) : [],
             element: null
@@ -173,7 +172,7 @@ export class Users extends Component {
 
     render () {
         const { highlight } = this.props;
-        const { sessionName, data, dataImmuable, currentData, element, loadingData, perPage, currentPage, filters, nbSorter } = this.state;
+        const { data, dataImmuable, currentData, element, loadingData, perPage, currentPage, filters, nbSorter } = this.state;
 
         let filtersItems = [
             {value: 0, label: "Utilisateur", id: "f-user"},
@@ -200,7 +199,7 @@ export class Users extends Component {
 
                     <UsersList data={currentData} highlight={parseInt(highlight)} onModal={this.handleModal} />
 
-                    <Pagination ref={this.pagination} sessionName={sessionName} items={data} taille={data.length}
+                    <Pagination ref={this.pagination} items={data} taille={data.length} currentPage={currentPage}
                                 perPage={perPage} onUpdate={this.handleUpdateData} onChangeCurrentPage={this.handleChangeCurrentPage}/>
 
                     <ModalDelete refModal={this.delete} element={element} routeName={URL_DELETE_ELEMENT}

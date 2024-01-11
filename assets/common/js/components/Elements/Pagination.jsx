@@ -26,7 +26,7 @@ export class Pagination extends Component {
     }
 
     handleClick = (e) => {
-        const { items, sessionName } = this.props;
+        const { items } = this.props;
         const { perPage } = this.state;
 
         const selectedPage = e.selected;
@@ -34,16 +34,14 @@ export class Pagination extends Component {
 
         if(items !== null){
             updateData(this, selectedPage, offset, items, perPage);
-            sessionStorage.setItem(sessionName, selectedPage);
         }
     }
 
     handlePageOne = (nPerPage) => {
-        const { items, sessionName } = this.props;
+        const { items } = this.props;
         const { perPage } = this.state;
 
         updateData(this, 0, 0, items, nPerPage ? nPerPage : perPage);
-        sessionStorage.setItem(sessionName, "0")
     }
 
     handlePerPage = (perPage) => {
@@ -66,7 +64,6 @@ export class Pagination extends Component {
 }
 
 Pagination.propTypes = {
-    sessionName: PropTypes.string.isRequired,
     items: PropTypes.array.isRequired,
     taille: PropTypes.number.isRequired,
     onUpdate: PropTypes.func.isRequired,
@@ -80,12 +77,10 @@ export class TopSorterPagination extends Component {
         super(props);
 
         this.state = {
-            sorter: "",
+            sorter: props.nbSorter ? props.nbSorter : "",
             perPage: props.perPage,
             errors: []
         }
-
-        this.handleChange = this.handleChange.bind(this);
     }
 
     handleChange = (e) => {
