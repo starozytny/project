@@ -1,4 +1,4 @@
-function process(property, dataImmuable, filters) {
+function process(dataImmuable, filters, property) {
     let newData = [];
     if(filters.length === 0) {
         newData = dataImmuable
@@ -26,8 +26,8 @@ function process(property, dataImmuable, filters) {
     return newData;
 }
 
-function filter (property, dataImmuable, filters) {
-    return process(property, dataImmuable, filters);
+function filter (dataImmuable, filters, property) {
+    return process(dataImmuable, filters, property);
 }
 
 

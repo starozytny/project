@@ -61,7 +61,7 @@ export class Societies extends Component {
                 let settings = JSON.parse(response.data.settings);
 
                 if(sorter) data.sort(sorter);
-                let [currentData, currentPage] = List.setCurrentPage(highlight, data, perPage);
+                let [currentData, currentPage] = List.setCurrentPage(highlight, data, perPage, 'id');
 
                 self.setState({ data: data, dataImmuable: data, currentData: currentData, currentPage: currentPage, settings: settings, loadingData: false })
             })

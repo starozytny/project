@@ -1,21 +1,21 @@
 import React, { Component } from "react";
 
-import axios   from "axios";
-import toastr  from "toastr";
+import axios from "axios";
+import toastr from "toastr";
 import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
 import Formulaire   from "@commonFunctions/formulaire";
-import Sort         from "@commonFunctions/sort";
-import List         from "@commonFunctions/list";
+import Sort from "@commonFunctions/sort";
+import List from "@commonFunctions/list";
 
 import { Pagination, TopSorterPagination } from "@commonComponents/Elements/Pagination";
 import { LoaderElements, LoaderTxt } from "@commonComponents/Elements/Loader";
-import { Search }           from "@commonComponents/Elements/Search";
-import { Filter }           from "@commonComponents/Elements/Filter";
-import { Button }           from "@commonComponents/Elements/Button";
-import { Modal }            from "@commonComponents/Elements/Modal";
-import { ModalDelete }      from "@commonComponents/Shortcut/Modal";
-import { MailFormulaire }   from "@commonComponents/Modules/Mail/MailForm";
+import { Search } from "@commonComponents/Elements/Search";
+import { Filter } from "@commonComponents/Elements/Filter";
+import { Button } from "@commonComponents/Elements/Button";
+import { Modal } from "@commonComponents/Elements/Modal";
+import { ModalDelete } from "@commonComponents/Shortcut/Modal";
+import { MailFormulaire } from "@commonComponents/Modules/Mail/MailForm";
 
 import { UsersList } from "@adminPages/Users/UsersList";
 
@@ -24,24 +24,40 @@ const URL_DELETE_ELEMENT  = "admin_users_delete";
 const URL_REINIT_PASSWORD = "intern_api_users_password_reinit";
 const URL_SWITCH_BLOCKED  = "intern_api_users_switch_blocked";
 
-let SORTER = Sort.compareLastname;
 let sorters = [
-    { value: 0, label: 'Nom',           identifiant: 'sorter-nom' },
-    { value: 1, label: 'Email',         identifiant: 'sorter-email' },
+    { value: 0, identifiant: 'sorter-nom', label: 'Nom' },
+    { value: 1, identifiant: 'sorter-ema', label: 'Email' },
 ]
 let sortersFunction = [Sort.compareLastname, Sort.compareEmail];
+
+const SESSION_SORTER = "project.sorter.users";
+const SESSION_PERPAGE = "project.perpage.users";
+const SESSION_FILTERS = "project.filters.users";
 
 export class Users extends Component {
     constructor(props) {
         super(props);
 
+        let sorter = Sort.compareLastname;
+        let saveNbSorter = sessionStorage.getItem(SESSION_SORTER);
+        let nbSorter = saveNbSorter !== null ? parseInt(saveNbSorter) : 0;
+        if(nbSorter){
+            sorter = sortersFunction[nbSorter];
+        }
+
+        let saveNbPerPage = sessionStorage.getItem(SESSION_PERPAGE);
+        let perPage = saveNbPerPage !== null ? parseInt(saveNbPerPage) : 20;
+
+        let saveFilters = props.highlight ? sessionStorage.getItem(SESSION_FILTERS) : null;
+
         this.state = {
-            perPage: 20,
+            perPage: perPage,
             currentPage: 0,
-            sorter: SORTER,
+            sorter: sorter,
+            nbSorter: nbSorter,
             sessionName: "local.users.list.pagination",
             loadingData: true,
-            filters: [],
+            filters: saveFilters !== null ? JSON.parse(saveFilters) : [],
             element: null
         }
 
@@ -55,8 +71,10 @@ export class Users extends Component {
     componentDidMount = () => { this.handleGetData(); }
 
     handleGetData = () => {
+        const { perPage, sorter, filters } = this.state;
+
         let url = this.props.urlGetData ? this.props.urlGetData : Routing.generate(URL_GET_DATA);
-        List.getData(this, url, this.state.perPage, this.state.sorter, this.props.highlight);
+        List.getData(this, url, perPage, sorter, this.props.highlight, filters, this.handleFilters);
     }
 
     handleUpdateData = (currentData) => { this.setState({ currentData }) }
@@ -66,10 +84,23 @@ export class Users extends Component {
         List.search(this, 'user', search, dataImmuable, perPage, sorter, true, filters, this.handleFilters)
     }
 
-    handleFilters = (filters) => {
+    handleFilters = (filters, nData = null) => {
         const { dataImmuable, perPage, sorter } = this.state;
-        return List.filter(this, 'highRoleCode', dataImmuable, filters, perPage, sorter);
+        return List.filter(this, 'highRoleCode', nData ? nData : dataImmuable, filters, perPage, sorter, SESSION_FILTERS);
     }
+
+    handleUpdateList = (element, context) => {
+        const { data, dataImmuable, currentData, sorter } = this.state;
+        List.updateListPagination(this, element, context, data, dataImmuable, currentData, sorter)
+    }
+
+    handlePaginationClick = (e) => { this.pagination.current.handleClick(e) }
+
+    handleChangeCurrentPage = (currentPage) => { this.setState({ currentPage }); }
+
+    handlePerPage = (perPage) => { List.changePerPage(this, this.state.data, perPage, this.state.sorter, SESSION_PERPAGE); }
+
+    handleSorter = (nb) => { List.changeSorter(this, this.state.data, this.state.perPage, sortersFunction, nb, SESSION_SORTER); }
 
     handleModal = (identifiant, elem) => {
         let ref;
@@ -88,19 +119,6 @@ export class Users extends Component {
         ref.current.handleClick();
         this.setState({ element: elem })
     }
-
-    handleUpdateList = (element, context) => {
-        const { data, dataImmuable, currentData, sorter } = this.state;
-        List.updateListPagination(this, element, context, data, dataImmuable, currentData, sorter)
-    }
-
-    handlePaginationClick = (e) => { this.pagination.current.handleClick(e) }
-
-    handleChangeCurrentPage = (currentPage) => { this.setState({ currentPage }); }
-
-    handlePerPage = (perPage) => { List.changePerPage(this, this.state.data, perPage, this.state.sorter); }
-
-    handleSorter = (nb) => { List.changeSorter(this, this.state.data, this.state.perPage, sortersFunction, nb); }
 
     handleReinitPassword = () => {
         const { element } = this.state;
@@ -155,7 +173,7 @@ export class Users extends Component {
 
     render () {
         const { highlight } = this.props;
-        const { sessionName, data, dataImmuable, currentData, element, loadingData, perPage, currentPage, filters } = this.state;
+        const { sessionName, data, dataImmuable, currentData, element, loadingData, perPage, currentPage, filters, nbSorter } = this.state;
 
         let filtersItems = [
             {value: 0, label: "Utilisateur", id: "f-user"},
@@ -177,7 +195,7 @@ export class Users extends Component {
                     </div>
 
                     <TopSorterPagination taille={data.length} currentPage={currentPage} perPage={perPage} sorters={sorters}
-                                         onClick={this.handlePaginationClick}
+                                         onClick={this.handlePaginationClick} nbSorter={nbSorter}
                                          onPerPage={this.handlePerPage} onSorter={this.handleSorter} />
 
                     <UsersList data={currentData} highlight={parseInt(highlight)} onModal={this.handleModal} />
