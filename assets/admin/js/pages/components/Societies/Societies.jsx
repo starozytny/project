@@ -4,40 +4,52 @@ import axios   from "axios";
 import toastr  from "toastr";
 import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
-import Formulaire   from "@commonFunctions/formulaire";
-import Sort         from "@commonFunctions/sort";
-import List         from "@commonFunctions/list";
+import Sort from "@commonFunctions/sort";
+import List from "@commonFunctions/list";
+import Formulaire from "@commonFunctions/formulaire";
 
 import { SocietiesList } from "@adminPages/Societies/SocietiesList";
 
-import { Pagination, TopSorterPagination }  from "@commonComponents/Elements/Pagination";
-import { Search }                           from "@commonComponents/Elements/Search";
-import { Modal }                            from "@commonComponents/Elements/Modal";
-import { Button }                           from "@commonComponents/Elements/Button";
-import { ModalDelete }                      from "@commonComponents/Shortcut/Modal";
-import { LoaderElements, LoaderTxt }        from "@commonComponents/Elements/Loader";
+import { Search } from "@commonComponents/Elements/Search";
+import { Modal } from "@commonComponents/Elements/Modal";
+import { Button } from "@commonComponents/Elements/Button";
+import { ModalDelete } from "@commonComponents/Shortcut/Modal";
+import { LoaderElements, LoaderTxt } from "@commonComponents/Elements/Loader";
+import { Pagination, TopSorterPagination } from "@commonComponents/Elements/Pagination";
 
 const URL_GET_DATA          = "intern_api_societies_list";
 const URL_DELETE_ELEMENT    = "intern_api_societies_delete";
 const URL_ACTIVATE_ELEMENT  = "intern_api_societies_activate";
 const URL_GENERATE_ELEMENT  = "intern_api_societies_generate";
 
-let SORTER = Sort.compareCode;
 let sorters = [
     { value: 0, label: 'Code',  identifiant: 'sorter-code' },
     { value: 1, label: 'Nom',   identifiant: 'sorter-nom' },
 ]
 let sortersFunction = [Sort.compareCode, Sort.compareName];
 
+const SESSION_SORTER = "project.sorter.societies";
+const SESSION_PERPAGE = "project.perpage.societies";
+
 export class Societies extends Component {
     constructor(props) {
         super(props);
 
+        let sorter = Sort.compareCode;
+        let saveNbSorter = sessionStorage.getItem(SESSION_SORTER);
+        let nbSorter = saveNbSorter !== null ? parseInt(saveNbSorter) : 0;
+        if(nbSorter){
+            sorter = sortersFunction[nbSorter];
+        }
+
+        let saveNbPerPage = sessionStorage.getItem(SESSION_PERPAGE);
+        let perPage = saveNbPerPage !== null ? parseInt(saveNbPerPage) : 20;
+
         this.state = {
-            perPage: 20,
+            perPage: perPage,
             currentPage: 0,
-            sorter: SORTER,
-            sessionName: "local.societies.list.pagination",
+            sorter: sorter,
+            nbSorter: nbSorter,
             loadingData: true,
             element: null
         }
@@ -57,10 +69,13 @@ export class Societies extends Component {
         let self = this;
         axios({ method: "GET", url: Routing.generate(URL_GET_DATA), data: {} })
             .then(function (response) {
-                let data    = JSON.parse(response.data.donnees);
+                let data = JSON.parse(response.data.donnees);
+                let dataImmuable = JSON.parse(response.data.donnees);
                 let settings = JSON.parse(response.data.settings);
 
                 if(sorter) data.sort(sorter);
+                if(sorter) dataImmuable.sort(sorter);
+
                 let [currentData, currentPage] = List.setCurrentPage(highlight, data, perPage, 'id');
 
                 self.setState({ data: data, dataImmuable: data, currentData: currentData, currentPage: currentPage, settings: settings, loadingData: false })
@@ -76,6 +91,19 @@ export class Societies extends Component {
         List.search(this, 'society', search, dataImmuable, perPage, sorter)
     }
 
+    handleUpdateList = (element, context) => {
+        const { data, dataImmuable, currentData, sorter } = this.state;
+        List.updateListPagination(this, element, context, data, dataImmuable, currentData, sorter)
+    }
+
+    handlePaginationClick = (e) => { this.pagination.current.handleClick(e) }
+
+    handleChangeCurrentPage = (currentPage) => { this.setState({ currentPage }); }
+
+    handlePerPage = (perPage) => { List.changePerPage(this, this.state.data, perPage, this.state.sorter, SESSION_PERPAGE); }
+
+    handleSorter = (nb) => { List.changeSorter(this, this.state.data, this.state.perPage, sortersFunction, nb, SESSION_SORTER); }
+
     handleModal = (identifiant, elem) => {
         let ref;
         if(identifiant === "delete"){
@@ -90,19 +118,6 @@ export class Societies extends Component {
         ref.handleClick();
         this.setState({ element: elem })
     }
-
-    handleUpdateList = (element, context) => {
-        const { data, dataImmuable, currentData, sorter } = this.state;
-        List.updateListPagination(this, element, context, data, dataImmuable, currentData, sorter)
-    }
-
-    handlePaginationClick = (e) => { this.pagination.current.handleClick(e) }
-
-    handleChangeCurrentPage = (currentPage) => { this.setState({ currentPage }); }
-
-    handlePerPage = (perPage) => { List.changePerPage(this, this.state.data, perPage, this.state.sorter); }
-
-    handleSorter = (nb) => { List.changeSorter(this, this.state.data, this.state.perPage, sortersFunction, nb); }
 
     handleActivate = () => {
         const { element } = this.state;
@@ -162,7 +177,7 @@ export class Societies extends Component {
 
     render () {
         const { highlight } = this.props;
-        const { sessionName, data, currentData, element, loadingData, perPage, currentPage, settings } = this.state;
+        const { data, currentData, element, loadingData, perPage, currentPage, settings, nbSorter } = this.state;
 
         return <>
             {loadingData
@@ -175,12 +190,12 @@ export class Societies extends Component {
                     </div>
 
                     <TopSorterPagination taille={data.length} currentPage={currentPage} perPage={perPage} sorters={sorters}
-                                         onClick={this.handlePaginationClick}
+                                         onClick={this.handlePaginationClick} nbSorter={nbSorter}
                                          onPerPage={this.handlePerPage} onSorter={this.handleSorter} />
 
                     <SocietiesList data={currentData} highlight={parseInt(highlight)} settings={settings} onModal={this.handleModal} />
 
-                    <Pagination ref={this.pagination} sessionName={sessionName} items={data} taille={data.length}
+                    <Pagination ref={this.pagination} items={data} taille={data.length} currentPage={currentPage}
                                 perPage={perPage} onUpdate={this.handleUpdateData} onChangeCurrentPage={this.handleChangeCurrentPage}/>
 
                     <ModalDelete refModal={this.delete} element={element} routeName={URL_DELETE_ELEMENT}
