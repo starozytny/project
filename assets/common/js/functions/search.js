@@ -12,31 +12,32 @@ function search(type, dataImmuable, search) {
 }
 
 function searchStartWith (value, search){
-    let val = Sanitaze.removeAccents(value);
+    let val = value.toLowerCase();
+    val = Sanitaze.removeAccents(val);
     return val.startsWith(search)
 }
 
 function switchFunction(type, search, v) {
     switch (type) {
         case "user":
-            if(searchStartWith(v.username.toLowerCase(), search)
-                || searchStartWith(v.email.toLowerCase(), search)
-                || searchStartWith(v.firstname.toLowerCase(), search)
-                || searchStartWith(v.lastname.toLowerCase(), search)
+            if(searchStartWith(v.username, search)
+                || searchStartWith(v.email, search)
+                || searchStartWith(v.firstname, search)
+                || searchStartWith(v.lastname, search)
             ){
                 return v;
             }
             break;
         case "society":
-            if(searchStartWith(v.name.toLowerCase(), search)
-                || searchStartWith(v.code.toLowerCase(), search)
+            if(searchStartWith(v.name, search)
+                || searchStartWith(v.code, search)
             ){
                 return v;
             }
             break;
         case "contact":
         case "changelog":
-            if(searchStartWith(v.name.toLowerCase(), search)){
+            if(searchStartWith(v.name, search)){
                 return v;
             }
             break;

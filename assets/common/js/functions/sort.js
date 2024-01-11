@@ -41,9 +41,18 @@ function compareCity(a,b){
 }
 
 function compareWithoutAccent(aVal, bVal) {
-    let aName = Sanitaze.removeAccents(aVal);
-    let bName = Sanitaze.removeAccents(bVal);
-    return comparison(aName.toLowerCase(), bName.toLowerCase());
+    let aName = null, bName = null;
+    if(aVal){
+        aName = Sanitaze.removeAccents(aVal);
+        aName = aName.toLowerCase();
+    }
+
+    if(bVal){
+        bName = Sanitaze.removeAccents(bVal);
+        bName = bName.toLowerCase();
+    }
+
+    return comparison(aName, bName);
 }
 
 function compareCode(a, b){
@@ -64,13 +73,18 @@ function compareLabel(a, b){
 }
 
 function comparison (objA, objB){
-    let comparison = 0;
-    if (objA > objB) {
-        comparison = 1;
-    } else if (objA < objB) {
-        comparison = -1;
+    if(objA === objB){
+        return 0;
     }
-    return comparison;
+
+    if(objA === null){
+        return 1;
+    }
+    if(objB === null){
+        return -1;
+    }
+
+    return objA < objB ? -1 : 1;
 }
 
 module.exports = {
