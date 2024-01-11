@@ -43,7 +43,7 @@ class HeCategory
     private ?string $subtitle = null;
 
     #[ORM\Column]
-    private ?int $rank = null;
+    private ?int $rankCat = null;
 
     public function __construct()
     {
@@ -135,12 +135,12 @@ class HeCategory
 
     public function getRank(): ?int
     {
-        return $this->rank;
+        return $this->rankCat;
     }
 
-    public function setRank(int $rank): self
+    public function setRank(int $rankCat): self
     {
-        $this->rank = $rank;
+        $this->rankCat = $rankCat;
 
         return $this;
     }

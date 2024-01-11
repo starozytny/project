@@ -19,7 +19,7 @@ export class Search extends Component {
     }
 
     render () {
-        const { placeholder } = this.props;
+        const { placeholder = "Recherche..." } = this.props;
         const { search } = this.state;
 
         return <div className="search-bar">

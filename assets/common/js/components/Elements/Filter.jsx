@@ -8,13 +8,10 @@ export class Filter extends Component {
         this.state = {
             filters: props.filters,
         }
-
-        this.handleChange = this.handleChange.bind(this);
     }
 
     handleChange = (e) => {
         const { filters } = this.state;
-
 
         let value = parseInt(e.currentTarget.value);
         let newFilters = (e.currentTarget.checked) ? [...filters, ...[value]] : filters.filter(v => v !== value);
@@ -42,7 +39,7 @@ export class Filter extends Component {
 
                         return <div className="item" key={index}>
                             <input type="checkbox" name="filters"
-                                   id={el.id} value={el.value} defaultChecked={checked} onChange={this.handleChange}/>
+                                   id={el.id} value={el.value} defaultChecked={checked} onChange={this.handleChange} />
                             <label htmlFor={el.id}>{el.label}</label>
                         </div>
                     })}

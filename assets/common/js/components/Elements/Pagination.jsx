@@ -23,10 +23,6 @@ export class Pagination extends Component {
             perPage: props.perPage !== undefined ? props.perPage : 20,
             currentPage: props.currentPage ? props.currentPage : 0,
         }
-
-        this.handleClick = this.handleClick.bind(this);
-        this.handlePageOne = this.handlePageOne.bind(this);
-        this.handlePerPage = this.handlePerPage.bind(this);
     }
 
     handleClick = (e) => {

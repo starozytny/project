@@ -1,4 +1,4 @@
-const axios      = require("axios");
+const axios = require("axios");
 
 const Formulaire     = require("@commonFunctions/formulaire");
 const SearchFunction = require("@commonFunctions/search");
