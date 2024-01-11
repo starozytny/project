@@ -1,9 +1,11 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import PropTypes from 'prop-types';
-import Routing   from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
+import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
 import moment from "moment";
 import 'moment/locale/fr';
+
+import { setHighlightClass, useHighlight } from "@commonHooks/item";
 
 import { ButtonIcon, ButtonIconDropdown } from "@commonComponents/Elements/Button";
 
@@ -15,13 +17,7 @@ export function UsersItem ({ elem, highlight, onModal })
 {
     const refItem = useRef(null);
 
-    let nHighlight = highlight === elem.id;
-
-    useEffect(() => {
-        if(nHighlight && refItem.current){
-            refItem.current.scrollIntoView({block: "center"})
-        }
-    })
+    let nHighlight = useHighlight(highlight, elem.id, refItem);
 
     let urlUpdate = Routing.generate(URL_UPDATE_PAGE,   {'id': elem.id});
     let urlRead   = Routing.generate(URL_READ_PAGE,     {'id': elem.id});
@@ -44,7 +40,7 @@ export function UsersItem ({ elem, highlight, onModal })
         </a> }
     ]
 
-    return <div className={"item" + (nHighlight ? " highlight" : "")} ref={refItem}>
+    return <div className={`item${setHighlightClass(nHighlight)}`} ref={refItem}>
         <div className="item-content">
             <div className="item-infos">
                 <div className="col-1 col-with-image">

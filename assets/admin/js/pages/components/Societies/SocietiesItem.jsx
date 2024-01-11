@@ -1,6 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import PropTypes from 'prop-types';
-import Routing   from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
+import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
+
+import { setHighlightClass, useHighlight } from "@commonHooks/item";
 
 import { ButtonIcon } from "@commonComponents/Elements/Button";
 
@@ -11,18 +13,12 @@ export function SocietiesItem ({ elem, highlight, settings, onModal })
 {
     const refItem = useRef(null);
 
-    let nHighlight = highlight === elem.id;
-
-    useEffect(() => {
-        if(nHighlight && refItem.current){
-            refItem.current.scrollIntoView({block: "center"})
-        }
-    })
+    let nHighlight = useHighlight(highlight, elem.id, refItem);
 
     let urlUpdate = Routing.generate(URL_UPDATE_PAGE, {'id': elem.id});
     let urlRead   = Routing.generate(URL_READ_PAGE,   {'id': elem.id});
 
-    return <div className={"item" + (nHighlight ? " highlight": "")} ref={refItem}>
+    return <div className={`item${setHighlightClass(nHighlight)}`} ref={refItem}>
         <div className="item-content">
             <div className="item-infos">
                 <div className="col-1 col-with-image">

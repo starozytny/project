@@ -20,6 +20,7 @@ Encore
         '@commonFolder': path.resolve(__dirname, './assets/common/js'),
         '@commonComponents': path.resolve(__dirname, './assets/common/js/components'),
         '@commonFunctions': path.resolve(__dirname, './assets/common/js/functions'),
+        '@commonHooks': path.resolve(__dirname, './assets/common/js/hooks'),
         '@appFolder': path.resolve(__dirname, './assets/app/js'),
         '@adminPages': path.resolve(__dirname, './assets/admin/js/pages/components'),
         '@nodeModulesFolder': path.resolve(__dirname, './node_modules'),

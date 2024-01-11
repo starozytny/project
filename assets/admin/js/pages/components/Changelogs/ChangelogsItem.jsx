@@ -1,11 +1,13 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import PropTypes from 'prop-types';
 import Routing   from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
-import axios  from "axios";
+import axios from "axios";
 
 import Formulaire from "@commonFunctions/formulaire";
-import Sanitaze   from "@commonFunctions/sanitaze";
+import Sanitaze from "@commonFunctions/sanitaze";
+
+import { setHighlightClass, useHighlight } from "@commonHooks/item";
 
 import { ButtonIcon } from "@commonComponents/Elements/Button";
 import { Checkbox }   from "@commonComponents/Elements/Fields";
@@ -17,14 +19,7 @@ export function ChangelogsItem ({ elem, highlight, onModal })
 {
     const refItem = useRef(null);
 
-    let nHighlight = highlight === elem.id;
-
-    useEffect(() => {
-        if(nHighlight && refItem.current){
-            refItem.current.scrollIntoView({block: "center"})
-        }
-    })
-
+    let nHighlight = useHighlight(highlight, elem.id, refItem);
 
     const [loadSwitch, setLoadSwitch]   = useState(false);
     const [isPublished, setIsPublished] = useState([elem.isPublished ? 1 : 0]);
@@ -53,7 +48,7 @@ export function ChangelogsItem ({ elem, highlight, onModal })
     let icons = ["icon-question", "icon-warning", "icon-error"];
     let texts = ["txt-primary", "txt-warning", "txt-danger"];
 
-    return <div className={"item" + (nHighlight ? " highlight": "")} ref={refItem}>
+    return <div className={`item${setHighlightClass(nHighlight)}`} ref={refItem}>
         <div className="item-content">
             <div className="item-infos">
                 <div className="col-1">

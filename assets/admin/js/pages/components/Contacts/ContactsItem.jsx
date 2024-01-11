@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import PropTypes from 'prop-types';
-import Routing   from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
+import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
 import axios from "axios";
 
 import Formulaire from "@commonFunctions/formulaire";
-import Sanitaze   from "@commonFunctions/sanitaze";
+import Sanitaze from "@commonFunctions/sanitaze";
 
 import { ButtonIcon } from "@commonComponents/Elements/Button";
 
@@ -13,7 +13,7 @@ const URL_UPDATE_SEEN = "intern_api_contacts_switch_seen";
 
 export function ContactsItem ({ elem, onDelete })
 {
-    const [loadSwitch, setLoadSwitch]   = useState(false);
+    const [loadSwitch, setLoadSwitch] = useState(false);
     const [seen, setSeen] = useState(elem.seen);
 
     let handleSwitch = (e) => {
