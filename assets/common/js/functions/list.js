@@ -20,7 +20,7 @@ function getData (self, url, perPage, sorter, highlight = null, filters = null, 
 
             let [currentData, currentPage] = setCurrentPage(highlight, data, perPage, nameHighlight);
 
-            self.setState({ data: data, dataImmuable: data, currentData: currentData, currentPage: currentPage, loadingData: false })
+            self.setState({ data: data, dataImmuable: dataImmuable, currentData: currentData, currentPage: currentPage, loadingData: false })
         })
         .catch(function (error) { Formulaire.displayErrors(self, error); })
     ;
