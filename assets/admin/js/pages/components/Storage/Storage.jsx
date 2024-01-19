@@ -1,15 +1,15 @@
-import React, {Component, useState} from 'react';
+import React, { Component, useState } from 'react';
 import PropTypes from "prop-types";
 
-import axios   from "axios";
+import axios from "axios";
 import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
 import Formulaire from "@commonFunctions/formulaire";
-import Sanitaze   from "@commonFunctions/sanitaze";
+import Sanitaze from "@commonFunctions/sanitaze";
 
-import { ButtonIcon }   from "@commonComponents/Elements/Button";
-import { LoaderTxt }    from "@commonComponents/Elements/Loader";
-import { Alert }        from "@commonComponents/Elements/Alert";
+import { ButtonIcon } from "@commonComponents/Elements/Button";
+import { LoaderTxt } from "@commonComponents/Elements/Loader";
+import { Alert } from "@commonComponents/Elements/Alert";
 
 const URL_CLICK_DIRECTORY = "intern_api_storage_directory";
 const URL_DOWNLOAD_FILE   = "intern_api_storage_download";
@@ -154,7 +154,7 @@ function File ({ elem, directory, deep }) {
 
                     setLoadData(false);
                 })
-                .catch(function (error) { console.log(error); console.log(error.response); Formulaire.displayErrors(self, error); })
+                .catch(function (error) { Formulaire.displayErrors(self, error); })
                 .then(function () { setIcon("file"); })
             ;
         }
@@ -173,10 +173,10 @@ function File ({ elem, directory, deep }) {
                     <div className="sub">{Sanitaze.toFormatBytesToSize(elem.size)}</div>
                 </div>
                 <div className="col-3">
-                    <div className="sub">{Sanitaze.toDateFormat(new Date(elem.dateAt.date))}</div>
+                    <div className="sub">{Sanitaze.toDateFormat(new Date(elem.dateAt.date), 'L LT',  "", false)}</div>
                 </div>
                 <div className="col-4 actions" >
-                    <ButtonIcon icon="more" />
+                    <ButtonIcon icon={loadData ? icon : "download"} onClick={handleDownload} />
                 </div>
             </div>
         </div>

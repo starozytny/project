@@ -106,9 +106,12 @@ function toFormatCalendar(value, retour = "") {
     return retour;
 }
 
-function toDateFormat(date, format = 'LLL', retour = "") {
+function toDateFormat(date, format = 'LLL', retour = "", replaceHours = true) {
     if(date === null) return retour;
-    return moment(date).format(format).replace(':', 'h');
+    return replaceHours
+        ? moment(date).format(format).replace(':', 'h')
+        : moment(date).format(format)
+    ;
 }
 
 module.exports = {

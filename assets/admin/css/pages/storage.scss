@@ -26,6 +26,10 @@
   @include flex(row, flex-start, flex-start, 12px);
   flex-wrap: wrap;
 
+  .loader-txt{
+    min-height: 112px;
+  }
+
   .directory{
     background-color: var(--color0Opacity4);
     border-radius: 4px;
@@ -46,6 +50,7 @@
     .directory-body{
       .name{
         @include fontSemibold();
+        @include overflowText();
       }
     }
   }
@@ -70,7 +75,9 @@
     cursor: pointer;
 
     &:hover{
-      text-decoration: underline;
+      span:last-child{
+        text-decoration: underline;
+      }
     }
   }
 

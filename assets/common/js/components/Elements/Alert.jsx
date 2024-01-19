@@ -40,7 +40,7 @@ export function Alert(props){
             break;
         default:
             alert = "grey4";
-            iconRender = icon ? icon : "question-1";
+            iconRender = icon ? icon : "question";
             break;
     }
 
