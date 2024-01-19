@@ -4,6 +4,7 @@ namespace App\Service;
 
 use DateTime;
 use Exception;
+use SplFileInfo;
 use Symfony\Component\Finder\Finder;
 
 class StorageService
@@ -32,7 +33,7 @@ class StorageService
     /**
      * @throws Exception
      */
-    private function setData($in, $file): array
+    private function setData($in, SplFileInfo $file): array
     {
         $dateAt = new DateTime();
         $dateAt->setTimestamp($file->getATime());
@@ -41,10 +42,14 @@ class StorageService
             'path' => $in . "/" . $file->getRelativePathname(),
             'name' => $file->getRelativePathname(),
             'dateAt' => $dateAt,
-            'size' => $file->getSize()
+            'size' => $file->getSize(),
+            'icon' => $file->getType() == "dir" ? "folder" : $this->getIcon($file->getExtension())
         ];
     }
 
+    /**
+     * @throws Exception
+     */
     private function getData(Finder $finder, $in): array
     {
         $data = [];
@@ -55,5 +60,14 @@ class StorageService
         }
 
         return $data;
+    }
+
+    private function getIcon($extension): string
+    {
+        return match ($extension) {
+            "jpg", "png", "svg", "gif", "jpeg" => "image",
+            "json" => "document",
+            default => "file"
+        };
     }
 }

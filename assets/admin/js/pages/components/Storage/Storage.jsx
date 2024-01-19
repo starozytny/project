@@ -131,7 +131,7 @@ Directory.propTypes = {
 
 function File ({ elem, directory, deep }) {
     let [loadData, setLoadData] = useState(false)
-    let [icon, setIcon] = useState("file")
+    let [icon, setIcon] = useState(elem.icon)
 
     let handleDownload = (e) => {
         e.preventDefault();
@@ -155,7 +155,7 @@ function File ({ elem, directory, deep }) {
                     setLoadData(false);
                 })
                 .catch(function (error) { Formulaire.displayErrors(self, error); })
-                .then(function () { setIcon("file"); })
+                .then(function () { setIcon(elem.icon); })
             ;
         }
     }
