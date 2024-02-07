@@ -6,7 +6,7 @@ use App\Entity\Main\Help\HeCategory;
 use App\Entity\Main\Help\HeQuestion;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 
 #[Route('/admin/aide/faq/questions', name: 'admin_help_faq_questions_')]

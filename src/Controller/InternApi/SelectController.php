@@ -7,7 +7,7 @@ use App\Repository\Main\SocietyRepository;
 use App\Service\ApiResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/intern/api/selections', name: 'intern_api_selection_')]
 class SelectController extends AbstractController

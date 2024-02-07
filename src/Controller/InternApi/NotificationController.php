@@ -8,7 +8,7 @@ use App\Service\ApiResponse;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/intern/api/notifications', name: 'intern_api_notifications_')]
 class NotificationController extends AbstractController
