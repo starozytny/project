@@ -1,38 +1,8 @@
-doctrine:
-    dbal:
-        default_connection: default
-        connections:
-            default:
-                url: '%env(resolve:DATABASE_URL)%'
-#            init001:
-#                url: '%env(resolve:DATABASE_URL_CLIENT_001)%'
-    orm:
-        auto_generate_proxy_classes: true
-        default_entity_manager: default
-        enable_lazy_ghost_objects: true
-        entity_managers:
-            default:
-                naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
-                connection: default
-                mappings:
-                    App:
-                        is_bundle: false
-                        dir: '%kernel.project_dir%/src/Entity'
-                        prefix: App\Entity
-                        alias: App
-#            init001:
-#                naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
-#                connection: init001
-#                mappings:
-#                    Init001:
-#                        is_bundle: false
-#                        dir: '%kernel.project_dir%/src/Entity/Init'
-#                        prefix: App\Entity\Init
-#                        alias: Init001
 when@test:
     doctrine:
         dbal:
             dbname_suffix: '_test%env(default::TEST_TOKEN)%'
+
 when@prod:
     doctrine:
         orm:
@@ -50,3 +20,37 @@ when@prod:
                     adapter: cache.app
                 doctrine.system_cache_pool:
                     adapter: cache.system
+
+doctrine:
+    dbal:
+        default_connection: default
+        connections:
+            default:
+                url: '%env(resolve:DATABASE_URL)%'
+#            init001:
+#                url: '%env(resolve:DATABASE_URL_CLIENT_001)%'
+    orm:
+        auto_generate_proxy_classes: true
+        default_entity_manager: default
+        enable_lazy_ghost_objects: true
+        entity_managers:
+            default:
+                naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+                connection: default
+                report_fields_where_declared: true
+                mappings:
+                    App:
+                        is_bundle: false
+                        dir: '%kernel.project_dir%/src/Entity'
+                        prefix: App\Entity
+                        alias: App
+#            init001:
+#                naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+#                connection: init001
+#                report_fields_where_declared: true
+#                mappings:
+#                    Init001:
+#                        is_bundle: false
+#                        dir: '%kernel.project_dir%/src/Entity/Init'
+#                        prefix: App\Entity\Init
+#                        alias: Init001
