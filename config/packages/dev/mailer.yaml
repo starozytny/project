@@ -1,6 +1,7 @@
 when@dev:
   framework:
     mailer:
+      dsn: 'null://null'
       envelope:
         sender: 'chanbora@logilink.fr'
         recipients: ['%env(MAILER_DELIVERY)%']
