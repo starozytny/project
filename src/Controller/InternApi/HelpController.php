@@ -9,7 +9,7 @@ use App\Repository\Main\Help\HeQuestionRepository;
 use App\Service\ApiResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 
 #[Route('/intern/api/help/faq', name: 'intern_api_help_faq_')]
