@@ -17,27 +17,33 @@ function searchStartWith (value, search){
     return val.startsWith(search)
 }
 
+function searchContainsWith (value, search){
+    let val = value.toLowerCase();
+    val = Sanitaze.removeAccents(val);
+    return val.search(search) !== -1
+}
+
 function switchFunction(type, search, v) {
     switch (type) {
         case "user":
-            if(searchStartWith(v.username, search)
+            if(searchContainsWith(v.username, search)
                 || searchStartWith(v.email, search)
-                || searchStartWith(v.firstname, search)
-                || searchStartWith(v.lastname, search)
+                || searchContainsWith(v.firstname, search)
+                || searchContainsWith(v.lastname, search)
             ){
                 return v;
             }
             break;
         case "society":
-            if(searchStartWith(v.name, search)
-                || searchStartWith(v.code, search)
+            if(searchContainsWith(v.name, search)
+                || searchContainsWith(v.code, search)
             ){
                 return v;
             }
             break;
         case "contact":
         case "changelog":
-            if(searchStartWith(v.name, search)){
+            if(searchContainsWith(v.name, search)){
                 return v;
             }
             break;
