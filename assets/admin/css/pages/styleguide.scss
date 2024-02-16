@@ -25,7 +25,7 @@
 }
 
 .styleguide-content-col{
-  @include flex(column, flex-start, flex-start, var(--espaceDiv));
+  @include flex(column, flex-start, flex-start, var(--espaceLayout));
 
   .styleguide-section{
     width: 100%;
@@ -35,7 +35,6 @@
 .styleguide-section{
   background-color: var(--color0Opacity4);
   border-radius: calc(var(--radius) * 2);
-  padding: var(--espaceDiv);
 }
 
 .styleguide-section-title{

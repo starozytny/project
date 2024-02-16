@@ -13,7 +13,7 @@ import { StyleguideBreadcrumbs } from "@adminPages/Styleguide/Components/Stylegu
 import { StyleguideForms }       from "@adminPages/Styleguide/Formulaires/StyleguideForms";
 
 export function Styleguide () {
-    const [context, setContext] = useState("form-all");
+    const [context, setContext] = useState("");
 
     let content;
     switch (context){
