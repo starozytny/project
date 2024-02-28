@@ -3,18 +3,19 @@
 {% set page_title %}Utilisateurs{% endset %}
 {% set page_subtitle %}Ajouter et gérez les utilisateurs du site.{% endset %}
 
-{% block main_content %}
-    <div class="page-actions">
-        <div class="col-1">
-            <a href="{{ path('admin_users_create') }}" class="btn btn-primary">Créer un nouvel utilisateur</a>
-        </div>
-        <div class="col-2">
-            <div id="users_export">
-                {% include "layout/components/common/loaders/btn_icon.html.twig" %}
-            </div>
-        </div>
+{% set page_actions %}
+    {% include 'layout/components/common/buttons/button.html.twig' with {
+        btn_link: path('admin_users_create'),
+        btn_type: 'blue',
+        btn_icon: 'add',
+        btn_text: 'Ajouter un utilisateur'
+    } %}
+    <div id="users_export">
+        {% include "layout/components/common/loaders/btn_icon.html.twig" %}
     </div>
+{% endset %}
 
+{% block main_content %}
     <div id="users_list" data-highlight="{{ highlight }}">
         {% include "layout/components/common/loaders/loader.html.twig" %}
     </div>
