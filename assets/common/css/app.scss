@@ -21,3 +21,13 @@ body{
 html, body{
   scroll-behavior: smooth;
 }
+
+a:hover, button:hover{
+  .tooltip{
+    display: block;
+  }
+}
+
+input:disabled{
+  cursor: not-allowed;
+}
