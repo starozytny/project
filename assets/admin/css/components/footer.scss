@@ -23,7 +23,7 @@ footer{
 
   .footer-logo{
     @include flex(column, flex-start, flex-start, 12px);
-    @include fontSemibold();
+    font-weight: 600;
 
     img{
       width: 100px;

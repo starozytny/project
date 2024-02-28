@@ -9,7 +9,7 @@
 .mail-menu{
   .item{
     @include flex(row, center, space-between);
-    @include fontSemibold();
+    font-weight: 600;
     padding: var(--espaceDiv) 0;
     cursor: pointer;
 

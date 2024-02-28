@@ -3,7 +3,7 @@
     @include flex(row, center, flex-start, var(--espaceEls));
     padding: var(--espaceDiv);
     border-bottom: 1px solid var(--color2Opacity4);
-    @include fontSemibold();
+    font-weight: 600;
     text-transform: uppercase;
 
     [class^="icon-"]{
@@ -65,7 +65,7 @@
       }
 
       .name{
-        @include fontSemibold();
+        font-weight: 600;
         margin-bottom: 4px;
       }
 

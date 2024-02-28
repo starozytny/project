@@ -28,7 +28,7 @@
       }
 
       .name{
-        @include fontSemibold();
+        font-weight: 600;
 
         & + .sub{
           margin-top: 4px;
@@ -73,7 +73,7 @@
   @media (min-width:768px) {
     .item-header{
       display: block;
-      @include fontSemibold();
+      font-weight: 600;
     }
 
     .item-infos{

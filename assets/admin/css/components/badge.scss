@@ -1,7 +1,7 @@
 @import "../../../common/css/components/badge";
 
 .badge{
-  @include fontSemibold();
+  font-weight: 600;
 }
 
 .badge.badge-disabled{

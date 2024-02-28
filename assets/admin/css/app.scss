@@ -33,21 +33,21 @@ body {
 }
 
 h1{
-  @include fontBold();
+  font-weight: bold;
 }
 
 h2{
-  @include fontSemibold();
+  font-weight: 600;
 }
 
 b, strong{
-  @include fontBold();
+  font-weight: bold;
 }
 
 #toast-container{
   .toast{
     .toast-title{
-      @include fontSemibold();
+      font-weight: 600;
     }
   }
 }

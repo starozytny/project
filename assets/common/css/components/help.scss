@@ -34,7 +34,7 @@ $widthIcon: 48px;
 
     .title{
       .name{
-        @include fontSemibold();
+        font-weight: 600;
         font-size: 18px;
 
         & + .sub{

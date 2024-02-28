@@ -1,8 +1,6 @@
 @import "../../../common/css/vars/vars";
 
 @mixin fontRegular() { font-family: 'barlowregular', sans-serif; }
-@mixin fontSemibold() { font-family: 'barlowsemibold', sans-serif; }
-@mixin fontBold() { font-family: 'barlowbold', sans-serif; }
 
 @mixin maxscreen(){
   max-width: 1600px;

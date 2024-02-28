@@ -28,7 +28,7 @@ $c-02: #a6dcee;
 }
 .loader-simple {
   padding: 1.2rem;
-  @include fontSemibold();
+  font-weight: 600;
 
   div, p{
     span{

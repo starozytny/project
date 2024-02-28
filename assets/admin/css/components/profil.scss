@@ -3,7 +3,7 @@
 .page-profil-0{
   .name{
     font-size: 18px;
-    @include fontSemibold();
+    font-weight: 600;
     margin-bottom: 4px;
   }
 
@@ -23,7 +23,7 @@
       background-color: var(--color0Opacity4);
 
       .title{
-        @include fontSemibold();
+        font-weight: 600;
       }
     }
   }

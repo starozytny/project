@@ -12,7 +12,7 @@
     margin-bottom: 0.4rem;
 
     .title{
-      @include fontSemibold();
+      font-weight: 600;
       font-size: 18px;
     }
 

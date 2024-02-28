@@ -8,7 +8,7 @@
     }
 
     .fc-col-header-cell-cushion {
-      @include fontSemibold();
+      font-weight: 600;
     }
 
     .fc-button-primary{

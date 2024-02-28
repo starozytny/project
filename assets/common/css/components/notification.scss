@@ -49,7 +49,7 @@
     @include flex(row, center, space-between, 8px);
     border-bottom: 1px solid var(--grey3);
 
-    & > span:first-child{ @include fontSemibold(); }
+    & > span:first-child{ font-weight: 600; }
 
     & > span:last-child{ cursor: pointer; }
   }

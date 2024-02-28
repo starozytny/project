@@ -38,7 +38,7 @@
 }
 
 .styleguide-section-title{
-  @include fontSemibold();
+  font-weight: 600;
   font-size: 20px;
   margin-bottom: 0.8rem;
 }

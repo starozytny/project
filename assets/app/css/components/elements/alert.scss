@@ -8,7 +8,7 @@
   }
 
   .title{
-    @include fontSemibold();
+    font-weight: 600;
   }
 }
 

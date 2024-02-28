@@ -3,7 +3,7 @@
 .line{
   label{
     text-transform: uppercase;
-    @include fontSemibold();
+    font-weight: 600;
     font-size: 13px;
   }
 }
