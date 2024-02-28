@@ -99,7 +99,7 @@ export class Storage extends Component {
                                     ? files.map((elem, index) => {
                                         return <File elem={elem} directory={directory} deep={backs.length - 2} key={index} />;
                                     })
-                                    : <Alert>Aucun fichier dans le dossier.</Alert>
+                                    : <Alert type="gray">Aucune donnée enregistrée.</Alert>
                                 }
                             </div>
                         </div>

@@ -65,7 +65,7 @@ class Form extends Component {
 
                 axios({ method: "POST", url: url, data: this.state })
                     .then(function (response) {
-                        self.setState({ name: "", email: "", message: "", messageAxios: {status: "info", msg: "Message envoyé."} })
+                        self.setState({ name: "", email: "", message: "", messageAxios: {status: "blue", msg: "Message envoyé."} })
                     })
                     .catch(function (error) { Formulaire.displayErrors(self, error); })
                     .then(function () { Formulaire.loader(false); })

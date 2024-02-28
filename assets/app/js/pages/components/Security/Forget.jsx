@@ -68,7 +68,7 @@ export class Forget extends Component {
                 Pensez à vérifier vos spams/courriers indésirables.
             </p>
             <form onSubmit={(e) => e.preventDefault()} method="post">
-                {success !== false && <Alert type="info">{success}</Alert>}
+                {success !== false && <Alert type="blue">{success}</Alert>}
 
                 {success === false && <div className="line">
                     <Input valeur={fUsername} identifiant="fUsername" {...params}>Nom utilisateur</Input>

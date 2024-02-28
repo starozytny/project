@@ -71,7 +71,7 @@ export class Reinit extends Component {
                 <div className="form">
                     <form onSubmit={this.handleSubmit}>
 
-                        {success !== false && <Alert type="info">{success}</Alert>}
+                        {success !== false && <Alert type="blue">{success}</Alert>}
 
                         {success === false && <>
                             <Password template="col" password={password} password2={password2} params={params} />

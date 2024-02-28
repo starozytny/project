@@ -65,7 +65,7 @@ export class UserPassword extends Component {
             <form onSubmit={this.handleSubmit}>
                 <div className="line-container">
                     <Password template="inline" context={context} password={password} password2={password2} params={params} />
-                    {success && <div className="line"><Alert type="info">{success}</Alert></div>}
+                    {success && <div className="line"><Alert type="blue">{success}</Alert></div>}
                 </div>
                 <div className="line-buttons">
                     <Button isSubmit={true} type="primary">Modifier son mot de passe</Button>

@@ -239,7 +239,7 @@ class Form extends Component {
                 </form>
             </div>
             <div className="modal-footer">
-                {success && <Alert type="info">{success}</Alert>}
+                {success && <Alert type="flue">{success}</Alert>}
                 {!loadSendData
                     ? <Button onClick={this.handleSubmit} type="primary">{TEXT_CREATE}</Button>
                     : <Button onClick={this.handleSubmit} type="primary" icon="chart-3" isLoader={true}>{TEXT_CREATE}</Button>

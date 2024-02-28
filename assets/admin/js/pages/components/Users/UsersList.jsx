@@ -24,7 +24,7 @@ export function UsersList ({ data, highlight, onModal }) {
                     ? data.map((elem) => {
                         return <UsersItem key={elem.id} elem={elem} highlight={highlight} onModal={onModal} />;
                     })
-                    : <Alert>Aucune donnée enregistrée.</Alert>
+                    : <Alert type="gray">Aucune donnée enregistrée.</Alert>
                 }
             </div>
         </div>

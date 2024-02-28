@@ -1,66 +1,32 @@
-import React, { useState, useEffect, useRef } from "react";
+import React from "react";
 import PropTypes from 'prop-types';
 
-export function Alert(props){
-    const { type, title, withIcon = true, icon=null, canClose=false, children } = props;
-
-    const refAlert = useRef(null);
-    const [close, setClose] = useState(false);
-
-    useEffect((e) => {
-        let div = refAlert.current;
-        if(close && div) {
-            let height = div.offsetHeight;
-
-            div.style.opacity = 0;
-            div.style.marginTop = `-${height}px`;
-
-            setTimeout(() => { div.style.display = 'none'; }, 220)
-        }
-    })
-
-    let iconRender, alert;
-    switch (type){
-        case "success":
-            alert = "success";
-            iconRender = icon ? icon : "check1";
-            break;
-        case "danger":
-            alert = "danger";
-            iconRender = icon ? icon : "exclamation";
-            break;
-        case "warning":
-            alert = "warning";
-            iconRender = icon ? icon : "warning";
-            break;
-        case "primary":
-        case "info":
-            alert = "primary";
-            iconRender = icon ? icon : "question";
-            break;
-        default:
-            alert = "grey4";
-            iconRender = icon ? icon : "question";
-            break;
+export function Alert ({ icon = null, title = null, type, children })
+{
+    const typeVariants = {
+        blue: 'bg-blue-50 text-blue-700',
+        red: 'bg-red-50 text-red-700',
+        gray: 'bg-gray-50 text-gray-700',
     }
 
-    return <div ref={refAlert} className={`alert alert-${alert}`}>
-        <div className="alert-container">
-            {withIcon && <span className={`icon-${iconRender}`} />}
-            {children && <p>
-                {title && <span className="title">{title}</span>}
-                {children}
-            </p>}
+    return <div className={`flex flex-row gap-4 ${typeVariants[type]} rounded-md p-6 xl:p-4`}>
+        {icon
+            ? <div><span className={`icon-${icon} inline-block align-middle`}></span></div>
+            : null
+        }
+        <div>
+            {title
+                ? <div className="font-semibold mb-2 xl:mb-0">{title}</div>
+                : null
+            }
+            <div className="leading-8">{children}</div>
         </div>
-        {canClose && <div className="alert-close" onClick={() => setClose(!close)}><span className="icon-close" /></div>}
     </div>
 }
 
 Alert.propTypes = {
-    type: PropTypes.string,
+    icon: PropTypes.string,
     title: PropTypes.string,
-    withIcon: PropTypes.bool,
-    iconCustom: PropTypes.bool,
-    canClose: PropTypes.bool,
-    children: PropTypes.node,
+    color: PropTypes.string,
+    ring: PropTypes.bool,
 }
