@@ -8,8 +8,6 @@ export class Search extends Component {
         this.state = {
             search: ""
         }
-
-        this.handleChange = this.handleChange.bind(this);
     }
 
     handleChange = (e) => {
@@ -22,12 +20,16 @@ export class Search extends Component {
         const { placeholder = "Recherche..." } = this.props;
         const { search } = this.state;
 
-        return <div className="search-bar">
+        return <div className="relative">
+            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+				<span className="text-gray-500 sm:text-sm">
+					<span className="icon-search"></span>
+				</span>
+            </div>
             <input type="search" name="search" id="search" value={search}
-                   onChange={this.handleChange} placeholder={placeholder} />
-            <label htmlFor="search" className={"search-icon" + (search !== "" ? " active" : "")}>
-                <span className="icon-search"></span>
-            </label>
+                   onChange={this.handleChange} placeholder={placeholder}
+                   className="block w-full rounded-md border-0 py-2 pl-9 pr-20 text-sm text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-gray-500"
+            />
         </div>
     }
 }

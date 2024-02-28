@@ -1,46 +1,39 @@
-import React, {Component} from "react";
+import React from "react";
 import PropTypes from "prop-types";
 
-import axios   from "axios";
-import toastr  from "toastr";
+import axios from "axios";
+import toastr from "toastr";
 import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
 import Formulaire from "@commonFunctions/formulaire";
 
 import { Button } from "@commonComponents/Elements/Button";
-import { Modal }  from "@commonComponents/Elements/Modal";
+import { Modal } from "@commonComponents/Elements/Modal";
 
-export class ModalDelete extends Component{
-    constructor(props) {
-        super(props);
-
-        this.handleDelete = this.handleDelete.bind(this);
-    }
-
-    handleDelete = () => {
+export function ModalDelete ({ refModal, title, children, identifiant = "delete", maxWidth = 414 })
+{
+    const handleDelete = () => {
         const { refModal, element, routeName, msgSuccess, onUpdateList } = this.props;
 
         let self = this;
-        axios({ method: "DELETE", url: Routing.generate(routeName, {'id': element.id}), data: {} })
+        axios({ method: "DELETE", url: Routing.generate(routeName, { 'id': element.id }), data: {} })
             .then(function (response) {
                 toastr.info(msgSuccess);
                 refModal.current.handleClose();
                 onUpdateList(element, "delete");
             })
-            .catch(function (error) { Formulaire.displayErrors(self, error); })
+            .catch(function (error) {
+                Formulaire.displayErrors(self, error);
+            })
         ;
     }
-    render () {
-        const { refModal, title, children, identifiant="delete", maxWidth=414 } = this.props;
 
-        return <Modal ref={refModal} identifiant={identifiant} maxWidth={maxWidth} title={title}
-                      content={<p>{children}</p>}
-                      footer={<>
-                          <Button onClick={this.handleDelete} type="primary">Confirmer la suppression</Button>
-                      </>}
-        />
-    }
-
+    return <Modal ref={refModal} identifiant={identifiant} maxWidth={maxWidth} title={title}
+                  content={<p>{children}</p>}
+                  footer={<Button type="red" onClick={handleDelete}>
+                      Confirmer la suppression
+                  </Button>}
+    />
 }
 
 ModalDelete.propTypes = {
