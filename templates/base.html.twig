@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" class="h-full bg-gray-100">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +8,7 @@
         {% block noindex %}{% endblock %}
         {% block openGraph %}{% endblock %}
         <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/ico">
+        <link rel="apple-touch-icon" href="{{ asset('logo-apple-touch.png') }}"/>
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}
             {{ encore_entry_link_tags('common_app') }}
@@ -15,21 +16,16 @@
 
         {% set consent = "logilinkLocalCookie" %} <!-- CONSENT Value -->
     </head>
-    <body>
+    <body class="h-full">
 
         <div id="cookies" data-consent="{{ consent }}"></div>
 
-        <div>
+        <div class="h-full">
             {# --------------- BODY ---------------- #}
             {% block body %}{% endblock %}
         </div>
 
-        {% for label, messages in app.flashes %}
-            <div>{{ label }}</div>
-            {% for message in messages %}
-                <pre>{{ message }}</pre>
-            {% endfor %}
-        {% endfor %}
+        <div id="flashes" data-flashes="{{ app.flashes | json_encode }}"></div>
 
         {% block javascripts %}
             {{ encore_entry_script_tags('common_app') }}

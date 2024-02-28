@@ -3,10 +3,10 @@
 {% set page_prefix = "Administrateur" %}
 
 {% set menu = [
-    { name: "Dashboard",    icon: "home",
+    { name: "Dashboard", icon: "home",
         path: path('admin_homepage'), matchRoute: ['admin_homepage']
     },
-    { name: "Sociétés",     icon: "bank",
+    { name: "Sociétés", icon: "bank",
         path: path('admin_societies_index'), matchRoute: ['admin_societies_index', 'admin_societies_create', 'admin_societies_update', 'admin_societies_read']
     },
     { name: "Utilisateurs", icon: "group",
@@ -40,12 +40,53 @@
 ] %}
 
 {% set menu_bottom = [
-    { name: "Espace utilisateur",  icon: "earth",
+    { name: "Espace utilisateur", icon: "earth",
         path: path('user_homepage'), matchRoute: ['user_homepage'] },
-    { name: "Page accueil",  icon: "earth",
+    { name: "Page accueil", icon: "earth",
         path: path('app_homepage'), matchRoute: ['app_homepage'] },
 ] %}
 
 {% block footer %}
-    {% include "admin/layout/components/footer.html.twig" %}
+    <div class="bg-white px-4 py-8 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-7xl grid gap-4 sm:grid-cols-3 pb-4">
+            <div class="flex flex-shrink-0">
+                <img class="h-8 w-auto" src="{{ asset('build/admin/images/logo.png') }}" alt="Your Company">
+            </div>
+            <div class="grid grid-cols-2 gap-4 sm:col-span-2">
+                <div class="flex flex-col">
+                    <div class="font-semibold uppercase">Liens utiles</div>
+                    <div class="md:grid md:grid-cols-2">
+                        {% for item in menu %}
+                            <a href="{{ item.path }}" class="block hover:text-gray-600">
+                                <span>{{ item.name }}</span>
+                            </a>
+                        {% endfor %}
+                    </div>
+
+                </div>
+                <div class="flex flex-col text-right">
+                    <div class="font-semibold">Website</div>
+                    <div>17 rue de la République</div>
+                    <div>13002, Marseille</div>
+
+                    <div class="mt-2">
+                        <a href="" class="inline-block rounded-md bg-yellow-400 font-semibold py-2 px-8 text-center uppercase transition-colors hover:bg-yellow-300">
+                            04 91 99 44 43
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mx-auto max-w-screen-2xl border-t pt-4 flex flex-col text-center lg:flex-row lg:text-left gap-2 justify-center">
+            <p>&copy; 2024 - <a href="https://logilink.fr" class="text-blue-600">Logilink.fr</a></p>
+            <span>-</span>
+            <a class="footer-link" href="{{ path('app_mentions') }}">Mentions légales</a>
+            <a class="footer-link" href="{{ path('app_politique') }}">Politique de confidentialité</a>
+            <a class="footer-link" href="{{ path('app_cookies') }}">Gestion des cookies</a>
+            {% if is_granted('ROLE_ADMIN') %}
+                <a class="footer-link" href="{{ path('admin_homepage') }}">Espace administrateur</a>
+            {% endif %}
+        </div>
+    </div>
+
 {% endblock %}

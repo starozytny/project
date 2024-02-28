@@ -46,7 +46,7 @@
             "info" #9AD2F4 var(--primary),
             "warning" #F1D6AA var(--warning),
             "success" #F6C9C4 var(--success)
-    ;
+  ;
 
     @each $name, $bg, $bg2, $icon in $types {
       &.toast-#{$name}{

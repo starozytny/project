@@ -1,7 +1,5 @@
 @import "../vars/vars";
 
-@import "components/components";
-
 .storage {
   @include flex(column, flex-start, flex-start, 1.2rem);
   padding: 0 1.2rem;
