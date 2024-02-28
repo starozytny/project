@@ -4,19 +4,19 @@ import axios from "axios";
 import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
 import Formulaire from "@commonFunctions/formulaire";
-import Sanitaze   from "@commonFunctions/sanitaze";
-import Sort       from "@commonFunctions/sort";
+import Sanitaze from "@commonFunctions/sanitaze";
+import Sort from "@commonFunctions/sort";
 
-import { ButtonIcon }   from "@commonComponents/Elements/Button";
-import { LoadIcon }     from "@commonComponents/Elements/Loader";
+import { ButtonIcon } from "@commonComponents/Elements/Button";
+import { LoadIcon } from "@commonComponents/Elements/Loader";
 
-const URL_GET_DATA          = "intern_api_notifications_list";
-const URL_SWITCH_ALL_SEEN   = "intern_api_notifications_switch_all_seen";
-const URL_DELETE_ALL        = "intern_api_notifications_delete_all";
-const URL_DELETE_ELEMENT    = "intern_api_notifications_delete";
+const URL_GET_DATA = "intern_api_notifications_list";
+const URL_SWITCH_ALL_SEEN = "intern_api_notifications_switch_all_seen";
+const URL_DELETE_ALL = "intern_api_notifications_delete_all";
+const URL_DELETE_ELEMENT = "intern_api_notifications_delete";
 
 export class Notifications extends Component {
-    constructor(props) {
+    constructor (props) {
         super(props);
 
         this.state = {
@@ -26,51 +26,59 @@ export class Notifications extends Component {
         }
 
         this.wrapperRef = React.createRef();
-
-        this.handleClickOutside = this.handleClickOutside.bind(this);
     }
 
     componentDidMount = () => {
         let self = this;
         axios({ method: "GET", url: Routing.generate(URL_GET_DATA), data: {} })
-            .then(function (response){
+            .then(function (response) {
                 self.setState({ data: response.data, loadData: false })
             })
-            .catch(function (error) { Formulaire.displayErrors(self, error); })
+            .catch(function (error) {
+                Formulaire.displayErrors(self, error);
+            })
         ;
     }
 
-    componentWillUnmount() { document.removeEventListener('mousedown', this.handleClickOutside); }
+    componentWillUnmount () {
+        document.removeEventListener('mousedown', this.handleClickOutside);
+    }
 
-    handleClickOutside(event) {
+    handleClickOutside (event) {
         if (this.wrapperRef && !this.wrapperRef.current.contains(event.target)) {
             this.setState({ open: false })
         }
     }
 
     handleOpen = () => {
-        if(this.state.open){
+        if (this.state.open) {
             document.removeEventListener('mousedown', this.handleClickOutside);
-        }else{
+        } else {
             document.addEventListener('mousedown', this.handleClickOutside);
         }
         this.setState({ open: !this.state.open })
     }
 
-    handleSetAllSeen = () => { callAxios(this, "PUT", Routing.generate(URL_SWITCH_ALL_SEEN)) }
+    handleSetAllSeen = () => {
+        callAxios(this, "PUT", Routing.generate(URL_SWITCH_ALL_SEEN))
+    }
 
-    handleDeleteAll = () => { callAxios(this, "DELETE", Routing.generate(URL_DELETE_ALL)) }
+    handleDeleteAll = () => {
+        callAxios(this, "DELETE", Routing.generate(URL_DELETE_ALL))
+    }
 
-    handleDelete    = (id) => { callAxios(this, "DELETE", Routing.generate(URL_DELETE_ELEMENT, {'id': id})) }
+    handleDelete = (id) => {
+        callAxios(this, "DELETE", Routing.generate(URL_DELETE_ELEMENT, { 'id': id }))
+    }
 
     render () {
         const { open, loadData, reloadData, data } = this.state;
 
         let items = [], nbNewNotifs = 0;
-        if(data){
+        if (data) {
             data.sort(Sort.compareCreatedAtInverse)
             data.forEach(elem => {
-                if(!elem.seen) nbNewNotifs++;
+                if (!elem.seen) nbNewNotifs++;
 
                 items.push(<div className="notif-item" key={elem.id}>
                     <div className="icon"><span className={"icon-" + elem.icon}></span></div>
@@ -82,7 +90,7 @@ export class Notifications extends Component {
                         <div className="sub">{Sanitaze.toFormatCalendar(elem.createdAt)}</div>
                     </div>
                     <div className="actions">
-                        <ButtonIcon icon="trash" onClick={() => this.handleDelete(elem.id)}>Supprimer</ButtonIcon>
+                        <ButtonIcon type="default" icon="trash" onClick={() => this.handleDelete(elem.id)}>Supprimer</ButtonIcon>
                     </div>
                 </div>)
             })
@@ -90,10 +98,10 @@ export class Notifications extends Component {
 
         return <>
             {loadData
-                ? <ButtonIcon icon="chart-3">Chargement</ButtonIcon>
+                ? <ButtonIcon type="menu" icon="chart-3">Chargement</ButtonIcon>
                 : <div ref={this.wrapperRef} className={"notifications-container" + (open ? " active" : "")}>
                     {nbNewNotifs > 0 && <div className="notifications-total">{nbNewNotifs}</div>}
-                    <ButtonIcon outline={true} icon="notification" onClick={this.handleOpen}>
+                    <ButtonIcon type="menu" icon="notification" onClick={this.handleOpen}>
                         Notifications
                     </ButtonIcon>
                     <div className="notifications-items">
@@ -123,9 +131,11 @@ export class Notifications extends Component {
 function callAxios (self, method, url) {
     self.setState({ reloadData: true })
     axios({ method: method, url: url, data: {} })
-        .then(function (response){
+        .then(function (response) {
             self.setState({ data: response.data, reloadData: false })
         })
-        .catch(function (error) { Formulaire.displayErrors(self, error); })
+        .catch(function (error) {
+            Formulaire.displayErrors(self, error);
+        })
     ;
 }

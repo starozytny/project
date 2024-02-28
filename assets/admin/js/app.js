@@ -5,7 +5,7 @@ import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min';
 
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { Notifications } from "@commonComponents/Elements/Notifications";
+import { Notifications } from "@commonComponents/Modules/Notifications";
 import { Theme } from "@commonComponents/Modules/Theme/Theme";
 
 Routing.setRoutingData(routes);
