@@ -9,9 +9,9 @@
 {% endblock %}
 
 {% block main_content %}
-    {% include "layout/components/admin/page_toolbar.html.twig" with { page_back: path('admin_changelogs_index') } %}
+    {% include "layout/components/common/page_toolbar.html.twig" with { page_back: path('admin_changelogs_index') } %}
 
     <div id="changelogs_create">
-        {% include "layout/components/loader.html.twig" %}
+        {% include "layout/components/common/loaders/loader.html.twig" %}
     </div>
 {% endblock %}

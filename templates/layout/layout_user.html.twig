@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block body %}
-    {% include "layout/components/page-loader.html.twig" %}
+    {% include "layout/components/common/loaders/page_loader.html.twig" %}
 
     <div class="body">
         <nav>
@@ -41,7 +41,7 @@
 
         <main>
 
-            {% include "layout/components/admin/page_title.html.twig" %}
+            {% include "layout/components/common/page_title.html.twig" %}
 
             <div>
                 {% block main_content %}{% endblock %}

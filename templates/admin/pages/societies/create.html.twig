@@ -9,11 +9,11 @@
 {% endblock %}
 
 {% block main_content %}
-    {% include "layout/components/admin/page_toolbar.html.twig" with { page_back: path('admin_societies_index') } %}
+    {% include "layout/components/common/page_toolbar.html.twig" with { page_back: path('admin_societies_index') } %}
 
     <div id="societies_create"
          data-settings="{{ settings }}"
     >
-        {% include "layout/components/loader.html.twig" %}
+        {% include "layout/components/common/loaders/loader.html.twig" %}
     </div>
 {% endblock %}
