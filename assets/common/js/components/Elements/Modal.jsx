@@ -7,6 +7,7 @@ function closeM (body, modal, modalOverlay, modalContent)
 {
     body.style.overflow = "auto";
     modal.style.zIndex = "-10";
+    modal.style.opacity = "0";
     modalOverlay.style.opacity = "0";
     modalContent.style.opacity = "0";
     modalContent.style.translateY = "4";
@@ -35,6 +36,7 @@ export class Modal extends Component {
 
         body.style.overflow = "hidden";
         modal.style.zIndex = "10";
+        modal.style.opacity = "1";
         modalOverlay.style.opacity = "1";
         modalContent.style.opacity = "1";
         modalContent.style.translateY = "0";
@@ -82,9 +84,9 @@ export class Modal extends Component {
             nContent = <div dangerouslySetInnerHTML={{__html: nContent}} />;
         }
 
-        return <div id={identifiant} className="modal relative -z-10" role="dialog" aria-modal="true">
+        return <div id={identifiant} className="modal relative -z-10 opacity-0" role="dialog" aria-modal="true">
 
-            <div className="modal-overlay fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity ease-out duration-300 opacity-0"></div>
+            <div className="modal-overlay close-modal fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity ease-out duration-300 opacity-0"></div>
 
             <div className="fixed inset-0 z-10 w-screen overflow-y-auto" style={divStyle}>
                 <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">

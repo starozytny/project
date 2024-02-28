@@ -7,7 +7,8 @@ import 'moment/locale/fr';
 
 import { setHighlightClass, useHighlight } from "@commonHooks/item";
 
-import { ButtonIcon, ButtonIconDropdown } from "@commonComponents/Elements/Button";
+import { ButtonIcon, ButtonIconA, ButtonIconDropdown } from "@commonComponents/Elements/Button";
+import { Badge } from "@commonComponents/Elements/Badge";
 
 const URL_UPDATE_PAGE   = "admin_users_update";
 const URL_READ_PAGE     = "admin_users_read";
@@ -40,36 +41,37 @@ export function UsersItem ({ elem, highlight, onModal })
         </a> }
     ]
 
-    return <div className={`item${setHighlightClass(nHighlight)}`} ref={refItem}>
+    return <div className={`item${setHighlightClass(nHighlight)} border-t hover:bg-slate-50`} ref={refItem}>
         <div className="item-content">
             <div className="item-infos">
-                <div className="col-1 col-with-image">
-                    <a href={urlRead} className="image">
+                <div className="col-1 flex flex-row gap-4">
+                    <a href={urlRead} className="w-16 h-16 rounded-md overflow-hidden">
                         {elem.avatarFile
-                            ? <img src={elem.avatarFile} alt="avatar"/>
-                            : <div className="avatar-letter">{elem.lastname.slice(0,1) + elem.firstname.slice(0,1)}</div>
+                            ? <img src={elem.avatarFile} alt="avatar" className="w-full h-full object-cover" />
+                            : <div className="avatar-letter">{elem.lastname.slice(0, 1) + elem.firstname.slice(0, 1)}</div>
                         }
                     </a>
                     <div className="infos">
-                        <div className={"name" + (elem.blocked ? " blocked" : "")}>
+                        <div className={"font-semibold" + (elem.blocked ? " blocked" : "")}>
                             <span>{elem.lastname} {elem.firstname}</span>
                             {elem.blocked ? <span className="icon-disabled" title="Bloqué" /> : null}
                         </div>
-                        <div className="sub">{elem.society.code} - {elem.society.name}</div>
-                        <div className="sub">{lastLoginAt ? "connecté " + lastLoginAt.fromNow() : ""}</div>
+                        <div className="text-gray-600">{elem.society.code} - {elem.society.name}</div>
+                        <div className="text-gray-600">{lastLoginAt ? "connecté " + lastLoginAt.fromNow() : ""}</div>
                     </div>
                 </div>
                 <div className="col-2">
                     <div>{elem.username}</div>
-                    <div className="sub">{elem.email}</div>
+                    <div className="text-gray-600">{elem.email}</div>
                 </div>
                 <div className="col-3">
-                    <div className={"badge badge-user-" + (elem.blocked ? "blocked" : elem.highRoleCode)}>{elem.highRole}</div>
+                    <Badge type="blue">{elem.highRole}</Badge>
+                    {/*<div className={"badge badge-user-" + (elem.blocked ? "blocked" : elem.highRoleCode)}></div>*/}
                 </div>
                 <div className="col-4 actions">
-                    <ButtonIcon outline={true} icon="pencil" onClick={urlUpdate} element="a">Modifier</ButtonIcon>
-                    <ButtonIcon outline={true} icon="trash" onClick={() => onModal("delete", elem)}>Supprimer</ButtonIcon>
-                    <ButtonIconDropdown outline={true} icon="more" items={menu} />
+                    <ButtonIconA type="default" icon="pencil" onClick={urlUpdate}>Modifier</ButtonIconA>
+                    <ButtonIcon type="default" icon="trash" onClick={() => onModal("delete", elem)}>Supprimer</ButtonIcon>
+                    {/*<ButtonIconDropdown outline={true} icon="more" items={menu} />*/}
                 </div>
             </div>
         </div>
