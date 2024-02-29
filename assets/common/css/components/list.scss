@@ -15,33 +15,7 @@
           top: 0; left: 0;
           display: block;
           width: 4px; height: 100%;
-        }
-      }
-
-      .sub{
-        font-size: 14px;
-        color: var(--grey3);
-      }
-
-      &:not(:last-child){
-        border-bottom: 1px solid var(--grey3);
-      }
-
-      .name{
-        font-weight: 600;
-
-        & + .sub{
-          margin-top: 4px;
-        }
-      }
-
-      .image{
-        width: 64px; height: 64px;
-        overflow: hidden;
-
-        img{
-          object-fit: cover;
-          height: 100%;
+          background-color: var(--warning);
         }
       }
     }
@@ -81,5 +55,4 @@
       justify-content: space-between;
     }
   }
-
 }

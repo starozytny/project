@@ -55,7 +55,7 @@ export class Pagination extends Component {
 
         let pageCount = Math.ceil(taille / perPage);
 
-        let content = <div className="pagination-container">
+        let content = <div className="flex justify-end">
             <PaginationView pageCount={pageCount} currentPage={currentPage} onClick={this.handleClick}/>
         </div>
 
@@ -120,26 +120,22 @@ export class TopSorterPagination extends Component {
         let params = { errors: errors, onChange: this.handleChange }
 
         return <>
-            <div className="sorter-pagination">
-                <div className="actions-sorter">
-                    {sorters && sorters.length > 1 && <div className="action-sorter">
+            <div className="flex flex-col justify-end gap-2 text-sm sm:flex-row sm:items-center">
+                <div className="flex justify-between gap-2 sm:justify-between sm:w-full">
+                    {sorters && sorters.length > 1 && <div className="flex flex-row items-center gap-1">
                         <Select items={sorters} identifiant="sorter" valeur={sorter} noEmpty={true} noErrors={true} {...params}>
                             Trier par
                         </Select>
                     </div>}
-                    <div className="action-perPage">
+                    <div className="flex flex-row items-center gap-1">
                         <Select identifiant="perPage" valeur={perPage} items={items} noEmpty={true} noErrors={true} {...params}>
                             {taille} Résultat{taille > 1 ? "s" : ""} par page de
                         </Select>
                     </div>
                 </div>
 
-                {pageCount > 1 && <div className="actions-pagination">
-                    {onClick && <>
-                        <div className="pagination-container">
-                            <PaginationView pageCount={pageCount} currentPage={currentPage} onClick={onClick}/>
-                        </div>
-                    </>}
+                {pageCount > 1 && <div className="flex justify-end">
+                    {onClick && <PaginationView pageCount={pageCount} currentPage={currentPage} onClick={onClick}/>}
                 </div>}
 
             </div>

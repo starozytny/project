@@ -447,17 +447,43 @@ SelectMultipleCustom.propTypes = {
  * SELECT Classique
  ***************************************/
 export function Select(props) {
-    const { identifiant, valeur, items, onChange, children, noEmpty=false } = props;
+    const { identifiant, valeur, items, errors, onChange, children, noEmpty=false } = props;
+
+    let error;
+    if (errors && errors.length !== 0) {
+        errors.map(err => {
+            if (err.name === identifiant) {
+                error = err.message
+            }
+        })
+    }
+
+    let styleSelect = "py-2 pl-2 rounded-md border-0 text-sm text-gray-900 ring-1 ring-inset placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-gray-500";
+    let styleOption = "text-base"
 
     let choices = items.map((item, index) =>
-        <option key={index} value={item.value}>{item.label}</option>
+        <option key={index} value={item.value} className={styleOption}>
+            {item.label}
+        </option>
     )
 
-    let content = <select value={valeur} id={identifiant} name={identifiant} onChange={onChange}>
-        {noEmpty ? null : <option value="" />}
-        {choices}
-    </select>
-    return (<Structure {...props} content={content} label={children} />)
+    return <>
+        <label htmlFor={identifiant} className="block text-sm font-medium leading-6 text-gray-900">
+            {children}
+        </label>
+        <div className="relative rounded-md shadow-sm">
+            <select value={valeur} id={identifiant} name={identifiant} onChange={onChange}
+                    className={styleSelect + " " + (error ? "ring-red-400" : "ring-gray-300")}
+            >
+                {noEmpty ? null : <option value="" />}
+                {choices}
+            </select>
+        </div>
+        {error ? <div className="text-red-500 mt-1 text-sm">
+            <span className="icon-error inline-block translate-y-0.5" />
+            <span className="ml-1">{error}</span>
+            </div> : null}
+    </>
 }
 
 Select.propTypes = {

@@ -183,7 +183,7 @@ export class Users extends Component {
 			{loadingData
 				? <LoaderElements />
 				: <>
-					<div className="toolbar">
+					<div className="mb-2">
 						<div className="col-1">
 							<div className="filters">
 								<Filter filters={filters} items={filtersItems} onFilters={this.handleFilters} />
