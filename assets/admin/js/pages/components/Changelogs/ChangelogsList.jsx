@@ -1,15 +1,15 @@
 import React from "react";
 import PropTypes from 'prop-types';
 
-import { Alert } from "@tailwindComponents/Elements/Alert";
+import { Alert } from "@commonComponents/Elements/Alert";
 
 import { ChangelogsItem } from "@adminPages/Changelogs/ChangelogsItem";
 
 export function ChangelogsList ({ data, highlight, onModal }) {
-	return <div className="list">
-		<div className="list-table">
+	return <div className="list my-4">
+		<div className="list-table bg-white rounded-md shadow">
 			<div className="items items-changelogs">
-				<div className="item item-header">
+				<div className="item item-header uppercase text-sm text-gray-600">
 					<div className="item-content">
 						<div className="item-infos">
 							<div className="col-1">Intitulé</div>
