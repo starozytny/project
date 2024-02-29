@@ -183,13 +183,9 @@ export class Users extends Component {
 			{loadingData
 				? <LoaderElements />
 				: <>
-					<div className="mb-2">
-						<div className="col-1">
-							<div className="filters">
-								<Filter filters={filters} items={filtersItems} onFilters={this.handleFilters} />
-							</div>
-							<Search onSearch={this.handleSearch} placeholder="Rechercher pas identifiant, nom ou prénom.." />
-						</div>
+					<div className="mb-2 flex flex-row">
+						<Filter haveSearch={true} filters={filters} items={filtersItems} onFilters={this.handleFilters} />
+						<Search haveFilter={true} onSearch={this.handleSearch} placeholder="Rechercher pas identifiant, nom ou prénom.." />
 					</div>
 
 					<TopSorterPagination taille={data.length} currentPage={currentPage} perPage={perPage} sorters={sorters}

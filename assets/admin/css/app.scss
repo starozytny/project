@@ -13,6 +13,35 @@ body {
   @include fontRegular();
 }
 
+a:hover, button:hover{
+  .tooltip{
+    display: block;
+  }
+}
+
+input:disabled{
+  cursor: not-allowed;
+}
+
+.dropdown-btn:hover{
+  & + .dropdown-items{
+    opacity: 1;
+    transform: scale(1);
+    z-index: 10;
+  }
+}
+
+.dropdown-items{
+  transition: all 0.2s ease-out;
+
+  &:hover{
+    opacity: 1;
+    transform: scale(1);
+    z-index: 10;
+    transition: all ease-in;
+  }
+}
+
 #toast-container{
   .toast{
     .toast-title{
@@ -20,7 +49,6 @@ body {
     }
   }
 }
-
 
 $data:
         "alpha"   var(--alpha),
