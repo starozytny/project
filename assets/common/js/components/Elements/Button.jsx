@@ -21,7 +21,7 @@ import PropTypes from 'prop-types';
 //     }
 // }
 
-export function Button ({ type, width, children, iconLeft, iconRight, onClick })
+export function Button ({ type, width, iconLeft, iconRight, onClick, children })
 {
     const colorVariants = {
         red: 'bg-red-600 text-slate-50 hover:bg-red-500',
@@ -35,6 +35,17 @@ export function Button ({ type, width, children, iconLeft, iconRight, onClick })
         <span className={iconLeft ? "pl-1" : (iconRight ? "pr-1" : "")}>{children}</span>
         {iconRight ? <span className={`icon-${iconRight} inline-block translate-y-0.5`}></span> : null}
     </button>
+}
+
+Button.propTypes = {
+    type: PropTypes.string.isRequired,
+    width: PropTypes.string,
+    iconLeft: PropTypes.string,
+    iconRight: PropTypes.string,
+    onClick: PropTypes.oneOfType([
+        PropTypes.node,
+        PropTypes.func,
+    ]),
 }
 
 export function ButtonIcon ({ type, icon, onClick, children })
@@ -56,12 +67,23 @@ export function ButtonIcon ({ type, icon, onClick, children })
     return <button onClick={onClick}
                    className={`relative inline-flex justify-center rounded-md text-lg px-2 py-2 shadow-sm ${colorVariants[type]}`}>
         <span className={`icon-${icon} ${iconColorVariants[type]}`}></span>
-        <span className="tooltip bg-gray-300 py-1 px-2 rounded absolute -top-7 right-0 text-xs hidden">{children}</span>
+        {children
+            ? <span className="tooltip bg-gray-300 py-1 px-2 rounded absolute -top-7 right-0 text-xs hidden">{children}</span>
+            : null
+        }
     </button>
 }
 
-export function ButtonIconA ({ type, icon, onClick, children })
-{
+ButtonIcon.propTypes = {
+    type: PropTypes.string.isRequired,
+    icon: PropTypes.string.isRequired,
+    onClick: PropTypes.oneOfType([
+        PropTypes.node,
+        PropTypes.func,
+    ]),
+}
+
+export function ButtonIconA ({ type, icon, onClick, children }) {
     const colorVariants = {
         red: 'bg-red-600 text-slate-50 hover:bg-red-500',
         blue: 'bg-blue-600 text-slate-50 hover:bg-blue-500 ring-1 ring-inset ring-gray-600',
@@ -83,54 +105,47 @@ export function ButtonIconA ({ type, icon, onClick, children })
     </a>
 }
 
-export function ButtonIconDropdown(props){
-    const { items, children, customBtn=null, customTop=null, customWidth=null } = props;
-
-    let divStyle0 = customTop ? { top: customTop + "px" } : {};
-    let divStyle1 = customWidth ? { width: customWidth + "px" } : {};
-
-    let divStyle = {...divStyle0, ...divStyle1}
-
-    return <div className="dropdown">
-        <div className="dropdown-btn">
-            {customBtn
-                ? customBtn
-                : <ButtonIcon {...props}>{children}</ButtonIcon>
-            }
-        </div>
-        <div className="dropdown-items" style={divStyle}>
-            {items.map((item, index) => {
-                if(item && item.data){
-                    return <div className="item" key={index}>
-                        {item.data}
-                    </div>
-                }
-            })}
-        </div>
-    </div>
-}
-
-function Content ({icon, iconPosition, children}) {
-    return <>
-        {(icon && iconPosition === "before") && <span className={`icon-${icon}`} />}
-        {children && <span>{children}</span>}
-        {(icon && iconPosition === "after") && <span className={`icon-${icon}`} />}
-    </>
-}
-
-Button.propTypes = {
-    icon: PropTypes.string,
-    type: PropTypes.string,
-    isSubmit: PropTypes.bool,
-    outline: PropTypes.bool,
-    children: PropTypes.node,
+ButtonIconA.propTypes = {
+    type: PropTypes.string.isRequired,
+    icon: PropTypes.string.isRequired,
     onClick: PropTypes.oneOfType([
         PropTypes.node,
         PropTypes.func,
     ]),
-    element: PropTypes.string,
-    target: PropTypes.string,
-    isLoader: PropTypes.bool,
-    loaderWithText: PropTypes.bool,
-    iconPosition: PropTypes.string
+}
+
+export function ButtonIconDropdown({ items, icon, direction = "right-0" })
+{
+    return <div className="relative inline-block">
+        <div className="dropdown-btn">
+            <ButtonIcon type="default" icon={icon} />
+        </div>
+
+        <div className={`
+                dropdown-items absolute ${direction} -z-10 w-56 origin-top-right rounded-md bg-white shadow-lg
+                ring-1 ring-black ring-opacity-5 focus:outline-none transform opacity-0 scale-95
+            `} role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex="-1"
+        >
+            <div className="py-2" role="none">
+                {items.map((item, index) => {
+                    if (item && item.data) {
+                        return <div className="px-2 py-1.5 cursor-pointer hover:bg-gray-100" key={index}>
+                            {item.data}
+                        </div>
+                    }
+                })}
+            </div>
+        </div>
+    </div>
+}
+
+
+ButtonIconDropdown.propTypes = {
+    items: PropTypes.array.isRequired,
+    icon: PropTypes.string.isRequired,
+    direction: PropTypes.string,
+    onClick: PropTypes.oneOfType([
+        PropTypes.node,
+        PropTypes.func,
+    ]),
 }

@@ -28,16 +28,20 @@ export function UsersItem ({ elem, highlight, onModal })
 
     let menu = [
         { data: <a onClick={() => onModal("reinit", elem)}>
-                <span className="icon-refresh" /> <span>Générer un nouveau mot de passe</span>
+                <span className="icon-refresh" />
+                <span className="pl-1">Générer un nouveau mot de passe</span>
         </a> },
         { data: <a href={urlPass}>
-                <span className="icon-lock-1" /> <span>Modifier son mot de passe</span>
+                <span className="icon-lock-1" />
+                <span className="pl-1">Modifier son mot de passe</span>
         </a> },
         { data: <a onClick={() => onModal("mail", elem)}>
-                <span className="icon-email-edit" /> <span>Envoyer un mail</span>
+                <span className="icon-email-edit" />
+                <span className="pl-1">Envoyer un mail</span>
         </a> },
         { data: <a onClick={() => onModal("blocked", elem)}>
-                <span className={"icon-" + (elem.blocked ? "unlock" : "disabled")} /> <span>{elem.blocked ? "Débloquer" : "Bloquer"}</span>
+                <span className={"icon-" + (elem.blocked ? "unlock" : "disabled")} />
+                <span className="pl-1">{elem.blocked ? "Débloquer" : "Bloquer"}</span>
         </a> }
     ]
 
@@ -63,16 +67,18 @@ export function UsersItem ({ elem, highlight, onModal })
                     </div>
                 </div>
                 <div className="col-2 leading-5">
-                    <div>{elem.username}</div>
+                    <div className={elem.blocked ? "blocked" : ""}>{elem.username}</div>
                     <div className="text-gray-600 text-sm">{elem.email}</div>
                 </div>
                 <div className="col-3">
-                    <Badge type={elem.blocked ? "red" : getBadgeType(elem.highRoleCode)}>{elem.highRole}</Badge>
+                    <Badge type={elem.blocked ? "red" : getBadgeType(elem.highRoleCode)}>
+                        {elem.highRole} {elem.blocked ? <span className="icon-disabled pl-1" title="Bloqué" /> : ""}
+                    </Badge>
                 </div>
                 <div className="col-4 actions">
                     <ButtonIconA type="default" icon="pencil" onClick={urlUpdate}>Modifier</ButtonIconA>
                     <ButtonIcon type="default" icon="trash" onClick={() => onModal("delete", elem)}>Supprimer</ButtonIcon>
-                    {/*<ButtonIconDropdown outline={true} icon="more" items={menu} />*/}
+                    <ButtonIconDropdown icon="more" items={menu} />
                 </div>
             </div>
         </div>
