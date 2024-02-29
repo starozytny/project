@@ -4,14 +4,18 @@
 {% set page_subtitle %}Ajouter et gérez les utilisateurs du site.{% endset %}
 
 {% set page_actions %}
-    {% include 'layout/components/common/buttons/button.html.twig' with {
-        btn_link: path('admin_users_create'),
-        btn_type: 'blue',
-        btn_icon: 'add',
-        btn_text: 'Ajouter un utilisateur'
-    } %}
-    <div id="users_export">
-        {% include "layout/components/common/loaders/btn_icon.html.twig" %}
+    <div class="flex gap-2">
+        <div id="users_export">
+            {% include "layout/components/common/loaders/btn.html.twig" with {
+                btn_text: "Exporter les données"
+            } %}
+        </div>
+        {% include 'layout/components/common/buttons/button.html.twig' with {
+            btn_link: path('admin_users_create'),
+            btn_type: 'blue',
+            btn_icon: 'add',
+            btn_text: 'Ajouter un utilisateur'
+        } %}
     </div>
 {% endset %}
 

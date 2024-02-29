@@ -61,7 +61,7 @@ export class Filter extends Component {
                             <label htmlFor={el.id} className="cursor-pointer flex items-center text-gray-900 group/item">
                                 <div className={`${styleInput} ${checked ? "ring-blue-700" : "ring-gray-300"}`}>
                                     <div className={`${styleCheck} ${checked ? "opacity-100" : "opacity-0"}`}>
-                                        <span class="icon-check1 text-slate-50 text-xs"></span>
+                                        <span className="icon-check1 text-slate-50 text-xs"></span>
                                     </div>
                                 </div>
                                 <input type="checkbox" name="filters"

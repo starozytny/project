@@ -1,24 +1,40 @@
 import React from "react";
 import PropTypes from 'prop-types';
 
-export function Button(props){
-    const { icon, type="default", isSubmit=false, outline=false, children, onClick, element="button", target="_self",
-        isLoader=false, loaderWithText=false, iconPosition="before" } = props;
+// export function Button(props){
+//     const { icon, type="default", isSubmit=false, outline=false, children, onClick, element="button", target="_self",
+//         isLoader=false, loaderWithText=false, iconPosition="before" } = props;
+//
+//     let loaderClasse = isLoader ? " btn-loader-" + (loaderWithText ? "with-text" : "without-text") : "";
+//     let iconCustom = isLoader ? 'chart-3' : icon;
+//
+//     if(element === "button"){
+//         return <button className={`btn${loaderClasse} btn-${outline ? "outline-" : ""}${type}`}
+//                        type={isSubmit ? "submit" : "button"} onClick={onClick}>
+//             <Content icon={iconCustom} iconPosition={iconPosition} children={children} />
+//         </button>
+//     }else{
+//         return <a className={`btn${loaderClasse} btn-${outline ? "outline-" : ""}${type}`}
+//                   target={target} href={onClick}>
+//             <Content icon={iconCustom} iconPosition={iconPosition} children={children} />
+//         </a>
+//     }
+// }
 
-    let loaderClasse = isLoader ? " btn-loader-" + (loaderWithText ? "with-text" : "without-text") : "";
-    let iconCustom = isLoader ? 'chart-3' : icon;
-
-    if(element === "button"){
-        return <button className={`btn${loaderClasse} btn-${outline ? "outline-" : ""}${type}`}
-                       type={isSubmit ? "submit" : "button"} onClick={onClick}>
-            <Content icon={iconCustom} iconPosition={iconPosition} children={children} />
-        </button>
-    }else{
-        return <a className={`btn${loaderClasse} btn-${outline ? "outline-" : ""}${type}`}
-                  target={target} href={onClick}>
-            <Content icon={iconCustom} iconPosition={iconPosition} children={children} />
-        </a>
+export function Button ({ type, width, children, iconLeft, iconRight, onClick })
+{
+    const colorVariants = {
+        red: 'bg-red-600 text-slate-50 hover:bg-red-500',
+        blue: 'bg-blue-600 text-slate-50 hover:bg-blue-500 ring-1 ring-inset ring-gray-600',
+        default: 'bg-white text-gray-900 hover:bg-gray-50 ring-1 ring-inset ring-gray-300',
     }
+
+    return <button type="button" onClick={onClick}
+                   className={`inline-flex justify-center ${width} rounded-md py-2 px-4 text-sm font-semibold shadow-sm ${colorVariants[type]}`}>
+        {iconLeft ? <span className={`icon-${iconLeft} inline-block translate-y-0.5`}></span> : null}
+        <span className={iconLeft ? "pl-1" : (iconRight ? "pr-1" : "")}>{children}</span>
+        {iconRight ? <span className={`icon-${iconRight} inline-block translate-y-0.5`}></span> : null}
+    </button>
 }
 
 export function ButtonIcon ({ type, icon, onClick, children })

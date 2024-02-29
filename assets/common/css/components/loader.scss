@@ -7,8 +7,10 @@ $c-02: #a6dcee;
 }
 
 .icon-chart-3{
-  display: inline-block;
-  animation: 0.5s linear 0s infinite running rotateInfinite;
+  &:before{
+    display: inline-block;
+    animation: 0.5s linear 0s infinite running rotateInfinite;
+  }
 }
 
 .loader-icon{
