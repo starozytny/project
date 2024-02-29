@@ -8,7 +8,7 @@ function useHighlight(highlight, id, refItem)
         if(nHighlight && refItem.current){
             refItem.current.scrollIntoView({block: "center"})
         }
-    })
+    }, [highlight])
 
     return nHighlight;
 }

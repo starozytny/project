@@ -25,7 +25,7 @@ export function Button ({ type, width, iconLeft, iconRight, onClick, children })
 {
     const colorVariants = {
         red: 'bg-red-600 text-slate-50 hover:bg-red-500',
-        blue: 'bg-blue-600 text-slate-50 hover:bg-blue-500 ring-1 ring-inset ring-gray-600',
+        blue: 'bg-blue-600 text-slate-50 hover:bg-blue-500 ring-1 ring-inset ring-blue-600',
         default: 'bg-white text-gray-900 hover:bg-gray-50 ring-1 ring-inset ring-gray-300',
     }
 
@@ -52,14 +52,14 @@ export function ButtonIcon ({ type, icon, onClick, children })
 {
     const colorVariants = {
         red: 'bg-red-600 text-slate-50 hover:bg-red-500',
-        blue: 'bg-blue-600 text-slate-50 hover:bg-blue-500 ring-1 ring-inset ring-gray-600',
+        blue: 'bg-blue-600 text-slate-50 hover:bg-blue-500 ring-1 ring-inset ring-blue-600',
         menu: 'bg-gray-800 text-gray-900 hover:bg-gray-700 ring-1 ring-inset ring-gray-700',
         default: 'bg-white text-gray-900 hover:bg-gray-50 ring-1 ring-inset ring-gray-300',
     }
 
     const iconColorVariants = {
-        red: 'text-gray-600',
-        blue: 'text-gray-600',
+        red: 'text-slate-50',
+        blue: 'text-slate-50',
         menu: 'text-gray-300',
         default: 'text-gray-600',
     }

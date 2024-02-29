@@ -12,7 +12,7 @@ import { Pagination, TopSorterPagination } from "@commonComponents/Elements/Pagi
 import { LoaderElements, LoaderTxt } from "@commonComponents/Elements/Loader";
 import { Search } from "@commonComponents/Elements/Search";
 import { Filter } from "@commonComponents/Elements/Filter";
-import { Button } from "@commonComponents/Elements/Button";
+import { Button, ButtonIcon } from "@commonComponents/Elements/Button";
 import { Modal } from "@commonComponents/Elements/Modal";
 import { ModalDelete } from "@commonComponents/Shortcut/Modal";
 import { MailFormulaire } from "@commonComponents/Modules/Mail/MailForm";
@@ -147,9 +147,7 @@ export class Users extends Component {
 		let self = this;
 		let instance = axios.create();
 		instance.interceptors.request.use((config) => {
-			self.blocked.current.handleUpdateFooter(<Button type={element.blocked ? "primary" : "danger"} icon="chart-3" isLoader={true}>
-				{element.blocked ? "Débloquer" : "Bloquer"}
-			</Button>);
+			self.blocked.current.handleUpdateFooter(<ButtonIcon type={element.blocked ? "blue" : "red"} icon="chart-3" />);
 			return config;
 		}, function (error) {
 			modalBlocked(self, element);
@@ -228,7 +226,7 @@ function modalBlocked (self, element) {
 		Le blocage d'un utilisateur lui interdit l'accès au site par ce compte. <br /><br />
 		Le déblocage d'un utilisateur lui redonne accès au site par ce compte.
 	</p>);
-	self.blocked.current.handleUpdateFooter(<Button type={element.blocked ? "primary" : "danger"} onClick={self.handleBlocked}>
+	self.blocked.current.handleUpdateFooter(<Button type={element.blocked ? "blue" : "red"} onClick={self.handleBlocked}>
 		{element.blocked ? "Débloquer" : "Bloquer"}
 	</Button>);
 	self.blocked.current.handleUpdateCloseTxt("Annuler");
