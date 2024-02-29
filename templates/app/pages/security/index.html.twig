@@ -13,8 +13,10 @@
         <div class="content">
             <form action="{{ path('app_login') }}" method="post" class="form-login">
                 {% if error %}
-                    <div class="alert alert-danger">
-                        <p>{{ error.messageKey|trans(error.messageData, 'security') }}</p>
+                    <div class="flex flex-row gap-4 bg-red-50 text-red-700 rounded-md p-6 xl:p-4">
+                        <div class="leading-5">
+                            {{ error.messageKey|trans(error.messageData, 'security') }}
+                        </div>
                     </div>
                 {% endif %}
 
