@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "~toastr";
+
+:root{
+  --espaceLayout: 1.2rem;
+  --espaceDiv: 1.2rem;
+  --espaceEls: 8px;
+
+  --radius: 4px;
+  --radius2: 8px;
+  --radius3: 12px;
+}
+
+//                      __   _  ___ ____  _  _     __
+//                     | _| / |/ _ \___ \| || |   |_ |
+//    _____ _____ _____| |  | | | | |__) | || |_   | |_____ _____ _____
+//   |_____|_____|_____| |  | | |_| / __/|__   _|  | |_____|_____|_____|
+//                     | |  |_|\___/_____|  |_|    | |
+//                     |__|                       |__|
+@media (min-width: 1024px) {
+  :root{
+    --espaceLayout: 1.8rem;
+  }
+}
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+body{
+  margin: 0;
+}
+
+html, body{
+  scroll-behavior: smooth;
+}

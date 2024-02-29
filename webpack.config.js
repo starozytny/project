@@ -17,6 +17,8 @@ Encore
 
     .addAliases({
         '@publicFolder': path.resolve(__dirname, './public'),
+        '@tailwindFolder': path.resolve(__dirname, './assets/third/tailwind/js'),
+        '@tailwindComponents': path.resolve(__dirname, './assets/third/tailwind/js/components'),
         '@commonFolder': path.resolve(__dirname, './assets/common/js'),
         '@commonComponents': path.resolve(__dirname, './assets/common/js/components'),
         '@commonFunctions': path.resolve(__dirname, './assets/common/js/functions'),
@@ -55,6 +57,7 @@ Encore
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
     .addEntry('common_app', './assets/common/js/app.js')
+    .addEntry('tailwind_app', './assets/third/tailwind/js/app.js')
 
     .addEntry('app_app', './assets/app/js/app.js')
     .addEntry('app_homepage', './assets/app/js/pages/homepage.js')
