@@ -48,25 +48,26 @@ export function UsersItem ({ elem, highlight, onModal })
                     <a href={urlRead} className="w-16 h-16 rounded-md overflow-hidden">
                         {elem.avatarFile
                             ? <img src={elem.avatarFile} alt="avatar" className="w-full h-full object-cover" />
-                            : <div className="avatar-letter">{elem.lastname.slice(0, 1) + elem.firstname.slice(0, 1)}</div>
+                            : <div className="h-full w-full rounded-md bg-gray-300 flex items-center justify-center font-semibold">
+                                {elem.lastname.slice(0, 1) + elem.firstname.slice(0, 1)}
+                        </div>
                         }
                     </a>
-                    <div className="infos">
-                        <div className={"font-semibold" + (elem.blocked ? " blocked" : "")}>
+                    <div className="leading-4">
+                        <div className={"font-medium mb-1" + (elem.blocked ? " blocked" : "")}>
                             <span>{elem.lastname} {elem.firstname}</span>
                             {elem.blocked ? <span className="icon-disabled" title="Bloqué" /> : null}
                         </div>
                         <div className="text-gray-600">{elem.society.code} - {elem.society.name}</div>
-                        <div className="text-gray-600">{lastLoginAt ? "connecté " + lastLoginAt.fromNow() : ""}</div>
+                        <div className="text-gray-600 text-sm mt-1">{lastLoginAt ? "connecté " + lastLoginAt.fromNow() : ""}</div>
                     </div>
                 </div>
-                <div className="col-2">
+                <div className="col-2 leading-5">
                     <div>{elem.username}</div>
-                    <div className="text-gray-600">{elem.email}</div>
+                    <div className="text-gray-600 text-sm">{elem.email}</div>
                 </div>
                 <div className="col-3">
-                    <Badge type="blue">{elem.highRole}</Badge>
-                    {/*<div className={"badge badge-user-" + (elem.blocked ? "blocked" : elem.highRoleCode)}></div>*/}
+                    <Badge type={elem.blocked ? "red" : getBadgeType(elem.highRoleCode)}>{elem.highRole}</Badge>
                 </div>
                 <div className="col-4 actions">
                     <ButtonIconA type="default" icon="pencil" onClick={urlUpdate}>Modifier</ButtonIconA>
@@ -82,4 +83,9 @@ UsersItem.propTypes = {
     elem: PropTypes.object.isRequired,
     onModal: PropTypes.func.isRequired,
     highlight: PropTypes.number,
+}
+
+function getBadgeType (type) {
+    const badges = ["gray", "indigo", "blue", "yellow"];
+    return badges[type];
 }
