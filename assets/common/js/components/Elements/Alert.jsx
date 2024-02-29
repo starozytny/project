@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import PropTypes from 'prop-types';
 
 export function Alert(props){
     const { type, title, withIcon = true, icon=null, canClose=false, children } = props;
@@ -54,13 +53,4 @@ export function Alert(props){
         </div>
         {canClose && <div className="alert-close" onClick={() => setClose(!close)}><span className="icon-close" /></div>}
     </div>
-}
-
-Alert.propTypes = {
-    type: PropTypes.string,
-    title: PropTypes.string,
-    withIcon: PropTypes.bool,
-    iconCustom: PropTypes.bool,
-    canClose: PropTypes.bool,
-    children: PropTypes.node,
 }
