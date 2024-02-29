@@ -136,14 +136,16 @@
                         </div>
                     {% else %}
                         {% for elem in changelogs %}
-                            <div class="changelog-view changelog-type-{{ elem.type }}">
-                                <div class="col-1">
-                                    <span class="icon-{{ elem.icon }}"></span>
+                            <div class="relative z-10 flex flex-row">
+                                <div class="text-blue-500">
+                                    <span class="icon-{{ elem.icon }} bg-white py-2"></span>
                                 </div>
-                                <div class="col-2">
-                                    <div class="name">{{ elem.name }}</div>
-                                    <div class="date">{{ elem.createdAt | format_datetime('full', 'short', locale="fr") | replace({":": "h"}) | capitalize }}</div>
-                                    <div class="content">{{ elem.content | raw }}</div>
+                                <div class="pl-3">
+                                    <div class="font-medium">{{ elem.name }}</div>
+                                    <div class="text-gray-600 text-sm">
+                                        {{ elem.createdAt | format_datetime('full', 'short', locale="fr") | replace({":": "h"}) | capitalize }}
+                                    </div>
+                                    <div class="mt-2 text-sm">{{ elem.content | raw }}</div>
                                 </div>
                             </div>
                         {% endfor %}
