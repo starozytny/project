@@ -23,17 +23,12 @@ export class Changelogs extends Component {
 	constructor (props) {
 		super(props);
 
-		let saveNbPerPage = sessionStorage.getItem(SESSION_PERPAGE);
-		let perPage = saveNbPerPage !== null ? parseInt(saveNbPerPage) : 20;
-
-		let saveFilters = props.highlight ? sessionStorage.getItem(SESSION_FILTERS) : null;
-
 		this.state = {
-			perPage: perPage,
+			perPage: List.getSessionPerpage(SESSION_PERPAGE, 20),
 			currentPage: 0,
 			sorter: Sort.compareCreatedAtInverse,
 			loadingData: true,
-			filters: saveFilters !== null ? JSON.parse(saveFilters) : [],
+			filters: List.getSessionFilters(SESSION_FILTERS, [], props.highlight),
 			element: null,
 		}
 
@@ -100,13 +95,9 @@ export class Changelogs extends Component {
 			{loadingData
 				? <LoaderElements />
 				: <>
-					<div className="toolbar">
-						<div className="col-1">
-							<div className="filters">
-								<Filter filters={filters} items={filtersItems} onFilters={this.handleFilters} />
-							</div>
-							<Search onSearch={this.handleSearch} placeholder="Rechercher pas nom.." />
-						</div>
+					<div className="mb-2 flex flex-row">
+						<Filter haveSearch={true} filters={filters} items={filtersItems} onFilters={this.handleFilters} />
+						<Search haveFilter={true} onSearch={this.handleSearch} placeholder="Rechercher par intitulé.." />
 					</div>
 
 					<TopSorterPagination taille={data.length} currentPage={currentPage} perPage={perPage}

@@ -7,7 +7,7 @@ import Formulaire from "@commonFunctions/formulaire";
 
 import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
-import { Button, ButtonIcon } from "@commonComponents/Elements/Button";
+import { Button, ButtonA, ButtonIcon } from "@commonComponents/Elements/Button";
 import { Modal } from "@commonComponents/Elements/Modal";
 
 const URL_INDEX_ELEMENTS  = "admin_help_faq_index";
@@ -32,14 +32,14 @@ export function FaqList ({ role, categories, questions, defaultCategory })
         switch (identifiant){
             case "delete-category":
                 refDeleteCategory.current.handleClick();
-                refDeleteCategory.current.handleUpdateFooter(<Button type="danger"
+                refDeleteCategory.current.handleUpdateFooter(<Button type="red"
                     onClick={() => handleDelete(refDeleteCategory, Routing.generate(URL_DELETE_CATEGORY, {'id': id}))} >
                         Confirmer la suppression
                     </Button>);
                 break;
             case "delete-question":
                 refDeleteQuestion.current.handleClick();
-                refDeleteQuestion.current.handleUpdateFooter(<Button type="danger"
+                refDeleteQuestion.current.handleUpdateFooter(<Button type="red"
                     onClick={() => handleDelete(refDeleteQuestion, Routing.generate(URL_DELETE_QUESTION, {'category': idCategory, 'id': id}))} >
                         Confirmer la suppression
                     </Button>);
@@ -52,7 +52,8 @@ export function FaqList ({ role, categories, questions, defaultCategory })
         let self = this;
         let instance = axios.create();
         instance.interceptors.request.use((config) => {
-            ref.current.handleUpdateFooter(<Button type="danger" icon="chart-3" isLoader={true}>Confirmer la suppression</Button>);return config;
+            ref.current.handleUpdateFooter(<ButtonIcon type="red" icon="chart-3" />);
+            return config;
         }, function(error) { return Promise.reject(error); });
         instance({ method: "DELETE", url: url, data: {} })
             .then(function (response) {
@@ -67,10 +68,9 @@ export function FaqList ({ role, categories, questions, defaultCategory })
         <div className="help-line-1">
             <div className="col-1">
                 <div className="help-categories">
-                    {role === "admin" && <Button icon="add" type="primary" element="a"
-                                                 onClick={Routing.generate(URL_CREATE_CATEGORY)}>
+                    {role === "admin" && <ButtonA type="blue" iconLeft="add" onClick={Routing.generate(URL_CREATE_CATEGORY)}>
                         Ajouter une catégorie
-                    </Button>}
+                    </ButtonA>}
                     {categories.map((elem, index) => {
                         return <div className={"item" + (elem.id === category ? " active" : "")} key={index}
                                     onClick={() => setCategory(elem.id)} >

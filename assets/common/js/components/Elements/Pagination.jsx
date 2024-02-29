@@ -122,11 +122,13 @@ export class TopSorterPagination extends Component {
         return <>
             <div className="flex flex-col justify-end gap-2 text-sm sm:flex-row sm:items-center">
                 <div className="flex justify-between gap-2 sm:justify-between sm:w-full">
-                    {sorters && sorters.length > 1 && <div className="flex flex-row items-center gap-1">
-                        <Select items={sorters} identifiant="sorter" valeur={sorter} noEmpty={true} noErrors={true} {...params}>
-                            Trier par
-                        </Select>
-                    </div>}
+                    <div className="flex flex-row items-center gap-1">
+                        {sorters && sorters.length > 1 &&
+                            <Select items={sorters} identifiant="sorter" valeur={sorter} noEmpty={true} noErrors={true} {...params}>
+                                Trier par
+                            </Select>
+                        }
+                    </div>
                     <div className="flex flex-row items-center gap-1">
                         <Select identifiant="perPage" valeur={perPage} items={items} noEmpty={true} noErrors={true} {...params}>
                             {taille} Résultat{taille > 1 ? "s" : ""} par page de

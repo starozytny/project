@@ -21,6 +21,33 @@ import PropTypes from 'prop-types';
 //     }
 // }
 
+export function ButtonA ({ type, width, iconLeft, iconRight, onClick, children })
+{
+    const colorVariants = {
+        red: 'bg-red-600 text-slate-50 hover:bg-red-500',
+        blue: 'bg-blue-600 text-slate-50 hover:bg-blue-500 ring-1 ring-inset ring-blue-600',
+        default: 'bg-white text-gray-900 hover:bg-gray-50 ring-1 ring-inset ring-gray-300',
+    }
+
+    return <a href={onClick}
+              className={`inline-flex justify-center ${width} rounded-md py-2 px-4 text-sm font-semibold shadow-sm ${colorVariants[type]}`}>
+        {iconLeft ? <span className={`icon-${iconLeft} inline-block translate-y-0.5`}></span> : null}
+        <span className={iconLeft ? "pl-1" : (iconRight ? "pr-1" : "")}>{children}</span>
+        {iconRight ? <span className={`icon-${iconRight} inline-block translate-y-0.5`}></span> : null}
+    </a>
+}
+
+ButtonA.propTypes = {
+    type: PropTypes.string.isRequired,
+    width: PropTypes.string,
+    iconLeft: PropTypes.string,
+    iconRight: PropTypes.string,
+    onClick: PropTypes.oneOfType([
+        PropTypes.node,
+        PropTypes.func,
+    ]),
+}
+
 export function Button ({ type, width, iconLeft, iconRight, onClick, children })
 {
     const colorVariants = {

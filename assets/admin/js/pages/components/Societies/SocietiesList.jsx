@@ -9,7 +9,7 @@ export function SocietiesList ({ data, highlight, settings, onModal }) {
     return <div className="list my-4">
         <div className="list-table bg-white rounded-md shadow">
             <div className="items items-societies">
-                <div className="item item-header uppercase text-gray-600">
+                <div className="item item-header uppercase text-sm text-gray-600">
                     <div className="item-content">
                         <div className="item-infos">
                             <div className="col-1">Société</div>

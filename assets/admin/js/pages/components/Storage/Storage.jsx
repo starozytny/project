@@ -82,9 +82,9 @@ export class Storage extends Component {
                 <div className="content-infos">
                     {loadData
                         ? <LoaderTxt />
-                        : <div className="list-table">
+                        : <div className="list-table bg-white rounded-md shadow">
                             <div className="items items-files">
-                                <div className="item item-header">
+                                <div className="item item-header uppercase text-sm text-gray-600">
                                     <div className="item-content">
                                         <div className="item-infos">
                                             <div className="col-1">Fichier</div>
@@ -111,7 +111,7 @@ export class Storage extends Component {
 }
 
 function Directory ({ elem, onClick, isBack }) {
-    return <div className="directory" onClick={() => onClick(elem.path, isBack)} >
+    return <div className="directory" onClick={() => onClick(elem.path, isBack)}>
         <div className="directory-header">
             <div className="icon">
                 <span className="icon-folder" />
@@ -160,23 +160,23 @@ function File ({ elem, directory, deep }) {
         }
     }
 
-    return <div className="item">
+    return <div className="item border-t hover:bg-slate-50">
         <div className="item-content">
             <div className="item-infos">
                 <div className="col-1">
-                    <div className="name" onClick={handleDownload}>
-                        <span className={"icon-" + icon} />
-                        <span>{elem.name}</span>
+                    <div className="font-medium" onClick={handleDownload}>
+                        <span className={`icon-${icon}`} />
+                        <span className="inline-block pl-2">{elem.name}</span>
                     </div>
                 </div>
                 <div className="col-2">
-                    <div className="sub">{Sanitaze.toFormatBytesToSize(elem.size)}</div>
+                    <div className="text-gray-600 text-sm">{Sanitaze.toFormatBytesToSize(elem.size)}</div>
                 </div>
                 <div className="col-3">
-                    <div className="sub">{Sanitaze.toDateFormat(new Date(elem.dateAt.date), 'L LT',  "", false)}</div>
+                    <div className="text-gray-600 text-sm">{Sanitaze.toDateFormat(new Date(elem.dateAt.date), 'L LT',  "", false)}</div>
                 </div>
                 <div className="col-4 actions" >
-                    <ButtonIcon icon={loadData ? icon : "download"} onClick={handleDownload} />
+                    <ButtonIcon type="default" icon={loadData ? icon : "download"} onClick={handleDownload}>Télécharger</ButtonIcon>
                 </div>
             </div>
         </div>
