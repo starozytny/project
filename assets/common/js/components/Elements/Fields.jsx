@@ -13,49 +13,71 @@ import {Button, ButtonIcon} from "@commonComponents/Elements/Button";
  * INPUT View
  ***************************************/
 export function InputView (props) {
-    const { valeur, children } = props;
+    const { identifiant, valeur, errors, children } = props;
 
-    let content = <>
-        <div className="input-view">{valeur}</div>
+    let error = getError(errors, identifiant)
+
+    let styleInput = "block w-full rounded-md border-0 py-2 pl-3 pr-20 text-sm text-gray-900 ring-1 ring-inset placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-gray-500";
+
+    return <>
+        <label htmlFor={identifiant} className="block text-sm font-medium leading-6 text-gray-900">
+            {children}
+        </label>
+        <div className="relative rounded-md shadow-sm">
+            <input type="text" name={identifiant} id={identifiant} value={valeur} disabled={true}
+                   className={styleInput + " " + (error ? "ring-red-400" : "ring-gray-300")} />
+        </div>
+        <ErrorContent error={error} />
     </>
-
-    return (<Structure {...props} identifiant="" content={content} label={children} />)
 }
 
 InputView.propTypes = {
+    identifiant: PropTypes.string,
     valeur: PropTypes.node.isRequired,
-    errors: PropTypes.array.isRequired,
+    errors: PropTypes.array,
     children: PropTypes.node.isRequired,
 }
 
 /***************************************
  * INPUT Classique
  ***************************************/
-export function Input (props)
+export function Input ({ type="text", identifiant, valeur, errors, onChange, children, placeholder="", autocomplete="on", disabled=false })
 {
-    const { type="text", identifiant, valeur, onChange, children, placeholder="", autocomplete="on", password=false } = props;
-
     const [showValue, setShowValue] = useState(false);
 
-    let nType = type, classes = "", nPlaceholder = placeholder, nAutocomplete = autocomplete;
+    let nType = type, dateClasses = "", nPlaceholder = placeholder, nAutocomplete = autocomplete;
     if(showValue){
         nType = "text";
     }else if (type === "js-date"){
         nType = "text";
-        classes = "js-datepicker";
+        dateClasses = "js-datepicker";
         nPlaceholder = "JJ/MM/AAAA";
         nAutocomplete = "off-date" + identifiant;
     }
 
-    let content = <>
-        <input type={nType} name={identifiant} id={identifiant} value={valeur}
-               placeholder={nPlaceholder} onChange={onChange} autoComplete={nAutocomplete} className={classes} />
-        {password && <div className="input-show" onClick={() => setShowValue(!showValue)}>
-            <span className={showValue ? "icon-vision-not" : "icon-vision"}></span>
-        </div>}
-    </>
 
-    return <Structure {...props} content={content} label={children} />
+    let error = getError(errors, identifiant)
+
+    let styleInput = "block w-full rounded-md border-0 py-2 pl-3 pr-20 text-sm text-gray-900 ring-1 ring-inset placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-gray-500";
+
+    return <>
+        <label htmlFor={identifiant} className="block text-sm font-medium leading-6 text-gray-900">
+            {children}
+        </label>
+        <div className="relative rounded-md shadow-sm">
+            <input type={nType} name={identifiant} id={identifiant} value={valeur}
+                   placeholder={nPlaceholder} onChange={onChange} autoComplete={nAutocomplete}
+                   disabled={disabled}
+                   className={styleInput + " " + dateClasses + " " + (error ? "ring-red-400" : "ring-gray-300")} />
+            {type === "password"
+                ? <div class="absolute inset-y-0 right-0 px-2 cursor-pointer flex items-center" onClick={() => setShowValue(!showValue)}>
+                    <span className={showValue ? "icon-vision-not" : "icon-vision"}></span>
+                </div>
+                : null
+            }
+        </div>
+        <ErrorContent error={error} />
+    </>
 }
 
 Input.propTypes = {
@@ -449,14 +471,7 @@ SelectMultipleCustom.propTypes = {
 export function Select(props) {
     const { identifiant, valeur, items, errors, onChange, children, noEmpty=false } = props;
 
-    let error;
-    if (errors && errors.length !== 0) {
-        errors.map(err => {
-            if (err.name === identifiant) {
-                error = err.message
-            }
-        })
-    }
+    let error = getError(errors, identifiant)
 
     let styleSelect = "py-2 pl-2 rounded-md border-0 text-sm text-gray-900 ring-1 ring-inset placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-gray-500";
     let styleOption = "text-base"
@@ -479,10 +494,7 @@ export function Select(props) {
                 {choices}
             </select>
         </div>
-        {error ? <div className="text-red-500 mt-1 text-sm">
-            <span className="icon-error inline-block translate-y-0.5" />
-            <span className="ml-1">{error}</span>
-            </div> : null}
+        <ErrorContent error={error} />
     </>
 }
 
@@ -549,48 +561,49 @@ export class InputFile extends Component {
     }
 
     render () {
-        const { type, identifiant, format="image", valeur, children, placeholder="", accept="image/*" } = this.props;
+        const { type, identifiant, format="image", valeur, children, accept="image/*" } = this.props;
         const { files } = this.state;
 
-        let content = <div className="file-uploader">
-            <input type='file' ref={this.fileInput} name={identifiant} id={identifiant} onChange={this.handleFileInput}
-                   accept={accept} multiple={type !== "simple"} />
+        return <>
+            <label htmlFor={identifiant} className="block text-sm font-medium leading-6 text-gray-900">
+                {children}
+            </label>
+            <div className="flex items-start gap-x-3">
+                <div className="hidden">
+                    <input type='file' ref={this.fileInput} name={identifiant} id={identifiant} onChange={this.handleFileInput}
+                           accept={accept} multiple={type !== "simple"} />
+                </div>
 
-            <div className="file-uploader-container">
-                <div className="infos">
+                <button type="button" onClick={(e) => this.fileInput.current.click()}
+                        className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                    Choisir un fichier
+                </button>
+
+                <div>
                     {files.length > 0
-                        ? <div className="preview-files">{files.map((file, index) => {
-                            return <div className="item" key={index}>
-                                {format === "image" && <div className="image">
-                                    <img src={URL.createObjectURL(file)} alt={file.name}/>
+                        ? files.map((file, index) => {
+                            return <div className="flex gap-x-2" key={index}>
+                                {format === "image" && <div className="h-16 w-16 rounded-md overflow-hidden bg-gray-200">
+                                    <img src={URL.createObjectURL(file)} alt={file.name} className="w-full h-full object-contain" />
                                 </div>}
-                                <div className="data">
-                                    <div>{file.name}</div>
-                                    <div className="sub">{Sanitaze.toFormatBytesToSize(file.size)}</div>
-                                </div>
-                                <div className="remove">
-                                    <ButtonIcon icon="trash" onClick={() => this.handleFileRemove(file)}>Supprimer</ButtonIcon>
+                                <div>
+                                    <div className="leading-5">
+                                        <div className="font-medium">{file.name}</div>
+                                        <div className="text-gray-600">{Sanitaze.toFormatBytesToSize(file.size)}</div>
+                                    </div>
+                                    <div className="cursor-pointer text-red-600 hover:text-red-700" onClick={() => this.handleFileRemove(file)}>Supprimer</div>
                                 </div>
                             </div>
-                        })}</div>
-                        : placeholder
+                        })
+                        : (valeur && format === "image")
+                            ? <div className="h-16 w-16 rounded-md overflow-hidden bg-gray-200">
+                                <img src={valeur} alt="actual image" className="w-full h-full object-contain" />
+                            </div>
+                            : <span className="text-sm">Aucun fichier sélectionné.</span>
                     }
                 </div>
-
-                <div className="actions">
-                    <div className="actual-files">
-                        {(valeur && format === "image") && <div className="image">
-                            <img src={valeur} alt="actual image"/>
-                        </div>}
-                    </div>
-                    <Button onClick={(e) => this.fileInput.current.click()} type="warning">
-                        Parcourir mes fichiers
-                    </Button>
-                </div>
             </div>
-        </div>
-
-        return (<Structure {...this.props} content={content} label={children} />)
+        </>
     }
 }
 
@@ -598,7 +611,6 @@ InputFile.propTypes = {
     type: PropTypes.string.isRequired,
     identifiant: PropTypes.string.isRequired,
     errors: PropTypes.array.isRequired,
-    placeholder: PropTypes.string.isRequired,
     max: PropTypes.number,
     children: PropTypes.node,
     format: PropTypes.string,
@@ -610,9 +622,9 @@ InputFile.propTypes = {
  * TEXTAREA Classique
  ***************************************/
 export function TextArea (props) {
-    const { identifiant, valeur, onChange, children, placeholder="", autocomplete="on", height="80px" } = props;
+    const { identifiant, valeur, onChange, children, placeholder = "", autocomplete = "on", height = "80px" } = props;
     let content = <>
-            <textarea name={identifiant} id={identifiant} value={valeur} style={{height: height}}
+            <textarea name={identifiant} id={identifiant} value={valeur} style={{ height: height }}
                       placeholder={placeholder} onChange={onChange} autoComplete={autocomplete} />
     </>
 
@@ -633,7 +645,7 @@ TextArea.propTypes = {
 /***************************************
  * STRUCTURE
  ***************************************/
-export function Structure({ identifiant, content, errors, label, classForm="", noErrors=false }){
+export function Structure ({ identifiant, content, errors, label, classForm="", noErrors=false }){
     let error;
     if(!noErrors && errors && errors.length !== 0){
         errors.map(err => {
@@ -658,3 +670,25 @@ Structure.propTypes = {
     classForm: PropTypes.string
 }
 
+function getError (errors, identifiant) {
+    let error;
+    if (errors && errors.length !== 0) {
+        errors.map(err => {
+            if (err.name === identifiant) {
+                error = err.message
+            }
+        })
+    }
+
+    return error;
+}
+
+function ErrorContent ({ error }) {
+    return (error
+        ? <div className="text-red-500 mt-1 text-sm">
+            <span className="icon-error inline-block translate-y-0.5" />
+            <span className="ml-1">{error}</span>
+        </div>
+        : null
+    )
+}

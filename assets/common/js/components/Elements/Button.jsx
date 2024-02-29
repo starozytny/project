@@ -48,7 +48,7 @@ ButtonA.propTypes = {
     ]),
 }
 
-export function Button ({ type, width, iconLeft, iconRight, onClick, children })
+export function Button ({ type, width, iconLeft, iconRight, isSubmit, onClick, children })
 {
     const colorVariants = {
         red: 'bg-red-600 text-slate-50 hover:bg-red-500',
@@ -56,7 +56,7 @@ export function Button ({ type, width, iconLeft, iconRight, onClick, children })
         default: 'bg-white text-gray-900 hover:bg-gray-50 ring-1 ring-inset ring-gray-300',
     }
 
-    return <button type="button" onClick={onClick}
+    return <button type={isSubmit ? "submit" : "button"} onClick={onClick}
                    className={`inline-flex justify-center ${width} rounded-md py-2 px-4 text-sm font-semibold shadow-sm ${colorVariants[type]}`}>
         {iconLeft ? <span className={`icon-${iconLeft} inline-block translate-y-0.5`}></span> : null}
         <span className={iconLeft ? "pl-1" : (iconRight ? "pr-1" : "")}>{children}</span>
@@ -69,6 +69,7 @@ Button.propTypes = {
     width: PropTypes.string,
     iconLeft: PropTypes.string,
     iconRight: PropTypes.string,
+    isSubmit: PropTypes.bool,
     onClick: PropTypes.oneOfType([
         PropTypes.node,
         PropTypes.func,

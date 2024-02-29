@@ -8,9 +8,16 @@
     {{ parent() }}
 {% endblock %}
 
-{% block main_content %}
-    {% include "layout/components/common/page_toolbar.html.twig" with { page_back: path('admin_societies_index') } %}
+{% set page_actions %}
+    {% include 'layout/components/common/buttons/button.html.twig' with {
+        btn_link: path('admin_societies_index'),
+        btn_type: 'default',
+        btn_icon: 'left-arrow',
+        btn_text: 'Retourner à la liste'
+    } %}
+{% endset %}
 
+{% block main_content %}
     <div id="societies_create"
          data-settings="{{ settings }}"
     >
