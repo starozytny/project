@@ -26,20 +26,22 @@ export function UsersItem ({ elem, highlight, onModal })
 
     let lastLoginAt = elem.lastLoginAt ? moment(elem.lastLoginAt) : null;
 
+    let styleItemDropdown = "w-full inline-block px-2 py-1.5 cursor-pointer hover:bg-gray-100";
+
     let menu = [
-        { data: <a onClick={() => onModal("reinit", elem)}>
+        { data: <a className={styleItemDropdown} onClick={() => onModal("reinit", elem)}>
                 <span className="icon-refresh" />
                 <span className="pl-1">Générer un nouveau mot de passe</span>
         </a> },
-        { data: <a href={urlPass}>
+        { data: <a className={styleItemDropdown} href={urlPass}>
                 <span className="icon-lock-1" />
                 <span className="pl-1">Modifier son mot de passe</span>
         </a> },
-        { data: <a onClick={() => onModal("mail", elem)}>
+        { data: <a className={styleItemDropdown} onClick={() => onModal("mail", elem)}>
                 <span className="icon-email-edit" />
                 <span className="pl-1">Envoyer un mail</span>
         </a> },
-        { data: <a onClick={() => onModal("blocked", elem)}>
+        { data: <a className={styleItemDropdown} onClick={() => onModal("blocked", elem)}>
                 <span className={"icon-" + (elem.blocked ? "unlock" : "disabled")} />
                 <span className="pl-1">{elem.blocked ? "Débloquer" : "Bloquer"}</span>
         </a> }

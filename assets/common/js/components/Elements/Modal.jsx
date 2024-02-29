@@ -1,18 +1,9 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
-import { Button } from "@commonComponents/Elements/Button";
+import ModalFunctions from '@commonFunctions/modal';
 
-function closeM (body, modal, modalOverlay, modalContent)
-{
-    body.style.overflow = "auto";
-    modal.style.zIndex = "-10";
-    modal.style.opacity = "0";
-    modalOverlay.style.opacity = "0";
-    modalContent.style.opacity = "0";
-    modalContent.style.translateY = "4";
-    modalContent.style.scale = "0.95";
-}
+import { Button } from "@commonComponents/Elements/Button";
 
 export class Modal extends Component {
     constructor(props) {
@@ -28,29 +19,19 @@ export class Modal extends Component {
     handleClick = (e) => {
         const { identifiant } = this.props;
 
-        let body = document.querySelector("body");
-        let modal = document.getElementById(identifiant);
-        let modalOverlay = document.querySelector("#" + identifiant + " > .modal-overlay");
-        let modalContent = document.querySelector("#" + identifiant + " .modal-content");
-        let btns = document.querySelectorAll(".close-modal");
+        let [body, modal, modalOverlay, modalContent, btns] = ModalFunctions.getElements(identifiant);
 
-        body.style.overflow = "hidden";
-        modal.style.zIndex = "10";
-        modal.style.opacity = "1";
-        modalOverlay.style.opacity = "1";
-        modalContent.style.opacity = "1";
-        modalContent.style.translateY = "0";
-        modalContent.style.scale = "1";
+        ModalFunctions.openM(body, modal, modalOverlay, modalContent);
 
         window.onclick = (e) => {
             if(e.target === modal){
-                closeM(body, modal, modalOverlay, modalContent);
+                ModalFunctions.closeM(body, modal, modalOverlay, modalContent);
             }
         }
 
         btns.forEach(btn => {
             btn.addEventListener('click', () => {
-                closeM(body, modal, modalOverlay, modalContent);
+                ModalFunctions.closeM(body, modal, modalOverlay, modalContent);
             })
         })
     }
@@ -58,12 +39,9 @@ export class Modal extends Component {
     handleClose = (e) => {
         const { identifiant } = this.props;
 
-        let body = document.querySelector("body");
-        let modal = document.getElementById(identifiant);
-        let modalOverlay = document.querySelector("#" + identifiant + " > .modal-overlay");
-        let modalContent = document.querySelector("#" + identifiant + " .modal-content");
+        let [body, modal, modalOverlay, modalContent, btns] = ModalFunctions.getElements(identifiant);
 
-        closeM(body, modal, modalOverlay, modalContent);
+        ModalFunctions.closeM(body, modal, modalOverlay, modalContent);
     }
 
     handleUpdateContent = (content) => { this.setState({ contentUpdated: content }) }

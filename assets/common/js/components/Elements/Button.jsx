@@ -121,15 +121,13 @@ export function ButtonIconDropdown({ items, icon, direction = "right-0" })
             <ButtonIcon type="default" icon={icon} />
         </div>
 
-        <div className={`
-                dropdown-items absolute ${direction} -z-10 w-56 origin-top-right rounded-md bg-white shadow-lg
-                ring-1 ring-black ring-opacity-5 focus:outline-none transform opacity-0 scale-95
-            `} role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex="-1"
+        <div className={`dropdown-items absolute ${direction} -z-10 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none transform opacity-0 scale-95`}
+             role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex="-1"
         >
             <div className="py-2" role="none">
                 {items.map((item, index) => {
                     if (item && item.data) {
-                        return <div className="px-2 py-1.5 cursor-pointer hover:bg-gray-100" key={index}>
+                        return <div className="w-full" key={index}>
                             {item.data}
                         </div>
                     }

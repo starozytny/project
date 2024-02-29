@@ -219,7 +219,7 @@ export class Users extends Component {
 
 function modalReinit (self) {
 	self.reinit.current.handleUpdateContent(<p>Le nouveau mot de passe est généré automatiquement et prendra la place du mot de passe actuel.</p>);
-	self.reinit.current.handleUpdateFooter(<Button onClick={self.handleReinitPassword} type="primary">Confirmer la génération</Button>);
+	self.reinit.current.handleUpdateFooter(<Button type="red" onClick={self.handleReinitPassword}>Confirmer la génération</Button>);
 	self.reinit.current.handleUpdateCloseTxt("Annuler");
 }
 
