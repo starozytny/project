@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "~toastr";
+
+html, body{
+  scroll-behavior: smooth;
+}
+
+a:hover, button:hover{
+  .tooltip{
+    display: block;
+  }
+}
+
+input:disabled{
+  cursor: not-allowed;
+}
+
+.dropdown-btn:hover{
+  & + .dropdown-items{
+    opacity: 1;
+    transform: scale(1);
+    z-index: 10;
+  }
+}
+
+.dropdown-items{
+  transition: all 0.2s ease-out;
+
+  &:hover{
+    opacity: 1;
+    transform: scale(1);
+    z-index: 10;
+    transition: all ease-in;
+  }
+}
+
+ul{
+  list-style: disc;
+  margin-left: 36px;
+}
+
+.trumbowyg-box, .trumbowyg-editor{
+  margin: 0 !important;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.mail-message{
+  a{
+    color: var(--primary);
+  }
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.critere{
+  opacity: 0;
+  z-index: -100000;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
