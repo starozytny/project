@@ -7,8 +7,8 @@ import Routing          from '@publicFolder/bundles/fosjsrouting/js/router.min.j
 import Formulaire       from "@commonFunctions/formulaire";
 import Validateur       from "@commonFunctions/validateur";
 
-import { Checkbox, Input, InputFile } from "@commonComponents/Elements/Fields";
-import { Button }       from "@commonComponents/Elements/Button";
+import { Checkbox, Input, InputFile } from "@tailwindComponents/Elements/Fields";
+import { Button }       from "@tailwindComponents/Elements/Button";
 
 const URL_UPDATE_ELEMENT = "admin_settings_update";
 

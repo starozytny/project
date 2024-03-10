@@ -3,13 +3,16 @@
 {% set page_title %}Sociétés{% endset %}
 {% set page_subtitle %}Ajouter et gérez les sociétés du site.{% endset %}
 
-{% block main_content %}
-    <div class="page-actions">
-        <div class="col-1">
-            <a href="{{ path('admin_societies_create') }}" class="btn btn-primary">Créer une nouvelle société</a>
-        </div>
-    </div>
+{% set page_actions %}
+    {% include 'layout/components/tailwind/buttons/button.html.twig' with {
+        btn_link: path('admin_societies_index', {'ctx': 'create'}),
+        btn_type: 'blue',
+        btn_icon: 'add',
+        btn_text: 'Ajouter une société'
+    } %}
+{% endset %}
 
+{% block main_content %}
     <div id="societies_list" data-highlight="{{ highlight }}">
         {% include "layout/components/loader.html.twig" %}
     </div>

@@ -38,6 +38,7 @@
         "@reduxjs/toolkit": "^1.9.3",
         "@tinymce/tinymce-react": "^4.3.0",
         "axios": "^1.2.1",
+        "cleave.js": "^1.6.0",
         "html-react-parser": "^4.2.7",
         "js-datepicker": "^5.18.2",
         "lodash": "^4.17.21",

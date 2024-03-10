@@ -10,90 +10,90 @@
 {% block body %}
     {% include "layout/components/page-loader.html.twig" %}
 
-    <div class="body">
-        <nav>
-            <div class="nav-container">
-                <div class="nav-logo">
-                    <a href="{{ path('app_homepage') }}">
-                        <img src="{{ asset('build/admin/images/logo.png') }}" alt="Logo societe">
+    <div class="grid lg:min-h-full lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
+        <nav class="bg-gray-800 lg:min-h-full">
+            <div>
+                <div class="relative flex flex-row items-center justify-between gap-4 p-4 lg:flex-col lg:gap-6">
+                    <a href="{{ path('admin_homepage') }}" class="flex flex-shrink-0 items-center">
+                        <img class="h-8 w-auto" src="{{ asset('build/admin/images/logo.png') }}" alt="Logilink">
                     </a>
-                </div>
-
-                <div class="nav-mobile">
-                    <span class="icon-menu"></span>
-                </div>
-
-                <div class="nav-content">
-                    <div class="nav-header">
-                        <div class="avatar">
-                            {% if app.user.avatarFile %}
-                                <img src="{{ app.user.avatarFile }}" alt="Avatar utilisateur">
-                            {% else %}
-                                <div class="avatar-letter">{{ app.user.lastname | slice(0, 1) }}{{ app.user.firstname | slice(0,1) }}</div>
-                            {% endif %}
-                        </div>
-                        <div class="nav-header-infos">
-                            <div>{{ app.user.userIdentifier }}</div>
-                            <div>{{ app.user.email }}</div>
-                        </div>
-                        <div class="nav-header-actions">
-                            <div id="notifs_list">
-                                {% include "layout/components/admin/loaders/btn-icon.html.twig" with { type: 'outline-default' } %}
-                            </div>
+                    <div class="flex flex-row items-center gap-4 lg:flex-col-reverse">
+                        <div class="flex gap-2">
                             <a href="{{ path('admin_settings_update') }}"
-                               class="btn-icon {{- app.request.get('_route') == "admin_settings_update"
-                                               ? " btn-icon-primary"
-                                               : " btn-icon-outline-default" -}}"
+                               class="{{ app.request.get('_route') in ['admin_settings_index'] ? "bg-gray-900" : "bg-gray-800 hover:bg-gray-700" }} relative inline-flex justify-center rounded-md text-lg px-2 py-2 shadow-sm bg-gray-800 text-gray-900 ring-1 ring-inset ring-gray-700"
                             >
-                                <span class="icon-settings"></span>
-                                <span class="tooltip">Paramètres</span>
+                                <span class="icon-settings text-gray-300"></span>
+                                <span class="tooltip bg-gray-300 py-1 px-2 rounded absolute -top-7 right-0 text-xs hidden">Paramètres</span>
                             </a>
-                            <div id="theme_switcher" data-consent="logilinkLocalTheme" data-init-theme="dark-mode">
-                                {% include "layout/components/admin/loaders/btn-icon.html.twig" with { type: 'outline-default' } %}
+                            <div id="notifications">
+                                <div class="relative inline-flex justify-center rounded-md text-lg px-2 py-2 shadow-sm bg-gray-800 text-gray-900 hover:bg-gray-700 ring-1 ring-inset ring-gray-700">
+                                    <span class="icon-chart-3 inline-block text-gray-300 animate-spin"></span>
+                                </div>
                             </div>
-                            <a href="{{ path('app_logout') }}" class="btn-icon btn-icon-outline-default">
-                                <span class="icon-logout"></span>
-                                <span class="tooltip" style="width: 108px;">Se déconnecter</span>
+                            <a href="{{ path('app_logout') }}"
+                               class="relative inline-flex justify-center rounded-md text-lg px-2 py-2 shadow-sm bg-gray-800 text-gray-900 hover:bg-gray-700 ring-1 ring-inset ring-gray-700"
+                            >
+                                <span class="icon-logout text-gray-300"></span>
+                                <span class="tooltip bg-gray-300 py-1 px-2 rounded absolute -top-7 right-0 text-xs hidden" style="width: 98px">Se déconnecter</span>
                             </a>
                         </div>
-                    </div>
-
-                    <div class="nav-menu">
-                        <div class="nav-items">
-                            {% for item in menu %}
-                                <a class="nav-item {{- app.request.get('_route') in item.matchRoute ? " active" : "" -}}"
-                                   href="{{ item.path }}"
-                                >
-                                    <span class="icon-{{ item.icon }}"></span>
-                                    <span>{{ item.name }}</span>
-                                </a>
-                            {% endfor %}
+                        <div class="relative flex flex-col items-center gap-4 rounded-full text-sm">
+                            {% if app.user.avatarFile %}
+                                <img class="h-8 w-8 rounded-full" src="{{ app.user.avatarFile }}" alt="Avatar utilisateur">
+                            {% else %}
+                                <div class="h-8 w-8 rounded-full bg-gray-500 flex items-center justify-center font-semibold">
+                                    <div>
+                                        {{ app.user.lastname | slice(0, 1) }}{{ app.user.firstname | slice(0,1) }}
+                                    </div>
+                                </div>
+                            {% endif %}
+                            <div class="hidden text-center text-slate-50 lg:block">
+                                <div>{{ app.user.userIdentifier }}</div>
+                                <div>{{ app.user.email }}</div>
+                            </div>
                         </div>
-                        <div class="nav-items">
-                            {% for item in menu_bottom %}
-                                <a class="nav-item {{- app.request.get('_route') in item.matchRoute ? " active" : "" -}}"
-                                   href="{{ item.path }}"
-                                >
-                                    <span class="icon-{{ item.icon }}"></span>
-                                    <span>{{ item.name }}</span>
-                                </a>
-                            {% endfor %}
-                        </div>
+                        <button type="button" class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 lg:hidden hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+                                id="nav-mobile" aria-controls="mobile-menu" aria-expanded="false">
+                            <svg class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
+                            </svg>
+                            <svg class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
                     </div>
                 </div>
-
+            </div>
+            <div id="nav-content" class="hidden flex-col justify-between pb-4 h-screen max-h-[88vh] sm:flex-row lg:flex lg:flex-col lg:max-h-full lg:pb-0 lg:h-[70vh]">
+                <div class="bg-gray-800 flex flex-col gap-1 w-full px-4 pt-4">
+                    {% for item in menu %}
+                        <a href="{{ item.path }}"
+                           class="{{- app.request.get('_route') in item.matchRoute ? "bg-gray-900 text-white" : "text-gray-300 hover:bg-gray-700 hover:text-white" }} rounded-md px-3 py-2 font-medium"
+                           aria-current="page"
+                        >
+                            <span class="icon-{{ item.icon }} inline-block translate-y-0.5"></span>
+                            <span class="ml-1">{{ item.name }}</span>
+                        </a>
+                    {% endfor %}
+                </div>
+                <div class="bg-gray-800 flex flex-col gap-1 w-full px-4 pt-4">
+                    {% for item in menu_bottom %}
+                        <a href="{{ item.path }}"
+                           class="{{- app.request.get('_route') in item.matchRoute ? "bg-gray-900 text-white" : "text-gray-300 hover:bg-gray-700 hover:text-white" }} rounded-md px-3 py-2 font-medium"
+                           aria-current="page"
+                        >
+                            <span class="icon-{{ item.icon }} inline-block translate-y-0.5"></span>
+                            <span class="ml-1">{{ item.name }}</span>
+                        </a>
+                    {% endfor %}
+                </div>
             </div>
         </nav>
 
-        <main>
+        <main class="lg:col-span-3 xl:col-span-4 2xl:col-span-5">
+            {% include "admin/layout/components/page_title.html.twig" %}
 
-            {% block breadcrumb %}
-                {% include "admin/layout/components/breadcrumbs.html.twig" %}
-            {% endblock %}
-
-            {% include "layout/components/admin/page_title.html.twig" %}
-
-            <div>
+            <div class="mx-auto max-w-screen-qhd px-4 py-8 min-h-screen sm:px-6 lg:px-8">
                 {% block main_content %}{% endblock %}
             </div>
         </main>

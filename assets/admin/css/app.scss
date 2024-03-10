@@ -1,68 +1,6 @@
 @import "vars/fonts";
 @import "vars/vars";
-@import "vars/variables";
 
-@import "components/layout";
-@import "components/menu";
-@import "components/footer";
-@import "components/page";
-
-@import "components/avatar";
-
-@import "components/elements/alert";
-@import "components/elements/card";
-@import "components/elements/breadcrumb";
-@import "components/elements/button";
-@import "components/elements/dropdown";
-@import "components/elements/tooltip";
-@import "components/notification";
 @import "components/loader";
-@import "components/badge";
-@import "components/list";
 @import "components/pagination";
-@import "components/toolbar";
-@import "components/form";
-@import "components/modal";
-@import "components/mail";
-@import "components/mails";
-
-body {
-  color: var(--alpha);
-  background-color: var(--color1);
-  @include fontRegular();
-}
-
-h1{
-  font-weight: bold;
-}
-
-h2{
-  font-weight: 600;
-}
-
-b, strong{
-  font-weight: bold;
-}
-
-#toast-container{
-  .toast{
-    .toast-title{
-      font-weight: 600;
-    }
-  }
-}
-
-
-$data:
-        "alpha"   var(--alpha),
-        "primary" var(--primary),
-        "warning" var(--warning),
-        "danger"  var(--danger),
-        "success" var(--success),
-;
-
-@each $name, $txt in $data {
-  .txt-#{$name}{
-    color: $txt;
-  }
-}
+@import "components/list";

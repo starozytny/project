@@ -1,22 +1,28 @@
-@import "../../../common/css/components/pagination";
-
-.pagination-container{
-  @include flex(row, flex-start, flex-end);
-
-  a {
-    color: var(--alpha);
-  }
+.pagination{
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  @include flex(row, center, flex-start);
+  gap: 6px;
 
   a{
-    background-color: var(--color0);
+    display: block;
+    padding: 6px 9px;
+    border-radius: 4px;
+    cursor: pointer;
     transition: background-color 0.2s ease-in-out;
+    min-width: 34px;
+    text-align: center;
 
     &:hover{
-      background-color: var(--color3);
+      background-color: rgba(199, 199, 199, 0.4);
     }
   }
 
   .active a{
-    background-color: var(--color2);
+    background-color: #1e87f0;
+    color: #FFFFFF;
+    font-weight: 600;
   }
 }
+

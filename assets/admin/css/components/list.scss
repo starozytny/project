@@ -1,33 +1,53 @@
-@import "../../../common/css/components/list";
-
 .list-table{
-  background-color: var(--color0Opacity4);
-  border-radius: 8px;
+  .item-header{
+    display: none;
+  }
 
   .items{
     & > .item{
+      position: relative;
+      padding: 12px;
+
       &.highlight{
         &:before{
-          background-color: var(--warning);
+          content: "";
+          position: absolute;
+          top: 0; left: 0;
+          display: block;
+          width: 4px; height: 100%;
+          background-color: #fdad2d;
         }
       }
 
-      .image{
-        border-radius: 4px;
-      }
-    }
-
-    & > .item:not(:last-child){
-      border-color: var(--color3);
-    }
-
-    & > .item:not(.item-header){
-      &:hover{
-        background-color: var(--color0);
+      &.highlight-expanded{
+        &:before{
+          content: "";
+          position: absolute;
+          top: 0; left: 0;
+          display: block;
+          width: 4px; height: 100%;
+          background-color: #272a4b;
+        }
       }
     }
   }
 
+  .item-infos{
+    @include flex(column, flex-start, flex-start, 8px);
+
+    & > .col-with-image{
+      @include flex(row, flex-start, flex-start, 8px);
+
+      .infos{
+        width: calc(100% - 64px);
+      }
+    }
+
+    & > [class^="col-"].actions{
+      @include flex(row, flex-end, flex-end, 4px);
+      width: 100%;
+    }
+  }
 
   //                      __   _____ __    ___    __
   //                     | _| |___  / /_  ( _ )  |_ |
@@ -37,8 +57,13 @@
   //                     |__|                    |__|
   @media (min-width:768px) {
     .item-header{
-      background-color: var(--color2);
-      border-radius: 8px 8px 0 0;
+      display: block;
+      font-weight: 600;
+    }
+
+    .item-infos{
+      flex-direction: row;
+      justify-content: space-between;
     }
   }
 }

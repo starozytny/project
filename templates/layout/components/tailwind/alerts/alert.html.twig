@@ -1,0 +1,17 @@
+{% set typeVariants = {
+    red: 'bg-red-50 text-red-700',
+    blue: 'bg-blue-50 text-blue-700',
+    gray: 'bg-gray-50 text-gray-700',
+} %}
+
+<div class="flex flex-row gap-4 bg-blue-50 {{ typeVariants[alert_type] }} rounded-md p-6 xl:p-4">
+    {% if alert_icon is defined %}
+        <div><span class="icon-{{ alert_icon}} inline-block translate-y-1.5"></span></div>
+    {% endif %}
+    <div>
+        {% if alert_title is defined %}
+            <div class="font-semibold mb-2 xl:mb-0">{{ alert_title }}</div>
+        {% endif %}
+        <div class="leading-8">{{ alert_text }}</div>
+    </div>
+</div>

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+
 import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
 import Sort from "@commonFunctions/sort";
@@ -8,9 +9,9 @@ import { ChangelogsList } from "@adminPages/Changelogs/ChangelogsList";
 
 import { Search } from "@tailwindComponents/Elements/Search";
 import { Filter } from "@tailwindComponents/Elements/Filter";
-import { ModalDelete } from "@commonComponents/Shortcut/Modal";
+import { ModalDelete } from "@tailwindComponents/Shortcut/Modal";
 import { LoaderElements } from "@tailwindComponents/Elements/Loader";
-import { Pagination, TopSorterPagination } from "@commonComponents/Elements/Pagination";
+import { Pagination, TopSorterPagination } from "@tailwindComponents/Elements/Pagination";
 
 const URL_GET_DATA = "intern_api_changelogs_list";
 const URL_DELETE_ELEMENT = "intern_api_changelogs_delete";

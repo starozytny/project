@@ -4,10 +4,10 @@ import PropTypes from 'prop-types';
 import axios   from 'axios';
 import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
-import { Checkbox, Input, InputFile, SelectCustom } from "@commonComponents/Elements/Fields";
-import { Button }         from "@commonComponents/Elements/Button";
-import { LoaderElements } from "@commonComponents/Elements/Loader";
-import { Password }       from "@commonComponents/Modules/User/Password";
+import { Checkbox, Input, InputFile, SelectCustom } from "@tailwindComponents/Elements/Fields";
+import { Button }         from "@tailwindComponents/Elements/Button";
+import { LoaderElements } from "@tailwindComponents/Elements/Loader";
+import { Password }       from "@tailwindComponents/Modules/User/Password";
 
 import Formulaire from "@commonFunctions/formulaire";
 import Validateur from "@commonFunctions/validateur";

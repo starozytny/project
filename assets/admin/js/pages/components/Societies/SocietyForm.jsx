@@ -1,151 +1,168 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
-import axios   from 'axios';
 import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
-import { Input, InputFile, InputView } from "@commonComponents/Elements/Fields";
-import { Button } from "@commonComponents/Elements/Button";
+import axios from 'axios';
 
+import Inputs from "@commonFunctions/inputs";
 import Formulaire from "@commonFunctions/formulaire";
 import Validateur from "@commonFunctions/validateur";
 
-const URL_INDEX_ELEMENTS    = "admin_societies_index";
-const URL_CREATE_ELEMENT    = "intern_api_societies_create";
-const URL_UPDATE_GROUP      = "intern_api_societies_update";
-const TEXT_CREATE           = "Ajouter la société";
-const TEXT_UPDATE           = "Enregistrer les modifications";
+import { Input, InputFile, InputView } from "@tailwindComponents/Elements/Fields";
+import { Button, ButtonA } from "@tailwindComponents/Elements/Button";
 
-export function SocietyFormulaire ({ context, element, settings })
-{
-    let url = Routing.generate(URL_CREATE_ELEMENT);
+const URL_INDEX_ELEMENTS = "admin_societies_index";
+const URL_CREATE_ELEMENT = "intern_api_societies_create";
+const URL_UPDATE_GROUP = "intern_api_societies_update";
+const TEXT_CREATE = "Ajouter la société";
+const TEXT_UPDATE = "Enregistrer les modifications";
 
-    if(context === "update"){
-        url = Routing.generate(URL_UPDATE_GROUP, {'id': element.id});
-    }
+export function SocietyFormulaire ({ context, element, settings }) {
+	let url = Routing.generate(URL_CREATE_ELEMENT);
 
-    let form = <Form
-        context={context}
-        url={url}
-        settings={settings}
-        code={element ? Formulaire.setValue(element.code) : ""}
-        name={element ? Formulaire.setValue(element.name) : ""}
-        logoFile={element ? Formulaire.setValue(element.logoFile) : null}
-    />
+	if (context === "update") {
+		url = Routing.generate(URL_UPDATE_GROUP, { 'id': element.id });
+	}
 
-    return <div className="formulaire">{form}</div>;
+	let form = <Form
+		context={context}
+		url={url}
+		settings={settings}
+		code={element ? Formulaire.setValue(element.code) : ""}
+		name={element ? Formulaire.setValue(element.name) : ""}
+		logoFile={element ? Formulaire.setValue(element.logoFile) : null}
+	/>
+
+	return <div>{form}</div>;
 }
 
 SocietyFormulaire.propTypes = {
-    context: PropTypes.string.isRequired,
-    element: PropTypes.object,
-    settings: PropTypes.object,
+	context: PropTypes.string.isRequired,
+	element: PropTypes.object,
+	settings: PropTypes.object,
 }
 
 class Form extends Component {
-    constructor(props) {
-        super(props);
+	constructor (props) {
+		super(props);
 
-        this.state = {
-            code: props.code,
-            name: props.name,
-            errors: [],
-        }
+		this.state = {
+			code: props.code,
+			name: props.name,
+			errors: [],
+		}
 
-        this.file = React.createRef();
-    }
+		this.file = React.createRef();
+	}
 
-    handleChange = (e) => { this.setState({[e.currentTarget.name]: e.currentTarget.value}) }
+	handleChange = (e) => {
+		let name = e.currentTarget.name;
+		let value = e.currentTarget.value;
 
-    handleSubmit = (e) => {
-        e.preventDefault();
+		if(name === "code"){
+			value = Inputs.textNumericInput(value, this.state[name])
+		}
 
-        const { url } = this.props;
-        const { code, name } = this.state;
+		this.setState({ [name]: value })
+	}
 
-        this.setState({ errors: [] });
+	handleSubmit = (e) => {
+		e.preventDefault();
 
-        let paramsToValidate = [
-            {type: "text",  id: 'code',  value: code},
-            {type: "text",  id: 'name', value: name},
-        ];
+		const { url } = this.props;
+		const { code, name } = this.state;
 
-        let validate = Validateur.validateur(paramsToValidate)
-        if(!validate.code){
-            Formulaire.showErrors(this, validate);
-        }else {
-            Formulaire.loader(true);
-            let self = this;
+		this.setState({ errors: [] });
 
-            let formData = new FormData();
-            formData.append("data", JSON.stringify(this.state));
+		let paramsToValidate = [
+			{ type: "text", id: 'code', value: code },
+			{ type: "text", id: 'name', value: name },
+		];
 
-            let file = this.file.current;
-            if(file.state.files.length > 0){
-                formData.append("logo", file.state.files[0]);
-            }
+		let validate = Validateur.validateur(paramsToValidate)
+		if (!validate.code) {
+			Formulaire.showErrors(this, validate);
+		} else {
+			Formulaire.loader(true);
+			let self = this;
 
-            axios({ method: "POST", url: url, data: formData, headers: {'Content-Type': 'multipart/form-data'} })
-                .then(function (response) {
-                    location.href = Routing.generate(URL_INDEX_ELEMENTS, {'h': response.data.id});
-                })
-                .catch(function (error) { Formulaire.displayErrors(self, error); Formulaire.loader(false); })
-            ;
-        }
-    }
+			let formData = new FormData();
+			formData.append("data", JSON.stringify(this.state));
 
-    render () {
-        const { context, logoFile, settings } = this.props;
-        const { errors, code, name } = this.state;
+			let file = this.file.current;
+			if (file.state.files.length > 0) {
+				formData.append("logo", file.state.files[0]);
+			}
 
-        let params = { errors: errors, onChange: this.handleChange }
-        let prefix = settings.multipleDatabase ? settings.prefixDatabase : "default";
+			axios({ method: "POST", url: url, data: formData, headers: { 'Content-Type': 'multipart/form-data' } })
+				.then(function (response) {
+					location.href = Routing.generate(URL_INDEX_ELEMENTS, { 'h': response.data.id });
+				})
+				.catch(function (error) {
+					Formulaire.displayErrors(self, error);
+					Formulaire.loader(false);
+				})
+			;
+		}
+	}
 
-        return <>
-            <form onSubmit={this.handleSubmit}>
-                <div className="line-container">
-                    <div className="line">
-                        <div className="line-col-1">
-                            <div className="title">Identification</div>
-                        </div>
-                        <div className="line-col-2">
-                            <div className="line line-2">
-                                <Input identifiant="name" valeur={name} {...params}>Nom de la société</Input>
-                                <Input identifiant="code" valeur={code} {...params} placeholder="XXX">Code</Input>
-                            </div>
-                            <div className="line">
-                                <InputView valeur={prefix + (code ? code : 'XXX')} errors={errors}>Manager</InputView>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="line">
-                        <div className="line-col-1">
-                            <div className="title">Profil</div>
-                        </div>
-                        <div className="line-col-2">
-                            <div className="line">
-                                <InputFile ref={this.file} type="simple" identifiant="logo" valeur={logoFile}
-                                           placeholder="Glissez et déposer votre logo ou" {...params}>
-                                    Logo
-                                </InputFile>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+	render () {
+		const { context, logoFile, settings } = this.props;
+		const { errors, code, name } = this.state;
 
-                <div className="line-buttons">
-                    <Button isSubmit={true} type="primary">{context === "create" ? TEXT_CREATE : TEXT_UPDATE}</Button>
-                </div>
-            </form>
-        </>
-    }
-}
+		let params = { errors: errors, onChange: this.handleChange }
+		let prefix = settings.multipleDatabase ? settings.prefixDatabase : "default";
 
-Form.propTypes = {
-    context: PropTypes.string.isRequired,
-    url: PropTypes.node.isRequired,
-    code: PropTypes.node.isRequired,
-    name: PropTypes.string.isRequired,
-    logoFile: PropTypes.node,
-    settings: PropTypes.object,
+		return <>
+			<form onSubmit={this.handleSubmit}>
+				<div className="flex flex-col gap-4 xl:gap-6">
+					<div className="grid gap-2 xl:grid-cols-3 xl:gap-6">
+						<div>
+							<div className="font-medium text-lg">Identification</div>
+							<div className="text-gray-600 text-sm">
+								Le champ manager dépend du code de la société.
+								Il sert dans l'utilisation de plusieurs base données lié au site.
+							</div>
+						</div>
+						<div className="bg-white p-4 rounded-md ring-1 ring-inset ring-gray-200 xl:col-span-2">
+							<div>
+								<Input identifiant="name" valeur={name} {...params}>Nom de la société</Input>
+							</div>
+							<div className="grid grid-cols-2 gap-2 mt-2">
+								<div>
+									<Input identifiant="code" valeur={code} {...params} placeholder="XXX">Code Société</Input>
+								</div>
+								<div>
+									<InputView valeur={prefix + (code ? code : 'XXX')} errors={errors}>Manager</InputView>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div className="grid gap-2 xl:grid-cols-3 xl:gap-6">
+						<div>
+							<div className="font-medium text-lg">Logo</div>
+							<div className="text-gray-600 text-sm">
+								Le logo de la société n'est pas utilisé dans le sens fonctionnel, dans le site actuel.
+								Il est seulement visible dans la liste des sociétés.
+							</div>
+						</div>
+						<div className="bg-white p-4 rounded-md ring-1 ring-inset ring-gray-200 xl:col-span-2">
+							<div className="line">
+								<InputFile ref={this.file} type="simple" identifiant="logo" valeur={logoFile}{...params}>
+									Logo <span className="text-sm text-gray-600">(facultatif)</span>
+								</InputFile>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div className="mt-4 flex justify-end gap-2">
+					<ButtonA type="default" onClick={Routing.generate(URL_INDEX_ELEMENTS)}>Annuler</ButtonA>
+					<Button type="blue" isSubmit={true}>
+						{context === "create" ? TEXT_CREATE : TEXT_UPDATE}
+					</Button>
+				</div>
+			</form>
+		</>
+	}
 }

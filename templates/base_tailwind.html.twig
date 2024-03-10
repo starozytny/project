@@ -9,7 +9,8 @@
         {% block openGraph %}{% endblock %}
         <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/ico">
         <link rel="apple-touch-icon" href="{{ asset('logo-apple-touch.png') }}"/>
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}{% endblock %}</title>
+
         {% block stylesheets %}
             {{ encore_entry_link_tags('tailwind_app') }}
         {% endblock %}
@@ -20,7 +21,7 @@
 
         <div id="cookies" data-consent="{{ consent }}"></div>
 
-        <body class="h-full">
+        <div class="h-full">
             {# --------------- BODY ---------------- #}
             {% block body %}{% endblock %}
         </div>
@@ -30,5 +31,5 @@
         {% block javascripts %}
             {{ encore_entry_script_tags('tailwind_app') }}
         {% endblock %}
-    </body>
+    </div>
 </html>

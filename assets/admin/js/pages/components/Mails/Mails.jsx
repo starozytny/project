@@ -10,8 +10,8 @@ import Sort from "@commonFunctions/sort";
 import Sanitaze from '@commonFunctions/sanitaze';
 import Formulaire from "@commonFunctions/formulaire";
 
-import { Button, ButtonIcon } from "@commonComponents/Elements/Button";
-import { Modal } from "@commonComponents/Elements/Modal";
+import { Button, ButtonIcon } from "@tailwindComponents/Elements/Button";
+import { Modal } from "@tailwindComponents/Elements/Modal";
 
 import { MailFormulaire } from "@commonComponents/Modules/Mail/MailForm";
 

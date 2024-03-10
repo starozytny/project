@@ -1,13 +1,5 @@
-@import "../vars/vars";
-
-@import "components/components";
-
 .items-changelogs{
   .item-infos{
-
-    .name{
-      @include flex(row, flex-start, flex-start, 4px);
-    }
 
     & > .col-3{
       width: 100%;

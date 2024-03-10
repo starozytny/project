@@ -10,7 +10,7 @@ import Sanitaze from "@commonFunctions/sanitaze";
 import { setHighlightClass, useHighlight } from "@commonHooks/item";
 
 import { ButtonIcon, ButtonIconA } from "@tailwindComponents/Elements/Button";
-import { Checkbox } from "@commonComponents/Elements/Fields";
+import { Checkbox } from "@tailwindComponents/Elements/Fields";
 
 const URL_UPDATE_PAGE = "admin_changelogs_update";
 const URL_UPDATE_PUBLISH = "intern_api_changelogs_switch_publish";

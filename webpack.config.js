@@ -74,7 +74,6 @@ Encore
     .addEntry('admin_agenda', './assets/admin/js/pages/agenda.js')
     .addEntry('admin_help', './assets/admin/js/pages/help.js')
     .addEntry('admin_storage', './assets/admin/js/pages/storage.js')
-    .addEntry('admin_styleguide', './assets/admin/js/pages/styleguide.js')
     .addEntry('admin_mails', './assets/admin/js/pages/mails.js')
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)

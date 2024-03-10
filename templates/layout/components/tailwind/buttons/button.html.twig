@@ -1,0 +1,15 @@
+{% set typeVariants = {
+    red: 'bg-red-600 text-slate-50 hover:bg-red-500',
+    blue: 'bg-blue-600 text-slate-50 hover:bg-blue-500 ring-1 ring-inset ring-blue-600',
+    menu: 'bg-gray-800 text-gray-900 hover:bg-gray-700 ring-1 ring-inset ring-gray-700',
+    default: 'bg-white text-gray-900 hover:bg-gray-50 ring-1 ring-inset ring-gray-300',
+} %}
+
+<a href="{{ btn_link }}" target="{{ btn_target is defined ? btn_target : "" }}"
+   class="inline-flex {{ btn_width is defined ? btn_width : "" }} justify-center text-center rounded-md py-2 px-4 text-sm font-semibold shadow-sm {{ typeVariants[btn_type] }}"
+>
+    {% if btn_icon is defined %}
+        <span class="icon-{{ btn_icon}} inline-block translate-y-0.5"></span>
+    {% endif %}
+    <span class="ml-1">{{ btn_text }}</span>
+</a>

@@ -9,116 +9,142 @@
 {% endblock %}
 
 {% block main_content %}
-<div class="main-content">
-    <div class="dashboard">
-        <div class="dashboard-line-0">
-            <div class="card">
-                <div class="card-header">
-                    <div class="icon"><span class="icon-settings"></span></div>
-                    <div class="title">Paramètres</div>
+    <div class="flex flex-col gap-4">
+        <div class="w-full">
+            <div class="bg-white shadow p-4 rounded-md">
+                <div class="flex items-center">
+                    <div class="text-lg"><span class="icon-settings"></span></div>
+                    <div class="font-semibold text-lg ml-2">Paramètres</div>
                 </div>
-                <div class="card-body">
+                <div class="mt-2 pt-4 leading-5 border-t">
                     {% if settings %}
                         <div>{{ settings.websiteName }}</div>
                         <div>{{ settings.emailGlobal }}</div>
                     {% endif %}
-                    <div style="margin-top: 8px;">
-                        <a href="{{ path('admin_settings_update') }}">Accéder aux paramètres</a>
+                    <div class="mt-2">
+                        <a class="text-blue-600 hover:text-blue-700 hover:underline"
+                           href="{{ path('admin_settings_update') }}">
+                            Accéder aux paramètres
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="dashboard-line-1">
-
-            <div class="card">
-                <div class="card-header">
-                    <div class="icon"><span class="icon-bank"></span></div>
-                    <div class="title">Sociétés</div>
+        <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            <div class="bg-white shadow p-4 rounded-md">
+                <div class="flex items-center">
+                    <div class="text-lg"><span class="icon-bank"></span></div>
+                    <div class="font-semibold text-lg ml-2">Sociétés</div>
                 </div>
-                <div class="card-body">
+                <div class="mt-2 pt-4 leading-5 border-t">
                     <div>{{ nbSocieties }}</div>
-                    <div>
-                        <a href="{{ path('admin_societies_index') }}">Voir les sociétés</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <div class="icon"><span class="icon-group"></span></div>
-                    <div class="title">Qui s'est connecté ?</div>
-                </div>
-                <div class="card-body">
-                    <div>{{ nbUsersConnected }} / {{ nbUsers }}</div>
-                    <a href="{{ path('admin_users_index') }}">Voir les utilisateurs</a>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <div class="icon"><span class="icon-follow"></span></div>
-                    <div class="title">Changelogs</div>
-                </div>
-                <div class="card-body">
-                    <div>
-                        <a href="{{ path('admin_changelogs_create') }}">Ajouter un changelog</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <div class="icon"><span class="icon-chat"></span></div>
-                    <div class="title">Contacts</div>
-                </div>
-                <div class="card-body">
-                    {% if nbContactsNew > 0 %}
-                        <div>
-                            <a href="{{ path('admin_contacts_index') }}">
-                                {{ nbContactsNew }} {{ nbContactsNew > 1 ? "nouveaux messages" : "nouveau message" }}
-                            </a>
-                        </div>
-                    {% endif %}
-                    <div>
-                        <a href="{{ path('admin_contacts_index') }}">
-                            <span class="txt-alpha">Voir le{{ nbContacts | plurial }} {{ nbContacts }} message{{ nbContacts | plurial }}</span>
+                    <div class="mt-2">
+                        <a class="text-blue-600 hover:text-blue-700 hover:underline"
+                           href="{{ path('admin_societies_index') }}">
+                            Voir les sociétés
                         </a>
                     </div>
                 </div>
             </div>
 
+            <div class="bg-white shadow p-4 rounded-md">
+                <div class="flex items-center">
+                    <div class="text-lg"><span class="icon-group"></span></div>
+                    <div class="font-semibold text-lg ml-2">Qui s'est connecté ?</div>
+                </div>
+                <div class="mt-2 pt-4 leading-5 border-t">
+                    <div>{{ nbUsersConnected }} / {{ nbUsers }}</div>
+
+                    <div class="mt-2">
+                        <a class="text-blue-600 hover:text-blue-700 hover:underline"
+                           href="{{ path('admin_users_index') }}">
+                            Voir les utilisateurs
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white shadow p-4 rounded-md">
+                <div class="flex items-center">
+                    <div class="text-lg"><span class="icon-follow"></span></div>
+                    <div class="font-semibold text-lg ml-2">Changelogs</div>
+                </div>
+                <div class="mt-2 pt-4 leading-5 border-t">
+                    <div class="mt-2">
+                        <a class="text-blue-600 hover:text-blue-700 hover:underline"
+                           href="{{ path('admin_changelogs_create') }}">
+                            Ajouter un changelog
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white shadow p-4 rounded-md">
+                <div class="flex items-center">
+                    <div class="text-lg"><span class="icon-chat"></span></div>
+                    <div class="font-semibold text-lg ml-2">Contacts</div>
+                </div>
+                <div class="mt-2 pt-4 leading-5 border-t">
+                    {% if nbContactsNew > 0 %}
+                        <div class="mb-2">
+                            <a class="text-blue-600 hover:text-blue-700 hover:underline"
+                               href="{{ path('admin_contacts_index') }}">
+                                {{ nbContactsNew }} {{ nbContactsNew > 1 ? "nouveaux messages" : "nouveau message" }}
+                            </a>
+                        </div>
+                    {% endif %}
+                    <div>
+                        {% if nbContacts > 0 %}
+                            <a class="text-gray-600 hover:text-gray-700 hover:underline"
+                               href="{{ path('admin_contacts_index') }}">
+                                <span>Voir le{{ nbContacts | plurial }} {{ nbContacts }} message{{ nbContacts | plurial }}</span>
+                            </a>
+                        {% else %}
+
+                            <a class="text-gray-600 hover:text-gray-700 hover:underline"
+                               href="{{ path('admin_contacts_index') }}">
+                                <span>Voir les messages</span>
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div class="dashboard-line-2">
-
-            <div class="card">
-                <div class="card-header">
-                    <div class="icon"><span class="icon-refresh1"></span></div>
-                    <div class="title">Informations des mises à jours</div>
+        <div class="w-full">
+            <div class="bg-white shadow p-4 rounded-md">
+                <div class="flex items-center">
+                    <div class="text-lg"><span class="icon-refresh1"></span></div>
+                    <div class="font-semibold text-lg ml-2">Informations des mises à jours</div>
                 </div>
-                <div class="card-body">
-                    <div class="changelogs-view">
+                <div class="mt-2 pt-4 leading-5 border-t">
+                    <div class="relative">
+                        <div class="absolute top-0 left-1 w-[2px] h-full bg-gray-300"></div>
                         {% if changelogs | length <= 0 %}
-                            <div class="changelog-view changelog-type-1">
-                                <div class="col-1">
-                                    <span class="icon-follow"></span>
+                            <div class="relative z-10 flex flex-row">
+                                <div class="text-yellow-500">
+                                    <span class="icon-follow bg-white py-2"></span>
                                 </div>
-                                <div class="col-2">
-                                    <div class="name">Site internet à jour</div>
-                                    <div class="date">{{ "now" | date | format_datetime('full', 'short', locale="fr") | replace({":": "h"}) | capitalize }}</div>
+                                <div class="pl-3">
+                                    <div class="font-medium">Site internet à jour</div>
+                                    <div class="text-gray-600 text-sm">
+                                        {{ "now" | date | format_datetime('full', 'short', locale="fr") | replace({":": "h"}) | capitalize }}
+                                    </div>
                                 </div>
                             </div>
                         {% else %}
                             {% for elem in changelogs %}
-                                <div class="changelog-view changelog-type-{{ elem.type }}">
-                                    <div class="col-1">
-                                        <span class="icon-{{ elem.icon }}"></span>
+                                <div class="relative z-10 flex flex-row">
+                                    <div class="text-blue-500">
+                                        <span class="icon-{{ elem.icon }} bg-white py-2"></span>
                                     </div>
-                                    <div class="col-2">
-                                        <div class="name">{{ elem.name }}</div>
-                                        <div class="date">{{ elem.createdAt | format_datetime('full', 'short', locale="fr") | replace({":": "h"}) | capitalize }}</div>
-                                        <div class="content">{{ elem.content | raw }}</div>
+                                    <div class="pl-3">
+                                        <div class="font-medium">{{ elem.name }}</div>
+                                        <div class="text-gray-600 text-sm">
+                                            {{ elem.createdAt | format_datetime('full', 'short', locale="fr") | replace({":": "h"}) | capitalize }}
+                                        </div>
+                                        <div class="mt-2 text-sm">{{ elem.content | raw }}</div>
                                     </div>
                                 </div>
                             {% endfor %}
@@ -126,11 +152,8 @@
                     </div>
                 </div>
             </div>
-
         </div>
-
     </div>
-</div>
 {% endblock %}
 
 {% block javascripts %}

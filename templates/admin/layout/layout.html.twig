@@ -3,49 +3,81 @@
 {% set page_prefix = "Administrateur" %}
 
 {% set menu = [
-    { name: "Dashboard",    icon: "home",
-        path: path('admin_homepage'), matchRoute: ['admin_homepage']
+    {
+        name: "Dashboard",    icon: "home",
+        path: path('admin_homepage'),
+        matchRoute: ['admin_homepage']
     },
-    { name: "Sociétés",     icon: "bank",
-        path: path('admin_societies_index'), matchRoute: ['admin_societies_index', 'admin_societies_create', 'admin_societies_update', 'admin_societies_read']
+    {
+        name: "Sociétés",     icon: "bank",
+        path: path('admin_societies_index'),
+        matchRoute: ['admin_societies_index', 'admin_societies_create', 'admin_societies_update', 'admin_societies_read']
     },
-    { name: "Utilisateurs", icon: "group",
-        path: path('admin_users_index'), matchRoute: ['admin_users_index', 'admin_users_create', 'admin_users_update', 'admin_users_read', 'admin_users_password']
+    {
+        name: "Utilisateurs", icon: "group",
+        path: path('admin_users_index'),
+        matchRoute: ['admin_users_index', 'admin_users_create', 'admin_users_update', 'admin_users_read', 'admin_users_password']
     },
-    { name: "Changelogs", icon: "refresh1",
-        path: path('admin_changelogs_index'), matchRoute: ['admin_changelogs_index', 'admin_changelogs_create', 'admin_changelogs_update']
+    {
+        name: "Changelogs", icon: "refresh1",
+        path: path('admin_changelogs_index'),
+        matchRoute: ['admin_changelogs_index', 'admin_changelogs_create', 'admin_changelogs_update']
     },
-    { name: "Contacts", icon: "chat",
-        path: path('admin_contacts_index'), matchRoute: ['admin_contacts_index']
+    {
+        name: "Contacts", icon: "chat",
+        path: path('admin_contacts_index'),
+        matchRoute: ['admin_contacts_index']
     },
-    { name: "Agenda", icon: "calendar",
-        path: path('admin_agenda_index'), matchRoute: ['admin_agenda_index', 'admin_agenda_create', 'admin_agenda_update']
+    {
+        name: "Agenda", icon: "calendar",
+        path: path('admin_agenda_index'),
+        matchRoute: ['admin_agenda_index', 'admin_agenda_create', 'admin_agenda_update']
     },
-    { name: "FAQ", icon: "question-1",
-        path: path('admin_help_faq_index'), matchRoute: [
+    {
+        name: "FAQ", icon: "question-1",
+        path: path('admin_help_faq_index'),
+        matchRoute: [
             'admin_help_faq_index',
             'admin_help_faq_categories_create', 'admin_help_faq_categories_update',
             'admin_help_faq_questions_create', 'admin_help_faq_questions_update'
         ]
     },
-    { name: "Stockage", icon: "box",
-        path: path('admin_storage_index'), matchRoute: ['admin_storage_index',]
+    {
+        name: "Stockage", icon: "box",
+        path: path('admin_storage_index'),
+        matchRoute: ['admin_storage_index',]
     },
-    { name: "Boite d'envois", icon: "email",
-        path: path('admin_mails_index', {'type': 'envoyes'}), matchRoute: ['admin_mails_index',]
-    },
-    { name: "Styleguide", icon: "book-1",
-        path: path('admin_styleguide_index'), matchRoute: ['admin_styleguide_index',]
-    },
+    {
+        name: "Boite d'envois", icon: "email",
+        path: path('admin_mails_index', {'type': 'envoyes'}),
+        matchRoute: ['admin_mails_index',]
+    }
 ] %}
 
 {% set menu_bottom = [
-    { name: "Espace utilisateur",  icon: "earth",
-        path: path('user_homepage'), matchRoute: ['user_homepage'] },
-    { name: "Page accueil",  icon: "earth",
-        path: path('app_homepage'), matchRoute: ['app_homepage'] },
+    {
+        name: "Espace utilisateur",  icon: "earth",
+        path: path('user_homepage'),
+        matchRoute: ['user_homepage']
+    },
+    {
+        name: "Page accueil",  icon: "earth",
+        path: path('app_homepage'),
+        matchRoute: ['app_homepage']
+    },
 ] %}
 
 {% block footer %}
-    {% include "admin/layout/components/footer.html.twig" %}
+    <div class="bg-white px-4 py-8 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-screen-2xl pt-4 flex flex-col text-center lg:flex-row lg:text-left gap-2 justify-center">
+            <p>&copy; 2024 - <a href="https://logilink.fr" class="text-blue-600">Logilink.fr</a></p>
+            <span>-</span>
+            <a class="text-gray-600 hover:text-gray-900" href="{{ path('app_mentions') }}">Mentions légales</a>
+            <a class="text-gray-600 hover:text-gray-900" href="{{ path('app_politique') }}">Politique de confidentialité</a>
+            <a class="text-gray-600 hover:text-gray-900" href="{{ path('app_cookies') }}">Gestion des cookies</a>
+            {% if is_granted('ROLE_ADMIN') %}
+                <a class="text-gray-600 hover:text-gray-900" href="{{ path('admin_homepage') }}">Espace administrateur</a>
+            {% endif %}
+        </div>
+    </div>
 {% endblock %}

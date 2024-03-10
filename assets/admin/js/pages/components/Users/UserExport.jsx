@@ -5,7 +5,7 @@ import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
 import Formulaire from "@commonFunctions/formulaire";
 
-import { ButtonIcon } from "@commonComponents/Elements/Button";
+import { Button } from "@tailwindComponents/Elements/Button";
 
 const URL_EXPORT_ELEMENTS = "admin_users_export";
 
@@ -39,7 +39,7 @@ export function UserExport () {
         }
     }
 
-    return <ButtonIcon icon={icon} type="default" tooltipWidth={128} onClick={handleDownload}>
+    return <Button type="default" iconLeft={icon} onClick={handleDownload}>
         Exporter les données
-    </ButtonIcon>
+    </Button>
 }
