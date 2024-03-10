@@ -21,60 +21,72 @@
 {% endset %}
 
 {% block main_content %}
-    <div class="page-profil-0">
-        <div class="page-profil-header">
-            <div class="profil-header-avatar">
-                {% if elem.avatarFile %}
-                    <img src={{ elem.avatarFile }} alt="avatar"/>
-                {% else %}
-                    <div class="avatar-letter">{{ elem.lastname | slice(0,1) }}{{ elem.firstname | slice(0,1) }}</div>
-                {% endif %}
-            </div>
-            <div class="profil-header-infos">
-                <div class="name {{ elem.blocked ? "blocked" : "" -}}">
-                    <span>{{ elem.lastname }} {{ elem.firstname }}</span>
-                    {% if elem.blocked %}
-                        <span class="icon-disabled"></span>
-                    {% endif %}
-                </div>
-                <div class="sub">ID: {{ elem.username }}</div>
-            </div>
-        </div>
-
-        <div class="page-profil-body">
-            <div class="col-1">
-                <div class="profil-card">
-                    <div class="title">Détails</div>
-                    <div class="content-infos content-infos-details">
-                        {% if elem.blocked %}
-                            <div class="item txt-danger">
-                                <span class="icon-disabled"></span>
-                                <div>
-                                    Bloqué
-                                </div>
-                            </div>
-                        {% endif %}
-                        <div class="item">
-                            <span class="icon-shield"></span>
+    <div class="grid gap-6 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
+        <div>
+            <div class="bg-white p-4 border rounded-md flex flex-col items-center justify-center gap-4">
+                <div class="flex flex-shrink-0 items-center">
+                    {% if elem.avatarFile %}
+                        <img class="w-auto h-12 rounded-md" src="{{ elem.avatarFile }}" alt="Avatar utilisateur">
+                    {% else %}
+                        <div class="h-12 w-12 rounded-full bg-gray-500 flex items-center justify-center font-semibold">
                             <div>
-                                <span class="badge badge-user-{{ elem.blocked ? "blocked" : elem.highRoleCode }}">{{ elem.highRole }}</span>
+                                {{ elem.lastname | slice(0, 1) }}{{ elem.firstname | slice(0,1) }}
                             </div>
                         </div>
-                        <div class="item">
+                    {% endif %}
+                </div>
+
+                <div class=" flex flex-col items-center justify-center gap-2">
+                    <div class="text-center">
+                        <div class="font-semibold text-lg flex items-center gap-2 {{ elem.blocked ? "text-red-500" : "" }}">
+                            <span>{{ elem.lastname }} {{ elem.firstname }}</span>
+                            {% if elem.blocked %}
+                                <span class="icon-disabled !font-semibold"></span>
+                            {% endif %}
+                        </div>
+                        <div class="text-gray-600">ID : {{ elem.username }}</div>
+                    </div>
+                    <div class="text-gray-600 text-center mt-2 flex flex-col gap-2">
+                        {% if elem.blocked %}
+                            <div class="flex items-center justify-center gap-1 text-red-500 font-semibold">
+                                <span class="icon-disabled !font-semibold"></span>
+                                <div>Bloqué</div>
+                            </div>
+                        {% endif %}
+                        <div class="flex items-center justify-center gap-1">
+                            <div>
+                                {% set userBadgeType = ["gray", "indigo", "blue", "yellow"] %}
+                                {% include "layout/components/tailwind/badges/badge.html.twig" with {
+                                    badge_type: userBadgeType[elem.highRoleCode],
+                                    badge_text: elem.highRole
+                                } %}
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-center gap-1">
                             <span class="icon-bank"></span>
                             <div>{{ elem.society.code }} - {{ elem.society.name }}</div>
                         </div>
-                        <div class="item">
+                        <div class="flex items-center justify-center gap-1">
                             <span class="icon-settings"></span>
                             <div>{{ elem.manager }}</div>
                         </div>
-                        <div class="item">
+                        <div class="flex items-center justify-center gap-1">
                             <span class="icon-email"></span>
                             <div>{{ elem.email }}</div>
                         </div>
                     </div>
                 </div>
+
+                <div>
+                    {% include "layout/components/tailwind/buttons/button.html.twig" with {
+                        btn_link: path('admin_users_update', {id: elem.id}),
+                        btn_type: 'blue',
+                        btn_text: 'Modifier l\'utilisateur'
+                    } %}
+                </div>
             </div>
+        </div>
+        <div class="lg:col-span-3 xl:col-span-4 2xl:col-span-5">
         </div>
     </div>
 {% endblock %}
