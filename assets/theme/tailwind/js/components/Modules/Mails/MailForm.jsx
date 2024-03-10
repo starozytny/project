@@ -17,7 +17,7 @@ import { Input, InputFile, Radiobox, SelectMultipleCustom } from "@tailwindCompo
 
 const URL_CREATE_ELEMENT = "intern_api_mails_mail_send";
 
-export function MailFormulaire ({ identifiant, element, tos, from, fromName, styleForm, onUpdateList = null }) {
+export function MailFormulaire ({ identifiant, element, tos, from, fromName, onUpdateList = null }) {
 	let nTos = [];
 	if (tos) {
 		tos.forEach((elem, index) => {
@@ -27,7 +27,6 @@ export function MailFormulaire ({ identifiant, element, tos, from, fromName, sty
 	}
 
 	return <Form
-		styleForm={styleForm}
 		identifiant={identifiant}
 		url={Routing.generate(URL_CREATE_ELEMENT)}
 		tos={nTos}
@@ -45,7 +44,6 @@ MailFormulaire.propTypes = {
 	identifiant: PropTypes.string.isRequired,
 	items: PropTypes.array,
 	element: PropTypes.object,
-	styleForm: PropTypes.string,
 }
 
 class Form extends Component {
@@ -97,11 +95,9 @@ class Form extends Component {
 				this.setState({ [name]: [...this.state[name], ...[{ uid: uid(), value: value }]] });
 			}
 		}
-		let ref;
-		if (name === "to") ref = this.select0;
-		else if (name === "cc") ref = this.select1;
-		else if (name === "bcc") ref = this.select2;
-		ref.current.handleClose(null, "");
+		if(this[name] && this[name].current){
+			this[name].current.handleClose(null, "");
+		}
 	}
 
 	handleDeselect = (name, uidValue) => {
@@ -175,7 +171,7 @@ class Form extends Component {
 	}
 
 	render () {
-		const { styleForm, identifiant, tos } = this.props;
+		const { identifiant, tos } = this.props;
 		const { errors, loadSendData, from, fromName, to, cc, bcc, theme, subject, message, resetTextArea, openCc, openBcc } = this.state;
 
 		let themeItems = [
@@ -187,7 +183,7 @@ class Form extends Component {
 		let params1 = { errors: errors, onClick: this.handleSelect, onDeClick: this.handleDeselect }
 
 		return <>
-			<div className={styleForm === "modal" ? "px-4 pb-4 pt-5 sm:px-6 sm:pb-4" : ""}>
+			<div className="px-4 pb-4 pt-5 sm:px-6 sm:pb-4">
 				<form onSubmit={this.handleSubmit}>
 					<div className="flex flex-col gap-4">
 						<div>
@@ -247,29 +243,16 @@ class Form extends Component {
 							</InputFile>
 						</div>
 					</div>
-
-					{styleForm !== "modal"
-						? <div className="mt-6">
-							{!loadSendData
-								? <Button type="blue" isSubmit={true} onClick={this.handleSubmit}>Envoyer</Button>
-								: <Button type="blue" iconLeft="chart-3">Envoyer</Button>
-							}
-						</div>
-						: null
-					}
 				</form>
 			</div>
 
-			{styleForm === "modal"
-				? <div className="bg-gray-50 px-4 py-3 flex flex-row justify-end gap-2 sm:px-6 border-t">
-					<CloseModalBtn identifiant={identifiant} />
-					{!loadSendData
-						? <Button type="blue" isSubmit={true} onClick={this.handleSubmit}>Envoyer</Button>
-						: <Button type="blue" iconLeft="chart-3">Envoyer</Button>
-					}
-				</div>
-				: null
-			}
+			<div className="bg-gray-50 px-4 py-3 flex flex-row justify-end gap-2 sm:px-6 border-t">
+				<CloseModalBtn identifiant={identifiant} />
+				{!loadSendData
+					? <Button type="blue" isSubmit={true} onClick={this.handleSubmit}>Envoyer</Button>
+					: <Button type="blue" iconLeft="chart-3">Envoyer</Button>
+				}
+			</div>
 		</>
 	}
 }

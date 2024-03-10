@@ -205,7 +205,7 @@ export class Users extends Component {
 						   title={element ? "Générer un nouveau mot de passe pour " + element.lastname : ""}
 						   content={null} footer={null} />
 					<Modal ref={this.mail} identifiant="mail" maxWidth={768} margin={2} title="Envoyer un mail" isForm={true}
-						   content={<MailFormulaire identifiant="mail" styleForm="modal" element={element} tos={dataImmuable} />} footer={null} />
+						   content={<MailFormulaire identifiant="mail" element={element} tos={dataImmuable} />} footer={null} />
 					<Modal ref={this.blocked} identifiant="blocked" maxWidth={414}
 						   title={element ? (element.blocked ? "Déblocage" : "Blocage") + " de " + element.lastname : ""}
 						   content={null} footer={null} />

@@ -614,9 +614,9 @@ export class SelectMultipleCustom extends Component {
 				{children}
 			</label>
 			<div className="rounded-md shadow-sm w-full">
-				<div className={`fixed top-0 left-0 w-full h-full inset-0 bg-gray-500 bg-opacity-75 transition-opacity ease-out duration-300 ${isOpen ? "opacity-100 z-10" : "opacity-0 -z-10"}`}
+				<div className={`fixed top-0 left-0 w-full h-full inset-0 bg-gray-500 bg-opacity-75 transition-opacity ease-out duration-300 ${isOpen ? "opacity-100 z-30" : "opacity-0 -z-10"}`}
 					 onClick={this.handleClose}></div>
-				<div className={`relative ${isOpen ? "z-10" : ""}`} onFocus={this.handleFocus}>
+				<div className={`relative ${isOpen ? "z-30" : ""}`} onFocus={this.handleFocus}>
 					<div className={styleInput + " " + (error ? "ring-red-400" : "ring-gray-300")}>
 						{inputValues.length > 0 && <div className="flex flex-wrap gap-2 max-w-[80%] bg-slate-50 rounded-md">
 							{inputValues.length > 0 && inputValues.map((val, index) => {
