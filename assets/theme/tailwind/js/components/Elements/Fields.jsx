@@ -208,7 +208,7 @@ export function Switcher ({ items, identifiant, valeur, errors, onChange, childr
                       key={index}
         >
             <div className={`${isChecked ? "bg-blue-700" : "bg-gray-200"} flex w-12 flex-none cursor-pointer rounded-full p-px ring-1 ring-inset ring-gray-900/5 transition-colors duration-200 ease-in-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600`}>
-                <div className={`${isChecked ? "translate-x-6.5" : "translate-x-0"} h-5 w-5 transform rounded-full bg-white shadow-sm ring-1 ring-gray-900/5 transition duration-200 ease-in-out`}>
+                <div className={`${isChecked ? "translate-x-6.5" : "translate-x-0"} inline-block h-5 w-5 transform rounded-full bg-white shadow-sm ring-1 ring-gray-900/5 transition duration-200 ease-in-out`}>
                     <span className="icon-check1 text-slate-50 text-xs"></span>
                 </div>
             </div>

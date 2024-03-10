@@ -3,14 +3,17 @@
 {% set page_title %}Changelogs{% endset %}
 {% set page_subtitle %}Gestion des changelogs du site internet pour tenir informer vos utilisateurs.{% endset %}
 
-{% block main_content %}
-    <div class="page-actions">
-        <div class="col-1">
-            <a href="{{ path('admin_changelogs_create') }}" class="btn btn-primary">Créer un nouveau changelog</a>
-        </div>
-    </div>
+{% set page_actions %}
+    {% include 'layout/components/tailwind/buttons/button.html.twig' with {
+        btn_link: path('admin_changelogs_create'),
+        btn_type: 'blue',
+        btn_icon: 'add',
+        btn_text: 'Ajouter un changelog'
+    } %}
+{% endset %}
 
+{% block main_content %}
     <div id="changelogs_list" data-highlight="{{ highlight }}">
-        {% include "layout/components/loader.html.twig" %}
+        {% include "layout/components/tailwind/loaders/loader.html.twig" %}
     </div>
 {% endblock %}

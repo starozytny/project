@@ -4,142 +4,141 @@ import PropTypes from 'prop-types';
 import axios from "axios";
 import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
-import { Input, Radiobox }  from "@commonComponents/Elements/Fields";
-import { Trumb }            from "@commonComponents/Elements/Trumb";
-import { Button }           from "@commonComponents/Elements/Button";
-
 import Formulaire from "@commonFunctions/formulaire";
 import Validateur from "@commonFunctions/validateur";
 
-const URL_INDEX_ELEMENTS    = "admin_changelogs_index";
-const URL_CREATE_ELEMENT    = "intern_api_changelogs_create";
-const URL_UPDATE_GROUP      = "intern_api_changelogs_update";
-const TEXT_CREATE           = "Ajouter le changelog";
-const TEXT_UPDATE           = "Enregistrer les modifications";
+import { Input, Radiobox } from "@tailwindComponents/Elements/Fields";
+import { Button } from "@tailwindComponents/Elements/Button";
+import { TinyMCE } from "@tailwindComponents/Elements/TinyMCE";
 
-export function ChangelogFormulaire ({ context, element })
-{
-    let url = Routing.generate(URL_CREATE_ELEMENT);
+const URL_INDEX_ELEMENTS = "admin_changelogs_index";
+const URL_CREATE_ELEMENT = "intern_api_changelogs_create";
+const URL_UPDATE_GROUP = "intern_api_changelogs_update";
 
-    if(context === "update"){
-        url = Routing.generate(URL_UPDATE_GROUP, {'id': element.id});
-    }
+export function ChangelogFormulaire ({ context, element }) {
+	let url = Routing.generate(URL_CREATE_ELEMENT);
 
-    let form = <Form
+	if (context === "update") {
+		url = Routing.generate(URL_UPDATE_GROUP, { 'id': element.id });
+	}
+
+	return <Form
         context={context}
         url={url}
         name={element ? Formulaire.setValue(element.name) : ""}
         type={element ? Formulaire.setValue(element.type) : 0}
         content={element ? Formulaire.setValue(element.content) : ""}
-    />
-
-    return <div className="formulaire">{form}</div>;
+    />;
 }
 
 ChangelogFormulaire.propTypes = {
-    context: PropTypes.string.isRequired,
-    element: PropTypes.object,
+	context: PropTypes.string.isRequired,
+	element: PropTypes.object,
 }
 
 class Form extends Component {
-    constructor(props) {
-        super(props);
+	constructor (props) {
+		super(props);
 
-        let content = props.content ? props.content : ""
+		let content = props.content ? props.content : ""
 
-        this.state = {
-            name: props.name,
-            type: props.type,
-            content: { value: content, html: content },
-            errors: [],
-        }
+		this.state = {
+			name: props.name,
+			type: props.type,
+			content: { value: content, html: content },
+			errors: [],
+		}
+	}
+
+	handleChange = (e) => {
+		this.setState({ [e.currentTarget.name]: e.currentTarget.value })
+	}
+
+    handleChangeTinyMCE = (name, html) => {
+        this.setState({ [name]: { value: this.state[name].value, html: html } })
     }
 
-    handleChange = (e) => { this.setState({[e.currentTarget.name]: e.currentTarget.value}) }
+	handleSubmit = (e) => {
+		e.preventDefault();
 
-    handleChangeTrumb = (e) => {
-        let name = e.currentTarget.id;
-        let text = e.currentTarget.innerHTML;
+		const { context, url } = this.props;
+		const { name, type, content } = this.state;
 
-        this.setState({[name]: {value: [name].value, html: text}})
-    }
+		this.setState({ errors: [] });
 
-    handleSubmit = (e) => {
-        e.preventDefault();
+		let paramsToValidate = [
+			{ type: "text", id: 'name', value: name },
+			{ type: "text", id: 'type', value: type },
+			{ type: "text", id: 'content', value: content },
+		];
 
-        const { context, url } = this.props;
-        const { name, type, content } = this.state;
+		let validate = Validateur.validateur(paramsToValidate)
+		if (!validate.code) {
+			Formulaire.showErrors(this, validate);
+		} else {
+			let self = this;
+			Formulaire.loader(true);
+			axios({ method: context === "update" ? "PUT" : "POST", url: url, data: this.state })
+				.then(function (response) {
+					location.href = Routing.generate(URL_INDEX_ELEMENTS, { 'h': response.data.id });
+				})
+				.catch(function (error) {
+					Formulaire.displayErrors(self, error);
+					Formulaire.loader(false);
+				})
+			;
+		}
+	}
 
-        this.setState({ errors: [] });
-
-        let paramsToValidate = [
-            {type: "text",  id: 'name', value: name},
-            {type: "text",  id: 'type', value: type},
-            {type: "text",  id: 'content', value: content},
-        ];
-
-        let validate = Validateur.validateur(paramsToValidate)
-        if(!validate.code){
-            Formulaire.showErrors(this, validate);
-        }else {
-            let self = this;
-            Formulaire.loader(true);
-            axios({ method: context === "update" ? "PUT" : "POST", url: url, data: this.state })
-                .then(function (response) { location.href = Routing.generate(URL_INDEX_ELEMENTS, {'h': response.data.id}); })
-                .catch(function (error) { Formulaire.displayErrors(self, error); Formulaire.loader(false); })
-            ;
-        }
-    }
-
-    render () {
+	render () {
         const { context } = this.props;
         const { errors, name, type, content } = this.state;
 
         let typesItems = [
-            { value: 0, label: 'Information',  identifiant: 'type-0' },
-            { value: 1, label: 'Attention',    identifiant: 'type-1' },
-            { value: 2, label: 'Danger',       identifiant: 'type-2' },
+            { value: 0, identifiant: 'type-0', label: 'Information' },
+            { value: 1, identifiant: 'type-1', label: 'Attention' },
+            { value: 2, identifiant: 'type-2', label: 'Danger' },
         ]
 
-        let params = { errors: errors, onChange: this.handleChange }
+        let params0 = { errors: errors, onChange: this.handleChange };
+        let params1 = { errors: errors, onUpdateData: this.handleChangeTinyMCE };
 
-        return <>
-            <form onSubmit={this.handleSubmit}>
-                <div className="line-container">
-                    <div className="line">
-                        <div className="line-col-1">
-                            <div className="title">Titre</div>
-                        </div>
-                        <div className="line-col-2">
-                            <div className="line">
-                                <Input identifiant="name" valeur={name} {...params}>Intitulé</Input>
-                            </div>
-                            <div className="line line-fat-box">
-                                <Radiobox items={typesItems} identifiant="type" valeur={type} {...params}>
-                                    Rôles
-                                </Radiobox>
-                            </div>
-                        </div>
+        return <form onSubmit={this.handleSubmit}>
+            <div className="flex flex-col gap-4 xl:gap-6">
+                <div className="grid gap-2 xl:grid-cols-3 xl:gap-6">
+                    <div>
+                        <div className="font-medium text-lg">Identification</div>
                     </div>
-                    <div className="line">
-                        <div className="line-col-1">
-                            <div className="title">Contenu</div>
+                    <div className="flex flex-col gap-4 bg-white p-4 rounded-md ring-1 ring-inset ring-gray-200 xl:col-span-2">
+                        <div>
+                            <Input identifiant="name" valeur={name} {...params0}>Intitulé</Input>
                         </div>
-                        <div className="line-col-2">
-                            <div className="line">
-                                <Trumb identifiant="content" valeur={content.value} errors={errors} onChange={this.handleChangeTrumb}>
-                                    Description
-                                </Trumb>
-                            </div>
+                        <div>
+                            <Radiobox items={typesItems} identifiant="type" valeur={type} {...params0}
+                                      classItems="flex gap-2" styleType="fat">
+                                Type de changelog
+                            </Radiobox>
                         </div>
                     </div>
                 </div>
-
-                <div className="line-buttons">
-                    <Button isSubmit={true} type="primary">{context === "create" ? TEXT_CREATE : TEXT_UPDATE}</Button>
+                <div className="grid gap-2 xl:grid-cols-3 xl:gap-6">
+                    <div>
+                        <div className="font-medium text-lg">Contenu</div>
+                    </div>
+                    <div className="bg-white p-4 rounded-md ring-1 ring-inset ring-gray-200 xl:col-span-2">
+                        <TinyMCE type={0} identifiant='content' valeur={content.value}{...params1}>
+                            Description
+                        </TinyMCE>
+                    </div>
                 </div>
-            </form>
-        </>
+            </div>
+
+            <div className="mt-4 flex justify-end gap-2">
+                <Button type="blue" isSubmit={true}>
+                {context === "create" ? "Enregistrer" : "Enregistrer les modifications"}
+                </Button>
+            </div>
+        </form>
     }
 }
 

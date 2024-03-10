@@ -5,7 +5,15 @@ module.exports = {
     "./templates/**/*.html.twig",
   ],
   theme: {
-    extend: {},
+    extend: {
+      screens: {
+        'qhd': '1864px'
+      },
+      spacing: {
+        '6.5': '1.625rem',
+        '8.5': '2.25rem'
+      },
+    },
   },
   plugins: [
     require('@tailwindcss/forms'),

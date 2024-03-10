@@ -10,7 +10,7 @@ import Sanitaze from "@commonFunctions/sanitaze";
 import { setHighlightClass, useHighlight } from "@commonHooks/item";
 
 import { ButtonIcon, ButtonIconA } from "@tailwindComponents/Elements/Button";
-import { Checkbox } from "@tailwindComponents/Elements/Fields";
+import { Switcher } from "@tailwindComponents/Elements/Fields";
 
 const URL_UPDATE_PAGE = "admin_changelogs_update";
 const URL_UPDATE_PUBLISH = "intern_api_changelogs_switch_publish";
@@ -44,19 +44,19 @@ export function ChangelogsItem ({ elem, highlight, onModal }) {
 	}
 
 	let urlUpdate = Routing.generate(URL_UPDATE_PAGE, { 'id': elem.id });
-	let publishedItems = [{ value: 1, label: "Oui", identifiant: "oui-" + elem.id }]
+	let publishedItems = [{ value: 1, identifiant: "oui-" + elem.id }]
 
 	let icons = ["icon-question", "icon-warning", "icon-error"];
-	let texts = ["txt-primary", "txt-warning", "txt-danger"];
+	let texts = ["text-blue-700", "text-yellow-500", "text-red-600"];
 
 	return <div className={`item${setHighlightClass(nHighlight)} border-t hover:bg-slate-50`} ref={refItem}>
 		<div className="item-content">
 			<div className="item-infos">
 				<div className="col-1">
 					<div>
-						<div className="font-medium">
-							<span className={icons[elem.type] + " " + texts[elem.type]}></span>
-							<span>{elem.name}</span>
+						<div className="flex items-center gap-2">
+							<span className={`${icons[elem.type]} ${texts[elem.type]} !font-semibold`}></span>
+							<span className="font-medium">{elem.name}</span>
 						</div>
 						<div className="text-gray-600 text-sm">
 							{elem.updatedAt
@@ -66,12 +66,12 @@ export function ChangelogsItem ({ elem, highlight, onModal }) {
 						</div>
 					</div>
 				</div>
-				<div className="col-2">
+				<div className="col-2 text-gray-600">
 					<div dangerouslySetInnerHTML={{ __html: elem.content }} />
 				</div>
 				<div className="col-3">
-					<Checkbox items={publishedItems} identifiant="isPublished" valeur={isPublished}
-							  errors={[]} onChange={handleSwitch} isSwitcher={true} />
+					<Switcher items={publishedItems} identifiant="isPublished" valeur={isPublished}
+							  errors={[]} onChange={handleSwitch} />
 				</div>
 				<div className="col-4 actions">
 					<ButtonIconA type="default" icon="pencil" onClick={urlUpdate}>Modifier</ButtonIconA>
