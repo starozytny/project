@@ -96,7 +96,7 @@ export class TopSorterPagination extends Component {
     }
 
     render () {
-        const { taille, currentPage, onClick, sorters } = this.props;
+        const { taille, currentPage, onClick, sorters, maxWidth } = this.props;
         const { sorter, perPage } = this.state;
 
         let items = [
@@ -140,7 +140,7 @@ export class TopSorterPagination extends Component {
                             </label>
                             <div className="relative rounded-md shadow-sm">
                                 <select value={sorter} id="sorter" name="sorter" onChange={this.handleChange}
-                                        className="max-w-[80px] py-2 pl-2 rounded-md border-0 text-sm text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-gray-500 "
+                                        className={`max-w-[80px] ${maxWidth} py-2 pl-2 rounded-md border-0 text-sm text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-gray-500`}
                                 >
                                     {choicesSorters}
                                 </select>

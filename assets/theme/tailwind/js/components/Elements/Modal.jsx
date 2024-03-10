@@ -5,7 +5,7 @@ import ModalFunctions from '@commonFunctions/modal';
 
 import { Button } from "@tailwindComponents/Elements/Button";
 
-export function CloseModalBtn ({ identifiant, text = "Annuler" })
+export function CloseModalBtn ({ identifiant, children = "Annuler" })
 {
 	const handleCloseModal = (e) => {
 		e.preventDefault();
@@ -15,7 +15,7 @@ export function CloseModalBtn ({ identifiant, text = "Annuler" })
 		ModalFunctions.closeM(body, modal, modalContent);
 	}
 
-	return <div className="close-modal"><Button type="default" onClick={handleCloseModal}>{text}</Button></div>
+	return <div className="close-modal"><Button type="default" onClick={handleCloseModal}>{children}</Button></div>
 }
 
 export class Modal extends Component {

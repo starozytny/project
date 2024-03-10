@@ -220,19 +220,19 @@ export class Mails extends Component {
 			}
 
 			return <div className={`cursor-pointer flex justify-between font-medium ${active ? "text-blue-700" : "text-gray-700 hover:text-gray-900"}`}
-                        key={index} onClick={() => this.handleChangeContext(item.context)}>
-                <div className="flex items-center gap-2">
-                    <span className={`icon-${item.icon}`} />
-                    <span className="">{item.label}</span>
-                </div>
-                <div className={`flex items-center justify-center rounded text-xs w-5 h-5 ${active ? "bg-blue-200" : "bg-gray-100"}`}>
-                    {item.total}
-                </div>
-            </div>
-        })
+						key={index} onClick={() => this.handleChangeContext(item.context)}>
+				<div className="flex items-center gap-2">
+					<span className={`icon-${item.icon}`} />
+					<span className="">{item.label}</span>
+				</div>
+				<div className={`flex items-center justify-center rounded text-xs px-1 min-w-8 h-5 ${active ? "bg-blue-200" : "bg-gray-100"}`}>
+					{item.total}
+				</div>
+			</div>
+		})
 
-        return <div className="min-h-screen bg-white rounded-md shadow grid gap-4 xl:grid-cols-4 xl:gap-0 2xl:grid-cols-6">
-            <div className="p-4 pb-0 xl:border-r">
+		return <div className="min-h-screen bg-white rounded-md shadow grid gap-4 xl:grid-cols-4 xl:gap-0 2xl:grid-cols-6">
+			<div className="p-4 pb-0 xl:border-r">
                 <div className="font-semibold mb-2 sm:mb-6 text-sm leading-5">Cette boite ne récupère pas les réponses.</div>
                 <Button type="blue" iconLeft="email-edit" width="w-full"
                         onClick={() => this.handleChangeContext("create")}>
@@ -452,11 +452,11 @@ function ItemMail ({ elem, onTrash, onRestore, onDelete, onChangeContext }) {
 }
 
 function Destinators ({ prefix, data }) {
-	return <div className="flex items-center gap-2">
-		<div className="text-gray-600 text-sm">{prefix} :</div>
-		<div className="flex gap-2">
+	return <div className="flex items-s gap-2">
+		<div className="text-gray-600 text-sm min-w-6">{prefix} :</div>
+		<div className="flex flex-wrap gap-2">
 			{data.map((dest, index) => {
-				return <span key={index}>{dest.value}</span>
+				return <span className="bg-blue-50 text-sm py-1 px-2" key={index}>{dest.value}</span>
 			})}
 		</div>
 	</div>

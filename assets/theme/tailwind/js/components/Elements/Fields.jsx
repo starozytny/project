@@ -43,7 +43,8 @@ InputView.propTypes = {
 export function Input ({
 						   type = "text", identifiant, valeur, errors, onChange, children, placeholder = "", autocomplete = "on", disabled = false,
 						   onBlur = null, min = "", max = "", step = 1,
-						   options = { numeral: true, numeralDecimalScale: 10, numeralThousandsGroupStyle: 'thousand', delimiter: ' ' }
+						   options = { numeral: true, numeralDecimalScale: 10, numeralThousandsGroupStyle: 'thousand', delimiter: ' ' },
+						   prefix
 					   }) {
 	const [showValue, setShowValue] = useState(false);
 
@@ -60,6 +61,9 @@ export function Input ({
 	let error = getError(errors, identifiant);
 
 	let styleInput = "block rounded-md shadow-sm border-0 py-2 px-3 text-sm text-gray-900 ring-1 ring-inset placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-gray-500";
+	if(prefix){
+		styleInput += " pl-9"
+	}
 
 	let content;
 	if (type === "number") {
@@ -91,6 +95,14 @@ export function Input ({
 			{children}
 		</label>
 		<div className="relative rounded-md">
+			{prefix
+				? <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+					<span className="text-gray-500 sm:text-sm">
+						{prefix}
+					</span>
+				</div>
+				: null
+			}
 			{content}
 			{type === "password"
 				? <div className="absolute inset-y-0 right-0 px-2 cursor-pointer flex items-center" onClick={() => setShowValue(!showValue)}>
