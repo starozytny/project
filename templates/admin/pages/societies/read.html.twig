@@ -3,57 +3,61 @@
 {% set page_title %}{{ elem.name }} #{{ elem.id }}{% endset %}
 {% set page_subtitle %}Profil de la société {{ elem.code }} - {{ elem.name }}.{% endset %}
 
-{% block breadcrumb %}
-    {% set breadcrumbs = breadcrumbs | merge([{ text: page_title }]) %}
-    {{ parent() }}
-{% endblock %}
+{% set page_actions %}
+    {% include 'layout/components/tailwind/buttons/button.html.twig' with {
+        btn_link: path('admin_societies_index', {'h': elem.id}),
+        btn_type: 'default',
+        btn_icon: 'left-arrow',
+        btn_text: 'Retourner à la liste'
+    } %}
+{% endset %}
 
 {% block main_content %}
-    {% include "layout/components/admin/page_toolbar.html.twig" with { page_back: path('admin_societies_index', {'h': elem.id}) } %}
+    <div class="grid gap-6 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
+        <div>
+            <div class="bg-white p-4 border rounded-md flex flex-col items-center justify-center gap-4">
+                <div class="flex flex-shrink-0 items-center">
+                    <img class="w-auto h-12 rounded-md" src="{{ elem.logoFile }}" alt="Logo société">
+                </div>
 
-    <div class="page-profil-0">
-        <div class="page-profil-header">
-            <div class="profil-header-avatar">
-                <img src={{ elem.logoFile }} />
-            </div>
-            <div class="profil-header-infos">
-                <div class="name">{{ elem.name }}</div>
-                <div class="sub">CODE: {{ elem.code }}</div>
-            </div>
-        </div>
-
-        <div class="page-profil-body">
-            <div class="col-1">
-                <div class="profil-card">
-                    <div class="title">Détails</div>
-                    <div class="content-infos content-infos-details">
-                        <div class="item">
-                            <span class="icon-shield"></span>
-                            <div>
-                                {% if settings.multipleDatabase == false or elem.isActivated %}
-                                    <div class="badge badge-soc-1">Activée</div>
-                                {% else %}
-                                    <div class="badge badge-soc-0">Inactive</div>
-                                {% endif %}
-                            </div>
+                <div class=" flex flex-col items-center justify-center gap-2">
+                    <div class="text-center">
+                        <div class="font-semibold text-lg">{{ elem.name }}</div>
+                        <div class="text-gray-600 mb-2">CODE : {{ elem.code }}</div>
+                    </div>
+                    <div class="text-gray-600 text-center mt-4">
+                        <div>
+                            {% if settings.multipleDatabase == false or elem.isActivated %}
+                                {% include "layout/components/tailwind/badges/badge.html.twig" with {
+                                    badge_type: 'blue',
+                                    badge_text: 'Activée'
+                                } %}
+                            {% else %}
+                                {% include "layout/components/tailwind/badges/badge.html.twig" with {
+                                    badge_type: 'gray',
+                                    badge_text: 'Inactive'
+                                } %}
+                            {% endif %}
                         </div>
-                        <div class="item">
-                            <span class="icon-settings"></span>
+                        <div class="flex items-center gap-1 mt-2">
+                            <div>Manager : </div>
                             <div>{{ elem.manager }}</div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="col-2">
-                <div class="profil-card">
-                    <div class="title">Utilisateurs</div>
-                    <div class="content-infos content-infos-users">
-                        <div id="societies_users" data-id="{{ elem.id }}">
-                            {% include "layout/components/loader.html.twig" %}
-                        </div>
-                    </div>
+                <div>
+                    {% include "layout/components/tailwind/buttons/button.html.twig" with {
+                        btn_link: path('admin_societies_update', {id: elem.id}),
+                        btn_type: 'blue',
+                        btn_text: 'Modifier la société'
+                    } %}
                 </div>
+            </div>
+        </div>
+        <div class="lg:col-span-3 xl:col-span-4 2xl:col-span-5">
+            <div id="societies_users" data-id="{{ elem.id }}">
+                {% include "layout/components/loader.html.twig" %}
             </div>
         </div>
     </div>
