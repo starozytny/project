@@ -3,14 +3,16 @@
 {% set page_title %}Création d'une nouvelle société{% endset %}
 {% set page_subtitle %}Renseignez le maximum d'informations concernant la nouvelle société.{% endset %}
 
-{% block breadcrumb %}
-    {% set breadcrumbs = breadcrumbs | merge([{ text: page_title }]) %}
-    {{ parent() }}
-{% endblock %}
+{% set page_actions %}
+    {% include 'layout/components/tailwind/buttons/button.html.twig' with {
+        btn_link: path('admin_societies_index'),
+        btn_type: 'default',
+        btn_icon: 'left-arrow',
+        btn_text: 'Retourner à la liste'
+    } %}
+{% endset %}
 
 {% block main_content %}
-    {% include "layout/components/admin/page_toolbar.html.twig" with { page_back: path('admin_societies_index') } %}
-
     <div id="societies_create"
          data-settings="{{ settings }}"
     >
