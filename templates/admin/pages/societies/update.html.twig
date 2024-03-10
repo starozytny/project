@@ -5,7 +5,7 @@
 
 {% set page_actions %}
     {% include 'layout/components/tailwind/buttons/button.html.twig' with {
-        btn_link: path('admin_societies_index'),
+        btn_link: path('admin_societies_index', {'h': elem.id}),
         btn_type: 'default',
         btn_icon: 'left-arrow',
         btn_text: 'Retourner à la liste'

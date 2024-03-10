@@ -8,14 +8,14 @@ import Formulaire from "@commonFunctions/formulaire";
 import Sort from "@commonFunctions/sort";
 import List from "@commonFunctions/list";
 
-import { Pagination, TopSorterPagination } from "@tailwindComponents/Elements/Pagination";
-import { LoaderElements } from "@tailwindComponents/Elements/Loader";
+import { Modal } from "@tailwindComponents/Elements/Modal";
 import { Search } from "@tailwindComponents/Elements/Search";
 import { Filter } from "@tailwindComponents/Elements/Filter";
-import { Button, ButtonIcon } from "@tailwindComponents/Elements/Button";
-import { Modal } from "@tailwindComponents/Elements/Modal";
 import { ModalDelete } from "@tailwindComponents/Shortcut/Modal";
-import { MailFormulaire } from "@commonComponents/Modules/Mail/MailForm";
+import { LoaderElements } from "@tailwindComponents/Elements/Loader";
+import { MailFormulaire } from "@tailwindComponents/Modules/Mails/MailForm";
+import { Button, ButtonIcon } from "@tailwindComponents/Elements/Button";
+import { Pagination, TopSorterPagination } from "@tailwindComponents/Elements/Pagination";
 
 import { UsersList } from "@adminPages/Users/UsersList";
 
@@ -205,7 +205,7 @@ export class Users extends Component {
 						   title={element ? "Générer un nouveau mot de passe pour " + element.lastname : ""}
 						   content={null} footer={null} />
 					<Modal ref={this.mail} identifiant="mail" maxWidth={768} margin={2} title="Envoyer un mail" isForm={true}
-						   content={<MailFormulaire identifiant="mail" element={element} tos={dataImmuable} />} footer={null} />
+						   content={<MailFormulaire identifiant="mail" styleForm="modal" element={element} tos={dataImmuable} />} footer={null} />
 					<Modal ref={this.blocked} identifiant="blocked" maxWidth={414}
 						   title={element ? (element.blocked ? "Déblocage" : "Blocage") + " de " + element.lastname : ""}
 						   content={null} footer={null} />

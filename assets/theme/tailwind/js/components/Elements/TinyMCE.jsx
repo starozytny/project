@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 
 import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
-import { Structure } from "@commonComponents/Elements/Fields";
 import { Editor } from "@tinymce/tinymce-react";
+
+import { ErrorContent } from "@tailwindComponents/Elements/Fields";
 
 const URL_UPLOAD_IMAGE = 'intern_api_images_upload';
 
 export function TinyMCE (props){
-    const { identifiant, valeur, type, params, onUpdateData, children } = props;
+    const { identifiant, valeur, errors, type, params, onUpdateData, children } = props;
 
     const editorRef = useRef(null);
     const [val, setVal] = useState(valeur);
@@ -18,6 +19,15 @@ export function TinyMCE (props){
         if(editorRef && editorRef.current){
             onUpdateData(identifiant, editorRef.current.getContent());
         }
+    }
+
+    let error;
+    if (errors && errors.length !== 0) {
+        errors.map(err => {
+            if (err.name === identifiant) {
+                error = err.message
+            }
+        })
     }
 
     let parametres = params
@@ -50,7 +60,15 @@ export function TinyMCE (props){
         onChange={handleChange}
     />
 
-    return (<Structure {...props} content={content} label={children} />)
+    return <>
+        <label htmlFor={identifiant} className="block text-sm font-medium leading-6 text-gray-900">
+            {children}
+        </label>
+        <div className="relative rounded-md">
+            {content}
+        </div>
+        <ErrorContent error={error} />
+    </>
 }
 
 TinyMCE.propTypes = {

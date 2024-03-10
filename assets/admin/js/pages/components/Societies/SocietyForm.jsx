@@ -24,7 +24,7 @@ export function SocietyFormulaire ({ context, element, settings }) {
 		url = Routing.generate(URL_UPDATE_GROUP, { 'id': element.id });
 	}
 
-	let form = <Form
+	return <Form
 		context={context}
 		url={url}
 		settings={settings}
@@ -32,8 +32,6 @@ export function SocietyFormulaire ({ context, element, settings }) {
 		name={element ? Formulaire.setValue(element.name) : ""}
 		logoFile={element ? Formulaire.setValue(element.logoFile) : null}
 	/>
-
-	return <div>{form}</div>;
 }
 
 SocietyFormulaire.propTypes = {

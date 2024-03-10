@@ -3,27 +3,24 @@
 {% set page_title %}{{ elem.username }} #{{ elem.id }}{% endset %}
 {% set page_subtitle %}Profil de l'utilisateur {{ elem.lastname }} {{ elem.firstname }}.{% endset %}
 
-{% block breadcrumb %}
-    {% set breadcrumbs = breadcrumbs | merge([{ text: page_title }]) %}
-    {{ parent() }}
-{% endblock %}
+{% set page_actions %}
+    <div class="flex gap-2">
+        {% include 'layout/components/tailwind/buttons/button.html.twig' with {
+            btn_link: path('admin_users_password', {'id': elem.id}),
+            btn_type: 'red',
+            btn_icon: 'lock-1',
+            btn_text: 'Modifier le mot de passe'
+        } %}
+        {% include 'layout/components/tailwind/buttons/button.html.twig' with {
+            btn_link: path('admin_users_index'),
+            btn_type: 'default',
+            btn_icon: 'left-arrow',
+            btn_text: 'Retourner à la liste'
+        } %}
+    </div>
+{% endset %}
 
 {% block main_content %}
-    <div class="page-actions">
-        <div class="col-1">
-            <a href="{{ path('admin_users_index', {'h': elem.id}) }}" class="btn btn-outline-default">
-                <span class="icon-left-arrow"></span>
-                <span>Retourner à la liste</span>
-            </a>
-        </div>
-        <div class="col-2">
-            <a href="{{ path('admin_users_password', {'id': elem.id}) }}" class="btn-icon btn-icon-danger">
-                <span class="icon-lock-1"></span>
-                <span class="tooltip" style="width: 148px">Modifier le mot de passe</span>
-            </a>
-        </div>
-    </div>
-
     <div class="page-profil-0">
         <div class="page-profil-header">
             <div class="profil-header-avatar">
