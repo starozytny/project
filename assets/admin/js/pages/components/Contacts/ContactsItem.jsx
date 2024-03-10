@@ -40,16 +40,19 @@ export function ContactsItem ({ elem, onDelete })
                         <div className="font-medium">
                             <span>{elem.name}</span>
                         </div>
-                        <div className="text-gray-600">{Sanitaze.toFormatCalendar(elem.createdAt)}</div>
                     </div>
                 </div>
                 <div className="col-2">
+                    <div className="text-gray-600 text-sm">{Sanitaze.toFormatCalendar(elem.createdAt)}</div>
                     <div dangerouslySetInnerHTML={{ __html: elem.message }} />
                 </div>
                 <div className="col-3">
-                    <ButtonIcon type="default" icon={"vision" + (seen ? "" : "-not")} onClick={handleSwitch}>
-                        {seen ? "Lu" : "Non lu"}
-                    </ButtonIcon>
+                    {seen
+                        ? <span className="icon-check1"></span>
+                        : <ButtonIcon type="default" icon="vision" tooltipWidth={90} onClick={handleSwitch}>
+                            Message lu ?
+                        </ButtonIcon>
+                    }
                 </div>
                 <div className="col-4 actions">
                     <ButtonIcon type="default" icon="trash" onClick={() => onDelete("delete", elem)}>Supprimer</ButtonIcon>

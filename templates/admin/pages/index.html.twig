@@ -134,9 +134,10 @@
                                 </div>
                             </div>
                         {% else %}
+                            {% set changelogBadge = ["text-blue-700", "text-yellow-500", "text-red-600"] %}
                             {% for elem in changelogs %}
                                 <div class="relative z-10 flex flex-row">
-                                    <div class="text-blue-500">
+                                    <div class="{{ changelogBadge[elem.type] }}">
                                         <span class="icon-{{ elem.icon }} bg-white py-2"></span>
                                     </div>
                                     <div class="pl-3">
