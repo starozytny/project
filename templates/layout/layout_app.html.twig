@@ -8,14 +8,111 @@
 {% block body %}
     {% include "layout/components/page-loader.html.twig" %}
 
-    <div>
-        <main>
-            <div>
-                {% block main_content %}{% endblock %}
-            </div>
+    <div id="body-content" class="relative overflow-hidden">
+        <nav class="relative z-20">
+            <div class="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8">
+                <div class="flex h-16 xl:h-20 items-center justify-between">
+                    <div class="w-full flex items-center justify-between">
+                        <a href="{{ path('app_homepage') }}" class="flex flex-shrink-0 items-center">
+                            <img class="h-8 w-auto" src="{{ asset('build/app/images/logo.png') }}" alt="Logilink Lotys">
+                        </a>
+                        <div class="hidden md:block">
+                            <div class="flex items-baseline uppercase gap-4">
+                                <a href="{{ path('app_homepage') }}" class="text-gray-600 hover:text-gray-900 pl-3 pr-8 py-2 font-semibold border-r-2 border-gray-500">
+                                    <span>Accueil</span>
+                                </a>
+                                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                                    <a href="{{ path('app_logout') }}" class="text-gray-600 hover:text-gray-900 px-3 py-2 font-semibold">
+                                        <span>Déconnexion</span>
+                                    </a>
+                                    <a href="{{ path('app_login') }}"
+                                       class="text-color0 px-3 py-2 font-semibold bg-white rounded-md border-2 border-color0 transition-transform hover:-translate-y-1.5">
+                                        <span>Mon espace</span>
+                                    </a>
+                                {% else %}
+                                    <a href="{{ path('app_login') }}" class="text-gray-600 hover:text-gray-900 px-3 py-2 font-semibold">
+                                        <span>Se connecter</span>
+                                    </a>
+                                    <a href="{{ path('app_contact') }}"
+                                       class="text-color0 px-3 py-2 font-semibold bg-white rounded-md border-2 border-color0 transition-transform hover:-translate-y-1.5">
+                                        <span>Essayer</span>
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="-mr-2 flex md:hidden">
+                        <button type="button" class="nav-mobile relative inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                                aria-controls="mobile-menu" aria-expanded="false"
+                        >
+                            <span class="absolute -inset-0.5"></span>
+                            <span class="sr-only">Open main menu</span>
+                            <svg class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
+                            </svg>
+                            <svg class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
 
-            {% block footer %}{% endblock %}
+                        <div id="nav-content" class="relative -z-10 hidden" role="dialog" aria-modal="true">
+                            <div class="nav-mobile fixed inset-0 overflow-hidden w-full h-full bg-gray-500 bg-opacity-75">
+                                <div class="pointer-events-none fixed inset-y-0 left-0 flex max-w-full">
+                                    <div class="pointer-events-auto relative w-screen max-w-md">
+                                        <div class="absolute z-30 right-0 top-0 -ml-8 flex pr-4 pt-4 sm:-ml-10">
+                                            <button type="button" class="relative rounded-md text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900">
+                                                <span class="absolute -inset-2.5"></span>
+                                                <span class="sr-only">Close panel</span>
+                                                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                                                </svg>
+                                            </button>
+                                        </div>
+
+                                        <div class="flex h-full flex-col overflow-y-scroll bg-white py-6 shadow-xl">
+                                            <div class="px-4 sm:px-6">
+                                                <a href="{{ path('user_homepage') }}" class="flex flex-shrink-0 items-center">
+                                                    <img class="h-8 w-auto" src="{{ asset('build/app/images/logo.png') }}" alt="Logilink Lotys">
+                                                </a>
+                                            </div>
+                                            <div class="relative mt-6 flex-1 px-4 sm:px-6">
+                                                <div class="flex flex-col gap-4">
+                                                    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                                                        <a href="{{ path('app_logout') }}" class="text-gray-600 hover:text-gray-900 px-3 py-2 font-semibold">
+                                                            <span>Déconnexion</span>
+                                                        </a>
+                                                        <a href="{{ path('app_login') }}"
+                                                           class="text-color0 px-3 py-2 font-semibold bg-white rounded-md border-2 border-color0 transition-transform hover:-translate-y-1.5">
+                                                            <span>Mon espace</span>
+                                                        </a>
+                                                    {% else %}
+                                                        <a href="{{ path('app_login') }}" class="text-gray-600 hover:text-gray-900 px-3 py-2 font-semibold">
+                                                            <span>Se connecter</span>
+                                                        </a>
+                                                        <a href="{{ path('app_contact') }}"
+                                                           class="text-color0 px-3 py-2 font-semibold bg-white rounded-md border-2 border-color0 transition-transform hover:-translate-y-1.5">
+                                                            <span>Essayer</span>
+                                                        </a>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <main class="relative z-10 {{ main_class is defined ? main_class : "mx-auto max-w-screen-2xl sm:min-h-[calc(100vh-100px-80px)] p-4 lg:p-8" }}">
+            {% block main_content %}{% endblock %}
         </main>
+
+        <div class="relative z-10">
+            {% block footer %}{% endblock %}
+        </div>
     </div>
 {% endblock %}
 

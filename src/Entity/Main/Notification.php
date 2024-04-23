@@ -40,7 +40,6 @@ class Notification extends DataEntity
     private ?string $url = null;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
     public function __construct()

@@ -11,7 +11,7 @@ import { Button } from "@tailwindComponents/Elements/Button";
 import { Alert } from "@tailwindComponents/Elements/Alert";
 import { Input, TextArea } from "@tailwindComponents/Elements/Fields";
 
-const URL_CREATE_ELEMENT = "intern_api_contact_create";
+const URL_CREATE_ELEMENT = "intern_api_contacts_create";
 
 export class ContactFormulaire extends Component {
 	constructor (props) {
@@ -113,7 +113,7 @@ export class ContactFormulaire extends Component {
 				</Alert>
 			</div>
 			<div className="mt-4">
-				<Button type="blue" isSubmit={true} width="w-full" pa="p-4 uppercase !rounded-full">Envoyer</Button>
+				<Button type="blue" isSubmit={true} width="w-full" pa="p-4">Envoyer</Button>
 			</div>
 		</form>
 	}
