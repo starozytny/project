@@ -1,22 +1,22 @@
 {% extends 'app/pages/legales/template.html.twig' %}
 
-{% block title %}Politique de confidentialité {{ parent() }}{% endblock %}
+{% set page_title %}Politique de confidentialité{% endset %}
 
 {% block main_content %}
-    <div class="main-content main-content-legal">
-        <h1>Politique de confidentialité</h1>
+    <div class="bg-white border p-4 rounded-xl shadow-xl text-sm lg:p-8">
+        <h1 class="text-3xl sm:text-4xl font-bold leading-9 tracking-tight text-gray-900 mb-4 uppercase">Politique de confidentialité</h1>
 
-        <section class="legales">
+        <section class="flex flex-col gap-6">
             <div>
                 <p>
                     {{ websiteName }} est susceptible de recueillir des données personnelles vous concernant dans le cadre de
-                    l'utilisation du site internet <b>{{ websiteUrl }}</b>,
-                    conformément au réglement général sur la protection des données (RGPD) et à la loi Informatique et Libertés.
+                                      l'utilisation du site internet <b>{{ websiteUrl }}</b>,
+                                      conformément au règlement général sur la protection des données (RGPD) et à la loi Informatique et Libertés.
                 </p>
             </div>
 
             <div>
-                <h2>Traitement des données non personnelles</h2>
+                <h2 class="text-lg font-semibold">Traitement des données non personnelles</h2>
                 <div>
                     Nous pouvons également collecter des informations non personnelles, telles que des données démographiques,
                     des informations agrégées et des statistiques sur l'utilisation du Site. Ces informations ne
@@ -25,13 +25,18 @@
             </div>
 
             <div>
-                <h2>Traitement des données personnelles</h2>
+                <h2 class="text-lg font-semibold">Traitement des données personnelles</h2>
                 <p>
+                    Les données à caractère personnel collectées, par la Cité de la
+                    Musique de Marseille sont enregistrées dans un fichier informatisé.
+                    Ce fichier est hébergé en France par OVH, la Société Logilink assure la maintenance de notre serveur
+                    et la sécurité de celui-ci.
+                    <br><br>
                     Liste et descriptions des traitements de données personnelles effectués sur le site internet.
                 </p>
-                <ol>
+                <ol class="mt-2">
                     <li>
-                        <p><b>Formulaire de contact</b></p>
+                        <p class="font-medium">Formulaire de contact</p>
                         <ul>
                             <li><i>Données :</i> Nom et prénom, adresse-email</li>
                             <li><i>Caractère du recueil :</i> Obligatoire pour identifier l'utilisateur et répondre au mieux à sa demande.</li>
@@ -43,7 +48,7 @@
             </div>
 
             <div>
-                <h2>Destinataires des données</h2>
+                <h2 class="text-lg font-semibold">Destinataires des données</h2>
                 <p>
                     Le responsable du traitement de ces données est {{ societyName }} dont les coordonnées figurent dans
                     la partie "Droits des utilisateurs concernés".
@@ -56,14 +61,14 @@
             </div>
 
             <div>
-                <h2>Partage des informations</h2>
+                <h2 class="text-lg font-semibold">Partage des informations</h2>
                 <p>
                     Nous ne vendons, n'échangeons ni ne louons vos informations personnelles à des tiers.
                 </p>
             </div>
 
             <div>
-                <h2>Droits des utilisateurs concernés</h2>
+                <h2 class="text-lg font-semibold">Droits des utilisateurs concernés</h2>
                 <p>
                     Conformément au règlement RGPD 2016/679 et de la loi n°78-17 modifiée dite « Informatique et Libertés »
                     concernant le traitement des données à caractère personnel, l'utilisateur possède les droits ci-après énumérés :
@@ -90,14 +95,14 @@
                     Dans le cas où le responsable du traitement des données décide de ne pas répondre à la demande de l'utilisateur,
                     et que l'utilisateur souhaite contester cette décision, ou, s'il pense qu'il est porté atteinte à l'un des
                     droits énumérés ci-dessus, il est en droit de saisir la CNIL (Commission Nationale de l'Informatique et des Libertés,
-                    <a href="https://www.cnil.fr" target="_blank" rel="external">https://www.cnil.fr</a>) ou tout juge compétent.
+                    <a class="text-blue-700 hover:underline" href="https://www.cnil.fr" target="_blank" rel="external">https://www.cnil.fr</a>) ou tout juge compétent.
                 </p>
 
             </div>
 
             <div>
-                <h2>Mesures d'audience</h2>
-                <ul>
+                <h2 class="text-lg font-semibold">Mesures d'audience</h2>
+                <ul class="mt-2">
                     <li>
                         <b>Matomo</b> <br>
                         <p>
@@ -109,14 +114,14 @@
                         </p>
                     </li>
                 </ul>
-                <p>
+                <p class="mt-2">
                     L'utilisateur peut paramétrer les cookies utilisés par le site à l'adresse suivante :
                     <a href="{{ path('app_cookies') }}">{{ websiteUrl }}/legales/gestion-cookies</a>
                 </p>
             </div>
 
             <div>
-                <h2>Modifications de la politique de confidentialité</h2>
+                <h2 class="text-lg font-semibold">Modifications de la politique de confidentialité</h2>
                 <p>
                     Nous pouvons mettre à jour cette Politique de confidentialité de temps à autre pour refléter les
                     changements dans nos pratiques ou pour des raisons légales.

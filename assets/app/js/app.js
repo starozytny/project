@@ -10,7 +10,7 @@ import Menu from "@tailwindFunctions/menu";
 import Toastr from "@tailwindFunctions/toastr";
 
 import { ContactFormulaire } from "@appFolder/pages/components/Contact/ContactForm";
-import { Cookies } from "@tailwindComponents/Modules/Cookies/Cookies";
+import { Cookies, CookiesGlobalResponse } from "@tailwindComponents/Modules/Cookies/Cookies";
 
 Routing.setRoutingData(routes);
 
@@ -26,6 +26,11 @@ if(el){
 let ck = document.getElementById("cookies");
 if(ck){
     createRoot(ck).render(<Cookies {...ck.dataset} />)
+}
+
+let cookiesGlobalResponse = document.getElementById("cookies-global-response");
+if (cookiesGlobalResponse) {
+    createRoot(cookiesGlobalResponse).render(<CookiesGlobalResponse {...cookiesGlobalResponse.dataset} />)
 }
 
 function inputPassword () {

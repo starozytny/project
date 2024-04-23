@@ -1,5 +1,7 @@
 {% extends 'base_tailwind.html.twig' %}
 
+{% block title %}{{ page_title }} | {{ page_prefix }}{% endblock %}
+
 {% block stylesheets %}
     {{ parent() }}
     {{ encore_entry_link_tags('app_app') }}
@@ -9,7 +11,7 @@
     {% include "layout/components/page-loader.html.twig" %}
 
     <div id="body-content" class="relative overflow-hidden">
-        <nav class="relative z-20">
+        <nav class="relative z-10">
             <div class="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8">
                 <div class="flex h-16 xl:h-20 items-center justify-between">
                     <div class="w-full flex items-center justify-between">

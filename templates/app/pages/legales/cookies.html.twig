@@ -1,14 +1,14 @@
 {% extends 'app/pages/legales/template.html.twig' %}
 
-{% block title %}Gestion des cookies {{ parent() }}{% endblock %}
+{% set page_title %}Gestion des cookies{% endset %}
 
 {% block main_content %}
-    <div class="main-content main-content-legal">
-        <h1>Gestion des cookies</h1>
+    <div class="bg-white border p-4 rounded-xl shadow-xl text-sm lg:p-8">
+        <h1 class="text-3xl sm:text-4xl font-bold leading-9 tracking-tight text-gray-900 mb-4 uppercase">Gestion des cookies</h1>
 
-        <section class="legales">
+        <section class="flex flex-col gap-6">
             <div>
-                <h2>Qu'est-ce qu'un cookie ?</h2>
+                <h2 class="text-lg font-semibold">Qu'est-ce qu'un cookie ?</h2>
                 <p>
                     Un "cookie" est une suite d'informations, généralement de petite taille et
                     identifié par un nom, qui peut être transmis à votre navigateur par un site
@@ -22,7 +22,7 @@
             </div>
 
             <div>
-                <h2>Configurer son navigateur pour bloquer les cookies</h2>
+                <h2 class="text-lg font-semibold">Configurer son navigateur pour bloquer les cookies</h2>
                 <p>
                     Les cookies sont stockés dans votre navigateur. Vous avez la possibilité de configurer
                     les paramètre de votre navigateur pour vous opposer directement à l'enregistrement des cookies.
@@ -39,16 +39,7 @@
             </div>
 
             <div>
-                <h2>Choix d'utilisation global des cookies</h2>
-                <p style="margin-bottom: 12px;">
-                    Notre site internet utilise des cookies pour vous offrir la meilleure expérience utilisateur.
-                    Plus d'informations dans notre <a href="{{ path('app_politique') }}">politique de confidentialité</a>
-                </p>
-                <div id="cookies-global-response" class="cookies-global-response" data-consent="{{ consent }}"></div>
-            </div>
-
-            <div>
-                <h2>Cookies nécessaires</h2>
+                <h2 class="text-lg font-semibold">Cookies nécessaires</h2>
                 <p>
                     Les cookies nécessaires contribuent à rendre notre site internet utilisable.
                     Pour la navigation entre les pages, l'accès aux zones sécurisées,
@@ -57,7 +48,7 @@
             </div>
 
             <div>
-                <h2>Cookies tiers</h2>
+                <h2 class="text-lg font-semibold">Cookies tiers</h2>
                 <p>
                     <b>Matomo</b> <br>
                     Matomo Analytics (anciennement Piwik Analytics) est une solution de mesure d'audience qui utilise des cookies.
@@ -90,15 +81,18 @@
                             src="https://matomo.demodirecte.fr/index.php?module=CoreAdminHome&action=optOut&language=fr&backgroundColor=&fontColor=&fontSize=&fontFamily=Poppins"
                     ></iframe>
                 </div>
+            </div>
 
-                <!-- <p>
-                    Nous avons suivi la documentation de Google afin de vérouiller les cookies lorsque vous
-                    refusez l'utilisateur de leurs cookies.
-                    <br>
-                    Il existe un module complémentaire de navigateur fourni par Google pour la désactivation de Google Analytics.
-                    <br>
-                    <a href="https://tools.google.com/dlpage/gaoptout/" target="_blank">Lien vers le module complémentaire de Google</a>
-                </p> -->
+            <div>
+                <h2 class="text-lg font-semibold">Choix d'utilisation global des cookies</h2>
+                <p class="mb-2">
+                    Notre site internet utilise des cookies pour vous offrir la meilleure expérience utilisateur.
+                    Plus d'informations dans notre <a href="{{ path('app_politique') }}">politique de confidentialité</a>
+                </p>
+                <div id="cookies-global-response" class="cookies-global-response"
+                     data-consent="{{ consent }}">
+                    {% include "layout/components/tailwind/loaders/loader.html.twig" %}
+                </div>
             </div>
         </section>
     </div>

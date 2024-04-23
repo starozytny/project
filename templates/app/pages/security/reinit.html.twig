@@ -1,34 +1,48 @@
 {% extends 'app/pages/security/template.html.twig' %}
 
-{% block title %}Réinitialisation de mot de passe{% endblock %}
+{% block noindex %}
+    <meta name="robots" content="noindex">
+    <meta name="googlebot" content="noindex">
+{% endblock %}
+
+{% set page_title %}Réinitialisation de mot de passe{% endset %}
 
 {% block main_content %}
-    <div class="login-page">
-        <div class="col-1">
-
+    <div class="min-h-full max-w-screen-md mx-auto sm:my-8">
+        <div class="flex flex-col justify-center bg-white border p-4 rounded-xl shadow-xl px-6 py-12 lg:px-8">
             {% if error is defined %}
-                <div class="title-page">
-                    <h1>Lien expiré</h1>
-                    <p>
-                        Ce lien de réinitialisation de mot de passe a expiré, veuillez recommencer la procédure. <br><br>
-                    </p>
-                </div>
-                <div class="content">
-                    <div class="exceptions-actions">
-                        <a href="{{ path('app_login') }}" class="btn btn-primary">Recommencer</a>
-                        <a href="{{ path('app_homepage') }}" class="btn btn-default">Revenir à la page d'accueil</a>
-                    </div>
+                <div class="sm:mx-auto sm:w-full sm:max-w-screen-sm">
+                    <h1 class="text-center text-3xl sm:text-4xl font-bold leading-9 tracking-tight text-gray-900">Lien expiré 🥴</h1>
+                    <p class="text-gray-600 text-center text-sm mt-1">Ce lien de réinitialisation de mot de passe a expiré, veuillez recommencer la procédure.</p>
                 </div>
             {% else %}
-                <div id="reinit" data-token={{ token }}>
-                    {% include "layout/components/loader.html.twig" %}
+                <div class="sm:mx-auto sm:w-full sm:max-w-screen-sm">
+                    <h1 class="text-center text-3xl sm:text-4xl font-bold leading-9 tracking-tight text-gray-900">Réinitialiser son mot de passe 🔒</h1>
+                    <p class="text-gray-600 text-center text-sm mt-1">Assurez-vous de respecter les règles de création de mot de passe pour rendre votre espace sécurisé.</p>
                 </div>
             {% endif %}
-        </div>
 
-        <div class="col-2">
-            <div class="image">
-                <img src="{{ asset('build/app/images/login-page.jpg') }}" alt="formulaire connexion">
+            <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-screen-sm">
+                <div class="space-y-6">
+                    {% if error is defined %}
+                        <div class="flex items-center justify-center gap-2">
+                            {% include 'layout/components/tailwind/buttons/button.html.twig' with {
+                                btn_link: path('app_login'),
+                                btn_type: 'blue',
+                                btn_text: 'Recommencer'
+                            } %}
+                            {% include 'layout/components/tailwind/buttons/button.html.twig' with {
+                                btn_link: path('app_homepage'),
+                                btn_type: 'default',
+                                btn_text: 'Revenir à la page d\'accueil'
+                            } %}
+                        </div>
+                    {% else %}
+                        <div id="reinit" data-token={{ token }}>
+                            {% include "layout/components/tailwind/loaders/loader.html.twig" %}
+                        </div>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </div>

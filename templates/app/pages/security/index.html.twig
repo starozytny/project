@@ -1,65 +1,18 @@
 {% extends 'app/pages/security/template.html.twig' %}
 
-{% block title %}Accéder à mon espace.{% endblock %}
+{% set page_title %}Mon espace{% endset %}
 
 {% block main_content %}
-<div class="login-page">
-    <div class="col-1">
-        <div class="title-page">
-            <h1>Mon compte</h1>
-            <p>Renseignez votre identifiant et mot de passe pour accéder à votre espace.</p>
-        </div>
+    <div class="min-h-full max-w-md mx-auto sm:my-8">
+        <div class="flex flex-col justify-center bg-white border p-4 rounded-xl shadow-xl px-6 py-12 lg:px-8">
+            <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+                <h1 class="text-center text-3xl sm:text-4xl font-bold leading-9 tracking-tight text-gray-900">Espace</h1>
+                <p class="text-gray-600 text-center text-sm mt-1">Accédez à votre espace professionnel.</p>
+            </div>
 
-        <div class="content">
-            <form action="{{ path('app_login') }}" method="post" class="form-login">
-                {% if error %}
-                    <div class="flex flex-row gap-4 bg-red-50 text-red-700 rounded-md p-6 xl:p-4">
-                        <div class="leading-5">
-                            {{ error.messageKey|trans(error.messageData, 'security') }}
-                        </div>
-                    </div>
-                {% endif %}
-
-                <div class="line">
-                    <div class="form-group">
-                        <label for="username">
-                            <span class="icon-user"></span>
-                            <span>Nom utilisateur</span>
-                        </label>
-                        <input type="text" id="username" name="_username" value="{{ last_username }}" required autofocus/>
-                    </div>
-                </div>
-
-                <div class="line">
-                    <div class="form-group">
-                        <label for="password">
-                            <span class="icon-padlock"></span>
-                            <span>Mot de passe</span>
-                        </label>
-                        <input type="password" name="_password" id="password" required />
-                        <div class="input-show"><span class="icon-vision" id="password-icon"></span></div>
-                    </div>
-                </div>
-
-                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-
-                <input type="hidden" name="_target_path" value="{{ path('app_logged') }}"/>
-
-                <div class="line">
-                    <div id="forget"></div>
-                </div>
-
-                <div class="line-buttons">
-                    <button type="submit" class="btn btn-primary">Se connecter</button>
-                </div>
-            </form>
+            <div class="mt-6 sm:mx-auto sm:w-full sm:max-w-sm">
+                {% include 'app/pages/security/components/login_form.html.twig' %}
+            </div>
         </div>
     </div>
-
-    <div class="col-2">
-        <div class="image">
-            <img src="{{ asset('build/app/images/login-page.jpg') }}" alt="formulaire connexion">
-        </div>
-    </div>
-</div>
 {% endblock %}

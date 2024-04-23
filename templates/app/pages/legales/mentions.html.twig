@@ -1,14 +1,13 @@
 {% extends 'app/pages/legales/template.html.twig' %}
 
-{% block page_title %}Mentions légales {{ parent() }}{% endblock %}
+{% set page_title %}Mentions légales{% endset %}
 
 {% block main_content %}
-    <div class="main-content main-content-legal">
-        <h1>Mentions légales</h1>
-
-        <section class="legales">
+    <div class="bg-white border p-4 rounded-xl shadow-xl text-sm lg:p-8">
+        <h1 class="text-3xl sm:text-4xl font-bold leading-9 tracking-tight text-gray-900 mb-4 uppercase">Mentions légales</h1>
+        <section class="flex flex-col gap-6">
             <div>
-                <h2>Editeur du site</h2>
+                <h2 class="text-lg font-semibold">Éditeur du site</h2>
                 <p>
                     Ce site est édité par la société {{ societyName }}, SARL au capital de 60 000€. <br>
                     Adresse de la société : {{ addressPostale }}. <br>
@@ -21,7 +20,7 @@
                 </p>
             </div>
             <div>
-                <h2>Hébergement</h2>
+                <h2 class="text-lg font-semibold">Hébergement</h2>
                 <p>
                     Le site est hébergé par la société O2Switch, société du groupe Zohey <br>
                     SAS au capital de 100 000€ <br>
@@ -33,7 +32,7 @@
                 </p>
             </div>
             <div>
-                <h2>Conditions générales d'utilisation</h2>
+                <h2 class="text-lg font-semibold">Conditions générales d'utilisation</h2>
                 <div>
                     <h3>Propriété intellectuelle</h3>
                     <p>
@@ -47,42 +46,45 @@
                     </p>
                     <p>
                         Crédit illustration de la page d'erreur et images d'illustrations : <br>
-                        <a href='https://fr.freepik.com/'>fr.freepik.com</a>
+                        <a class="text-blue-700 hover:underline" href='https://fr.freepik.com/'>fr.freepik.com</a>
                     </p>
                     <p style="margin-top: 8px">
                         Crédit photo illustration des pages : <br>
-                        <a href='https://unsplash.com/fr'>Photo libre de droit - unsplash.com</a>
+                        <a class="text-blue-700 hover:underline" href='https://unsplash.com/fr'>Photo libre de droit - unsplash.com</a>
                     </p>
                 </div>
-                <div>
-                    <h3>Clause de non-responsabilité</h3>
-                    <p>
-                        Les informations fournies sur ce site sont uniquement à titre informatif. Nous ne garantissons
-                        pas l'exactitude ou l'exhaustivité de ces informations. Nous déclinons toute responsabilité
-                        en cas d'erreurs ou d'omissions.
-                    </p>
-                </div>
-                <div>
-                    <h3>Liens vers des tiers</h3>
-                    <p>
-                        Les liens présents dans les pages de ce site ont été incorporés à titre de commodités.
-                        N'étant pas propriétaire de ceux-ci et ne disposant sur eux d'aucun contrôle, la société
-                        {{ societyName }} décline toutes responsabilités quant au contenu publié par ces sites tiers, y
-                        compris les liens et services qu'ils mettent en oeuvre.
-                        <br>
-                        Tout lien dirigeant vers le présent site doit cibler sa page d'accueil et ne peut être
-                        autorisé sans le consentement préalable écrit de la société la société {{ societyName }}.
-                    </p>
-                </div>
-                <div>
-                    <h3>Conception du site</h3>
-                    <p>
-                        <a href="https://logilink.fr" target="_blank">Logilink Marseille</a>
-                        <br>
-                        Editeur spécialisé dans la gestion des entreprises et les logiciels métiers,
-                        Logilink développe des sites et logiciels modernes, fiables et performants en réponse à
-                        toutes vos exigences professionnelles.
-                    </p>
+
+                <div class="flex flex-col gap-2 mt-4">
+                    <div>
+                        <h3 class="text-lg font-medium">Clause de non-responsabilité</h3>
+                        <p>
+                            Les informations fournies sur ce site sont uniquement à titre informatif. Nous ne garantissons
+                            pas l'exactitude ou l'exhaustivité de ces informations. Nous déclinons toute responsabilité
+                            en cas d'erreurs ou d'omissions.
+                        </p>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-medium">Liens vers des tiers</h3>
+                        <p>
+                            Les liens présents dans les pages de ce site ont été incorporés à titre de commodités.
+                            N'étant pas propriétaire de ceux-ci et ne disposant sur eux d'aucun contrôle, la société
+                            {{ societyName }} décline toutes responsabilités quant au contenu publié par ces sites tiers, y
+                            compris les liens et services qu'ils mettent en oeuvre.
+                            <br>
+                            Tout lien dirigeant vers le présent site doit cibler sa page d'accueil et ne peut être
+                            autorisé sans le consentement préalable écrit de la société la société {{ societyName }}.
+                        </p>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-medium">Conception du site</h3>
+                        <p>
+                            <a class="text-blue-700 hover:underline" href="https://logilink.fr" target="_blank">Logilink Marseille</a>
+                            <br>
+                            Éditeur spécialisé dans la gestion des entreprises et les logiciels métiers,
+                            Logilink développe des sites et logiciels modernes, fiables et performants en réponse à
+                            toutes vos exigences professionnelles.
+                        </p>
+                    </div>
                 </div>
             </div>
         </section>
