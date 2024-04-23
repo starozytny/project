@@ -18,6 +18,24 @@ function generiqueSendForm (self, context, paramsToValidate, url, data, urlReloa
     }
 }
 
+function axiosGetData(self, url, sorter = null){
+    axios.get(url, {})
+        .then(function (response) {
+            let data = response.data;
+            if(sorter !== null){
+                data.sort(sorter);
+            }
+            self.setState({ data: data });
+        })
+        .catch(function (error) {
+            displayErrors(self, error, "Une erreur est survenue lors de la récupération des données.")
+        })
+        .then(function () {
+            self.setState({ loadData: false });
+        })
+    ;
+}
+
 function loader(status){
     let loader = document.querySelector('#loader');
     if(status){
@@ -67,14 +85,14 @@ function displayErrors(self, error, message="Veuillez vérifier les informations
 function updateValueCheckbox(e, items, value){
     return (e.currentTarget.checked) ? [...items, ...[value]] : items.filter(v => v !== value)
 }
-
 module.exports = {
     generiqueSendForm,
+    axiosGetData,
     loader,
     setValue,
     setValueDate,
     setValueTime,
     showErrors,
     displayErrors,
-    updateValueCheckbox,
+    updateValueCheckbox
 }

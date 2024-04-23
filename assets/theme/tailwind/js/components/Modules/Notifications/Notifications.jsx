@@ -3,16 +3,17 @@ import React, { Component } from "react";
 import axios from "axios";
 import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
-import Formulaire from "@commonFunctions/formulaire";
-import Sanitaze from "@commonFunctions/sanitaze";
 import Sort from "@commonFunctions/sort";
+import List from "@commonFunctions/list";
+import Sanitaze from "@commonFunctions/sanitaze";
+import Formulaire from "@commonFunctions/formulaire";
 
 import { ButtonIcon } from "@tailwindComponents/Elements/Button";
 
-const URL_GET_DATA = "intern_api_notifications_list";
-const URL_SWITCH_ALL_SEEN = "intern_api_notifications_switch_all_seen";
-const URL_DELETE_ALL = "intern_api_notifications_delete_all";
-const URL_DELETE_ELEMENT = "intern_api_notifications_delete";
+const URL_NOTIFICATIONS = "intern_api_notifications_index";
+const URL_NOTIFICATIONS_SEEN = "intern_api_notifications_isSeen";
+const URL_NOTIFICATIONS_SEEN_ALL = "intern_api_notifications_isSeen_all";
+const URL_NOTIFICATIONS_DELETE = "intern_api_notifications_delete";
 
 export class Notifications extends Component {
     constructor (props) {
@@ -20,23 +21,15 @@ export class Notifications extends Component {
 
         this.state = {
             open: false,
+            data: null,
             loadData: true,
-            reloadData: false
         }
 
         this.wrapperRef = React.createRef();
     }
 
     componentDidMount = () => {
-        let self = this;
-        axios({ method: "GET", url: Routing.generate(URL_GET_DATA), data: {} })
-            .then(function (response) {
-                self.setState({ data: response.data, loadData: false })
-            })
-            .catch(function (error) {
-                Formulaire.displayErrors(self, error);
-            })
-        ;
+        Formulaire.axiosGetData(this, Routing.generate(URL_NOTIFICATIONS), Sort.compareCreatedAtInverse)
     }
 
     componentWillUnmount () {
@@ -49,6 +42,20 @@ export class Notifications extends Component {
         }
     }
 
+    handleUpdateList = (element, newContext = null) => {
+        const { data } = this.state
+
+        let nContext = (newContext !== null) ? newContext : "update";
+        let newData = List.update(nContext, data, element);
+
+        newData.sort(Sort.compareCreatedAtInverse)
+
+        this.setState({
+            data: newData,
+            element: element
+        })
+    }
+
     handleOpen = () => {
         if (this.state.open) {
             document.removeEventListener('mousedown', this.handleClickOutside);
@@ -58,20 +65,54 @@ export class Notifications extends Component {
         this.setState({ open: !this.state.open })
     }
 
-    handleSetAllSeen = () => {
-        callAxios(this, "PUT", Routing.generate(URL_SWITCH_ALL_SEEN))
+    handleSeen = (element) => {
+        if(!element.isSeen){
+            const self = this;
+            axios.post(Routing.generate(URL_NOTIFICATIONS_SEEN, { id: element.id }), {})
+                .then(function (response) {
+                    let data = response.data;
+                    self.handleUpdateList(data, 'update');
+                })
+                .catch(function (error) {
+                    Formulaire.displayErrors(self, error)
+                })
+            ;
+        }
     }
 
-    handleDeleteAll = () => {
-        callAxios(this, "DELETE", Routing.generate(URL_DELETE_ALL))
+    handleDelete = (element) => {
+        const self = this;
+        axios.delete(Routing.generate(URL_NOTIFICATIONS_DELETE, { id: element.id }), {})
+            .then(function (response) {
+                self.handleUpdateList(element, "delete");
+            })
+            .catch(function (error) {
+                Formulaire.displayErrors(self, error, "Une erreur est survenue, veuillez contacter le support.")
+            })
+        ;
     }
 
-    handleDelete = (id) => {
-        callAxios(this, "DELETE", Routing.generate(URL_DELETE_ELEMENT, { 'id': id }))
+    handleIsSeenAll = () => {
+        const self = this;
+        Formulaire.loader(true)
+        axios.post(Routing.generate(URL_NOTIFICATIONS_SEEN_ALL), {})
+            .then(function (response) {
+                let data = response.data;
+                data.sort(Sort.compareCreatedAtInverse);
+                self.setState({ data: data, open: false })
+            })
+            .catch(function (error) {
+                Formulaire.displayErrors(this, error)
+            })
+            .then(function () {
+                Formulaire.loader(false)
+            })
+        ;
     }
 
     render () {
-        const { open, loadData, reloadData, data } = this.state;
+        const { position = "top-8 -left-20 lg:left-0", customBtn = "" } = this.props;
+        const { open, loadData, data } = this.state;
 
         let items = [], nbNewNotifs = 0;
         if (data) {
@@ -80,7 +121,7 @@ export class Notifications extends Component {
                 if (!el.isSeen) nbNewNotifs++;
 
                 items.push(<div className="w-full flex justify-between gap-1 px-2 py-1.5 cursor-pointer hover:bg-gray-100" key={el.id}>
-                    <div className="w-full flex gap-1 lg:gap-2">
+                    <div className="w-full flex gap-1 lg:gap-2" onClick={() => this.handleSeen(el)}>
                         <div className="w-8 h-8 min-w-8 rounded-full bg-blue-200 flex items-center justify-center text-blue-700">
                             <span className={`icon-${el.icon}`} />
                         </div>
@@ -104,39 +145,29 @@ export class Notifications extends Component {
 
         return <>
             {loadData
-                ? <ButtonIcon type="menu" icon="chart-3" />
+                ? <ButtonIcon type="menu" icon="chart-3" customBtn={customBtn} />
                 : <div ref={this.wrapperRef} className="relative">
-                    <ButtonIcon type="menu" icon="notification" onClick={this.handleOpen}>
+                    <ButtonIcon type="menu" icon="notification" onClick={this.handleOpen} customBtn={customBtn}>
                         Notifications
                     </ButtonIcon>
-                    <div className={`${open ? "block" : "hidden"} bg-white shadow rounded-md absolute top-8 -left-20 lg:left-0 w-64 lg:w-80 z-10`}>
+                    {nbNewNotifs > 0 && <div className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-yellow-400"></div>}
+                    <div className={`${open ? "block" : "hidden"} bg-white shadow rounded-md absolute ${position} w-64 lg:w-80 z-10`}>
                         <div className="p-2 flex justify-between">
                             <span className="font-medium text-sm">Notifications</span>
                             <span className="icon-cancel cursor-pointer" onClick={this.handleOpen} />
                         </div>
                         <div className="border-t py-2 max-h-64 overflow-y-auto">
-                            {reloadData
-                                ? <ButtonIcon type="menu" icon="chart-3" />
-                                : (items.length !== 0
-                                    ? items
-                                    : <div className="w-full inline-block px-2 py-1.5">
-                                        <div className="text-sm">Aucune notification</div>
-                                    </div>
-                                )
-                            }
+                            {items.length !== 0
+                                ? items
+                                : <div className="w-full inline-block px-2 py-1.5">
+                                    <div className="text-sm">Aucune notification</div>
+                                </div>}
                         </div>
                         <div className="border-t py-2">
                             <div className="cursor-pointer text-sm text-center text-blue-700 hover:text-blue-600"
-                                 onClick={this.handleSetAllSeen}
+                                 onClick={this.handleIsSeenAll}
                             >
                                 Marquer comme lu
-                            </div>
-                        </div>
-                        <div className="pb-2">
-                            <div className="cursor-pointer text-sm text-center text-red-600 hover:text-red-500"
-                                 onClick={this.handleDeleteAll}
-                            >
-                                Supprimer toutes les notifications
                             </div>
                         </div>
                     </div>
@@ -144,16 +175,4 @@ export class Notifications extends Component {
             }
         </>
     }
-}
-
-function callAxios (self, method, url) {
-    self.setState({ reloadData: true })
-    axios({ method: method, url: url, data: {} })
-        .then(function (response) {
-            self.setState({ data: response.data, reloadData: false })
-        })
-        .catch(function (error) {
-            Formulaire.displayErrors(self, error);
-        })
-    ;
 }

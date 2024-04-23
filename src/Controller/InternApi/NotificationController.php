@@ -5,53 +5,37 @@ namespace App\Controller\InternApi;
 use App\Entity\Main\Notification;
 use App\Repository\Main\NotificationRepository;
 use App\Service\ApiResponse;
-use Doctrine\Persistence\ManagerRegistry;
+use App\Service\Data\DataService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/intern/api/notifications', name: 'intern_api_notifications_')]
+#[Route(path: '/intern/api/notifications', name: 'intern_api_notifications_')]
 class NotificationController extends AbstractController
 {
-    #[Route('/list', name: 'list', options: ['expose' => true], methods: 'GET')]
-    public function list(NotificationRepository $repository, ApiResponse $apiResponse): Response
+    #[Route(path: '/', name: 'index', options: ['expose' => true], methods: ['GET'])]
+    public function index(NotificationRepository $repository, ApiResponse $apiResponse): JsonResponse
     {
-        return $apiResponse->apiJsonResponse($repository->findBy(['user' => $this->getUser()]), Notification::LIST);
-    }
-
-    #[Route('/delete/{id}', name: 'delete', options: ['expose' => true], methods: 'DELETE')]
-    public function delete(Notification $obj, NotificationRepository $repository, ApiResponse $apiResponse): Response
-    {
-        $repository->remove($obj, true);
-
-        return $apiResponse->apiJsonResponse($repository->findBy(['user' => $this->getUser()]), Notification::LIST);
-    }
-
-    #[Route('/delete-all', name: 'delete_all', options: ['expose' => true], methods: 'DELETE')]
-    public function deleteAll(NotificationRepository $repository, ManagerRegistry $registry, ApiResponse $apiResponse): Response
-    {
-        $em = $registry->getManager();
-        $objs = $repository->findBy(['user' => $this->getUser()]);
-
-        foreach($objs as $obj){
-            $repository->remove($obj);
-        }
-        $em->flush();
-
-        return $apiResponse->apiJsonResponse($repository->findBy(['user' => $this->getUser()]), Notification::LIST);
-    }
-
-    #[Route('/switch/all/seen', name: 'switch_all_seen', options: ['expose' => true], methods: 'PUT')]
-    public function switchAllSeen(NotificationRepository $repository, ManagerRegistry $registry, ApiResponse $apiResponse): Response
-    {
-        $em = $registry->getManager();
-        $objs = $repository->findBy(['user' => $this->getUser(), 'seen' => false]);
-
-        foreach($objs as $obj){
-            $obj->setSeen(!$obj->isSeen());
-        }
-        $em->flush();
-
+        $objs = $repository->findAll();
         return $apiResponse->apiJsonResponse($objs, Notification::LIST);
+    }
+
+    #[Route(path: '/{id}/is-seen', name: 'isSeen', options: ['expose' => true], methods: ['POST'])]
+    public function isSeen(Notification $obj, DataService $dataService): JsonResponse
+    {
+        return $dataService->isSeenToTrue($obj, Notification::LIST);
+    }
+
+    #[Route(path: '/{id}', name: 'delete', options: ['expose' => true], methods: ['DELETE'])]
+    public function delete(Notification $obj, DataService $dataService): JsonResponse
+    {
+        return $dataService->delete($obj);
+    }
+
+    #[Route(path: '/', name: 'delete_group', options: ['expose' => true], methods: ['DELETE'])]
+    public function deleteSelected(Request $request, DataService $dataService): JsonResponse
+    {
+        return $dataService->deleteSelected(Notification::class, json_decode($request->getContent()));
     }
 }
