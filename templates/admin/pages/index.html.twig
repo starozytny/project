@@ -3,11 +3,6 @@
 {% set page_title %}Dashboard{% endset %}
 {% set page_subtitle %}Raccourcis{% endset %}
 
-{% block stylesheets %}
-    {{ parent() }}
-    {{ encore_entry_link_tags('admin_homepage') }}
-{% endblock %}
-
 {% block main_content %}
     <div class="flex flex-col gap-4">
         <div class="w-full">
@@ -155,9 +150,4 @@
             </div>
         </div>
     </div>
-{% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-    {{ encore_entry_script_tags('admin_homepage') }}
 {% endblock %}
