@@ -11,5 +11,5 @@
     {% if btn_icon is defined %}
         <span class="icon-{{ btn_icon}} inline-block translate-y-0.5"></span>
     {% endif %}
-    <span class="ml-1">{{ btn_text }}</span>
+    <span class="{{ btn_icon is defined ? "ml-1" : "" }}">{{ btn_text }}</span>
 </a>

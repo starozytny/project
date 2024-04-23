@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import ModalFunctions from '@commonFunctions/modal';
 
-import { Button } from "@commonComponents/Elements/Button";
+import { Button } from "@tailwindComponents/Elements/Button";
 
 export function CloseModalBtn ({ identifiant, children = "Annuler" })
 {
