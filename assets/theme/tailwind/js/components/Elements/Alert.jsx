@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 
 export function Alert ({ type, icon, title, children }) {
 	const typeVariants = {
-		blue: 'bg-blue-50 text-blue-700',
-		red: 'bg-red-50 text-red-700',
+		blue: 'bg-blue-50 text-blue-700 border border-blue-400',
+		red: 'bg-red-50 text-red-700 border border-red-500',
 		gray: 'bg-gray-50 text-gray-700 border',
 	}
 

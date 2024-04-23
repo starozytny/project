@@ -19,4 +19,3 @@ export function Badge ({ type, children, onClick }) {
 Badge.propTypes = {
 	type: PropTypes.string,
 }
-

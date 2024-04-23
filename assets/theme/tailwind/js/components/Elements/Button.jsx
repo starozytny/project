@@ -36,16 +36,17 @@ ButtonA.propTypes = {
 export function Button ({ type, width, iconLeft, iconRight, isSubmit, onClick, children, pa = "py-2 px-4" }) {
 	const colorVariants = {
 		yellow: 'bg-yellow-500 text-slate-50 hover:bg-yellow-400',
+		green: 'bg-green-500 text-slate-50 hover:bg-green-400',
 		red: 'bg-red-600 text-slate-50 hover:bg-red-500',
 		blue: 'bg-blue-600 text-slate-50 hover:bg-blue-500 ring-1 ring-inset ring-blue-600',
 		default: 'bg-white text-gray-900 hover:bg-gray-50 ring-1 ring-inset ring-gray-300',
 	}
 
 	return <button type={isSubmit ? "submit" : "button"} onClick={onClick}
-				   className={`inline-flex justify-center ${width} rounded-md ${pa} text-sm font-semibold shadow-sm transition-colors ${colorVariants[type]}`}>
-		{iconLeft ? <span className={`icon-${iconLeft} inline-block translate-y-0.5`}></span> : null}
-		<span className={iconLeft ? "pl-1" : (iconRight ? "pr-1" : "")}>{children}</span>
-		{iconRight ? <span className={`icon-${iconRight} inline-block translate-y-0.5`}></span> : null}
+				   className={`flex items-center justify-center gap-2 ${width} rounded-md ${pa} text-sm font-semibold shadow-sm transition-colors ${colorVariants[type]}`}>
+		{iconLeft ? <span className={`icon-${iconLeft}`}></span> : null}
+		<span>{children}</span>
+		{iconRight ? <span className={`icon-${iconRight}`}></span> : null}
 	</button>
 }
 
@@ -62,7 +63,7 @@ Button.propTypes = {
 	]),
 }
 
-export function ButtonIcon ({ type, icon, onClick, children, tooltipWidth }) {
+export function ButtonIcon ({ type, icon, onClick, children, tooltipWidth, tooltipPosition, customBtn = "" }) {
 	const colorVariants = {
 		red: 'bg-red-600 text-slate-50 hover:bg-red-500',
 		blue: 'bg-blue-600 text-slate-50 hover:bg-blue-500 ring-1 ring-inset ring-blue-600',
@@ -79,11 +80,13 @@ export function ButtonIcon ({ type, icon, onClick, children, tooltipWidth }) {
 
 	let divStyle = tooltipWidth ? { width: tooltipWidth + "px" } : null;
 
+	let tooltipPos = tooltipPosition ? tooltipPosition : "-top-7 right-0"
+
 	return <button onClick={onClick}
-				   className={`relative inline-flex justify-center rounded-md text-lg px-2 py-2 shadow-sm ${colorVariants[type]}`}>
+				   className={`relative inline-flex items-center justify-center rounded-md text-lg px-2 py-2 shadow-sm ${colorVariants[type]} ${customBtn}`}>
 		<span className={`icon-${icon} ${iconColorVariants[type]}`}></span>
 		{children
-			? <span className="tooltip bg-gray-300 py-1 px-2 rounded absolute -top-7 right-0 text-xs hidden"
+			? <span className={`tooltip bg-gray-300 py-1 px-2 rounded absolute ${tooltipPos} text-xs hidden`}
 					style={divStyle}>
 				{children}
 		</span>

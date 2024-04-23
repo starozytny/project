@@ -3,42 +3,39 @@ import PropTypes from 'prop-types';
 
 import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
-import { Checkbox, Input } from "@commonComponents/Elements/Fields";
-import { Trumb }            from "@commonComponents/Elements/Trumb";
-import { Button }           from "@commonComponents/Elements/Button";
-
+import Inputs from "@commonFunctions/inputs";
 import Formulaire from "@commonFunctions/formulaire";
-import Inputs     from "@commonFunctions/inputs";
 
-const URL_INDEX_ELEMENTS    = "admin_agenda_index";
-const URL_CREATE_ELEMENT    = "intern_api_agenda_events_create";
-const URL_UPDATE_GROUP      = "intern_api_agenda_events_update";
-const TEXT_CREATE           = "Ajouter l'évènement";
-const TEXT_UPDATE           = "Enregistrer les modifications";
+import { Button } from "@tailwindComponents/Elements/Button";
+import { TinyMCE } from "@tailwindComponents/Elements/TinyMCE";
+import { Input, Switcher } from "@tailwindComponents/Elements/Fields";
 
-export function EventFormulaire ({ context, element })
-{
+const URL_INDEX_ELEMENTS = "admin_agenda_index";
+const URL_CREATE_ELEMENT = "intern_api_agenda_events_create";
+const URL_UPDATE_GROUP = "intern_api_agenda_events_update";
+const TEXT_CREATE = "Ajouter l'évènement";
+const TEXT_UPDATE = "Enregistrer les modifications";
+
+export function EventFormulaire ({ context, element }) {
     let url = Routing.generate(URL_CREATE_ELEMENT);
 
-    if(context === "update"){
-        url = Routing.generate(URL_UPDATE_GROUP, {'id': element.id});
+    if (context === "update") {
+        url = Routing.generate(URL_UPDATE_GROUP, { 'id': element.id });
     }
 
-    let form = <Form
+    return <Form
         context={context}
         url={url}
         name={element ? Formulaire.setValue(element.name) : ""}
         type={element ? Formulaire.setValue(element.type) : 0}
         content={element ? Formulaire.setValue(element.content) : ""}
-        localisation={element ? Formulaire.setValue(element.localisation): ""}
+        localisation={element ? Formulaire.setValue(element.localisation) : ""}
         startAt={element ? Formulaire.setValueDate(element.startAt) : ""}
         endAt={element ? Formulaire.setValueDate(element.endAt) : ""}
         startTime={element ? Formulaire.setValueTime(element.startAt) : ""}
         endTime={element ? Formulaire.setValueTime(element.endAt) : ""}
         allDay={element ? Formulaire.setValue([element.allDay ? 1 : 0]) : [0]}
     />
-
-    return <div className="formulaire">{form}</div>;
 }
 
 EventFormulaire.propTypes = {
@@ -47,7 +44,7 @@ EventFormulaire.propTypes = {
 }
 
 class Form extends Component {
-    constructor(props) {
+    constructor (props) {
         super(props);
 
         let content = props.content ? props.content : ""
@@ -66,35 +63,36 @@ class Form extends Component {
         }
     }
 
-    componentDidMount = () => { Inputs.initDateInput(this.handleChangeDate, this.handleChange, new Date()) }
+    componentDidMount = () => {
+        Inputs.initDateInput(this.handleChangeDate, this.handleChange, new Date())
+    }
 
     handleChange = (e, picker) => {
-        let name  = e.currentTarget.name;
+        let name = e.currentTarget.name;
         let value = e.currentTarget.value;
 
-        if(name === "startAt" || name === "endAt"){
+        if (name === "startAt" || name === "endAt") {
             value = Inputs.dateInput(e, picker, this.state[name]);
         }
 
-        if(name === "startTime" || name === "endTime"){
+        if (name === "startTime" || name === "endTime") {
             value = Inputs.timeInput(e, this.state[name]);
         }
 
-        this.setState({[name]: value})
+        if (name === "allDay") {
+            value = (e.currentTarget.checked) ? [1] : [0] // parseInt because work with int this time
+        }
+
+        this.setState({ [name]: value })
     }
 
-    handleChangeTrumb = (e) => {
-        let name = e.currentTarget.id;
-        let text = e.currentTarget.innerHTML;
-
-        this.setState({[name]: {value: [name].value, html: text}})
+    handleChangeDate = (name, value) => {
+        this.setState({ [name]: value })
     }
 
-    handleSwitch = (e) => {
-        this.setState({ [e.currentTarget.name]: e.currentTarget.checked ? [parseInt(e.currentTarget.value)] : [0] })
+    handleChangeTinyMCE = (name, html) => {
+        this.setState({ [name]: { value: this.state[name].value, html: html } })
     }
-
-    handleChangeDate = (name, value) => { this.setState({ [name]: value }) }
 
     handleSubmit = (e) => {
         e.preventDefault();
@@ -105,17 +103,17 @@ class Form extends Component {
         this.setState({ errors: [] });
 
         let paramsToValidate = [
-            {type: "text",  id: 'name',      value: name},
-            {type: "text",  id: 'type',      value: type},
-            {type: "text",  id: 'type',      value: type},
-            {type: "date",  id: 'startAt',   value: startAt},
+            { type: "text", id: 'name', value: name },
+            { type: "text", id: 'type', value: type },
+            { type: "text", id: 'type', value: type },
+            { type: "date", id: 'startAt', value: startAt },
         ];
 
-        if(allDay[0] === 0){
+        if (allDay[0] === 0) {
             paramsToValidate = [...paramsToValidate, ...[
-                {type: "time", id: 'startTime', value: startTime},
-                {type: "date", id: 'endAt',   value: endAt},
-                {type: "time", id: 'endTime', value: endTime},
+                { type: "time", id: 'startTime', value: startTime },
+                { type: "date", id: 'endAt', value: endAt },
+                { type: "time", id: 'endTime', value: endTime },
             ]];
         }
 
@@ -132,58 +130,72 @@ class Form extends Component {
 
         return <>
             <form onSubmit={this.handleSubmit}>
-                <div className="line-container">
-                    <div className="line">
-                        <div className="line-col-1">
-                            <div className="title">Évènement</div>
+                <div className="flex flex-col gap-4 xl:gap-6">
+                    <div className="grid gap-2 xl:grid-cols-3 xl:gap-6">
+                        <div>
+                            <div className="font-medium text-lg">Évènement</div>
                         </div>
-                        <div className="line-col-2">
-                            <div className="line line-2">
+                        <div className="flex gap-4 bg-white p-4 rounded-md ring-1 ring-inset ring-gray-200 xl:col-span-2">
+                            <div className="w-full">
                                 <Input identifiant="name" valeur={name} {...params}>Nom de l'évènement</Input>
+                            </div>
+                            <div className="w-full">
                                 <Input identifiant="localisation" valeur={localisation} {...params}>Lieu de l'évènement</Input>
                             </div>
                         </div>
                     </div>
-                    <div className="line">
-                        <div className="line-col-1">
-                            <div className="title">Dates</div>
+                    <div className="grid gap-2 xl:grid-cols-3 xl:gap-6">
+                        <div>
+                            <div className="font-medium text-lg">Dates</div>
                         </div>
-                        <div className="line-col-2">
-                            <div className="line">
-                                <Checkbox items={allDayItems} identifiant="allDay" valeur={allDay}
-                                          errors={[]} onChange={this.handleSwitch} isSwitcher={true}>
+                        <div className="flex flex-col gap-4 bg-white p-4 rounded-md ring-1 ring-inset ring-gray-200 xl:col-span-2">
+                            <div>
+                                <Switcher items={allDayItems} identifiant="allDay" valeur={allDay} {...params}>
                                     Toute la journée
-                                </Checkbox>
+                                </Switcher>
                             </div>
-                            <div className="line line-2">
-                                <Input type="js-date" identifiant="startAt" valeur={startAt} {...params}>Début</Input>
-                                <Input type="js-date" identifiant="endAt" valeur={allDay[0] === 0 ? endAt : startAt} {...params}>Fin</Input>
+                            <div>
+                                {parseInt(allDay[0]) === 1
+                                    ? <div>
+                                        <Input type="js-date" identifiant="startAt" valeur={startAt} {...params}>Journée du</Input>
+                                    </div>
+                                    : <div className="flex flex-col gap-4">
+                                        <div className="flex gap-4">
+                                            <div className="w-full">
+                                                <Input type="js-date" identifiant="startAt" valeur={startAt} {...params}>Début</Input>
+                                            </div>
+                                            <div className="w-full">
+                                                <Input type="time" identifiant="startTime" valeur={startTime} {...params}>&nbsp;</Input>
+                                            </div>
+                                        </div>
+                                        <div className="flex gap-2">
+                                            <div className="w-full">
+                                                <Input type="js-date" identifiant="endAt" valeur={endAt} {...params}>Fin</Input>
+                                            </div>
+                                            <div className="w-full">
+                                                <Input type="time" identifiant="endTime" valeur={endTime} {...params}>&nbsp;</Input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
                             </div>
-                            {allDay[0] === 0
-                                ? <div className="line line-2">
-                                    <Input identifiant="startTime" valeur={startTime} placeholder="00h00" {...params}>Horaire du début</Input>
-                                    <Input identifiant="endTime" valeur={endTime} placeholder="00h00" {...params}>Horaire de fin</Input>
-                                </div>
-                                : null
-                            }
                         </div>
                     </div>
-                    <div className="line">
-                        <div className="line-col-1">
-                            <div className="title">Contenu</div>
+                    <div className="grid gap-2 xl:grid-cols-3 xl:gap-6">
+                        <div>
+                            <div className="font-medium text-lg">Contenu</div>
                         </div>
-                        <div className="line-col-2">
-                            <div className="line">
-                                <Trumb identifiant="content" valeur={content.value} errors={errors} onChange={this.handleChangeTrumb}>
-                                    Description
-                                </Trumb>
-                            </div>
+                        <div className="bg-white p-4 rounded-md ring-1 ring-inset ring-gray-200 xl:col-span-2">
+                            <TinyMCE type={99} identifiant='content' valeur={content.value}
+                                     errors={errors} onUpdateData={this.handleChangeTinyMCE}>
+                                Description
+                            </TinyMCE>
                         </div>
                     </div>
                 </div>
 
-                <div className="line-buttons">
-                    <Button isSubmit={true} type="primary">{context === "create" ? TEXT_CREATE : TEXT_UPDATE}</Button>
+                <div className="mt-4 flex justify-end gap-2">
+                    <Button type="blue" isSubmit={true}>{context === "create" ? TEXT_CREATE : TEXT_UPDATE}</Button>
                 </div>
             </form>
         </>

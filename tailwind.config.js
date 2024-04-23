@@ -7,7 +7,8 @@ module.exports = {
   theme: {
     extend: {
       screens: {
-        'qhd': '1864px'
+        'qhd': '1864px',
+        '2qhd': '2500px',
       },
       spacing: {
         '6.5': '1.625rem',

@@ -1,11 +1,13 @@
 import React, { Component, useState, useEffect } from "react";
 import PropTypes from 'prop-types';
 
-import toastr from "toastr";
+import parse from "html-react-parser";
+
 import Cleave from "cleave.js/react";
 
 import Sort from "@commonFunctions/sort";
 import Search from "@commonFunctions/search";
+import Toastr from "@tailwindFunctions/toastr";
 import Sanitaze from "@commonFunctions/sanitaze";
 
 /***************************************
@@ -23,7 +25,7 @@ export function InputView (props) {
 			{children}
 		</label>
 		<div className="relative rounded-md shadow-sm">
-			<input type="text" name={identifiant} id={identifiant} value={valeur} disabled={true}
+			<input type="text" name={identifiant} id={identifiant} value={valeur === null ? "" : valeur} disabled={true}
 				   className={styleInput + " " + (error ? "ring-red-400" : "ring-gray-300")} />
 		</div>
 		<ErrorContent error={error} />
@@ -32,9 +34,68 @@ export function InputView (props) {
 
 InputView.propTypes = {
 	identifiant: PropTypes.string,
-	valeur: PropTypes.node.isRequired,
 	errors: PropTypes.array,
-	children: PropTypes.node.isRequired,
+	children: PropTypes.node,
+}
+
+/***************************************
+ * TEXTAREA View
+ ***************************************/
+export function TextAreaView (props) {
+	const { identifiant, valeur, errors, children, height = "80px" } = props;
+
+	let error = getError(errors, identifiant);
+
+	let styleInput = "block bg-gray-100 w-full rounded-md border-0 py-2 px-3 text-sm text-gray-900 ring-1 ring-inset placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-gray-500";
+
+	return <>
+		<label htmlFor={identifiant} className="block text-sm font-medium leading-6 text-gray-900">
+			{children}
+		</label>
+		<div className="relative rounded-md shadow-sm">
+			<textarea name={identifiant} id={identifiant} value={valeur === null ? "" : valeur} disabled={true}
+					  style={{ height: height }}
+					  className={styleInput + " " + (error ? "ring-red-400" : "ring-gray-300")} />
+		</div>
+		<ErrorContent error={error} />
+	</>
+}
+
+TextAreaView.propTypes = {
+	identifiant: PropTypes.string,
+	errors: PropTypes.array,
+	children: PropTypes.node,
+}
+
+/***************************************
+ * TRUMB View
+ ***************************************/
+export function TrumbView (props) {
+	const { identifiant, valeur, errors, children, height = "80px" } = props;
+
+	let error = getError(errors, identifiant);
+
+	let styleInput = "block bg-gray-100 w-full rounded-md border-0 py-2 px-3 text-sm text-gray-900 ring-1 ring-inset placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-gray-500";
+
+	return <>
+		<label htmlFor={identifiant} className="block text-sm font-medium leading-6 text-gray-900">
+			{children}
+		</label>
+		<div className="relative rounded-md shadow-sm">
+			<div id={identifiant} disabled={true}
+				 style={{ height: height }}
+				 className={styleInput + " " + (error ? "ring-red-400" : "ring-gray-300")}>
+				{valeur === null ? "" : parse(valeur)}
+			</div>
+		</div>
+		<ErrorContent error={error} />
+	</>
+}
+
+TrumbView.propTypes = {
+	identifiant: PropTypes.string,
+	errors: PropTypes.array,
+	children: PropTypes.node,
 }
 
 /***************************************
@@ -61,7 +122,7 @@ export function Input ({
 	let error = getError(errors, identifiant);
 
 	let styleInput = "block rounded-md shadow-sm border-0 py-2 px-3 text-sm text-gray-900 ring-1 ring-inset placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-gray-500";
-	if(prefix){
+	if (prefix) {
 		styleInput += " pl-9"
 	}
 
@@ -73,14 +134,14 @@ export function Input ({
 						 className={styleInput + " w-full " + (error ? "ring-red-400" : "ring-gray-300")}
 						 min={min} max={max} step={step}
 						 onWheel={(e) => e.currentTarget.blur()}
-						 onKeyDown={(e) => ["e", "E"].includes(e.key) && e.preventDefault()}/>
-	}else if(type === "cleave"){
-		let nOptions = type === "cleave-zipcode" ? {blocks: [5], numericOnly: true} : options;
+						 onKeyDown={(e) => ["e", "E"].includes(e.key) && e.preventDefault()} />
+	} else if (type === "cleave" || type === "cleave-zipcode") {
+		let nOptions = type === "cleave-zipcode" ? { blocks: [5], numericOnly: true } : options;
 		content = <Cleave name={identifiant} id={identifiant} value={valeur}
 						  placeholder={placeholder} onChange={onChange} onBlur={onBlur}
 						  options={nOptions}
 						  className={styleInput + " w-full " + (error ? "ring-red-400" : "ring-gray-300")} />
-	}else {
+	} else {
 		content = <input type={nType} name={identifiant} id={identifiant} value={valeur}
 						 placeholder={nPlaceholder} onChange={onChange} autoComplete={nAutocomplete}
 						 disabled={disabled}
@@ -91,7 +152,7 @@ export function Input ({
 	}
 
 	return <>
-		<label htmlFor={identifiant} className="block text-sm font-medium leading-6 text-gray-900">
+		<label htmlFor={identifiant} className="block text-sm font-medium leading-6 text-gray-800">
 			{children}
 		</label>
 		<div className="relative rounded-md">
@@ -118,7 +179,10 @@ export function Input ({
 Input.propTypes = {
 	type: PropTypes.string,
 	identifiant: PropTypes.string.isRequired,
-	valeur: PropTypes.node.isRequired,
+	valeur: PropTypes.oneOfType([
+		PropTypes.string,
+		PropTypes.any,
+	]).isRequired,
 	errors: PropTypes.array.isRequired,
 	onChange: PropTypes.func.isRequired,
 	children: PropTypes.node,
@@ -147,7 +211,7 @@ export function InputCity (props) {
 	let styleInput = "block rounded-md shadow-sm border-0 py-2 px-3 text-sm text-gray-900 ring-1 ring-inset placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-gray-500";
 
 	return <>
-		<label htmlFor={identifiant} className="block text-sm font-medium leading-6 text-gray-900">
+		<label htmlFor={identifiant} className="block text-sm font-medium leading-6 text-gray-800">
 			{children}
 		</label>
 		<div className="relative rounded-md">
@@ -193,49 +257,49 @@ InputCity.propTypes = {
  * SWITCHER
  ***************************************/
 export function Switcher ({ items, identifiant, valeur, errors, onChange, children }) {
-    let error = getError(errors, identifiant);
+	let error = getError(errors, identifiant);
 
 	let switcherInput = items.map((elem, index) => {
 
-        let isChecked = false
-        valeur.map(el => {
-            if (el === elem.value) {
-                isChecked = true
-            }
-        })
+		let isChecked = false
+		valeur.map(el => {
+			if (el === elem.value) {
+				isChecked = true
+			}
+		})
 
-        return <label htmlFor={elem.identifiant} className="cursor-pointer flex items-center text-gray-900 group/item"
-                      key={index}
-        >
-            <div className={`${isChecked ? "bg-blue-700" : "bg-gray-200"} flex w-12 flex-none cursor-pointer rounded-full p-px ring-1 ring-inset ring-gray-900/5 transition-colors duration-200 ease-in-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600`}>
-                <div className={`${isChecked ? "translate-x-6.5" : "translate-x-0"} inline-block h-5 w-5 transform rounded-full bg-white shadow-sm ring-1 ring-gray-900/5 transition duration-200 ease-in-out`}>
-                    <span className="icon-check1 text-slate-50 text-xs"></span>
-                </div>
-            </div>
-            <input type="checkbox" name={identifiant} className="hidden"
-                   id={elem.identifiant} value={elem.value} defaultChecked={isChecked} onChange={onChange} />
-        </label>
-    })
+		return <label htmlFor={elem.identifiant} className="cursor-pointer flex items-center text-gray-900 group/item"
+					  key={index}
+		>
+			<div className={`${isChecked ? "bg-blue-700" : "bg-gray-200"} flex w-12 flex-none cursor-pointer rounded-full p-px ring-1 ring-inset ring-gray-900/5 transition-colors duration-200 ease-in-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600`}>
+				<div className={`${isChecked ? "translate-x-6.5" : "translate-x-0"} h-5 w-5 transform rounded-full bg-white shadow-sm ring-1 ring-gray-900/5 transition duration-200 ease-in-out`}>
+					<span className="icon-check1 text-slate-50 text-xs"></span>
+				</div>
+			</div>
+			<input type="checkbox" name={identifiant} className="hidden"
+				   id={elem.identifiant} value={elem.value} defaultChecked={isChecked} onChange={onChange} />
+		</label>
+	})
 
-    return <>
-        {children
-            ? <label htmlFor={identifiant} className="block text-sm font-medium leading-6 text-gray-900">
-                {children}
-            </label>
-            : null
-        }
-        {switcherInput}
-        <ErrorContent error={error} />
-    </>
+	return <>
+		{children
+			? <label htmlFor={identifiant} className="block text-sm font-medium leading-6 text-gray-800">
+				{children}
+			</label>
+			: null
+		}
+		{switcherInput}
+		<ErrorContent error={error} />
+	</>
 }
 
 Switcher.propTypes = {
-    items: PropTypes.array.isRequired,
-    identifiant: PropTypes.string.isRequired,
-    valeur: PropTypes.array.isRequired,
-    errors: PropTypes.array,
-    onChange: PropTypes.func.isRequired,
-    children: PropTypes.node,
+	items: PropTypes.array.isRequired,
+	identifiant: PropTypes.string.isRequired,
+	valeur: PropTypes.array.isRequired,
+	errors: PropTypes.array,
+	onChange: PropTypes.func.isRequired,
+	children: PropTypes.node,
 }
 
 /***************************************
@@ -244,22 +308,22 @@ Switcher.propTypes = {
 export function Checkbox ({ items, identifiant, valeur, errors, onChange, children, withIcon, classItems = "", styleType = "" }) {
 	let error = getError(errors, identifiant);
 
-    let checkboxInput = items.map((elem, index) => {
-        let isChecked = false
+	let checkboxInput = items.map((elem, index) => {
+		let isChecked = false
 
-        valeur.map(el => {
+		valeur.map(el => {
 			if (el === elem.value) {
 				isChecked = true
 			}
 		})
 
-		let styleLabel = "block text-sm font-medium leading-6 text-gray-900";
-		if(styleType === "fat"){
+		let styleLabel = "block text-sm font-medium leading-6 text-gray-800";
+		if (styleType === "fat") {
 			styleLabel = "block text-sm font-medium leading-6 cursor-pointer px-3 py-2 rounded-md ring-1 ring-inset "
 				+ (isChecked ? "bg-blue-700 ring-blue-700 text-slate-50" : "bg-white hover:bg-gray-50 ring-gray-300 text-gray-900")
 		}
 
-		return <div	className="flex items-center gap-x-2" key={index}>
+		return <div className="flex items-center gap-x-2" key={index}>
 			<input type="checkbox" id={elem.identifiant} name={identifiant} value={elem.value} onChange={onChange} defaultChecked={isChecked}
 				   className={styleType === "fat" ? "hidden" : "h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"} />
 			<label htmlFor={elem.identifiant}
@@ -273,7 +337,7 @@ export function Checkbox ({ items, identifiant, valeur, errors, onChange, childr
 
 	return <>
 		{children
-			? <legend className="block text-sm font-medium leading-6 text-gray-900">
+			? <legend className="block text-sm font-medium leading-6 text-gray-800">
 				{children}
 			</legend>
 			: null
@@ -298,7 +362,10 @@ Checkbox.propTypes = {
 /***************************************
  * RADIOBOX Classique
  ***************************************/
-export function Radiobox ({ items, identifiant, valeur, errors, onChange, children, convertValToInt = true, classItems = "", styleType = "" }) {
+export function Radiobox ({
+							  items, identifiant, valeur, errors, onChange, children, convertValToInt = true,
+							  classItems = "", styleType = "", labelClass = ""
+						  }) {
 	let error = getError(errors, identifiant);
 
 	let radioInput = items.map((elem, index) => {
@@ -309,14 +376,15 @@ export function Radiobox ({ items, identifiant, valeur, errors, onChange, childr
 			isChecked = true
 		}
 
-		let styleLabel = "block text-sm font-medium leading-6 text-gray-900";
-		if(styleType === "fat"){
+		let styleLabel = "block text-sm font-medium leading-6 " + labelClass;
+		if (styleType === "fat") {
 			styleLabel = "block text-sm font-medium leading-6 cursor-pointer px-3 py-2 rounded-full ring-1 ring-inset "
 				+ (isChecked ? "bg-blue-700 ring-blue-700 text-slate-50" : "bg-white hover:bg-gray-50 ring-gray-300 text-gray-900")
+				+ " " + labelClass
 		}
 
-		return <div	className="flex items-center gap-2" key={index}>
-			<input type="radio" id={elem.identifiant} name={identifiant} value={elem.value} onChange={onChange} defaultChecked={isChecked}
+		return <div className="flex items-center gap-2" key={index}>
+			<input type="radio" id={elem.identifiant} name={identifiant} value={elem.value} onClick={onChange} defaultChecked={isChecked}
 				   className={styleType === "fat" ? "hidden" : "h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"} />
 			<label htmlFor={elem.identifiant}
 				   className={`${styleLabel}`}
@@ -328,7 +396,7 @@ export function Radiobox ({ items, identifiant, valeur, errors, onChange, childr
 
 	return <>
 		{children
-			? <legend className="block text-sm font-medium leading-6 text-gray-900">
+			? <legend className="block text-sm font-medium leading-6 text-gray-800">
 				{children}
 			</legend>
 			: null
@@ -386,6 +454,10 @@ export class SelectCustom extends Component {
 		this.input = React.createRef();
 	}
 
+	handleClear = () => {
+		this.setState({ inputValue: "" })
+	}
+
 	handleUseArrows = (e) => {
 		useArrows(e, this)
 	}
@@ -396,7 +468,7 @@ export class SelectCustom extends Component {
 	}
 
 	handleClose = (e, value) => {
-		const { identifiant, items } = this.props;
+		const { identifiant, items, canAdd } = this.props;
 		const { cursor, inputValue } = this.state;
 
 		if (e !== null) { // from this
@@ -418,10 +490,14 @@ export class SelectCustom extends Component {
 				let item = possibilities[0];
 				this.props.onClick(identifiant, item.value, item.inputName ? item.inputName : item.label)
 			} else {
-				this.props.onClick(identifiant, "", "")
+				if (canAdd) {
+					this.props.onClick(identifiant, value, value)
+				} else {
+					this.props.onClick(identifiant, "", "")
+				}
 			}
 		} else { // from parent
-			this.setState({ isOpen: false, inputValue: value })
+			this.setState({ isOpen: false, inputValue: value ? value : "" })
 		}
 
 		window.removeEventListener("keydown", this.handleUseArrows)
@@ -432,11 +508,25 @@ export class SelectCustom extends Component {
 	}
 
 	handleBlur = (e) => {
-		if (e.key === "Tab") this.handleClose(e, "");
-		if (e.key === "Enter") {
+		const { canAdd } = this.props;
+
+		if (e.key === "Tab" || e.key === "Enter" || e.type === "click") {
 			e.preventDefault();
-			this.handleClose(e, "");
-			this.input.current.blur();
+
+			let value = "";
+			if (canAdd) {
+				if (e.type === "click") {
+					value = this.input.current.value;
+				} else {
+					value = e.currentTarget.value;
+				}
+			}
+
+			this.handleClose(e, value)
+
+			if (e.key === "Enter") {
+				this.input.current.blur();
+			}
 		}
 	}
 
@@ -447,7 +537,7 @@ export class SelectCustom extends Component {
 		let error = getError(errors, identifiant);
 
 		items.forEach(item => {
-			item.rank = Search.selectSearch(inputValue, item.label);
+			item.rank = Search.selectSearch(inputValue ? inputValue : "", item.label);
 		})
 
 		items.sort(Sort.compareRankThenLabel)
@@ -465,18 +555,20 @@ export class SelectCustom extends Component {
 		let styleInput = "block w-full rounded-md border-0 py-2 px-3 text-sm text-gray-900 ring-1 ring-inset placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-gray-500";
 
 		return <>
-			<label htmlFor={identifiant} className="block text-sm font-medium leading-6 text-gray-900">
+			<label htmlFor={identifiant} className="block text-sm font-medium leading-6 text-gray-800">
 				{children}
 			</label>
 			<div className="rounded-md shadow-sm w-full">
 				<div className={`fixed top-0 left-0 w-full h-full inset-0 bg-gray-500 bg-opacity-75 transition-opacity ease-out duration-300 ${isOpen ? "opacity-100 z-10" : "opacity-0 -z-10"}`}
-					 onClick={this.handleClose}></div>
+					 onClick={() => this.handleClose(null, null)}></div>
 				<div className={`relative ${isOpen ? "z-10" : ""}`} onFocus={this.handleFocus}>
 					<div className="w-full">
-						<input ref={this.input} type="text" name="inputValue" id="inputValue" value={inputValue}
-							   placeholder={placeholder} onChange={this.handleChange} onKeyDown={this.handleBlur}
-							   className={styleInput + " " + (error ? "ring-red-400" : "ring-gray-300")}
-							   autoComplete={"new-" + identifiant} key={init} />
+						<form onSubmit={this.handleBlur}>
+							<input ref={this.input} type="text" name="inputValue" id="inputValue" value={inputValue}
+								   placeholder={placeholder} onChange={this.handleChange} onKeyDown={this.handleBlur}
+								   className={styleInput + " " + (error ? "ring-red-400" : "ring-gray-300")}
+								   autoComplete={"new-" + identifiant} key={init} />
+						</form>
 					</div>
 					<div className={isOpen ? "absolute block top-10 left-0 z-10" : "hidden"}>
 						<div className="w-64 max-h-64 overflow-y-auto origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
@@ -583,7 +675,7 @@ export class SelectMultipleCustom extends Component {
 		let error = getError(errors, identifiant);
 
 		items.forEach(item => {
-			item.rank = Search.selectSearch(inputValue, item.label);
+			item.rank = Search.selectSearch(inputValue ? inputValue : "", item.label);
 		})
 
 		items.sort(Sort.compareRankThenLabel)
@@ -594,12 +686,12 @@ export class SelectMultipleCustom extends Component {
 
 			let find = false;
 			inputValues.forEach(v => {
-				if(v[idVal] === item.value){
+				if (v[idVal] === item.value) {
 					find = true;
 				}
 			})
 
-			if(!find){
+			if (!find) {
 				nItems.push(<div className={`w-full flex px-2 py-1.5 cursor-pointer hover:bg-gray-100 ${positionnement}`} key={index}
 								 onClick={() => onClick(identifiant, item.value, item.displayName ? item.displayName : item.label)}>
 					<div dangerouslySetInnerHTML={{ __html: item.label }} />
@@ -610,27 +702,29 @@ export class SelectMultipleCustom extends Component {
 		let styleInput = "flex gap-2 w-full bg-white rounded-md border-0 py-2 pl-3 pr-4 text-sm text-gray-900 ring-1 ring-inset placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-gray-500";
 
 		return <>
-			<label htmlFor={identifiant} className="block text-sm font-medium leading-6 text-gray-900">
+			<label htmlFor={identifiant} className="block text-sm font-medium leading-6 text-gray-800">
 				{children}
 			</label>
 			<div className="rounded-md shadow-sm w-full">
-				<div className={`fixed top-0 left-0 w-full h-full inset-0 bg-gray-500 bg-opacity-75 transition-opacity ease-out duration-300 ${isOpen ? "opacity-100 z-30" : "opacity-0 -z-10"}`}
-					 onClick={this.handleClose}></div>
-				<div className={`relative ${isOpen ? "z-30" : ""}`} onFocus={this.handleFocus}>
+				<div className={`fixed top-0 left-0 w-full h-full inset-0 bg-gray-500 bg-opacity-75 transition-opacity ease-out duration-300 ${isOpen ? "opacity-100 z-10" : "opacity-0 -z-10"}`}
+					 onClick={() => this.handleClose(null, null)}></div>
+				<div className={`relative ${isOpen ? "z-10" : ""}`} onFocus={this.handleFocus}>
 					<div className={styleInput + " " + (error ? "ring-red-400" : "ring-gray-300")}>
 						{inputValues.length > 0 && <div className="flex flex-wrap gap-2 max-w-[80%] bg-slate-50 rounded-md">
 							{inputValues.length > 0 && inputValues.map((val, index) => {
 								return <div className="cursor-pointer flex gap-1 bg-blue-100 rounded-md py-1 px-2 text-sm hover:bg-blue-50 transition-colors"
 											onClick={() => onDeClick(identifiant, val[idVal])} key={index}>
-									<span>{val.value}</span>
+									<span>{val.label}</span>
 									<span className="icon-close inline-block translate-y-0.5 ml-2" />
 								</div>
 							})}
 						</div>}
-						<input ref={this.input} type="text" name="inputValue" id="inputValue" value={inputValue}
-							   placeholder={placeholder} onChange={this.handleChange} onKeyDown={this.handleBlur}
-							   className="w-full border-0 py-0 pl-0 text-sm text-gray-900 focus:ring-0"
-							   autoComplete={"new-" + identifiant} key={init} />
+						<form onSubmit={this.handleBlur}>
+							<input ref={this.input} type="text" name="inputValue" id="inputValue" value={inputValue}
+								   placeholder={placeholder} onChange={this.handleChange} onKeyDown={this.handleBlur}
+								   className="w-full border-0 py-0 pl-0 text-sm text-gray-900 focus:ring-0"
+								   autoComplete={"new-" + identifiant} key={init} />
+						</form>
 					</div>
 					<div className={isOpen ? "absolute block top-10 left-0 z-10" : "hidden -z-10"}>
 						<div className="w-64 max-h-64 overflow-y-auto origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
@@ -677,7 +771,7 @@ export function Select (props) {
 	)
 
 	return <>
-		<label htmlFor={identifiant} className="block text-sm font-medium leading-6 text-gray-900">
+		<label htmlFor={identifiant} className="block text-sm font-medium leading-6 text-gray-800">
 			{children}
 		</label>
 		<div className="relative rounded-md">
@@ -723,8 +817,8 @@ export class InputFile extends Component {
 		const file = e.target.files[0];
 		if (file) {
 			if (type === "simple") {
-				if (file.size > 5330000) {
-					toastr.error("Le fichier est trop volumineux.")
+				if (file.size > maxSize) {
+					Toastr.toast('error', "Le fichier est trop volumineux.");
 				} else {
 					this.setState({ files: [file] })
 				}
@@ -732,9 +826,9 @@ export class InputFile extends Component {
 				let nFiles = [];
 				Object.entries(e.target.files).forEach(([key, file]) => {
 					if (file.size > maxSize) {
-						toastr.error("Le fichier est trop volumineux.")
+						Toastr.toast('error', "Le fichier est trop volumineux.");
 					} else if (files.length + nFiles.length >= max) {
-						toastr.error("Le nombre maximal de fichiers envoyés a été atteint.")
+						Toastr.toast('error', "Le nombre maximal de fichiers envoyés a été atteint.");
 					} else {
 						nFiles.push(file);
 					}
@@ -761,7 +855,7 @@ export class InputFile extends Component {
 		let error = getError(errors, identifiant);
 
 		return <>
-			<label htmlFor={identifiant} className="block text-sm font-medium leading-6 text-gray-900">
+			<label htmlFor={identifiant} className="block text-sm font-medium leading-6 text-gray-800">
 				{children}
 			</label>
 			<div className="flex items-start gap-x-3">
@@ -826,7 +920,7 @@ export function TextArea (props) {
 	let styleInput = "block rounded-md shadow-sm border-0 py-2 px-3 text-sm text-gray-900 ring-1 ring-inset placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-gray-500";
 
 	return <>
-		<label htmlFor={identifiant} className="block text-sm font-medium leading-6 text-gray-900">
+		<label htmlFor={identifiant} className="block text-sm font-medium leading-6 text-gray-800">
 			{children}
 		</label>
 		<div className="relative rounded-md">

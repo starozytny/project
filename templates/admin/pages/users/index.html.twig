@@ -20,7 +20,7 @@
 {% endset %}
 
 {% block main_content %}
-    <div id="users_list" data-highlight="{{ highlight }}">
+    <div id="users_list" data-highlight="{{ highlight }}" data-user-email="{{ app.user.email }}">
         {% include "layout/components/tailwind/loaders/loader.html.twig" %}
     </div>
 {% endblock %}

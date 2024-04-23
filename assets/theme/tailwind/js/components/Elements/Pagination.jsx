@@ -146,13 +146,13 @@ export class TopSorterPagination extends Component {
                                 </select>
                             </div>
                         </>}
-                </div>
-                <div className="flex flex-row items-center gap-1">
-                    <label htmlFor="perPage" className="block text-sm leading-6 text-gray-900">
-                        {taille} Résultat{taille > 1 ? "s" : ""} par
-                    </label>
-                    <div className="relative rounded-md shadow-sm">
-                        <select value={perPage} id="perPage" name="perPage" onChange={this.handleChange}
+                    </div>
+                    <div className="flex flex-row items-center gap-1">
+                        <label htmlFor="perPage" className="block text-sm leading-6 text-gray-900">
+                            {taille} Résultat{taille > 1 ? "s" : ""} par
+                        </label>
+                        <div className="relative rounded-md shadow-sm">
+                            <select value={perPage} id="perPage" name="perPage" onChange={this.handleChange}
                                     className="py-2 pl-2 rounded-md border-0 text-sm text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-gray-500 "
                             >
                                 {choicesPerPage}
@@ -200,4 +200,3 @@ function PaginationView ({ pageCount, currentPage, onClick }) {
         return null;
     }
 }
-

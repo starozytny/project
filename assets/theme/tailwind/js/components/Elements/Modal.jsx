@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import ModalFunctions from '@commonFunctions/modal';
 
-import { Button } from "@tailwindComponents/Elements/Button";
+import { Button } from "@commonComponents/Elements/Button";
 
 export function CloseModalBtn ({ identifiant, children = "Annuler" })
 {
@@ -68,7 +68,7 @@ export class Modal extends Component {
 	}
 
 	render () {
-		const { content, identifiant, title, maxWidth, margin = 15, showClose = true, isForm = false } = this.props;
+		const { content, identifiant, title, maxWidth, margin = 15, showClose = true, isForm = false, bgColor = "bg-white" } = this.props;
 		const { contentUpdated, footer, closeTxt } = this.state;
 
 		let divStyle = maxWidth ? {
@@ -82,8 +82,8 @@ export class Modal extends Component {
 		}
 
 		return <div id={identifiant} className="modal fixed top-0 left-0 w-full h-full -z-10 opacity-0 bg-gray-500/75 overflow-y-auto" role="dialog" aria-modal="true">
-			<div className="modal-content relative w-screen overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all ease-out duration-300 opacity-0 sm:my-8 sm:w-full" style={divStyle}>
-				<div className="bg-white px-4 pt-5 sm:px-6">
+			<div className="modal-content relative w-screen bg-white rounded-lg text-left shadow-xl transition-all ease-out duration-300 opacity-0 sm:my-8 sm:w-full" style={divStyle}>
+				<div className={`${bgColor} px-4 pt-5 sm:px-6 rounded-t-lg`}>
 					<div className="text-center sm:text-left">
 						<div className="flex flex-row justify-between gap-1">
 							<h3 className="text-base font-semibold leading-6 text-gray-900" id="modal-title">{title ? title : ""}</h3>
@@ -92,11 +92,13 @@ export class Modal extends Component {
 					</div>
 				</div>
 				{isForm
-					? <div className="bg-white">{nContent}</div>
+					? <div className={`${bgColor} rounded-b-lg`}>{nContent}</div>
 					: <>
-						<div className="bg-white px-4 pb-4 pt-5 sm:px-6 sm:pb-4 text-sm text-gray-900">{nContent}</div>
+						<div className={`${bgColor} px-4 pb-4 pt-5 sm:px-6 sm:pb-4 text-sm text-gray-900 ${(footer || showClose) ? "" : "rounded-b-lg"}`}>
+							{nContent}
+						</div>
 						{(footer || showClose)
-							? <div className="bg-gray-50 px-4 py-3 flex flex-row justify-end gap-2 sm:px-6 border-t">
+							? <div className="bg-gray-50 px-4 py-3 flex flex-row justify-end gap-2 sm:px-6 border-t rounded-b-lg">
 								{showClose && <Button type="default" onClick={this.handleClose}>{closeTxt}</Button>}
 								{footer}
 							</div>

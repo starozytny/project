@@ -11,7 +11,7 @@ import '@nodeModulesFolder/trumbowyg/dist/plugins/pasteimage/trumbowyg.pasteimag
 import '@nodeModulesFolder/trumbowyg/dist/plugins/history/trumbowyg.history';
 import '@nodeModulesFolder/trumbowyg/dist/plugins/upload/trumbowyg.upload';
 
-import { ErrorContent } from "@tailwindComponents/Elements/Fields";
+import { ErrorContent } from "@commonComponents/Elements/Fields";
 
 export function Trumb (props){
     const { identifiant, valeur, errors, onChange, children } = props;
@@ -26,7 +26,7 @@ export function Trumb (props){
     }
 
     return <>
-        <label htmlFor={identifiant} className="block text-sm font-medium leading-6 text-gray-900">
+        <label htmlFor={identifiant} className="block text-sm font-medium leading-6 text-gray-800">
             {children}
         </label>
         <Trumbowyg id={identifiant}

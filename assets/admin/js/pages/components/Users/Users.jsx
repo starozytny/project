@@ -168,7 +168,7 @@ export class Users extends Component {
 	}
 
 	render () {
-		const { highlight } = this.props;
+		const { highlight, userEmail } = this.props;
 		const { data, dataImmuable, currentData, element, loadingData, perPage, currentPage, filters, nbSorter } = this.state;
 
 		let filtersItems = [
@@ -204,8 +204,10 @@ export class Users extends Component {
 					<Modal ref={this.reinit} identifiant="reinit" maxWidth={414}
 						   title={element ? "Générer un nouveau mot de passe pour " + element.lastname : ""}
 						   content={null} footer={null} />
-					<Modal ref={this.mail} identifiant="mail" maxWidth={768} margin={2} title="Envoyer un mail" isForm={true}
-						   content={<MailFormulaire identifiant="mail" element={element} tos={dataImmuable} />} footer={null} />
+					<Modal ref={this.mail} identifiant="mail" maxWidth={768} margin={2}
+						   title="Envoyer un mail" isForm={true}
+						   content={<MailFormulaire identifiant="mail" from={userEmail} element={element} tos={dataImmuable} />}
+						   footer={null} />
 					<Modal ref={this.blocked} identifiant="blocked" maxWidth={414}
 						   title={element ? (element.blocked ? "Déblocage" : "Blocage") + " de " + element.lastname : ""}
 						   content={null} footer={null} />

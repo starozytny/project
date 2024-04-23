@@ -30,9 +30,9 @@ export function MailFormulaire ({ identifiant, element, tos, from, fromName, onU
 		identifiant={identifiant}
 		url={Routing.generate(URL_CREATE_ELEMENT)}
 		tos={nTos}
-		to={element ? [{ uid: uid(), value: element.email }] : []}
+		to={element ? [{ uid: uid(), label: element.email, value: element.email }] : []}
 		from={from}
-		fromName={fromName}
+		fromName={fromName ? fromName : ""}
 
 		onUpdateList={onUpdateList}
 
@@ -92,7 +92,7 @@ class Form extends Component {
 			if (!validate.code) {
 				Formulaire.showErrors(this, validate);
 			} else {
-				this.setState({ [name]: [...this.state[name], ...[{ uid: uid(), value: value }]] });
+				this.setState({ [name]: [...this.state[name], ...[{ uid: uid(), label: value, value: value }]] });
 			}
 		}
 		if(this[name] && this[name].current){
@@ -175,8 +175,8 @@ class Form extends Component {
 		const { errors, loadSendData, from, fromName, to, cc, bcc, theme, subject, message, resetTextArea, openCc, openBcc } = this.state;
 
 		let themeItems = [
-			{ value: 0, id: "th-none", label: "Aucun thème" },
-			{ value: 2, id: "th-agence", label: "Agence" },
+			{ value: 0, identifiant: "th-none", label: "Aucun thème" },
+			{ value: 2, identifiant: "th-agence", label: "Agence" },
 		]
 
 		let params0 = { errors: errors, onChange: this.handleChange }
@@ -184,11 +184,11 @@ class Form extends Component {
 
 		return <>
 			<div className="px-4 pb-4 pt-5 sm:px-6 sm:pb-4">
-				<form onSubmit={this.handleSubmit}>
+				<div>
 					<div className="flex flex-col gap-4">
 						<div>
 							<Radiobox items={themeItems} identifiant="theme" valeur={theme} {...params0}
-									  classItems="flex gap-4" styleType="fat">
+									  classItems="flex gap-2" styleType="fat">
 								Thème
 							</Radiobox>
 						</div>
@@ -243,7 +243,7 @@ class Form extends Component {
 							</InputFile>
 						</div>
 					</div>
-				</form>
+				</div>
 			</div>
 
 			<div className="bg-gray-50 px-4 py-3 flex flex-row justify-end gap-2 sm:px-6 border-t">

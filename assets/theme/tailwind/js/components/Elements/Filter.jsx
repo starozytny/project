@@ -22,11 +22,11 @@ export class Filter extends Component {
     }
 
     render () {
-        const { items, title, haveSearch } = this.props;
+        const { items, title, haveSearch, haveFilter } = this.props;
         const { filters } = this.state;
 
         let active = filters.length > 0 ? "text-blue-700" : "text-gray-900";
-        let radius = haveSearch ? "rounded-l-md" : "rounded-md";
+        let radius = haveFilter ? "" : (haveSearch ? "rounded-l-md" : "rounded-md");
 
         return <div className="relative inline-block">
             <button type="button"
@@ -81,5 +81,5 @@ Filter.propTypes = {
     items: PropTypes.array.isRequired,
     onFilters: PropTypes.func.isRequired,
     title: PropTypes.string,
-    haveFilter: PropTypes.bool,
+    haveSearch: PropTypes.bool,
 }
