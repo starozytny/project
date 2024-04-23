@@ -1,6 +1,6 @@
 {% extends 'bundles/TwigBundle/Exception/template.html.twig' %}
 
-{% block title %}Erreur interne !{% endblock %}
+{% block title %}Erreur serveur {{ parent() }}{% endblock %}
 
 {% set custom_illu = "maintenance.svg" %}
 {% set explication = "Veuillez réessayer ultérieurement." %}

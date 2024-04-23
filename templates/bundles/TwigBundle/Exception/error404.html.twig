@@ -1,5 +1,7 @@
 {% extends 'bundles/TwigBundle/Exception/template.html.twig' %}
 
+{% block title %}Oops vous êtes perdu ! {{ parent() }}{% endblock %}
+
 {% set custom_illu = "lost.svg" %}
 {% set custom_status_text = "Mince, vous êtes perdu !" %}
 {% set explication = "La page que vous cherchez n'existe plus." %}

@@ -1,3 +1,5 @@
 {% extends 'bundles/TwigBundle/Exception/template.html.twig' %}
 
+{% block title %}Erreur {{ parent() }}{% endblock %}
+
 {% set explication = "La page que vous cherchez est inaccessible." %}
