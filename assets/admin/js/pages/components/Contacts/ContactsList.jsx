@@ -24,7 +24,9 @@ export function ContactsList ({ data, onDelete }) {
                     ? data.map((elem) => {
                         return <ContactsItem key={elem.id} elem={elem} onDelete={onDelete} />;
                     })
-                    : <Alert type="gray">Aucune donnée enregistrée.</Alert>
+                    : <div className="item border-t">
+                        <Alert type="gray">Aucun résultat.</Alert>
+                    </div>
                 }
             </div>
         </div>

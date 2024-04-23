@@ -24,7 +24,9 @@ export function ChangelogsList ({ data, highlight, onModal }) {
                     ? data.map((elem) => {
                         return <ChangelogsItem key={elem.id} elem={elem} highlight={highlight} onModal={onModal} />;
                     })
-                    : <Alert type="gray">Aucune donnée enregistrée.</Alert>
+                    : <div className="item border-t">
+                        <Alert type="gray">Aucun résultat.</Alert>
+                    </div>
                 }
             </div>
         </div>

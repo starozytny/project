@@ -24,7 +24,9 @@ export function SocietiesList ({ data, highlight, settings, onModal }) {
                     ? data.map((elem) => {
                         return <SocietiesItem key={elem.id} elem={elem} highlight={highlight} settings={settings} onModal={onModal} />;
                     })
-                    : <Alert type="gray">Aucune donnée enregistrée.</Alert>
+                    : <div className="item border-t">
+                        <Alert type="gray">Aucun résultat.</Alert>
+                    </div>
                 }
             </div>
         </div>
