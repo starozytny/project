@@ -7,9 +7,9 @@ import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 import Formulaire from "@commonFunctions/formulaire";
 import Sanitaze from "@commonFunctions/sanitaze";
 
-import { ButtonIcon } from "@tailwindComponents/Elements/Button";
-import { LoaderTxt } from "@commonComponents/Elements/Loader";
 import { Alert } from "@tailwindComponents/Elements/Alert";
+import { ButtonIcon } from "@tailwindComponents/Elements/Button";
+import { LoaderElements } from "@tailwindComponents/Elements/Loader";
 
 const URL_CLICK_DIRECTORY = "intern_api_storage_directory";
 const URL_DOWNLOAD_FILE = "intern_api_storage_download";
@@ -66,15 +66,15 @@ export class Storage extends Component {
 
 		let back = backs[backs.length - 2];
 
-		return <div className="storage">
-			<div className="storage-section">
-				<div className="title">Dossiers</div>
-				<div className="content-infos">
-					<div className="directories">
+		return <div className="flex flex-col gap-4">
+			<div>
+				<div className="font-semibold text-lg">Dossiers</div>
+				<div>
+					<div className="flex gap-2 flex-wrap">
 						{back !== undefined && <Directory elem={{ 'path': back, name: back === "" ? ".." : back }}
 														  onClick={this.handleClick} isBack={true} />}
 						{loadData
-							? <LoaderTxt />
+							? <LoaderElements />
 							: (directories.map((dir, index) => {
 								return <Directory elem={dir} onClick={this.handleClick} isBack={false} key={index} />
 							}))
@@ -83,11 +83,11 @@ export class Storage extends Component {
 				</div>
 			</div>
 
-			<div className="storage-section">
-				<div className="title">Fichiers de {directory}</div>
-				<div className="content-infos">
+			<div>
+				<div className="font-semibold text-lg">Fichiers de {directory}</div>
+				<div>
 					{loadData
-						? <LoaderTxt />
+						? <LoaderElements />
 						: <div className="list-table bg-white rounded-md shadow">
 							<div className="items items-files">
 								<div className="item item-header uppercase text-sm text-gray-600">
@@ -117,14 +117,13 @@ export class Storage extends Component {
 }
 
 function Directory ({ elem, onClick, isBack }) {
-	return <div className="directory bg-white" onClick={() => onClick(elem.path, isBack)}>
-		<div className="directory-header">
-			<div className="icon">
-				<span className="icon-folder" />
-			</div>
+	return <div className="cursor-pointer bg-gray-50 rounded-md min-w-36 min-h-28 p-4 flex flex-col justify-between gap-2 hover:bg-white"
+				onClick={() => onClick(elem.path, isBack)}>
+		<div>
+			<span className="icon-folder" />
 		</div>
-		<div className="directory-body">
-			<div className="name">{elem.name}</div>
+		<div>
+			<div className="font-semibold">{elem.name}</div>
 		</div>
 	</div>
 }
@@ -149,7 +148,7 @@ function File ({ elem, directory, deep }) {
 
 			let tab = directory.split("/");
 			let dir = tab[tab.length - 1];
-			axios({ method: "GET", url: Routing.generate(URL_DOWNLOAD_FILE, { 'deep': deep, 'dir': dir === ".." ? "racine" : dir, 'filename': elem.name }), data: {} })
+			axios({ method: "GET", url: Routing.generate(URL_DOWNLOAD_FILE, { deep: deep, dir: dir === ".." ? "racine" : dir, filename: elem.name }), data: {} })
 				.then(function (response) {
 					const link = document.createElement('a');
 					link.href = response.data.url;
