@@ -173,9 +173,9 @@ function File ({ elem, directory, deep }) {
 		<div className="item-content">
 			<div className="item-infos">
 				<div className="col-1">
-					<div className="font-medium" onClick={handleDownload}>
+					<div className="font-medium group" onClick={handleDownload}>
 						<span className={`icon-${icon}`} />
-						<span className="inline-block pl-2">{elem.name}</span>
+						<span className="cursor-pointer inline-block pl-2 group-hover:underline">{elem.name}</span>
 					</div>
 				</div>
 				<div className="col-2">
