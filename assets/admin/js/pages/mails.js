@@ -2,7 +2,7 @@ import "../../css/pages/mails.scss"
 
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { Mails } from "@adminPages/Mails/Mails";
+import { Mails } from "@tailwindComponents/Modules/Mails/Mails";
 
 let el = document.getElementById("mails");
 if(el){

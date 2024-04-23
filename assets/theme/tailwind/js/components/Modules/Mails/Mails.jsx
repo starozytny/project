@@ -25,7 +25,6 @@ const URL_RESTORE_ELEMENT = "intern_api_mails_mail_restore";
 const SORTER = Sort.compareCreatedAtInverse;
 
 export function Mails ({ context, totalS, totalT, donnees, from, fromName }) {
-
 	const formRef = useRef(null);
 	const trashRef = useRef(null);
 	const restoreRef = useRef(null);
@@ -76,9 +75,9 @@ export function Mails ({ context, totalS, totalT, donnees, from, fromName }) {
 	let handleTrash = (elem) => {
 		if (!load) {
 			setLoad(true);
-			trashRef.current.handleUpdateFooter(<Button onClick={null} isLoader={true} type="danger">Confirmer</Button>)
+			trashRef.current.handleUpdateFooter(<Button onClick={null} iconLeft="chart-3" type="red">Confirmer</Button>)
 
-			axios({ method: "PUT", url: Routing.generate(URL_TRASH_ELEMENT, { 'id': elem.id }), data: {} })
+			axios({ method: "PUT", url: Routing.generate(URL_TRASH_ELEMENT, { id: elem.id }), data: {} })
 				.then(function (response) {
 					setTotalSent(totalSent - 1);
 					setTotalTrash(totalTrash + 1);
@@ -99,9 +98,9 @@ export function Mails ({ context, totalS, totalT, donnees, from, fromName }) {
 	let handleRestore = (elem) => {
 		if (!load) {
 			setLoad(true);
-			restoreRef.current.handleUpdateFooter(<Button onClick={null} isLoader={true} type="primary">Confirmer</Button>)
+			restoreRef.current.handleUpdateFooter(<Button onClick={null} iconLeft="chart-3" type="blue">Confirmer</Button>)
 
-			axios({ method: "PUT", url: Routing.generate(URL_RESTORE_ELEMENT, { 'id': elem.id }), data: {} })
+			axios({ method: "PUT", url: Routing.generate(URL_RESTORE_ELEMENT, { id: elem.id }), data: {} })
 				.then(function (response) {
 					setTotalSent(totalSent + 1);
 					setTotalTrash(totalTrash - 1);
@@ -132,11 +131,10 @@ export function Mails ({ context, totalS, totalT, donnees, from, fromName }) {
 			active = true;
 		}
 
-        return <div className={`cursor-pointer flex justify-between font-medium ${active ? "text-blue-700" : "text-gray-700 hover:text-gray-900"}`}
-                    key={index} onClick={() => this.handleChangeContext(item.context)}>
+        return <div className={`cursor-pointer flex items-center justify-between font-medium ${active ? "text-blue-700" : "text-gray-700 hover:text-gray-900"}`} key={index}>
             <div className="flex items-center gap-2">
                 <span className={`icon-${item.icon}`} />
-                <a href={Routing.generate(URL_INDEX_PAGE, { 'type': item.context })}>{item.label}</a>
+                <a href={Routing.generate(URL_INDEX_PAGE, { type: item.context })}>{item.label}</a>
             </div>
             <div className={`flex items-center justify-center rounded text-xs px-1 min-w-8 h-5 ${active ? "bg-blue-200" : "bg-gray-100"}`}>
                 {item.total}
@@ -179,7 +177,7 @@ export function Mails ({ context, totalS, totalT, donnees, from, fromName }) {
                 {selection
                     ? <div>Actions sur les éléments sélectionnés</div>
                     : (element
-                        ? <div className="item">
+                        ? <div>
                             <div className="flex justify-between gap-2">
                                 <div>
                                     <div className="text-gray-600 text-sm">{Sanitaze.toDateFormat(element.createdAt)}</div>
@@ -187,29 +185,35 @@ export function Mails ({ context, totalS, totalT, donnees, from, fromName }) {
                                 <div className="flex gap-2">
                                     {context === "corbeille"
                                         ? <ButtonIcon type="default" icon="refresh1" onClick={() => handleModal('restoreRef', element)}>Restaurer</ButtonIcon>
-                                    : <ButtonIcon type="default" icon="trash" onClick={() => handleModal('trashRef', element)}>Corbeille</ButtonIcon>
-                                }
+                                    	: <ButtonIcon type="default" icon="trash" onClick={() => handleModal('trashRef', element)}>Corbeille</ButtonIcon>
+                               		}
                                 </div>
                             </div>
 
-                            <div className="item-header">
-                                <div>
-                                    <span className="icon-email-tracking"></span>
-                                </div>
-                                <div className="flex gap-4">
-                                    <div className="flex items-center justify-center w-10 h-10 min-w-10 rounded-full bg-blue-100">
-                                        <div className="text-gray-600 text-sm">De :</div>
-                                        <div className="font-medium">{element.expeditor}</div>
-                                    </div>
-                                    <Destinators prefix="A" data={element.destinators} />
-                                    {element.cc.length !== 0 ? <Destinators prefix="Cc" data={element.cc} /> : null}
-                                    {element.bcc.length !== 0 ? <Destinators prefix="Cci" data={element.bcc} /> : null}
-                                </div>
-                            </div>
+                            <div className="flex flex-col gap-4">
 
-                            <div>
-                                <div className="text-right">
-                                    <Badge type="yellow">Thème : {elem.themeString}</Badge>
+								<div className="flex gap-4">
+									<div>
+										<div className="flex items-center justify-center w-10 h-10 min-w-10 rounded-full bg-blue-100">
+											<span className="icon-email-tracking"></span>
+										</div>
+									</div>
+									<div>
+										<div className="flex items-center gap-2">
+											<div className="text-gray-600 text-sm">De :</div>
+											<div className="font-medium">{element.expeditor}</div>
+										</div>
+									</div>
+								</div>
+
+								<Destinators prefix="A" data={element.destinators} />
+								{element.cc.length !== 0 ? <Destinators prefix="Cc" data={element.cc} /> : null}
+								{element.bcc.length !== 0 ? <Destinators prefix="Cci" data={element.bcc} /> : null}
+							</div>
+
+								<div>
+									<div className="text-right">
+                                    <Badge type="yellow">Thème : {element.themeString}</Badge>
                                 </div>
                                 <div className="border-y py-2 my-4">{element.subject}</div>
                                 <div>{parse(element.message)}</div>
@@ -218,7 +222,7 @@ export function Mails ({ context, totalS, totalT, donnees, from, fromName }) {
                                         {element.files.map((file, index) => {
                                             return <a className="flex items-center gap-2" key={index}
                                                       download={file} target="_blank"
-                                                      href={Routing.generate(URL_GET_ATTACHMENT, { 'filename': file })}
+                                                      href={Routing.generate(URL_GET_ATTACHMENT, { filename: file })}
                                             >
                                                 <span className="icon-file inline-block" />
                                                 <span className="inline-block font-medium text-gray-700 hover:text-gray-900">Pièce jointe {index + 1}</span>
@@ -269,7 +273,7 @@ function Destinators ({ prefix, data }) {
         <div className="text-gray-600 text-sm min-w-6">{prefix} :</div>
         <div className="flex flex-wrap gap-2">
             {data.map((dest, index) => {
-                return <span className="bg-blue-50 text-sm py-1 px-2" key={index}>{dest.value}</span>
+				return <span className="bg-blue-50 text-sm py-1 px-2 rounded-md" key={index}>{dest}</span>
             })}
         </div>
     </div>
