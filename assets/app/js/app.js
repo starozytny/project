@@ -6,7 +6,7 @@ import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min';
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { ContactFormulaire } from "@appFolder/pages/components/Contact/ContactForm";
-import { Cookies } from "@commonComponents/Modules/Cookies/Cookies";
+import { Cookies } from "@tailwindComponents/Modules/Cookies/Cookies";
 
 Routing.setRoutingData(routes);
 

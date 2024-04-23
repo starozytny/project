@@ -15,7 +15,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 
 import Formulaire from "@commonFunctions/formulaire";
 
-import { LoaderElements } from "@commonComponents/Elements/Loader";
+import { LoaderElements } from "@tailwindComponents/Elements/Loader";
 
 const URL_GET_DATA = "intern_api_agenda_events_list";
 const URL_UPDATE_ELEMENT = "admin_agenda_update";

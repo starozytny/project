@@ -8,7 +8,7 @@ import Validateur from "@commonFunctions/validateur";
 
 import { Alert } from "@tailwindComponents/Elements/Alert";
 import { Button } from "@commonComponents/Elements/Button";
-import { Password } from "@commonComponents/Modules/User/Password";
+import { Password } from "@tailwindComponents/Modules/User/Password";
 
 const URL_PASSWORD_UPDATE = "intern_api_users_password_update";
 

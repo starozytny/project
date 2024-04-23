@@ -2,8 +2,8 @@ import "../../css/pages/agenda.scss"
 
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { Agenda } from "@commonComponents/Modules/Agenda/Agenda";
-import { EventFormulaire } from "@commonComponents/Modules/Agenda/EventForm";
+import { Agenda } from "@tailwindComponents/Modules/Agenda/Agenda";
+import { EventFormulaire } from "@tailwindComponents/Modules/Agenda/EventForm";
 
 let el = document.getElementById("agenda_list");
 if(el){

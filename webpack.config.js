@@ -57,7 +57,6 @@ Encore
      * Each entry will result in one JavaScript file (e.g. app.js)
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
-    .addEntry('common_app', './assets/common/js/app.js')
     .addEntry('tailwind_app', './assets/theme/tailwind/js/app.js')
 
     .addEntry('app_app', './assets/app/js/app.js')
