@@ -8,9 +8,16 @@
     {{ parent() }}
 {% endblock %}
 
-{% block main_content %}
-    {% include "layout/components/admin/page_toolbar.html.twig" with { page_back: path('admin_agenda_index') } %}
+{% set page_actions %}
+    {% include 'layout/components/tailwind/buttons/button.html.twig' with {
+        btn_link: path('admin_agenda_index'),
+        btn_type: 'default',
+        btn_icon: 'left-arrow',
+        btn_text: 'Retourner à l\'agenda'
+    } %}
+{% endset %}
 
+{% block main_content %}
     <div id="agenda_create">
         {% include "layout/components/loader.html.twig" %}
     </div>

@@ -3,13 +3,16 @@
 {% set page_title %}Agenda{% endset %}
 {% set page_subtitle %}Gérez vos rendez-vous simplement.{% endset %}
 
-{% block main_content %}
-    <div class="page-actions">
-        <div class="col-1">
-            <a href="{{ path('admin_agenda_create') }}" class="btn btn-primary">Créer un nouveau évènement</a>
-        </div>
-    </div>
+{% set page_actions %}
+    {% include 'layout/components/tailwind/buttons/button.html.twig' with {
+        btn_link: path('admin_agenda_create'),
+        btn_type: 'blue',
+        btn_icon: 'add',
+        btn_text: 'Créer un nouveau évènement'
+    } %}
+{% endset %}
 
+{% block main_content %}
     <div id="agenda_list">
         {% include "layout/components/loader.html.twig" %}
     </div>
