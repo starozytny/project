@@ -2,21 +2,6 @@
 @import "vars/vars";
 @import "vars/variables";
 
-@import "./components/cookies";
-@import "./components/loader";
-@import "./components/elements/button";
-@import "./components/elements/alert";
-@import "./components/form";
-@import "./components/modal";
-
-body {
-  @include fontRegular();
-}
-
-h1{
-  font-weight: bold;
-}
-
-h2{
-  font-weight: 600;
-}
+@import "components/loader";
+@import "components/pagination";
+@import "components/list";
