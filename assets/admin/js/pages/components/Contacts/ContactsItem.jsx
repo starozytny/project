@@ -36,11 +36,10 @@ export function ContactsItem ({ elem, onDelete })
         <div className="item-content">
             <div className="item-infos">
                 <div className="col-1">
-                    <div>
-                        <div className="font-medium">
-                            <span>{elem.name}</span>
-                        </div>
+                    <div className="font-medium">
+                        <span>{elem.name}</span>
                     </div>
+                    <div class="text-gray-600 text-xs">{elem.email}</div>
                 </div>
                 <div className="col-2">
                     <div className="text-gray-600 text-sm">{Sanitaze.toFormatCalendar(elem.createdAt)}</div>
