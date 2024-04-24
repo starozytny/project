@@ -71,7 +71,7 @@ export class CookiesGlobalResponse extends Component {
         const { fixed, onOpen } = this.props;
         const { response } = this.state;
 
-        return <div className="flex gap-2 border-t">
+        return <div className="flex justify-center items-center gap-2 border-t">
             {fixed && <div onClick={onOpen} className="cursor-pointer hover:underline p-4">Paramétrer</div>}
             <div onClick={() => this.handleResponse(0)}
                  className={`cursor-pointer hover:underline p-4 ${response === 0 ? "text-red-700" : ""}`}>

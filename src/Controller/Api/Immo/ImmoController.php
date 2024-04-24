@@ -13,7 +13,7 @@ use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 
-#[Route('/api/immo/lotys/', name: 'api_immo_')]
+#[Route('/api/immo/lotys', name: 'api_immo_')]
 class ImmoController extends AbstractController
 {
     /**
