@@ -6,7 +6,6 @@ use App\Repository\Main\SocietyRepository;
 use App\Service\FileUploader;
 use App\Service\Immo\ImmoService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -47,12 +46,16 @@ class ImmoController extends AbstractController
             mkdir($directoryLogos, 0777, true);
         }
 
-        // download photos and logos
-        [$tmp, $photosAlive, $logosAlive] = $this->downloadFiles($fileUploader, $data, $directoryPhotos, $directoryLogos);
+        if ($this->getParameter('app_env') == "prod") {
+            // download photos and logos
+            [$tmp, $photosAlive, $logosAlive] = $this->downloadFiles($fileUploader, $data, $directoryPhotos, $directoryLogos);
 
-        // remove old photos and logos
-        $this->removeOldFiles($photosAlive, $directoryPhotos);
-        $this->removeOldFiles($logosAlive, $directoryLogos);
+            // remove old photos and logos
+            $this->removeOldFiles($photosAlive, $directoryPhotos);
+            $this->removeOldFiles($logosAlive, $directoryLogos);
+        }else{
+            $tmp = $data;
+        }
 
         $ventes = [];
         $locations = [];
@@ -77,10 +80,7 @@ class ImmoController extends AbstractController
 
     private function downloadFiles(FileUploader $fileUploader, $data, $directoryPhotos, $directoryLogos): array
     {
-        $baseUrl = "https://127.0.0.1:8000";
-        if ($this->getParameter('app_env') == "prod") {
-            $baseUrl = "https://lotys.fr";
-        }
+        $baseUrl = "https://lotys.fr";
 
         $tmp = [];
         $photosAlive = [];
