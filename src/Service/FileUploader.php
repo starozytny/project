@@ -9,6 +9,7 @@ use App\Entity\Main\Agenda\AgEvent;
 use App\Entity\Main\Changelog;
 use App\Entity\Main\Image;
 use App\Repository\Main\ImageRepository;
+use Exception;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -17,6 +18,9 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 class FileUploader
 {
+    const FOLDER_IMMO_ADS  = "immo/photos/";
+    const FOLDER_IMMO_LOGOS = "immo/logos/";
+
     private string $publicDirectory;
     private string $privateDirectory;
     private SluggerInterface $slugger;
@@ -129,4 +133,25 @@ class FileUploader
         return new JsonResponse(['success' => false,]);
     }
 
+    public function getFilenameFromUrl($url): string
+    {
+        return substr($url, strripos($url, "/")+1 , strlen($url));
+    }
+
+    public function downloadImgFromURL($url, $destinationFolder): ?string
+    {
+        try{
+            if(!is_dir($destinationFolder)){
+                mkdir($destinationFolder, 0777, true);
+            }
+            $current = file_get_contents($url);
+            $filename = $this->getFilenameFromUrl($url);
+            $file = $destinationFolder.$filename;
+            file_put_contents($file, $current);
+
+            return $filename;
+        }catch (Exception $e){
+            return null;
+        }
+    }
 }

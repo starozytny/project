@@ -32,7 +32,7 @@ winpty.exe.stackdump
 /public/immo/photos/*
 /public/immo/logos/*
 /bin/backup/*
-/documents/data/*
+/documents/immo/data/*
 
 /config/databaseConfig.json
 /config/packages/doctrine.yaml

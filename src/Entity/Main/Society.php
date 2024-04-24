@@ -14,6 +14,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[UniqueEntity("code", "Ce code est déjà utilisé.")]
 class Society extends DataEntity
 {
+    const FOLDER_IMMO = "immo/data";
     const FOLDER = "logos";
 
     const SELECT = ['society_select'];
@@ -168,5 +169,20 @@ class Society extends DataEntity
         }
 
         return $this;
+    }
+
+    public function getImmoFileFolder(): string
+    {
+        return self::FOLDER_IMMO . '/' . $this->code . '/';
+    }
+
+    public function getImmoFileLocations(): string
+    {
+        return self::FOLDER_IMMO . '/' . $this->code . '/locations.json';
+    }
+
+    public function getImmoFileVentes(): string
+    {
+        return self::FOLDER_IMMO . '/' . $this->code . '/ventes.json';
     }
 }
