@@ -6,6 +6,7 @@ use App\Repository\Main\SocietyRepository;
 use App\Service\FileUploader;
 use App\Service\Immo\ImmoService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -22,23 +23,29 @@ class ImmoController extends AbstractController
      * @throws ClientExceptionInterface
      */
     #[Route('/import/{codeSociety}', name: 'import', methods: 'POST')]
-    public function import(Request $request, $codeSociety, SocietyRepository $repository, ImmoService $immoService,
+    public function import(Request      $request, $codeSociety, SocietyRepository $repository, ImmoService $immoService,
                            FileUploader $fileUploader): Response
     {
         $society = $repository->findOneBy(['code' => $codeSociety]);
 
-        if(!$society){
+        if (!$society) {
             return $this->json('Accès interdit.', 401);
         }
 
         $data = json_decode($request->getContent());
 
-        if(!$data){
+        if (!$data) {
             return $this->json('Mauvaise réponse de Lotys.', 400);
         }
 
         $directoryPhotos = FileUploader::FOLDER_IMMO_ADS . $codeSociety . '/';
-        $directoryLogos  = FileUploader::FOLDER_IMMO_LOGOS . $codeSociety . '/';
+        $directoryLogos = FileUploader::FOLDER_IMMO_LOGOS . $codeSociety . '/';
+        if(!is_dir($directoryPhotos)){
+            mkdir($directoryPhotos, 0777, true);
+        }
+        if(!is_dir($directoryLogos)){
+            mkdir($directoryLogos, 0777, true);
+        }
 
         // download photos and logos
         [$tmp, $photosAlive, $logosAlive] = $this->downloadFiles($fileUploader, $data, $directoryPhotos, $directoryLogos);
@@ -47,11 +54,12 @@ class ImmoController extends AbstractController
         $this->removeOldFiles($photosAlive, $directoryPhotos);
         $this->removeOldFiles($logosAlive, $directoryLogos);
 
-        $ventes = []; $locations = [];
-        foreach($tmp as $item){
-            if($item->isLocation){
+        $ventes = [];
+        $locations = [];
+        foreach ($tmp as $item) {
+            if ($item->isLocation) {
                 $locations[] = $item;
-            }else{
+            } else {
                 $ventes[] = $item;
             }
         }
@@ -69,36 +77,44 @@ class ImmoController extends AbstractController
 
     private function downloadFiles(FileUploader $fileUploader, $data, $directoryPhotos, $directoryLogos): array
     {
-        $tmp = []; $photosAlive = []; $logosAlive = [];
-        foreach($data as $item){
-            $tmpPhotos = []; $mainPhotoFile = $item->mainPhotoFile;
-            foreach($item->photos as $photo){
-                $url = "https://lotys.fr" . $photo->photoFile;
+        $baseUrl = "https://127.0.0.1:8000";
+        if ($this->getParameter('app_env') == "prod") {
+            $baseUrl = "https://lotys.fr";
+        }
+
+        $tmp = [];
+        $photosAlive = [];
+        $logosAlive = [];
+        foreach ($data as $item) {
+            $tmpPhotos = [];
+            $mainPhotoFile = $item->mainPhotoFile;
+            foreach ($item->photos as $photo) {
+                $url = $baseUrl . $photo->photoFile;
 
                 $filename = $fileUploader->getFilenameFromUrl($url);
-                if(!file_exists($directoryPhotos.$filename)){
+                if (!file_exists($directoryPhotos . $filename)) {
                     $filename = $fileUploader->downloadImgFromURL($url, $directoryPhotos);
                 }
                 $photosAlive[] = $filename;
 
-                $photo->photoFile = "/".$directoryPhotos.$filename;
+                $photo->photoFile = "/" . $directoryPhotos . $filename;
                 $tmpPhotos[] = $photo;
 
-                if($photo->rank == 1){
+                if ($photo->rank == 1) {
                     $mainPhotoFile = $photo->photoFile;
                 }
             }
             $item->mainPhotoFile = $mainPhotoFile;
             $item->photos = $tmpPhotos;
 
-            $urlLogo = "https://lotys.fr" . $item->agency->logoFile;
+            $urlLogo = $baseUrl . $item->agency->logoFile;
             $logoFilename = $fileUploader->getFilenameFromUrl($urlLogo);
-            if(!file_exists($directoryLogos.$logoFilename)){
+            if (!file_exists($directoryLogos . $logoFilename)) {
                 $logoFilename = $fileUploader->downloadImgFromURL($urlLogo, $directoryLogos);
             }
             $logosAlive[] = $logoFilename;
 
-            $item->agency->logoFile = "/".$directoryLogos.$logoFilename;
+            $item->agency->logoFile = "/" . $directoryLogos . $logoFilename;
 
             $tmp[] = $item;
         }
@@ -108,18 +124,18 @@ class ImmoController extends AbstractController
 
     private function removeOldFiles(array $items, string $directory): void
     {
-        foreach(scandir($directory) as $entry){
+        foreach (scandir($directory) as $entry) {
             if ($entry != "." && $entry != "..") {
                 $find = null;
-                foreach($items as $item){
-                    if($entry == $item){
+                foreach ($items as $item) {
+                    if ($entry == $item) {
                         $find = $entry;
                     }
                 }
 
-                if(!$find){
+                if (!$find) {
                     $file = $directory . $entry;
-                    if(file_exists($file)){
+                    if (file_exists($file)) {
                         unlink($file);
                     }
                 }

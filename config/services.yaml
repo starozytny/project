@@ -8,6 +8,7 @@ parameters:
     private_directory: '%kernel.project_dir%/documents/'
     config_directory: '%kernel.project_dir%/config/'
     env_file: '%kernel.project_dir%/.env.local'
+    app_env: '%env(APP_ENV)%'
 
 services:
     # default configuration for services in *this* file
@@ -19,7 +20,7 @@ services:
             $privateDirectory: '%private_directory%'
             $configDirectory: '%config_directory%'
             $envFile: '%env_file%'
-            $appEnv: '%env(APP_ENV)%'
+            $appEnv: '%app_env%'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
