@@ -102,7 +102,7 @@ export class Contacts extends Component {
                                          onClick={this.handlePaginationClick}
                                          onPerPage={this.handlePerPage} />
 
-                    <ContactsList data={currentData} onDelete={this.handleModal} />
+                    <ContactsList data={currentData} onModal={this.handleModal} />
 
                     <Pagination ref={this.pagination} items={data} taille={data.length} currentPage={currentPage}
                                 perPage={perPage} onUpdate={this.handleUpdateData} onChangeCurrentPage={this.handleChangeCurrentPage} />

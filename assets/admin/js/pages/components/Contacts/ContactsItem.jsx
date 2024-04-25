@@ -11,7 +11,7 @@ import { ButtonIcon } from "@tailwindComponents/Elements/Button";
 
 const URL_UPDATE_SEEN = "intern_api_contacts_switch_seen";
 
-export function ContactsItem ({ elem, onDelete })
+export function ContactsItem ({ elem, onModal })
 {
     const [loadSwitch, setLoadSwitch] = useState(false);
     const [seen, setSeen] = useState(elem.seen);
@@ -54,7 +54,7 @@ export function ContactsItem ({ elem, onDelete })
                     }
                 </div>
                 <div className="col-4 actions">
-                    <ButtonIcon type="default" icon="trash" onClick={() => onDelete("delete", elem)}>Supprimer</ButtonIcon>
+                    <ButtonIcon type="default" icon="trash" onClick={() => onModal("delete", elem)}>Supprimer</ButtonIcon>
                 </div>
             </div>
         </div>
@@ -63,5 +63,5 @@ export function ContactsItem ({ elem, onDelete })
 
 ContactsItem.propTypes = {
     elem: PropTypes.object.isRequired,
-    onDelete: PropTypes.func.isRequired,
+    onModal: PropTypes.func.isRequired,
 }

@@ -5,7 +5,7 @@ import { Alert } from "@tailwindComponents/Elements/Alert";
 
 import { ContactsItem } from "@adminPages/Contacts/ContactsItem";
 
-export function ContactsList ({ data, onDelete }) {
+export function ContactsList ({ data, onModal }) {
     return <div className="list my-4">
         <div className="list-table bg-white rounded-md shadow">
             <div className="items items-contacts">
@@ -22,7 +22,7 @@ export function ContactsList ({ data, onDelete }) {
 
                 {data.length > 0
                     ? data.map((elem) => {
-                        return <ContactsItem key={elem.id} elem={elem} onDelete={onDelete} />;
+                        return <ContactsItem key={elem.id} elem={elem} onModal={onModal} />;
                     })
                     : <div className="item border-t">
                         <Alert type="gray">Aucun résultat.</Alert>
@@ -35,5 +35,5 @@ export function ContactsList ({ data, onDelete }) {
 
 ContactsList.propTypes = {
     data: PropTypes.array.isRequired,
-    onDelete: PropTypes.func.isRequired,
+    onModal: PropTypes.func.isRequired,
 }
