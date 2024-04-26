@@ -5,6 +5,6 @@
 @import "components/pagination";
 @import "components/list";
 
-body{
+html{
   @include fontRegular();
 }
