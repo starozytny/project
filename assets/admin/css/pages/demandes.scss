@@ -1,0 +1,28 @@
+.items-demandes{
+  .item-infos{
+    $col2: 160px; $col3: 280px; $col4: 70px; $col5: 30px; $colGap: 24px;
+    @media (min-width:768px) {
+      & > .col-1{
+        width: calc(100% - $col2 - $col3 - $col4 - $col5 - $colGap);
+      }
+      & > .col-2{ width: $col2; }
+      & > .col-3{ width: $col3; }
+      & > .col-4{ width: $col4; }
+      & > .col-5.actions{ width: $col5; }
+    }
+    @media (min-width:1280px) {
+      $col2: 220px; $col3: 360px;
+      & > .col-1{
+        width: calc(100% - $col2 - $col3 - $col4 - $col5 - $colGap);
+      }
+      & > .col-2{ width: $col2; }
+      & > .col-3{ width: $col3; }
+    }
+    @media (min-width:1536px) {
+      $col2: 340px; $col3: 420px;
+      & > .col-1{ width: 420px; }
+      & > .col-2{ width: $col2; }
+      & > .col-3{ width: $col3; }
+    }
+  }
+}

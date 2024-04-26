@@ -1,0 +1,24 @@
+{% extends 'app/email/template/template.html.twig' %}
+
+{% block preheader %}Demande de contact pour le bien : {{ dm.libelle }}.{% endblock %}
+
+{% block title %}Demande pour : {{ dm.libelle }}{% endblock %}
+
+{% block body %}
+    <div>
+        <div>
+            <div>{{ dm.typeAd }} - {{ dm.libelle }}</div>
+            <div>{{ dm.zipcode }} {{ dm.city }}</div>
+            <div>{{ dm.price | price }} € {{ dm.typeAd == "locations" ? "CC / mois" : "" }}</div>
+            <div>Reférence : {{ dm.reference}}</div>
+        </div>
+
+        <div style="margin-top: 24px;">Demande de contact pour un bien réalisé par : <b>{{ dm.name }}</b>, le {{ dm.createdAt | date('d/m/Y \\à H:i') }}</div>
+        <div>Email de contact : {{ dm.email }}</div>
+        <div>Téléphone de contact : {{ dm.phone }}</div>
+        <p style="width: 540px;">
+            Message : <br>
+            {{ dm.message }}
+        </p>
+    </div>
+{% endblock %}
