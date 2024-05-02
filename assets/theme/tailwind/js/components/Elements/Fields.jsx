@@ -849,7 +849,7 @@ export class InputFile extends Component {
 	}
 
 	render () {
-		const { type, identifiant, format = "image", valeur, errors, children, accept = "image/*" } = this.props;
+		const { type, identifiant, format = "image", valeur, errors, onDelete, children, accept = "image/*" } = this.props;
 		const { files } = this.state;
 
 		let error = getError(errors, identifiant);
@@ -886,11 +886,25 @@ export class InputFile extends Component {
 							</div>
 						})}
 					</div>
-					: (valeur && format === "image")
-						? <div className="h-16 w-16 rounded-md overflow-hidden bg-gray-200">
-							<img src={valeur} alt="actual image" className="w-full h-full object-contain" />
-						</div>
-						: <span className="text-sm">Aucun fichier sélectionné.</span>
+					: (valeur
+							? <div className="flex gap-2">
+								{format === "image"
+									? <div className="h-16 w-16 rounded-md overflow-hidden bg-gray-200">
+										<img src={valeur} alt="actual image" className="w-full h-full object-contain" />
+									</div>
+									: <div>
+										<div className="text-xs font-medium">{valeur}</div>
+									</div>
+								}
+								<div>
+									{onDelete
+										? <div className="cursor-pointer text-sm text-red-600 hover:text-red-700" onClick={onDelete}>Supprimer</div>
+										: null
+									}
+								</div>
+							</div>
+							: <span className="text-sm">Aucun fichier sélectionné.</span>
+					)
 				}
 			</div>
 			<ErrorContent error={error} />
