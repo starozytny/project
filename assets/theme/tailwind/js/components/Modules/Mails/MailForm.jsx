@@ -201,6 +201,7 @@ class Form extends Component {
 						<div className="flex items-start gap-2">
 							<div className="flex gap-2 w-full">
 								<SelectMultipleCustom ref={this.to} identifiant="to" inputValue="" inputValues={to}
+													  placeholder="Saisir un email.."
 													  items={tos} {...params1}>À</SelectMultipleCustom>
 							</div>
 
@@ -218,11 +219,13 @@ class Form extends Component {
 
 						{openCc && <div className="flex gap-2">
 							<SelectMultipleCustom ref={this.cc} identifiant="cc" inputValue="" inputValues={cc}
+												  placeholder="Saisir un email.."
 												  items={tos} {...params1}>Cc</SelectMultipleCustom>
 						</div>}
 
 						{openBcc && <div className="flex gap-2">
 							<SelectMultipleCustom ref={this.bcc} identifiant="bcc" inputValue="" inputValues={bcc}
+												  placeholder="Saisir un email.."
 												  items={tos} {...params1}>Cci</SelectMultipleCustom>
 						</div>}
 

@@ -699,7 +699,7 @@ export class SelectMultipleCustom extends Component {
 			}
 		})
 
-		let styleInput = "flex gap-2 w-full bg-white rounded-md border-0 py-2 pl-3 pr-4 text-sm text-gray-900 ring-1 ring-inset placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-gray-500";
+		let styleInput = "flex gap-2 w-full bg-gray-50 rounded-md border-0 py-1 px-2 text-sm text-gray-900 ring-1 ring-inset placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-gray-500";
 
 		return <>
 			<label htmlFor={identifiant} className="block text-sm font-medium leading-6 text-gray-800">
@@ -722,7 +722,7 @@ export class SelectMultipleCustom extends Component {
 						<form onSubmit={this.handleBlur}>
 							<input ref={this.input} type="text" name="inputValue" id="inputValue" value={inputValue}
 								   placeholder={placeholder} onChange={this.handleChange} onKeyDown={this.handleBlur}
-								   className="w-full border-0 py-0 pl-0 text-sm text-gray-900 focus:ring-0"
+								   className="w-full h-full bg-white border border-gray-200 rounded hover:border-gray-300 py-1 pl-2 text-sm text-gray-900 focus:ring-0"
 								   autoComplete={"new-" + identifiant} key={init} />
 						</form>
 					</div>
@@ -849,7 +849,7 @@ export class InputFile extends Component {
 	}
 
 	render () {
-		const { type, identifiant, format = "image", valeur, errors, children, accept = "image/*" } = this.props;
+		const { type, identifiant, format = "image", valeur, errors, onDelete, children, accept = "image/*" } = this.props;
 		const { files } = this.state;
 
 		let error = getError(errors, identifiant);
@@ -886,11 +886,25 @@ export class InputFile extends Component {
 							</div>
 						})}
 					</div>
-					: (valeur && format === "image")
-						? <div className="h-16 w-16 rounded-md overflow-hidden bg-gray-200">
-							<img src={valeur} alt="actual image" className="w-full h-full object-contain" />
-						</div>
-						: <span className="text-sm">Aucun fichier sélectionné.</span>
+					: (valeur
+							? <div className="flex gap-2">
+								{format === "image"
+									? <div className="h-16 w-16 rounded-md overflow-hidden bg-gray-200">
+										<img src={valeur} alt="actual image" className="w-full h-full object-contain" />
+									</div>
+									: <div>
+										<div className="text-xs font-medium">{valeur}</div>
+									</div>
+								}
+								<div>
+									{onDelete
+										? <div className="cursor-pointer text-sm text-red-600 hover:text-red-700" onClick={onDelete}>Supprimer</div>
+										: null
+									}
+								</div>
+							</div>
+							: <span className="text-sm">Aucun fichier sélectionné.</span>
+					)
 				}
 			</div>
 			<ErrorContent error={error} />
