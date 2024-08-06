@@ -98,7 +98,7 @@ class AppController extends AbstractController
 
         if(!$elem){
             $this->addFlash('error', 'Annonce introuvable.');
-            return $this->redirectToRoute('app_ads');
+            return $this->redirectToRoute('app_ads', ['type' => $typeA]);
         }
 
         if($request->cookies->has($cookieExisted)){
