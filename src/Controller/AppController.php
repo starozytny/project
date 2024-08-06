@@ -84,7 +84,7 @@ class AppController extends AbstractController
 
         if(!file_exists($file)){
             $this->addFlash('error', 'Annonce introuvable.');
-            return $this->redirectToRoute('app_ads');
+            return $this->redirectToRoute('app_ads', ['type' => $typeA]);
         }
 
         $data = file_get_contents($file);
