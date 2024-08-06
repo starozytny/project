@@ -37,8 +37,8 @@ class ImmoController extends AbstractController
             return $this->json('Mauvaise réponse de Lotys.', 400);
         }
 
-        $directoryPhotos = FileUploader::FOLDER_IMMO_ADS . $codeSociety . '/';
-        $directoryLogos = FileUploader::FOLDER_IMMO_LOGOS . $codeSociety . '/';
+        $directoryPhotos = FileUploader::FOLDER_IMMO_ADS . $society->getDirname() . '/';
+        $directoryLogos = FileUploader::FOLDER_IMMO_LOGOS . $society->getDirname() . '/';
         if(!is_dir($directoryPhotos)){
             mkdir($directoryPhotos, 0777, true);
         }
