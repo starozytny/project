@@ -25,6 +25,7 @@ Encore
         '@commonFunctions': path.resolve(__dirname, './assets/common/js/functions'),
         '@commonHooks': path.resolve(__dirname, './assets/common/js/hooks'),
         '@appFolder': path.resolve(__dirname, './assets/app/js'),
+        '@appPages': path.resolve(__dirname, './assets/app/js/pages/components'),
         '@adminPages': path.resolve(__dirname, './assets/admin/js/pages/components'),
         '@nodeModulesFolder': path.resolve(__dirname, './node_modules'),
     })
@@ -61,6 +62,7 @@ Encore
 
     .addEntry('app_app', './assets/app/js/app.js')
     .addEntry('app_security', './assets/app/js/pages/security.js')
+    .addEntry('app_ads', './assets/app/js/pages/ads.js')
 
     .addEntry('admin_app', './assets/admin/js/app.js')
     .addEntry('admin_settings', './assets/admin/js/pages/settings.js')

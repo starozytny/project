@@ -1,0 +1,11 @@
+{% extends 'app/layout/layout.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('app_ads') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('app_ads') }}
+{% endblock %}

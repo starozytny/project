@@ -1,0 +1,363 @@
+{% extends 'app/pages/ads/template.html.twig' %}
+
+{% set page_title %}{{ elem.libelle }}{% endset %}
+
+{% set main_class = "sm:min-h-[calc(100vh-128px-65px)]" %}
+
+{% block main_content %}
+    <div class="bg-white">
+        <div class="mx-auto max-w-screen-2xl p-4 lg:p-8">
+            <h1 class="font-title text-xl text-color0 xl:text-3xl">{{ elem.libelle }}</h1>
+            <p class="font-semibold text-color1 xl:text-1xl">{{ elem.localisation.zipcode }} {{ elem.localisation.city }}</p>
+            <p class="font-semibold text-color1 xl:text-1xl">{{ elem.financial.publishHt ? elem.financial.priceHt : elem.financial.price | price }} € {{ elem.isLocation ? (elem.financial.publishHt ? "" : "CC") ~ " / mois" : "" }}</p>
+            <div class="mt-6 flex flex-wrap gap-4 text-color0 text-sm">
+                {% if elem.area.habitable %}
+                    <div>{{ elem.area.habitable }}m²</div>
+                {% endif %}
+                {% if elem.number.piece %}
+                    <div>{{ elem.number.piece }}p</div>
+                {% endif %}
+                {% if elem.feature.isMeuble != 99 %}
+                    <div>{{ elem.feature.isMeuble == 1 ? "Meublé" : "Non meublé" }}</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    {% set contactPhone = elem.isLocation ? elem.agency.phoneLocation : elem.agency.phoneVente %}
+    {% set contactEmail = elem.isLocation ? elem.agency.emailLocation : elem.agency.emailVente %}
+
+    {% if elem.confidential.inform == 1 %}
+        {% set contactPhone = elem.negotiator.phone1 ? elem.negotiator.phone1 : (elem.negotiator.phone2 ? elem.negotiator.phone2 : contactPhone) %}
+        {% set contactEmail = elem.negotiator.email ? elem.negotiator.email : contactEmail %}
+    {% elseif elem.confidential.inform == 2 %}
+        {% set contactPhone = elem.confidential.phone1 ? elem.confidential.phone1 : contactPhone %}
+        {% set contactEmail = elem.confidential.email ? elem.confidential.email : contactEmail %}
+    {% endif %}
+
+    <div>
+        <div class="mx-auto max-w-screen-2xl text-sm p-4 flex flex-col gap-12 lg:p-8">
+            <div class="relative flex flex-col gap-12 lg:flex-row">
+                {% if elem.photos and elem.photos | length > 0 %}
+                    <div class="w-full lg:w-1/2 lg:pr-12 xl:w-1/3 min-h-64">
+                        <div class="text-lg text-color0 font-semibold">
+                            {{ contactPhone | phone }}
+                        </div>
+                        <div class="mt-4">
+                            {{ elem.advert.contentFull | raw }}
+                        </div>
+                    </div>
+                    <div class="ad-photos w-full flex gap-2 overflow-auto lg:absolute lg:-top-28 lg:left-1/2 xl:left-1/3">
+                        {% for photo in elem.photos %}
+                            <img src="{{ asset(photo.photoFile) }}" alt="photo bien {{ loop.index }}" class="h-64 xl:h-72 2xl:h-96">
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="w-full">
+                        <div class="text-lg text-color0 font-semibold">
+                            {{ contactPhone | phone }}
+                        </div>
+                        <div class="mt-4">
+                            {{ elem.advert.contentFull | raw }}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="flex flex-col gap-12 lg:flex-row">
+                <div class="w-full flex flex-col gap-12">
+                    <div class="flex flex-col gap-2">
+                        <h2 class="font-title text-color1 text-lg flex items-center gap-2">
+                            <span class="w-2 h-2 bg-color1 rounded-full"></span>
+                            <span>Caractéristique</span>
+                        </h2>
+
+                        {% set feature = elem.feature %}
+                        <div class="w-full flex flex-col gap-1">
+                            {% if feature.isMeuble != 99 %}
+                                <div><span>{{ feature.isMeuble ? "Meublé" : "Non meublé" }}</span></div>
+                            {% endif %}
+                            {% if feature.isNew == 1 %}
+                                <div><span>Refait à neuf</span></div>
+                            {% endif %}
+                            {% if feature.isRecent == 1 %}
+                                <div><span>Récent</span></div>
+                            {% endif %}
+                            {% if feature.haveWork == 1 %}
+                                <div><span>Travaux à prévoir</span></div>
+                            {% endif %}
+                            {% if feature.isWcSeparate == 1 %}
+                                <div><span>WC séparé</span></div>
+                            {% endif %}
+                        </div>
+
+                        <div class="flex flex-wrap gap-4">
+                            {% set area = elem.area %}
+                            <div><span class="text-gray-600">Habitable : </span> <span>{{ area.habitable }} m²</span></div>
+                            {% if area.principale %}
+                                <div><span class="text-gray-600">Pièce principale : </span> <span>{{ area.principale }} m²</span></div>
+                            {% endif %}
+                            {% if area.kitchen %}
+                                <div><span class="text-gray-600">Cuisine : </span> <span>{{ area.kitchen }} m²</span></div>
+                            {% endif %}
+                            {% if area.living %}
+                                <div><span class="text-gray-600">Séjour : </span> <span>{{ area.living }} m²</span></div>
+                            {% endif %}
+                            {% if area.dining %}
+                                <div><span class="text-gray-600">Salle à manger : </span> <span>{{ area.dining }} m²</span></div>
+                            {% endif %}
+                            {% if area.bathroom %}
+                                <div><span class="text-gray-600">Salle de bain : </span> <span>{{ area.bathroom }} m²</span></div>
+                            {% endif %}
+                            {% if area.sde %}
+                                <div><span class="text-gray-600">Salle d'eau : </span> <span>{{ area.sde }} m²</span></div>
+                            {% endif %}
+                            {% if area.cave %}
+                                <div><span class="text-gray-600">Cave : </span> <span>{{ area.cave }} m²</span></div>
+                            {% endif %}
+                            {% if area.garden %}
+                                <div><span class="text-gray-600">Jardin : </span> <span>{{ area.garden }} m²</span></div>
+                            {% endif %}
+                            {% if area.terrace %}
+                                <div><span class="text-gray-600">Terrasse : </span> <span>{{ area.terrace }} m²</span></div>
+                            {% endif %}
+                            {% if area.land %}
+                                <div><span class="text-gray-600">Terrain : </span> <span>{{ area.land }} m²</span></div>
+                            {% endif %}
+                        </div>
+                        <div class="flex flex-wrap gap-4">
+                            {% set number = elem.number %}
+                            <div><span class="text-gray-600">Pièce : </span> <span>{{ number.piece }}</span></div>
+                            {% if number.room %}
+                                <div><span class="text-gray-600">Chambre : </span> <span>{{ number.room }}</span></div>
+                            {% endif %}
+                            {% if number.principale %}
+                                <div><span class="text-gray-600">Pièce principale : </span> <span>{{ number.principale }}</span></div>
+                            {% endif %}
+                            {% if number.kitchen %}
+                                <div><span class="text-gray-600">Cuisine : </span> <span>{{ number.kitchen }}</span></div>
+                            {% endif %}
+                            {% if number.bathroom %}
+                                <div><span class="text-gray-600">Salle de bain : </span> <span>{{ number.bathroom }}</span></div>
+                            {% endif %}
+                            {% if number.sde %}
+                                <div><span class="text-gray-600">Salle d'eau : </span> <span>{{ number.sde }}</span></div>
+                            {% endif %}
+                            {% if number.wc %}
+                                <div><span class="text-gray-600">WC : </span> <span>{{ number.wc }}</span></div>
+                            {% endif %}
+                            {% if number.balcony %}
+                                <div><span class="text-gray-600">Balcon : </span> <span>{{ number.balcony }}</span></div>
+                            {% endif %}
+                            {% if number.cave %}
+                                <div><span class="text-gray-600">Cave : </span> <span>{{ number.cave }}</span></div>
+                            {% endif %}
+                            {% if number.garden %}
+                                <div><span class="text-gray-600">Jardin : </span> <span>{{ number.garden }}</span></div>
+                            {% endif %}
+                            {% if number.terrace %}
+                                <div><span class="text-gray-600">Terrasse : </span> <span>{{ number.terrace }}</span></div>
+                            {% endif %}
+                            {% if number.parking %}
+                                <div><span class="text-gray-600">Parking : </span> <span>{{ number.parking }}</span></div>
+                            {% endif %}
+                            {% if number.box %}
+                                <div><span class="text-gray-600">Box : </span> <span>{{ number.box }}</span></div>
+                            {% endif %}
+                        </div>
+
+                        <div class="w-full flex flex-col gap-1">
+                            {% if feature.buildAt %}
+                                <div><span class="text-gray-600">Année de construction : </span> <span>{{ feature.buildAt }}</span></div>
+                            {% endif %}
+                            {% if feature.fullHeaterString != "" %}
+                                <div><span class="text-gray-600">Chauffage : </span> <span>{{ feature.fullHeaterString }}</span></div>
+                            {% endif %}
+                            {% if feature.kitchenString != "" %}
+                                <div><span class="text-gray-600">Cuisine : </span> <span>{{ feature.kitchenString }}</span></div>
+                            {% endif %}
+                            {% if feature.waterString != "" %}
+                                <div><span class="text-gray-600">Eau : </span> <span>{{ feature.waterString }}</span></div>
+                            {% endif %}
+                            {% if feature.floor %}
+                                <div>
+                                    <span class="text-gray-600">Étage : </span> <span>{{ feature.floor }} {{ feature.nbFloor ? "/" ~ feature.nbFloor : "" }}</span>
+                                </div>
+                            {% else %}
+                                {% if feature.floor == 0 %}
+                                    <div><span class="text-gray-600">Étage : </span> <span>Rez de chaussée</span></div>
+                                {% endif %}
+                            {% endif %}
+                            {% if feature.expoEast == 1 or feature.expoNorth == 1 or feature.expoSouth == 1 or feature.expoWest == 1 %}
+                                <div>
+                                    <span class="text-gray-600">Exposition : </span>
+                                    <span>{{ feature.expoEast == 1 ? "Est " : "" }}</span>
+                                    <span>{{ feature.expoNorth == 1 ? "Nord " : "" }}</span>
+                                    <span>{{ feature.expoSouth == 1 ? "Sud " : "" }}</span>
+                                    <span>{{ feature.expoWest == 1 ? "Ouest " : "" }}</span>
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        {% set advantage = elem.advantage %}
+                        {% if advantage.hasCalme == 1 or advantage.hasTerrace == 1 or advantage.hasLift == 1
+                            or advantage.hasCave == 1 or advantage.hasDigicode == 1 or advantage.hasInterphone == 1
+                            or advantage.hasGuardian == 1 or advantage.hasAlarme == 1 or advantage.hasClim == 1
+                            or advantage.hasPool == 1 or advantage.hasView == 1 or advantage.hasOpposite == 1
+                            or advantage.hasInternet == 1 or advantage.hasHandi == 1
+                        %}
+                            <div class="mt-4">
+                                <div class="flex gap-2 items-center mb-2">
+                                    <div class="font-semibold text-color1">En plus</div>
+                                </div>
+                                <div class="flex flex-wrap gap-4">
+                                    {% if advantage.hasCalme == 1 %}
+                                        <div>Calme</div>
+                                    {% endif %}
+                                    {% if advantage.hasTerrace == 1 %}
+                                        <div>Terrasse</div>
+                                    {% endif %}
+                                    {% if advantage.hasLift == 1 %}
+                                        <div>Ascenseur</div>
+                                    {% endif %}
+                                    {% if advantage.hasCave == 1 %}
+                                        <div>Cave</div>
+                                    {% endif %}
+                                    {% if advantage.hasDigicode == 1 %}
+                                        <div>Digicode</div>
+                                    {% endif %}
+                                    {% if advantage.hasInterphone == 1 %}
+                                        <div>Interphone</div>
+                                    {% endif %}
+                                    {% if advantage.hasGuardian == 1 %}
+                                        <div>Gardien</div>
+                                    {% endif %}
+                                    {% if advantage.hasAlarme == 1 %}
+                                        <div>Calme</div>
+                                    {% endif %}
+                                    {% if advantage.hasClim == 1 %}
+                                        <div>Climatisation</div>
+                                    {% endif %}
+                                    {% if advantage.hasPool == 1 %}
+                                        <div>Piscine</div>
+                                    {% endif %}
+                                    {% if advantage.hasView == 1 %}
+                                        <div>Vue dégagée</div>
+                                    {% endif %}
+                                    {% if advantage.hasOpposite == 1 %}
+                                        <div>Vis à vis</div>
+                                    {% endif %}
+                                    {% if advantage.hasInternet == 1 %}
+                                        <div>Internet</div>
+                                    {% endif %}
+                                    {% if advantage.hasHandi == 1 %}
+                                        <div>Accès PMR</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        <h2 class="font-title text-color1 text-lg flex items-center gap-2">
+                            <span class="w-2 h-2 bg-color1 rounded-full"></span>
+                            <span>Financier</span>
+                        </h2>
+                        <div>
+                            {% set financial = elem.financial %}
+                            <div>
+                                <div class="text-color0 text-xl font-semibold">
+                                    {{ financial.publishHt ? financial.priceHt : financial.price | price }} € {{ elem.isLocation ? (financial.publishHt ? "" : "CC") ~ " / mois" : "" }}
+                                </div>
+                                {% if financial.priceMurs %}
+                                    <div class="text-gray-100">{{ financial.priceMurs | price}} € / m murs</div>
+                                {% endif %}
+                            </div>
+                            <div class="mt-2 flex flex-col gap-1">
+                                {% if elem.isLocation %}
+                                    {% if financial.honoraireTtc and financial.honoraireTtc != 0 %}
+                                        <div>
+                                            <div>
+                                                Honoraire TTC : {{ financial.honoraireTtc | price }} €
+                                            </div>
+                                            {% if financial.edl %}
+                                                <div class="text-gray-600 text-xs"> - dont état des lieux : {{ financial.edl | price }} €</div>
+                                            {% endif %}
+                                        </div>
+                                    {% endif %}
+
+                                    {% if financial.provisionOrdures and financial.provisionOrdures != 0 %}
+                                        <div>
+                                            Provision ordure ménagère : {{ financial.provisionOrdures | price }} €
+                                        </div>
+                                    {% endif %}
+
+                                    {% if financial.provisionCharges and financial.provisionCharges != 0 %}
+                                        <div>
+                                            <div>
+                                                Provision pour charges<sup>(1)</sup> : {{ financial.provisionCharges | price }} €
+                                            </div>
+                                            <div class="text-gray-600 text-xs"><sup>(1)</sup> {{ financial.typeChargesString | lower }}</div>
+                                        </div>
+                                    {% endif %}
+
+                                    {% if financial.caution and financial.caution != 0 %}
+                                        <div>
+                                            Dépôt de garantie : {{ financial.caution | price }} €
+                                        </div>
+                                    {% endif %}
+                                {% else %}
+                                {% endif %}
+                            </div>
+                            <div class="mt-4">
+                                <a href="/tarif.pdf" target="_blank" class="cursor-pointer text-gray-900 underline hover:text-gray-700">
+                                    <span class="icon-add"></span>
+                                    <span>Tarifs de l'agence</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% if elem.codeTypeBien != 2 and elem.codeTypeBien != 3 %}
+                    <div class="w-full flex flex-col gap-2">
+                        <h2 class="font-title text-color1 text-lg flex items-center gap-2">
+                            <span class="w-2 h-2 bg-color1 rounded-full"></span>
+                            <span>Diagnostics énergétiques</span>
+                        </h2>
+
+                        <div>
+                            <div id="diagnostic" data-elem="{{ elem | json_encode }}">
+                                {% include "layout/components/tailwind/loaders/loader.html.twig" %}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="w-full flex flex-col items-center justify-center gap-2 bg-white p-4 border rounded-md max-w-screen-md mx-auto lg:p-8">
+                <h2 class="font-title text-color1 text-xl flex items-center gap-2">
+                    <span>Nous contacter</span>
+                </h2>
+
+                <div class="flex flex-col items-center justify-center gap-4">
+                    <div class="text-lg text-color0 font-semibold mb-4">
+                        {{ contactPhone | phone }}
+                    </div>
+                    <div id="demande_create"
+                         data-to-email="{{ contactEmail }}"
+                         data-bien-id="{{ elem.id }}"
+                         data-price="{{ financial.price }}"
+                         data-slug="{{ elem.slug }}"
+                         data-libelle="{{ elem.libelle }}"
+                         data-zipcode="{{ elem.localisation.zipcode }}"
+                         data-city="{{ elem.localisation.city }}"
+                         data-type-ad="{{ elem.isLocation ? "locations" : "ventes" }}"
+                         data-type-bien="{{ elem.typeBienString }}"
+                         data-reference="{{ elem.reference }}"
+                    >
+                        {% include "layout/components/tailwind/loaders/loader.html.twig" %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
