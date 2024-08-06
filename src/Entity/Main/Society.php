@@ -34,6 +34,10 @@ class Society extends DataEntity
     #[Groups(['society_list'])]
     private ?string $manager = "default";
 
+    #[ORM\Column(length: 255)]
+    #[Groups(['society_list'])]
+    private ?string $dirname = "default";
+
     #[ORM\Column(length: 20)]
     #[Groups(['society_list', 'society_form', 'user_list', 'society_select'])]
     private ?string $code = null;
@@ -82,6 +86,18 @@ class Society extends DataEntity
     public function setManager(string $manager): self
     {
         $this->manager = $manager;
+
+        return $this;
+    }
+
+    public function getDirname(): ?string
+    {
+        return $this->dirname;
+    }
+
+    public function setDirname(string $dirname): self
+    {
+        $this->dirname = $dirname;
 
         return $this;
     }
