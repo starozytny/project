@@ -1,0 +1,313 @@
+@import "../vars/vars";
+
+.ad-photos{
+  @include scrollbar();
+
+  @media (min-width:1024px) {
+    padding-right: 50%;
+  }
+
+  @media (min-width:1536px) {
+    padding-right: 33%;
+  }
+}
+
+$dpeA: rgb(0,172,121);
+$dpeB: rgb(74,185,97);
+$dpeC: rgb(152,205,125);
+$dpeD: rgb(237,233,49);
+$dpeE: rgb(239,176,37);
+$dpeF: rgb(238,132,61);
+$dpeG: rgb(221,40,42);
+
+$gesA: rgb(145,216,247);
+$gesB: rgb(121,171,203);
+$gesC: rgb(102,136,170);
+$gesD: rgb(83,101,135);
+$gesE: rgb(65,73,108);
+$gesF: rgb(48,46,80);
+$gesG: rgb(28,13,53);
+
+$colorsDPE: (
+        'a': $dpeA,
+        'b': $dpeB,
+        'c': $dpeC,
+        'd': $dpeD,
+        'e': $dpeE,
+        'f': $dpeF,
+        'g': $dpeG,
+);
+
+$colorsGES: (
+        'a': $gesA,
+        'b': $gesB,
+        'c': $gesC,
+        'd': $gesD,
+        'e': $gesE,
+        'f': $gesF,
+        'g': $gesG,
+);
+
+@each $letter, $color in $colorsDPE{
+  .dpe-#{$letter}{
+    background-color: $color;
+    color: #FFFFFF;
+  }
+}
+@each $letter, $color in $colorsGES{
+  .ges-#{$letter}{
+    background-color: $color;
+    color: #FFFFFF;
+  }
+}
+
+.diag-empty{
+  font-size: 14px;
+}
+
+.diag-details{
+  margin: 4px 0 8px 0;
+
+  .diag-dpe, .diag-ges{
+    width: 100%;
+
+    $sizes: (
+            '1': 50%,
+            '2': 56%,
+            '3': 63%,
+            '4': 73%,
+            '5': 83%,
+            '6': 93%,
+            '7': 100%,
+    );
+
+    @each $i, $size in $sizes {
+      .diag-line:nth-child(#{$i}){
+        .diag-letter{
+          width: calc(#{$size} - 100px - 16px - 4px);
+        }
+      }
+    }
+  }
+}
+
+.graphs{
+  max-width: 540px;
+}
+
+.diagnostic{
+  margin-bottom: 8px;
+}
+
+.diag-infos{
+  margin-bottom: 24px;
+}
+
+.diag-title{
+  text-decoration: underline;
+  margin-bottom: 8px;
+}
+
+.diag-borne{
+  margin-left: 98px;
+  font-weight: 600;
+  opacity: 0.8;
+  font-size: 15px;
+}
+
+.diag-excessif{
+  font-weight: 600;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.diags{
+  .graph:not(:last-child){
+    margin-bottom: 24px;
+  }
+}
+
+.diag-line{
+  @include flex(row, stretch, flex-start);
+
+  &:not(:last-child){
+    margin-bottom: 3px;
+  }
+
+  .number{
+    position: relative;
+    width: calc(100px - 16px - 4px);
+    padding: 5px 8px 2px 8px;
+    border: 2px solid transparent;
+    border-right: none;
+    border-radius: 4px 0 0 4px;
+    background-color: #FFFFFF;
+    opacity: 0;
+  }
+
+  .diag-letter{
+    @include flex(row, center, flex-start);
+    font-weight: 600;
+    width: calc(100% - 100px - 16px - 4px);
+    padding: 5px 8px 2px 8px;
+    border-radius: 0 4px 4px 0;
+    border: 2px solid transparent;
+  }
+
+  .flottant{
+    position: absolute;
+    bottom: -41px;
+    left: 0;
+    font-size: 11px;
+    text-align: center;
+
+    & > div:first-child{
+      font-weight: 600;
+    }
+
+    & > div:nth-child(2){
+      font-size: 9px;
+    }
+  }
+
+  &.active{
+    .number{
+      @include flex(column, center, center);
+      padding: 8px 8px 7px 8px;
+      border-color: #000000;
+      opacity: 1;
+
+      .value{
+        font-weight: 600;
+        font-size: 22px;
+      }
+
+      .unity{
+        font-size: 9px;
+      }
+    }
+
+    .diag-letter{
+      border-color: #000000;
+      padding: 8px 8px 7px 8px;
+    }
+
+    .letter{
+      font-size: 22px;
+    }
+  }
+
+  .number-2, &.active .number-2{
+    display: none;
+  }
+}
+
+
+.diagnostic-dpe{
+  .diag-borne{
+    margin-left: 79px;
+
+    &:first-child{
+      color: rgb(0,172,121);
+    }
+    &:last-child{
+      color: rgb(221,40,42);
+    }
+  }
+}
+
+.diagnostic-ges{
+  .diag-line{
+    .flottant{
+      bottom: -26px;
+      left: 18px;
+    }
+  }
+
+  .diag-borne{
+    &:first-child{
+      color: rgb(145,216,247);
+    }
+    &:last-child{
+      color: rgb(28,13,53);
+    }
+  }
+}
+
+@media (min-width:768px) {
+  .diagnostic{
+    margin-bottom: 18px;
+  }
+
+  .diagnostic-dpe{
+    .diag-borne {
+      margin-left: 160px;
+    }
+  }
+
+  .diagnostic-ges{
+    transform: none;
+
+    .diag-borne{
+      margin-left: 80px;
+    }
+  }
+
+  .diag-line{
+    .number-2, &.active .number-2{
+      display: flex;
+      border-radius: 0;
+
+      .flottant{
+        bottom: -26px;
+        left: 18px;
+      }
+    }
+  }
+
+  .diag-details{
+    .diag-dpe, .diag-ges{
+      $sizes: (
+              '1': 50%,
+              '2': 56%,
+              '3': 62%,
+              '4': 66%,
+              '5': 70%,
+              '6': 76%,
+              '7': 83%,
+      );
+
+      @each $i, $size in $sizes {
+        .diag-line:nth-child(#{$i}){
+          .diag-letter{
+            width: calc(#{$size} - 100px - 16px - 4px);
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (min-width:1800px) {
+  .diag-details{
+    .diag-dpe, .diag-ges{
+      $sizes: (
+              '1': 53%,
+              '2': 56%,
+              '3': 63%,
+              '4': 73%,
+              '5': 83%,
+              '6': 93%,
+              '7': 100%,
+      );
+
+      @each $i, $size in $sizes {
+        .diag-line:nth-child(#{$i}){
+          .diag-letter{
+            width: calc(#{$size} - 100px - 100px - 16px - 4px);
+          }
+        }
+      }
+    }
+  }
+}
