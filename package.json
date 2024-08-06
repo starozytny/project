@@ -41,6 +41,7 @@
         "cleave.js": "^1.6.0",
         "html-react-parser": "^4.2.7",
         "js-datepicker": "^5.18.2",
+        "leaflet": "^1.9.4",
         "lodash": "^4.17.21",
         "moment": "^2.29.4",
         "normalize.css": "^8.0.1",
