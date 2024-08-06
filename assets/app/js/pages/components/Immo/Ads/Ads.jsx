@@ -12,7 +12,7 @@ import { LoaderElements } from "@tailwindComponents/Elements/Loader";
 import { AdsList } from "@appPages/Immo/Ads/AdsList";
 import { Radiobox } from "@tailwindComponents/Elements/Fields";
 
-const URL_GET_DATA = 'inter_api_immo_biens_all';
+const URL_GET_DATA = 'inter_api_immo_biens_list';
 
 let mymap = null;
 let markers = [];
@@ -42,9 +42,10 @@ export class Ads extends Component {
     }
 
     handleGetData = () => {
+        const { type } = this.props;
         const { perPage, sorter, filters } = this.state;
 
-        let url = Routing.generate(URL_GET_DATA);
+        let url = Routing.generate(URL_GET_DATA, {type: type});
         List.getData(this, url, perPage, sorter, this.props.highlight, filters, this.handleFilters);
     }
 

@@ -58,10 +58,11 @@ class AppController extends AbstractController
         return $this->render('app/pages/transaction/index.html.twig');
     }
 
-    #[Route('/biens-immobiliers/liste/annonces', name: 'app_ads')]
-    public function ads(): Response
+    #[Route('/biens-immobiliers/liste/annonces/{type}', name: 'app_ads')]
+    public function ads($type): Response
     {
-        return $this->render('app/pages/ads/index.html.twig');
+        // locations ou ventes
+        return $this->render('app/pages/ads/index.html.twig', ['type' => $type]);
     }
 
     /**

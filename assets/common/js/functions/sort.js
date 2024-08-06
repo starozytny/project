@@ -59,6 +59,10 @@ function compareCode(a, b){
     return comparison(a.code, b.code);
 }
 
+function compareFinancialPriceInverse(a, b){
+    return comparison(b.financial.price, a.financial.price);
+}
+
 function compareRankThenLabel(a, b){
     if (a.rank > b.rank) {
         return 1;
@@ -101,4 +105,5 @@ module.exports = {
     compareCode,
     compareRankThenLabel,
     compareLabel,
+    compareFinancialPriceInverse,
 }
