@@ -89,12 +89,9 @@ class ImmoController extends AbstractController
             $tmpPhotos = [];
             $mainPhotoFile = $item->mainPhotoFile;
             foreach ($item->photos as $photo) {
-                $url = $baseUrl . $photo->photoFile;
+                $url = $baseUrl . ($photo->publishFileFile ?: $photo->photoFile);
 
-                $filename = $fileUploader->getFilenameFromUrl($url);
-                if (!file_exists($directoryPhotos . $filename)) {
-                    $filename = $fileUploader->downloadImgFromURL($url, $directoryPhotos);
-                }
+                $filename = $fileUploader->downloadImgFromURL($url, $directoryPhotos);
                 $photosAlive[] = $filename;
 
                 $photo->photoFile = "/" . $directoryPhotos . $filename;
