@@ -207,9 +207,9 @@ export class Societies extends Component {
 								perPage={perPage} onUpdate={this.handleUpdateData} onChangeCurrentPage={this.handleChangeCurrentPage} />
 
 					<ModalDelete refModal={this.delete} element={element} routeName={URL_DELETE_ELEMENT}
-								 title="Supprimer cette société" msgSuccess="Société supprimée"
+								 title="Supprimer cette société" msgSuccess="Société supprimée."
 								 onUpdateList={this.handleUpdateList}>
-						Etes-vous sûr de vouloir supprimer définitivement cette société ?
+						Êtes-vous sûr de vouloir supprimer définitivement cette société ?
 					</ModalDelete>
 
 					<Modal ref={this.activate} identifiant="activate" maxWidth={414} title="Activer la société"

@@ -198,7 +198,7 @@ export class Users extends Component {
 					<ModalDelete refModal={this.delete} element={element} routeName={URL_DELETE_ELEMENT}
 								 title="Supprimer cet utilisateur" msgSuccess="Utilisateur supprimé"
 								 onUpdateList={this.handleUpdateList}>
-						Etes-vous sûr de vouloir supprimer définitivement cet utilisateur ?
+						Êtes-vous sûr de vouloir supprimer définitivement cet utilisateur ?
 					</ModalDelete>
 
 					<Modal ref={this.reinit} identifiant="reinit" maxWidth={414}
