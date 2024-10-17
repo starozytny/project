@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
 import axios from "axios";
-import toastr from "toastr";
 import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
+import Toastr from "@tailwindFunctions/toastr";
 import Formulaire from "@commonFunctions/formulaire";
 import Validateur from "@commonFunctions/validateur";
 
@@ -79,7 +79,7 @@ export class SettingsFormulaire extends Component {
 
 			axios({ method: "POST", url: Routing.generate(URL_UPDATE_ELEMENT), data: formData, headers: { 'Content-Type': 'multipart/form-data' } })
 				.then(function (response) {
-					toastr.info(response.data.message);
+					Toastr.toast('info', response.data.message);
 					setTimeout(() => {
 						location.reload()
 					}, 2000)

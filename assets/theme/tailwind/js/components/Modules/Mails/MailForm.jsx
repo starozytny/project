@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from "prop-types";
 
 import axios from "axios";
-import toastr from "toastr";
 import { uid } from 'uid'
 import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
+import Toastr from "@tailwindFunctions/toastr";
 import Inputs from "@commonFunctions/inputs";
 import Formulaire from "@commonFunctions/formulaire";
 import Validateur from "@commonFunctions/validateur";
@@ -146,7 +146,7 @@ class Form extends Component {
 
 				axios({ method: "POST", url: url, data: formData, headers: { 'Content-Type': 'multipart/form-data' } })
 					.then(function (response) {
-						toastr.info("Message envoyé.");
+						Toastr.toast('info', "Message envoyé.");
 						self.setState({
 							subject: "",
 							message: { value: "", html: "" },
