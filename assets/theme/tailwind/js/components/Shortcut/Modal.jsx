@@ -15,11 +15,15 @@ export class ModalDelete extends Component {
 		const { refModal, element, routeName, msgSuccess, onUpdateList } = this.props;
 
 		let self = this;
-		axios({ method: "DELETE", url: Routing.generate(routeName, { 'id': element.id }), data: {} })
+		axios({ method: "DELETE", url: Routing.generate(routeName, { id: element.id }), data: {} })
 			.then(function (response) {
 				Toastr.toast('info', msgSuccess);
-				onUpdateList(element, "delete");
-				refModal.current.handleClose();
+				if(onUpdateList){
+					onUpdateList(element, "delete");
+					refModal.current.handleClose();
+				}else{
+					location.reload();
+				}
 			})
 			.catch(function (error) {
 				Formulaire.displayErrors(self, error);
