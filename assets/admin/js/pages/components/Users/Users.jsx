@@ -160,6 +160,7 @@ export class Users extends Component {
 				modalBlocked(self, elem);
 				self.handleUpdateList(elem, "update")
 				instance.interceptors.request.clear();
+				self.blocked.current.handleClose();
 			})
 			.catch(function (error) {
 				Formulaire.displayErrors(self, error);
