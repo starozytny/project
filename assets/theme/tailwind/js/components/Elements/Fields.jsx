@@ -68,37 +68,6 @@ TextAreaView.propTypes = {
 }
 
 /***************************************
- * TRUMB View
- ***************************************/
-export function TrumbView (props) {
-	const { identifiant, valeur, errors, children, height = "80px" } = props;
-
-	let error = getError(errors, identifiant);
-
-	let styleInput = "block bg-gray-100 w-full rounded-md border-0 py-2 px-3 text-sm text-gray-900 ring-1 ring-inset placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-gray-500";
-
-	return <>
-		<label htmlFor={identifiant} className="block text-sm font-medium leading-6 text-gray-900">
-			{children}
-		</label>
-		<div className="relative rounded-md shadow-sm">
-			<div id={identifiant} disabled={true}
-				 style={{ height: height }}
-				 className={styleInput + " " + (error ? "ring-red-400" : "ring-gray-300")}>
-				{valeur === null ? "" : parse(valeur)}
-			</div>
-		</div>
-		<ErrorContent error={error} />
-	</>
-}
-
-TrumbView.propTypes = {
-	identifiant: PropTypes.string,
-	errors: PropTypes.array,
-	children: PropTypes.node,
-}
-
-/***************************************
  * INPUT Classique
  ***************************************/
 export function Input ({
