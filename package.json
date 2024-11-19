@@ -40,7 +40,6 @@
         "axios": "^1.7.7",
         "cleave.js": "^1.6.0",
         "html-react-parser": "^5.1.18",
-        "js-datepicker": "^5.18.3",
         "lodash": "^4.17.21",
         "moment": "^2.29.4",
         "normalize.css": "^8.0.1",

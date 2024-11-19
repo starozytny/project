@@ -66,14 +66,7 @@ class Form extends Component {
 			resetTextArea: false
 		}
 
-		this.select0 = React.createRef();
-		this.select1 = React.createRef();
-		this.select2 = React.createRef();
 		this.file = React.createRef();
-	}
-
-	componentDidMount = () => {
-		Inputs.initDateInput(this.handleChangeDate, this.handleChange, new Date());
 	}
 
 	handleChange = (e) => {

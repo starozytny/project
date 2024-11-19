@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
-import Inputs from "@commonFunctions/inputs";
 import Formulaire from "@commonFunctions/formulaire";
 
 import { Button } from "@tailwindComponents/Elements/Button";
@@ -63,13 +62,9 @@ class Form extends Component {
         }
     }
 
-    handleChange = (e, picker) => {
+    handleChange = (e) => {
         let name = e.currentTarget.name;
         let value = e.currentTarget.value;
-
-        if (name === "startTime" || name === "endTime") {
-            value = Inputs.timeInput(e, this.state[name]);
-        }
 
         if (name === "allDay") {
             value = (e.currentTarget.checked) ? [1] : [0] // parseInt because work with int this time
