@@ -63,17 +63,9 @@ class Form extends Component {
         }
     }
 
-    componentDidMount = () => {
-        Inputs.initDateInput(this.handleChangeDate, this.handleChange, new Date())
-    }
-
     handleChange = (e, picker) => {
         let name = e.currentTarget.name;
         let value = e.currentTarget.value;
-
-        if (name === "startAt" || name === "endAt") {
-            value = Inputs.dateInput(e, picker, this.state[name]);
-        }
 
         if (name === "startTime" || name === "endTime") {
             value = Inputs.timeInput(e, this.state[name]);
@@ -83,10 +75,6 @@ class Form extends Component {
             value = (e.currentTarget.checked) ? [1] : [0] // parseInt because work with int this time
         }
 
-        this.setState({ [name]: value })
-    }
-
-    handleChangeDate = (name, value) => {
         this.setState({ [name]: value })
     }
 
@@ -157,12 +145,12 @@ class Form extends Component {
                             <div>
                                 {parseInt(allDay[0]) === 1
                                     ? <div>
-                                        <Input type="js-date" identifiant="startAt" valeur={startAt} {...params}>Journée du</Input>
+                                        <Input type="date" identifiant="startAt" valeur={startAt} {...params}>Journée du</Input>
                                     </div>
                                     : <div className="flex flex-col gap-4">
                                         <div className="flex gap-4">
                                             <div className="w-full">
-                                                <Input type="js-date" identifiant="startAt" valeur={startAt} {...params}>Début</Input>
+                                                <Input type="date" identifiant="startAt" valeur={startAt} {...params}>Début</Input>
                                             </div>
                                             <div className="w-full">
                                                 <Input type="time" identifiant="startTime" valeur={startTime} {...params}>&nbsp;</Input>
@@ -170,7 +158,7 @@ class Form extends Component {
                                         </div>
                                         <div className="flex gap-2">
                                             <div className="w-full">
-                                                <Input type="js-date" identifiant="endAt" valeur={endAt} {...params}>Fin</Input>
+                                                <Input type="date" identifiant="endAt" valeur={endAt} {...params}>Fin</Input>
                                             </div>
                                             <div className="w-full">
                                                 <Input type="time" identifiant="endTime" valeur={endTime} {...params}>&nbsp;</Input>

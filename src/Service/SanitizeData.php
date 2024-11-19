@@ -5,6 +5,7 @@ namespace App\Service;
 
 
 use DateTime;
+use DateTimeZone;
 use Symfony\Component\String\AbstractUnicodeString;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
@@ -52,19 +53,21 @@ class SanitizeData
         return $return;
     }
 
-    public function createDateTimePicker($value, $return = null): ?DateTime
+    public function createDateTime($value, $return = null): ?DateTime
     {
         if($value != "" && $value != null){
-            return DateTime::createFromFormat('d/m/Y H:i', $value);
+            $dateTime = new DateTime($value, new DateTimeZone('Europe/Paris'));
+            $dateTime->setTimezone(new DateTimeZone('UTC'));
+            return $dateTime;
         }
 
         return $return;
     }
 
-    public function createDatePicker($value, $return = null): ?DateTime
+    public function createDate($value, $return = null): ?DateTime
     {
         if($value != "" && $value != null){
-            return DateTime::createFromFormat('d/m/Y', $value);
+            return DateTime::createFromFormat('Y-m-d', $value);
         }
 
         return $return;
