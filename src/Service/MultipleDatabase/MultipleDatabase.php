@@ -51,6 +51,7 @@ class MultipleDatabase
         $data['doctrine']['orm']['entity_managers'][$nameManager] = [
             "naming_strategy" => "doctrine.orm.naming_strategy.underscore_number_aware",
             "connection" => $nameManager,
+            "report_fields_where_declared" => true,
             "mappings" => [
                 ucfirst($nameManager) => [
                     "is_bundle" => false,
