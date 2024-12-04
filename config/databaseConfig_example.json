@@ -3,5 +3,6 @@
   "db_password": "",
   "db_host": "127.0.0.1:3306",
   "db_prefix": "",
-  "db_folder": "Init"
+  "db_folder": "Init",
+  "db_version": "5.7&charset=utf8mb4"
 }
