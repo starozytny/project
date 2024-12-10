@@ -36,6 +36,7 @@ security:
 
     access_control:
          - { path: ^/intern/api/users/password,     roles: PUBLIC_ACCESS }
+         - { path: ^/intern/api/contacts/create,    roles: PUBLIC_ACCESS }
          - { path: ^/intern/api,                    roles: ROLE_USER }
          - { path: ^/api,                           roles: ROLE_USER }
          - { path: ^/espace-membre,                 roles: ROLE_USER }
