@@ -220,7 +220,7 @@ class UserController extends AbstractController
         return $apiResponse->apiJsonResponseSuccessful("Veuillez noter le nouveau mot de passe : " . $pass);
     }
 
-    #[Route('/password/switch/blocked/{token}', name: 'switch_blocked', options: ['expose' => true], methods: 'put')]
+    #[Route('/switch/blocked/{token}', name: 'switch_blocked', options: ['expose' => true], methods: 'put')]
     #[IsGranted('ROLE_ADMIN')]
     public function switchBlocked($token, ApiResponse $apiResponse, UserRepository $repository): Response
     {

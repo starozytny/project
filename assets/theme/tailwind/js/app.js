@@ -1,3 +1,5 @@
 import "../css/app.scss"
 
-import '@commonFunctions/toastrOptions';
+import Toastr from "@tailwindFunctions/toastr";
+
+Toastr.flashes();

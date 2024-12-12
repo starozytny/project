@@ -68,55 +68,21 @@ TextAreaView.propTypes = {
 }
 
 /***************************************
- * TRUMB View
- ***************************************/
-export function TrumbView (props) {
-	const { identifiant, valeur, errors, children, height = "80px" } = props;
-
-	let error = getError(errors, identifiant);
-
-	let styleInput = "block bg-gray-100 w-full rounded-md border-0 py-2 px-3 text-sm text-gray-900 ring-1 ring-inset placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-gray-500";
-
-	return <>
-		<label htmlFor={identifiant} className="block text-sm font-medium leading-6 text-gray-900">
-			{children}
-		</label>
-		<div className="relative rounded-md shadow-sm">
-			<div id={identifiant} disabled={true}
-				 style={{ height: height }}
-				 className={styleInput + " " + (error ? "ring-red-400" : "ring-gray-300")}>
-				{valeur === null ? "" : parse(valeur)}
-			</div>
-		</div>
-		<ErrorContent error={error} />
-	</>
-}
-
-TrumbView.propTypes = {
-	identifiant: PropTypes.string,
-	errors: PropTypes.array,
-	children: PropTypes.node,
-}
-
-/***************************************
  * INPUT Classique
  ***************************************/
 export function Input ({
-						   type = "text", identifiant, valeur, errors, onChange, children, placeholder = "", autocomplete = "on", disabled = false,
+						   type = "text", identifiant, name, valeur, errors, onChange, children, placeholder = "", autocomplete = "on", disabled = false,
 						   onBlur = null, min = "", max = "", step = 1,
 						   options = { numeral: true, numeralDecimalScale: 10, numeralThousandsGroupStyle: 'thousand', delimiter: ' ' },
 						   prefix
 					   }) {
 	const [showValue, setShowValue] = useState(false);
 
+	let nName = name ? name : identifiant;
+
 	let nType = type, dateClasses = "", nPlaceholder = placeholder, nAutocomplete = autocomplete;
 	if (showValue) {
 		nType = "text";
-	} else if (type === "js-date") {
-		nType = "text";
-		dateClasses = "js-datepicker";
-		nPlaceholder = "JJ/MM/AAAA";
-		nAutocomplete = "off-date" + identifiant;
 	}
 
 	let error = getError(errors, identifiant);
@@ -127,8 +93,12 @@ export function Input ({
 	}
 
 	let content;
-	if (type === "number") {
-		content = <input type={nType} name={identifiant} id={identifiant} value={valeur}
+	if (type === "number" || type === "range") {
+		if(type === "range"){
+			styleInput += " ring-0 shadow-none"
+		}
+
+		content = <input type={nType} name={nName} id={identifiant} value={valeur}
 						 placeholder={placeholder} onChange={onChange} autoComplete={nAutocomplete}
 						 disabled={disabled} onBlur={onBlur}
 						 className={styleInput + " w-full " + (error ? "ring-red-400" : "ring-gray-300")}
@@ -137,16 +107,23 @@ export function Input ({
 						 onKeyDown={(e) => ["e", "E"].includes(e.key) && e.preventDefault()} />
 	} else if (type === "cleave" || type === "cleave-zipcode") {
 		let nOptions = type === "cleave-zipcode" ? { blocks: [5], numericOnly: true } : options;
-		content = <Cleave name={identifiant} id={identifiant} value={valeur}
+		content = <Cleave name={nName} id={identifiant} value={valeur}
 						  placeholder={placeholder} onChange={onChange} onBlur={onBlur}
 						  options={nOptions}
 						  className={styleInput + " w-full " + (error ? "ring-red-400" : "ring-gray-300")} />
-	} else {
-		content = <input type={nType} name={identifiant} id={identifiant} value={valeur}
+	} else if (type === "date") {
+		content = <input type={nType} name={nName} id={identifiant} value={valeur}
+						 placeholder={nPlaceholder} onChange={onChange} autoComplete={nAutocomplete}
+						 min={min} max={max}
+						 disabled={disabled}
+						 className={styleInput
+							 + " w-full " + dateClasses
+							 + " " + (error ? "ring-red-400" : "ring-gray-300")} />
+	}  else {
+		content = <input type={nType} name={nName} id={identifiant} value={valeur}
 						 placeholder={nPlaceholder} onChange={onChange} autoComplete={nAutocomplete}
 						 disabled={disabled}
 						 className={styleInput
-							 + " " + dateClasses
 							 + " " + (error ? "ring-red-400" : "ring-gray-300")
 							 + " " + (type === "color" ? "bg-white h-8.5 w-16" : "w-full")} />
 	}

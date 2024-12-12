@@ -1,8 +1,10 @@
+@use "../vars/vars";
+
 .pagination{
   padding: 0;
   margin: 0;
   list-style: none;
-  @include flex(row, center, flex-start);
+  @include vars.flex(row, center, flex-start);
   gap: 6px;
 
   a{

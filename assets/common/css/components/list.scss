@@ -1,3 +1,5 @@
+@use "../vars/vars";
+
 .list-table{
   .item-header{
     display: none;
@@ -33,10 +35,10 @@
   }
 
   .item-infos{
-    @include flex(column, flex-start, flex-start, 8px);
+    @include vars.flex(column, flex-start, flex-start, 8px);
 
     & > .col-with-image{
-      @include flex(row, flex-start, flex-start, 8px);
+      @include vars.flex(row, flex-start, flex-start, 8px);
 
       .infos{
         width: calc(100% - 64px);
@@ -44,7 +46,7 @@
     }
 
     & > [class^="col-"].actions{
-      @include flex(row, flex-end, flex-end, 4px);
+      @include vars.flex(row, flex-end, flex-end, 4px);
       width: 100%;
     }
   }

@@ -1,17 +1,17 @@
 import React, { Component } from "react";
 
 import axios from "axios";
-import toastr from "toastr";
 import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
 import Sort from "@commonFunctions/sort";
 import List from "@commonFunctions/list";
+import Toastr from "@tailwindFunctions/toastr";
 import Formulaire from "@commonFunctions/formulaire";
 
 import { SocietiesList } from "@adminPages/Societies/SocietiesList";
 
-import { Search } from "@tailwindComponents/Elements/Search";
 import { Modal } from "@tailwindComponents/Elements/Modal";
+import { Search } from "@tailwindComponents/Elements/Search";
 import { Button } from "@tailwindComponents/Elements/Button";
 import { ModalDelete } from "@tailwindComponents/Shortcut/Modal";
 import { LoaderElements } from "@tailwindComponents/Elements/Loader";
@@ -141,7 +141,7 @@ export class Societies extends Component {
 		});
 		instance({ method: "PUT", url: Routing.generate(URL_ACTIVATE_ELEMENT, { 'id': element.id }), data: {} })
 			.then(function (response) {
-				toastr.info("Société activée.");
+				Toastr.toast('info', "Société activée.");
 				self.activate.current.handleUpdateContent("<p>La société a été activée avec succès.</p>");
 				self.activate.current.handleUpdateFooter(null);
 				self.activate.current.handleUpdateCloseTxt("Fermer");
@@ -171,7 +171,7 @@ export class Societies extends Component {
 		});
 		instance({ method: "PUT", url: Routing.generate(URL_GENERATE_ELEMENT, { 'id': element.id }), data: {} })
 			.then(function (response) {
-				toastr.info("Société activée.");
+				Toastr.toast('info', "Société générée.");
 				self.generate.current.handleUpdateContent("<p>La société a été générée avec succès.</p>");
 				self.generate.current.handleUpdateFooter(null);
 				self.generate.current.handleUpdateCloseTxt("Fermer");
@@ -207,9 +207,9 @@ export class Societies extends Component {
 								perPage={perPage} onUpdate={this.handleUpdateData} onChangeCurrentPage={this.handleChangeCurrentPage} />
 
 					<ModalDelete refModal={this.delete} element={element} routeName={URL_DELETE_ELEMENT}
-								 title="Supprimer cette société" msgSuccess="Société supprimée"
+								 title="Supprimer cette société" msgSuccess="Société supprimée."
 								 onUpdateList={this.handleUpdateList}>
-						Etes-vous sûr de vouloir supprimer définitivement cette société ?
+						Êtes-vous sûr de vouloir supprimer définitivement cette société ?
 					</ModalDelete>
 
 					<Modal ref={this.activate} identifiant="activate" maxWidth={414} title="Activer la société"

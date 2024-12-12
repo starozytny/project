@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 
 import axios from "axios";
-import toastr from "toastr";
 import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
+import Toastr from "@tailwindFunctions/toastr";
 import Formulaire from "@commonFunctions/formulaire";
 
 import { Button } from "@tailwindComponents/Elements/Button";
@@ -15,11 +15,15 @@ export class ModalDelete extends Component {
 		const { refModal, element, routeName, msgSuccess, onUpdateList } = this.props;
 
 		let self = this;
-		axios({ method: "DELETE", url: Routing.generate(routeName, { 'id': element.id }), data: {} })
+		axios({ method: "DELETE", url: Routing.generate(routeName, { id: element.id }), data: {} })
 			.then(function (response) {
-				toastr.info(msgSuccess);
-				onUpdateList(element, "delete");
-				refModal.current.handleClose();
+				Toastr.toast('info', msgSuccess);
+				if(onUpdateList){
+					onUpdateList(element, "delete");
+					refModal.current.handleClose();
+				}else{
+					location.reload();
+				}
 			})
 			.catch(function (error) {
 				Formulaire.displayErrors(self, error);
@@ -50,7 +54,7 @@ export class ModalDeletes extends Component {
 		Formulaire.loader(true);
 		axios({ method: "DELETE", url: Routing.generate(routeName), data: ids })
 			.then(function (response) {
-				toastr.info(msgSuccess);
+				Toastr.toast('info', msgSuccess);
 				location.reload();
 			})
 			.catch(function (error) {

@@ -37,7 +37,7 @@ class MultipleDatabase
 
         //write env file
         $env = file_get_contents($this->envFile);
-        $env .= 'DATABASE_URL_CLIENT_'.$code.'="mysql://'.$db['db_username'].':'.$db['db_password'].'@'.$db['db_host'].'/'.$db['db_prefix'] . $nameManager.'?serverVersion=5.7&charset=utf8mb4"';
+        $env .= 'DATABASE_URL_CLIENT_'.$code.'="mysql://'.$db['db_username'].':'.$db['db_password'].'@'.$db['db_host'].'/'.$db['db_prefix'] . $nameManager.'?serverVersion='.$db['db_version'].'"';
         $env .= "\n";
         file_put_contents($this->envFile, $env);
 
@@ -51,6 +51,7 @@ class MultipleDatabase
         $data['doctrine']['orm']['entity_managers'][$nameManager] = [
             "naming_strategy" => "doctrine.orm.naming_strategy.underscore_number_aware",
             "connection" => $nameManager,
+            "report_fields_where_declared" => true,
             "mappings" => [
                 ucfirst($nameManager) => [
                     "is_bundle" => false,

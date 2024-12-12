@@ -4,14 +4,14 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
-import { Checkbox, Input, InputFile, SelectCustom } from "@tailwindComponents/Elements/Fields";
-import { Button } from "@tailwindComponents/Elements/Button";
-import { LoaderElements } from "@tailwindComponents/Elements/Loader";
-import { Password } from "@tailwindComponents/Modules/User/Password";
-
+import Sort from "@commonFunctions/sort";
 import Formulaire from "@commonFunctions/formulaire";
 import Validateur from "@commonFunctions/validateur";
-import Sort from "@commonFunctions/sort";
+
+import { Button } from "@tailwindComponents/Elements/Button";
+import { Password } from "@tailwindComponents/Modules/User/Password";
+import { LoaderElements } from "@tailwindComponents/Elements/Loader";
+import { Checkbox, Input, InputFile, SelectCustom } from "@tailwindComponents/Elements/Fields";
 
 const URL_SELECT_SOCIETIES = "intern_api_selection_societies";
 const URL_INDEX_ELEMENTS = "admin_users_index";

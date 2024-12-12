@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 
 import axios from "axios";
-import toastr from "toastr";
 import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
-import Formulaire from "@commonFunctions/formulaire";
 import Sort from "@commonFunctions/sort";
 import List from "@commonFunctions/list";
+import Toastr from "@tailwindFunctions/toastr";
+import Formulaire from "@commonFunctions/formulaire";
 
 import { Modal } from "@tailwindComponents/Elements/Modal";
 import { Search } from "@tailwindComponents/Elements/Search";
@@ -130,7 +130,7 @@ export class Users extends Component {
 		});
 		instance({ method: "POST", url: Routing.generate(URL_REINIT_PASSWORD, { 'token': element.token }), data: {} })
 			.then(function (response) {
-				toastr.info("Mot de passe généré.");
+				Toastr.toast('info', "Mot de passe généré.");
 				self.reinit.current.handleUpdateContent("<p>" + response.data.message + "</p>");
 				self.reinit.current.handleUpdateFooter(null);
 				self.reinit.current.handleUpdateCloseTxt("Fermer");
@@ -156,10 +156,11 @@ export class Users extends Component {
 		instance({ method: "PUT", url: Routing.generate(URL_SWITCH_BLOCKED, { 'token': element.token }), data: {} })
 			.then(function (response) {
 				let elem = response.data;
-				toastr.info(elem.blocked ? "Utilisateur bloqué" : "Utilisateur débloqué");
+				Toastr.toast('info', elem.blocked ? "Utilisateur bloqué" : "Utilisateur débloqué");
 				modalBlocked(self, elem);
 				self.handleUpdateList(elem, "update")
 				instance.interceptors.request.clear();
+				self.blocked.current.handleClose();
 			})
 			.catch(function (error) {
 				Formulaire.displayErrors(self, error);
@@ -198,7 +199,7 @@ export class Users extends Component {
 					<ModalDelete refModal={this.delete} element={element} routeName={URL_DELETE_ELEMENT}
 								 title="Supprimer cet utilisateur" msgSuccess="Utilisateur supprimé"
 								 onUpdateList={this.handleUpdateList}>
-						Etes-vous sûr de vouloir supprimer définitivement cet utilisateur ?
+						Êtes-vous sûr de vouloir supprimer définitivement cet utilisateur ?
 					</ModalDelete>
 
 					<Modal ref={this.reinit} identifiant="reinit" maxWidth={414}

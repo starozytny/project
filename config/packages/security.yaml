@@ -39,10 +39,12 @@ security:
         ROLE_DEVELOPER: [ ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH ]
 
     access_control:
-         - { path: ^/api/users/password,     roles: PUBLIC_ACCESS }
-         - { path: ^/api,                    roles: ROLE_USER }
-         - { path: ^/espace-membre,          roles: ROLE_USER }
-         - { path: ^/admin,                  roles: ROLE_ADMIN }
+         - { path: ^/intern/api/users/password,     roles: PUBLIC_ACCESS }
+         - { path: ^/intern/api/contacts/create,    roles: PUBLIC_ACCESS }
+         - { path: ^/intern/api,                    roles: ROLE_USER }
+         - { path: ^/api,                           roles: ROLE_USER }
+         - { path: ^/espace-membre,                 roles: ROLE_USER }
+         - { path: ^/admin,                         roles: ROLE_ADMIN }
 
 when@test:
     security:
