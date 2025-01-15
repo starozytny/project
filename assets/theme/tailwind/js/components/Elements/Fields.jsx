@@ -1,7 +1,7 @@
 import React, { Component, useState, useEffect } from "react";
 import PropTypes from 'prop-types';
 
-import parse from "html-react-parser";
+import { cn } from "@shadcnComponents/lib/utils"
 
 import Cleave from "cleave.js/react";
 
@@ -9,6 +9,8 @@ import Sort from "@commonFunctions/sort";
 import Search from "@commonFunctions/search";
 import Toastr from "@tailwindFunctions/toastr";
 import Sanitaze from "@commonFunctions/sanitaze";
+
+import { ComboboxSimple } from "@shadcnComponents/elements/Combobox/Combobox";
 
 /***************************************
  * INPUT View
@@ -771,6 +773,29 @@ Select.propTypes = {
 	onChange: PropTypes.func.isRequired,
 	children: PropTypes.node,
 	noEmpty: PropTypes.bool,
+}
+
+export function SelectCombobox (props) {
+	const { identifiant, valeur, items, errors, onSelect, children, placeholder, toSort, btnClassName, listClassName, disabled, withInput } = props;
+
+	let error = getError(errors, identifiant);
+
+	if(toSort){
+		items.sort(Sort.compareLabel)
+	}
+
+	return <>
+		<label htmlFor={identifiant} className="block text-sm font-medium leading-6 text-gray-800">
+			{children}
+		</label>
+		<div className="relative rounded-md">
+			<ComboboxSimple identifiant={identifiant} items={items} valeur={valeur} onSelect={onSelect}
+							placeholder={placeholder} disabled={disabled} withInput={withInput}
+							btnClassName={cn(error ? "border-red-500" : "border-gray-300", btnClassName)}
+							listClassName={listClassName} />
+		</div>
+		<ErrorContent error={error} />
+	</>
 }
 
 /***************************************
