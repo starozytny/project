@@ -17,17 +17,17 @@ class Society extends DataEntity
     const FOLDER = "logos";
 
     const SELECT = ['society_select'];
-    const LIST   = ['society_list'];
-    const FORM   = ['society_form'];
+    const LIST = ['society_list'];
+    const FORM = ['society_form'];
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['society_list', 'society_form', 'society_select', 'user_form'])]
+    #[Groups(['society_list', 'society_form', 'user_form'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['society_list', 'society_form', 'user_list', 'society_select'])]
+    #[Groups(['society_list', 'society_form', 'user_list'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
@@ -39,7 +39,7 @@ class Society extends DataEntity
     private ?string $dirname = "default";
 
     #[ORM\Column(length: 20)]
-    #[Groups(['society_list', 'society_form', 'user_list', 'society_select'])]
+    #[Groups(['society_list', 'society_form', 'user_list'])]
     private ?string $code = null;
 
     #[ORM\Column]
@@ -138,12 +138,6 @@ class Society extends DataEntity
         return $this;
     }
 
-    #[Groups(['society_list', 'society_form'])]
-    public function getLogoFile(): string
-    {
-        return $this->getFileOrDefault($this->logo, self::FOLDER);
-    }
-
     public function getLogo(): ?string
     {
         return $this->logo;
@@ -184,5 +178,23 @@ class Society extends DataEntity
         }
 
         return $this;
+    }
+
+    #[Groups(['society_list', 'society_form'])]
+    public function getLogoFile(): string
+    {
+        return $this->getFileOrDefault($this->logo, self::FOLDER);
+    }
+
+    #[Groups(['society_select'])]
+    public function getValue(): ?int
+    {
+        return $this->id;
+    }
+
+    #[Groups(['society_select'])]
+    public function getLabel(): ?string
+    {
+        return $this->code . " - " . $this->name;
     }
 }
