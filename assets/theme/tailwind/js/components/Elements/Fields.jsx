@@ -6,10 +6,10 @@ import { cn } from "@shadcnComponents/lib/utils"
 import Cleave from "cleave.js/react";
 
 import Sort from "@commonFunctions/sort";
-import Search from "@commonFunctions/search";
 import Toastr from "@tailwindFunctions/toastr";
 import Sanitaze from "@commonFunctions/sanitaze";
 
+import { SelectSimple } from "@shadcnComponents/elements/Select/Select";
 import { ComboboxMultiple, ComboboxSimple } from "@shadcnComponents/elements/Combobox/Combobox";
 
 /***************************************
@@ -398,41 +398,26 @@ Radiobox.propTypes = {
 }
 
 /***************************************
- * SELECT Classique
+ * SELECT Custom
  ***************************************/
-export function Select (props) {
-	const { identifiant, valeur, items, errors, onChange, children, noEmpty = false } = props;
+export function SelectShadcn (props) {
+	const { identifiant, valeur, items, errors, onSelect, children, placeholder, withGroup, noEmpty } = props;
 
-	let error = getError(errors, identifiant)
-
-	let styleSelect = "py-2 pl-2 w-full rounded-md shadow-sm border-0 text-sm text-gray-900 ring-1 ring-inset placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-gray-500";
-	let styleOption = "text-base"
-
-	let choices = items.map((item, index) =>
-		<option key={index} value={item.value} className={styleOption}>
-			{item.label}
-		</option>
-	)
+	let error = getError(errors, identifiant);
 
 	return <>
 		<label htmlFor={identifiant} className="block text-sm font-medium leading-6 text-gray-800">
 			{children}
 		</label>
 		<div className="relative rounded-md">
-			<select value={valeur} id={identifiant} name={identifiant} onChange={onChange}
-					className={styleSelect + " " + (error ? "ring-red-400" : "ring-gray-300")}
-			>
-				{noEmpty ? null : <option value="" />}
-				{choices}
-			</select>
+			<SelectSimple identifiant={identifiant} items={items} valeur={valeur} onSelect={onSelect}
+						  placeholder={placeholder} withGroup={withGroup} noEmpty={noEmpty}
+						  btnClassName={error ? "border-red-500" : "border-gray-300"} />
 		</div>
 		<ErrorContent error={error} />
 	</>
 }
 
-/***************************************
- * SELECT Custom
- ***************************************/
 export function SelectCombobox (props) {
 	const { identifiant, valeur, items, errors, onSelect, children, placeholder, toSort, btnClassName, listClassName, disabled, withInput } = props;
 
