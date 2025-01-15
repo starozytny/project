@@ -10,7 +10,7 @@ import Search from "@commonFunctions/search";
 import Toastr from "@tailwindFunctions/toastr";
 import Sanitaze from "@commonFunctions/sanitaze";
 
-import { ComboboxSimple } from "@shadcnComponents/elements/Combobox/Combobox";
+import { ComboboxMultiple, ComboboxSimple } from "@shadcnComponents/elements/Combobox/Combobox";
 
 /***************************************
  * INPUT View
@@ -398,187 +398,6 @@ Radiobox.propTypes = {
 }
 
 /***************************************
- * SELECT Custom
- ***************************************/
-function useArrows (e, self) {
-	let cursor = self.state.cursor;
-	if (e.key === "ArrowDown") {
-		if (cursor < self.props.items.length - 1) {
-			cursor++;
-		}
-	}
-	if (e.key === "ArrowUp") {
-		if (cursor > 0) {
-			cursor--;
-		}
-	}
-	self.setState({ cursor: cursor })
-
-	let element = document.getElementById("item-" + self.props.identifiant + "-" + cursor);
-	if (element) {
-		element.scrollIntoView({ block: 'end' })
-	}
-}
-
-/***************************************
- * SELECT MULTIPLE Custom
- ***************************************/
-export class SelectMultipleCustom extends Component {
-	constructor (props) {
-		super(props);
-
-		this.state = {
-			inputValue: props.inputValue,
-			isOpen: false,
-			cursor: -1
-		}
-
-		this.input = React.createRef();
-	}
-
-	handleUseArrows = (e) => {
-		useArrows(e, this)
-	}
-
-	handleFocus = () => {
-		this.setState({ isOpen: true, cursor: -1 })
-		window.addEventListener("keydown", this.handleUseArrows)
-	}
-
-	handleClose = (e, value) => {
-		const { identifiant, items } = this.props;
-		const { cursor, inputValue } = this.state;
-
-		if (e !== null) { // from this
-			let possibilities = [];
-			if (cursor !== -1) {
-				items.forEach((item, index) => {
-					if (index === cursor) {
-						possibilities.push(item);
-					}
-				})
-			} else {
-				items.forEach(item => {
-					let rank = Search.selectSearch(inputValue, item.label)
-					if (rank === 1) possibilities.push(item);
-				})
-			}
-
-			if (possibilities.length === 1) {
-				let item = possibilities[0];
-				this.props.onClick(identifiant, item.value)
-			} else {
-				this.props.onClick(identifiant, "")
-			}
-		} else { // from parent
-			this.setState({ isOpen: false, inputValue: value ? value : "" })
-		}
-
-		window.removeEventListener("keydown", this.handleUseArrows)
-	}
-
-	handleChange = (e) => {
-		this.setState({ [e.currentTarget.name]: e.currentTarget.value })
-	}
-
-	handleBlur = (e) => {
-		const { identifiant } = this.props;
-
-		let value = e.currentTarget.value;
-		if (e.key === "Tab") this.props.onClick(identifiant, value)
-		if (e.key === "Enter") {
-			e.preventDefault();
-			this.props.onClick(identifiant, value)
-			this.input.current.focus();
-		}
-	}
-
-	render () {
-		const { identifiant, items, errors, onClick, onDeClick, children, placeholder = "", inputValues, idVal = "uid" } = this.props;
-		const { init, isOpen, inputValue, cursor } = this.state;
-
-		let error = getError(errors, identifiant);
-
-		items.forEach(item => {
-			item.rank = Search.selectSearch(inputValue ? inputValue : "", item.label);
-		})
-
-		items.sort(Sort.compareRankThenLabel)
-
-		let nItems = [];
-		items.forEach((item, index) => {
-			let positionnement = cursor === index ? "text-blue-700" : "text-gray-900";
-
-			let find = false;
-			inputValues.forEach(v => {
-				if (v[idVal] === item.value) {
-					find = true;
-				}
-			})
-
-			if (!find) {
-				nItems.push(<div className={`w-full flex px-2 py-1.5 cursor-pointer hover:bg-gray-100 ${positionnement}`} key={index}
-								 onClick={() => onClick(identifiant, item.value, item.displayName ? item.displayName : item.label)}>
-					<div dangerouslySetInnerHTML={{ __html: item.label }} />
-				</div>)
-			}
-		})
-
-		let styleInput = "flex gap-2 w-full bg-gray-50 rounded-md border-0 py-1 px-2 text-sm text-gray-900 ring-1 ring-inset placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-gray-500";
-
-		return <>
-			<label htmlFor={identifiant} className="block text-sm font-medium leading-6 text-gray-800">
-				{children}
-			</label>
-			<div className="rounded-md shadow-sm w-full">
-				<div className={`fixed top-0 left-0 w-full h-full inset-0 bg-gray-500 bg-opacity-75 transition-opacity ease-out duration-300 ${isOpen ? "opacity-100 z-10" : "opacity-0 -z-10"}`}
-					 onClick={() => this.handleClose(null, null)}></div>
-				<div className={`relative ${isOpen ? "z-10" : ""}`} onFocus={this.handleFocus}>
-					<div className={styleInput + " " + (error ? "ring-red-400" : "ring-gray-300")}>
-						{inputValues.length > 0 && <div className="flex flex-wrap gap-2 max-w-[80%] bg-slate-50 rounded-md">
-							{inputValues.length > 0 && inputValues.map((val, index) => {
-								return <div className="cursor-pointer flex gap-1 bg-blue-100 rounded-md py-1 px-2 text-sm hover:bg-blue-50 transition-colors"
-											onClick={() => onDeClick(identifiant, val[idVal])} key={index}>
-									<span>{val.label}</span>
-									<span className="icon-close inline-block translate-y-0.5 ml-2" />
-								</div>
-							})}
-						</div>}
-						<form onSubmit={this.handleBlur}>
-							<input ref={this.input} type="text" name="inputValue" id="inputValue" value={inputValue}
-								   placeholder={placeholder} onChange={this.handleChange} onKeyDown={this.handleBlur}
-								   className="w-full h-full bg-white border border-gray-200 rounded hover:border-gray-300 py-1 pl-2 text-sm text-gray-900 focus:ring-0"
-								   autoComplete={"new-" + identifiant} key={init} />
-						</form>
-					</div>
-					<div className={isOpen ? "absolute block top-10 left-0 z-10" : "hidden -z-10"}>
-						<div className="w-64 max-h-64 overflow-y-auto origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-							<div className="py-2">
-								{nItems}
-							</div>
-						</div>
-					</div>
-				</div>
-
-			</div>
-			<ErrorContent error={error} />
-		</>
-	}
-}
-
-SelectMultipleCustom.propTypes = {
-	identifiant: PropTypes.string.isRequired,
-	items: PropTypes.array.isRequired,
-	errors: PropTypes.array.isRequired,
-	onClick: PropTypes.func.isRequired,
-	onDeClick: PropTypes.func.isRequired,
-	inputValues: PropTypes.array.isRequired,
-	children: PropTypes.node,
-	inputValue: PropTypes.node,
-	placeholder: PropTypes.string,
-}
-
-/***************************************
  * SELECT Classique
  ***************************************/
 export function Select (props) {
@@ -611,16 +430,9 @@ export function Select (props) {
 	</>
 }
 
-Select.propTypes = {
-	identifiant: PropTypes.string.isRequired,
-	valeur: PropTypes.node.isRequired,
-	items: PropTypes.array.isRequired,
-	errors: PropTypes.array.isRequired,
-	onChange: PropTypes.func.isRequired,
-	children: PropTypes.node,
-	noEmpty: PropTypes.bool,
-}
-
+/***************************************
+ * SELECT Custom
+ ***************************************/
 export function SelectCombobox (props) {
 	const { identifiant, valeur, items, errors, onSelect, children, placeholder, toSort, btnClassName, listClassName, disabled, withInput } = props;
 
@@ -639,6 +451,28 @@ export function SelectCombobox (props) {
 							placeholder={placeholder} disabled={disabled} withInput={withInput}
 							btnClassName={cn(error ? "border-red-500" : "border-gray-300", btnClassName)}
 							listClassName={listClassName} />
+		</div>
+		<ErrorContent error={error} />
+	</>
+}
+
+export function SelectComboboxMultiple (props) {
+	const { identifiant, valeur, items, errors, onSelect, onChange, children, placeholder, toSort, withInput, withItems = true } = props;
+
+	let error = getError(errors, identifiant);
+
+	if(toSort){
+		items.sort(Sort.compareLabel)
+	}
+
+	return <>
+		<label htmlFor={identifiant} className="block text-sm font-medium leading-6 text-gray-800">
+			{children}
+		</label>
+		<div className="w-full relative rounded-md">
+			<ComboboxMultiple identifiant={identifiant} items={items} valeurs={valeur} onSelect={onSelect} onChange={onChange}
+							  placeholder={placeholder} withInput={withInput} withItems={withItems}
+							  btnClassName={error ? "border-red-500" : "border-gray-300"} />
 		</div>
 		<ErrorContent error={error} />
 	</>
