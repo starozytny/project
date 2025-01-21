@@ -209,7 +209,7 @@ class Form extends Component {
 							</Checkbox>
 						</div>
 
-						<div className="line">
+						<div>
 							{loadData
 								? <>
 									<label>Société</label>
