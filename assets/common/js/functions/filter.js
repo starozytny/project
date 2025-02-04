@@ -1,35 +1,28 @@
 function process(dataImmuable, filters, property) {
-    let newData = [];
-    if(filters.length === 0) {
-        newData = dataImmuable
-    }else{
-        dataImmuable.forEach(el => {
-            filters.forEach(filter => {
-                let push = false;
-                switch (property){
-                    default:
-                        if(filter === el[property]){
-                            push = true;
-                        }
-                        break;
-                }
+    if(filters.length === 0) return dataImmuable;
 
-                if(push){
-                    newData.filter(elem => elem.id !== el.id)
-                    newData.push(el);
-                }
+    let newData = new Map();
 
-            })
-        })
-    }
+    dataImmuable.forEach(el => {
+        for (const filter of filters) {
 
-    return newData;
+            let push = false;
+            switch (property){
+                default:
+                    push = filter === el[property];
+                    break;
+            }
+
+            if (push) newData.set(el.id, el);
+        }
+    })
+
+    return Array.from(newData.values());
 }
 
 function filter (dataImmuable, filters, property) {
     return process(dataImmuable, filters, property);
 }
-
 
 module.exports = {
     filter
