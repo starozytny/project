@@ -4,6 +4,8 @@ namespace App\Repository\Main;
 
 use App\Entity\Main\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -54,6 +56,27 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $user->setPassword($newHashedPassword);
 
         $this->save($user, true);
+    }
+
+    public function countLastLoginAt()
+    {
+        return $this->createQueryBuilder('u')
+            ->select('COUNT(u.id)')
+            ->andWhere('u.lastLoginAt IS NOT NULL')
+            ->getQuery()
+            ->getSingleScalarResult()
+        ;
+    }
+
+    public function findLastLoginAt($maxResult)
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.lastLoginAt IS NOT NULL')
+            ->orderBy('u.lastLoginAt', 'DESC')
+            ->setMaxResults($maxResult)
+            ->getQuery()
+            ->getResult()
+        ;
     }
 
 //    /**

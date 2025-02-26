@@ -39,6 +39,16 @@ class ContactRepository extends ServiceEntityRepository
         }
     }
 
+    public function countIsSeen()
+    {
+        return $this->createQueryBuilder('c')
+            ->select('COUNT(c.id)')
+            ->andWhere('c.seen = 0')
+            ->getQuery()
+            ->getSingleScalarResult()
+        ;
+    }
+
 //    /**
 //     * @return Contact[] Returns an array of Contact objects
 //     */

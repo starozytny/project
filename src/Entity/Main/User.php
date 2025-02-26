@@ -212,19 +212,6 @@ class User extends DataEntity implements UserInterface, PasswordAuthenticatedUse
         return $this;
     }
 
-    public function getHiddenEmail(): string
-    {
-        $email = $this->getEmail();
-        $at = strpos($email, "@");
-        $domain = substr($email, $at, strlen($email));
-        $firstLetter = substr($email, 0, 1);
-        $etoiles = "";
-        for($i=1 ; $i < $at ; $i++){
-            $etoiles .= "*";
-        }
-        return $firstLetter . $etoiles . $domain;
-    }
-
     public function getLastname(): ?string
     {
         return $this->lastname;
@@ -333,12 +320,6 @@ class User extends DataEntity implements UserInterface, PasswordAuthenticatedUse
         return $this;
     }
 
-    #[Groups(['user_list', 'user_form'])]
-    public function getAvatarFile(): ?string
-    {
-        return $this->getFileOrDefault($this->avatar, self::FOLDER, null);
-    }
-
     public function getManager(): ?string
     {
         return $this->manager;
@@ -405,8 +386,32 @@ class User extends DataEntity implements UserInterface, PasswordAuthenticatedUse
         return $this;
     }
 
+    public function getHiddenEmail(): string
+    {
+        $email = $this->getEmail();
+        $at = strpos($email, "@");
+        $domain = substr($email, $at, strlen($email));
+        $firstLetter = substr($email, 0, 1);
+        $etoiles = "";
+        for($i=1 ; $i < $at ; $i++){
+            $etoiles .= "*";
+        }
+        return $firstLetter . $etoiles . $domain;
+    }
+
+    #[Groups(['user_list', 'user_form'])]
+    public function getAvatarFile(): ?string
+    {
+        return $this->getFileOrDefault($this->avatar, self::FOLDER, null);
+    }
+
     public function getIsAdmin(): bool
     {
         return $this->getHighRoleCode() == User::CODE_ROLE_DEVELOPER || $this->getHighRoleCode() == User::CODE_ROLE_ADMIN;
+    }
+
+    public function getIsDev(): bool
+    {
+        return $this->getHighRoleCode() == User::CODE_ROLE_DEVELOPER;
     }
 }
