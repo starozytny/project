@@ -118,7 +118,7 @@ export class Notifications extends Component {
         if (data) {
             data.sort(Sort.compareCreatedAtInverse)
             data.forEach(el => {
-                if (!el.isSeen) nbNewNotifs++;
+                if (!el.seen) nbNewNotifs++;
 
                 items.push(<div className="w-full flex justify-between gap-1 px-2 py-1.5 cursor-pointer hover:bg-gray-100" key={el.id}>
                     <div className="w-full flex gap-1 lg:gap-2" onClick={() => this.handleSeen(el)}>
@@ -127,7 +127,7 @@ export class Notifications extends Component {
                         </div>
                         <div className="w-full leading-4">
                             <a className="text-sm font-medium hover:text-blue-600 transition-colors" href={el.url}>
-                                {!el.isSeen && <span className="inline-block align-top w-1 h-1 bg-green-500 rounded-full" />} <span>{el.name}</span>
+                                {!el.seen && <span className="inline-block align-top w-1 h-1 bg-green-500 rounded-full" />} <span>{el.name}</span>
                             </a>
                             <div className="text-gray-600 text-xs">
                                 {Sanitaze.toFormatCalendar(el.createdAt)}

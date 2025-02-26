@@ -6,6 +6,7 @@ use App\Entity\Main\Notification;
 use App\Repository\Main\NotificationRepository;
 use App\Service\ApiResponse;
 use App\Service\Data\DataService;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,6 +26,22 @@ class NotificationController extends AbstractController
     public function isSeen(Notification $obj, DataService $dataService): JsonResponse
     {
         return $dataService->isSeenToTrue($obj, Notification::LIST);
+    }
+
+    #[Route(path: '/all/seen', name: 'isSeen_all', options: ['expose' => true], methods: ['POST'])]
+    public function allSeen(ManagerRegistry $registry, NotificationRepository $notificationRepository, ApiResponse $apiResponse): JsonResponse
+    {
+        $em = $registry->getManager();
+        $objs = $notificationRepository->findBy(['seen' => false]);
+
+        foreach($objs as $obj){
+            $obj->setSeen(true);
+        }
+
+        $objs = $notificationRepository->findAll();
+
+        $em->flush();
+        return $apiResponse->apiJsonResponse($objs, Notification::LIST);
     }
 
     #[Route(path: '/{id}', name: 'delete', options: ['expose' => true], methods: ['DELETE'])]
