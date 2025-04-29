@@ -76,7 +76,7 @@ class UserController extends AbstractController
         if($existe = $em->getRepository(User::class)->findOneBy(['email' => $obj->getEmail()])){
             if($type == "create" || ($type == "update" && $existe->getId() != $obj->getId())){
                 return $apiResponse->apiJsonResponseValidationFailed([
-                    ["name" => "email", "message" => "Cette addresse e-mail existe déjà."]
+                    ["name" => "email", "message" => "Cette adresse e-mail existe déjà."]
                 ]);
             }
         }
@@ -110,7 +110,7 @@ class UserController extends AbstractController
     #[Route('/update/{id}', name: 'update', options: ['expose' => true], methods: 'POST')]
     #[IsGranted('ROLE_USER')]
     public function update(Request $request, User $obj, ManagerRegistry $doctrine, ApiResponse $apiResponse,
-                           ValidatorService $validator, DataMain$dataEntity, UserRepository $repository,
+                           ValidatorService $validator, DataMain $dataEntity, UserRepository $repository,
                            UserPasswordHasherInterface $passwordHasher, FileUploader $fileUploader): Response
     {
         $em = $doctrine->getManager();
