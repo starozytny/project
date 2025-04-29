@@ -38,3 +38,5 @@ winpty.exe.stackdump
 /config/packages/doctrine.yaml
 
 /public/tinymce/*
+
+phpunit.xml.dist

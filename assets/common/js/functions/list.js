@@ -1,6 +1,6 @@
 const axios = require("axios");
 
-const Formulaire     = require("@commonFunctions/formulaire");
+const Formulaire = require("@commonFunctions/formulaire");
 const SearchFunction = require("@commonFunctions/search");
 const FilterFunction = require("@commonFunctions/filter");
 
@@ -112,37 +112,6 @@ function changeSorter (self, data, perPage, sortersFunction, nb, sessionName = n
         sessionStorage.setItem(sessionName, "" + nb);
     }
     self.setState({ nbSorter: nb, currentPage: 0 })
-}
-
-function update (context, data, element, nameProperty = "id") {
-    let newData = [];
-
-    switch (context){
-        case "delete_group":
-            data.forEach(el => {
-                if(!element.includes(el[nameProperty])){
-                    newData.push(el);
-                }
-            })
-            break;
-        case "delete":
-            newData = data.filter(el => el[nameProperty] !== element[nameProperty]);
-            break;
-        case "update":
-            data.forEach(el => {
-                if(el[nameProperty] === element[nameProperty]){
-                    el = element;
-                }
-                newData.push(el);
-            })
-            break;
-        default:
-            newData = data ? data : [];
-            newData.push(element);
-            break;
-    }
-
-    return newData;
 }
 
 function updateDataMuta (element, context, data, sorter, nameProperty = "id") {

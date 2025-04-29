@@ -31,31 +31,15 @@ class AdminController extends AbstractController
                           UserRepository $userRepository, ContactRepository $contactRepository,
                           ChangelogRepository $changelogRepository): Response
     {
-        $settings = $settingsRepository->findAll();
-        $settings = count($settings) != 0 ? $settings[0] : null;
-
-        $users = $userRepository->findAll();
-        $usersConnected = 0;
-        foreach($users as $user){
-            if($user->getLastLoginAt()) $usersConnected++;
-        }
-
-        $contacts = $contactRepository->findAll();
-        $contactsNew = 0;
-        foreach($contacts as $contact){
-            if($contact->isSeen()) $contactsNew++;
-        }
-
-        $changelogs = $changelogRepository->findBy(['isPublished' => true], ['createdAt' => 'ASC'], 5);
-
         return $this->render('admin/pages/index.html.twig', [
-            'settings' => $settings,
-            'nbSocieties' => count($societyRepository->findAll()),
-            'nbUsers' => count($users),
-            'nbUsersConnected' => $usersConnected,
-            'nbContacts' => count($contacts),
-            'nbContactsNew' => $contactsNew,
-            'changelogs' => $changelogs,
+            'settings' => $settingsRepository->findOneBy(['code' => 0]),
+            'nbSocieties' => $societyRepository->count([]),
+            'nbUsers' => $userRepository->count([]),
+            'nbUsersConnected' => $userRepository->countLastLoginAt(),
+            'users' => $userRepository->findLastLoginAt(11),
+            'nbContacts' => $contactRepository->count([]),
+            'nbContactsNew' => $contactRepository->countIsSeen(),
+            'changelogs' => $changelogRepository->findBy(['isPublished' => true], ['createdAt' => 'ASC'], 5),
         ]);
     }
 

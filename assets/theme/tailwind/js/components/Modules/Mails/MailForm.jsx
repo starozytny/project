@@ -13,7 +13,7 @@ import Validateur from "@commonFunctions/validateur";
 import { Button } from "@tailwindComponents/Elements/Button";
 import { TinyMCE } from "@tailwindComponents/Elements/TinyMCE";
 import { CloseModalBtn } from "@tailwindComponents/Elements/Modal";
-import { Input, InputFile, Radiobox, SelectMultipleCustom } from "@tailwindComponents/Elements/Fields";
+import { Input, InputFile, Radiobox, SelectComboboxMultiple } from "@tailwindComponents/Elements/Fields";
 
 const URL_CREATE_ELEMENT = "intern_api_mails_mail_send";
 
@@ -77,29 +77,14 @@ class Form extends Component {
 		this.setState({ [name]: { value: this.state[name].value, html: html } })
 	}
 
-	handleSelect = (name, value) => {
-		if (value !== "") {
-			this.setState({ errors: [] });
-
-			let validate = Validateur.validateur([{ type: "email", id: "" + [name], value: value }])
-			if (!validate.code) {
-				Formulaire.showErrors(this, validate);
-			} else {
-				this.setState({ [name]: [...this.state[name], ...[{ uid: uid(), label: value, value: value }]] });
-			}
+	handleSelectMultiple = (name, item) => {
+		let validate = Validateur.validateur([{ type: "email", id: "" + [name], value: item.value }])
+		if (validate.code) {
+			const newValues = Inputs.functionSelect(this, name, item);
+			this.setState({ [name]: newValues });
+		}else{
+			Toastr.toast('error', 'Veuillez saisir une adresse email valide.');
 		}
-		if(this[name] && this[name].current){
-			this[name].current.handleClose(null, "");
-		}
-	}
-
-	handleDeselect = (name, uidValue) => {
-		let nData = [];
-		this.state[name].forEach(val => {
-			if (val.uid !== uidValue) nData.push(val);
-		})
-
-		this.setState({ [name]: nData });
 	}
 
 	handleSubmit = (e) => {
@@ -173,7 +158,7 @@ class Form extends Component {
 		]
 
 		let params0 = { errors: errors, onChange: this.handleChange }
-		let params1 = { errors: errors, onClick: this.handleSelect, onDeClick: this.handleDeselect }
+		let params1 = { errors: errors, onSelect: this.handleSelectMultiple }
 
 		return <>
 			<div className="px-4 pb-4 pt-5 sm:px-6 sm:pb-4">
@@ -193,9 +178,10 @@ class Form extends Component {
 
 						<div className="flex items-start gap-2">
 							<div className="flex gap-2 w-full">
-								<SelectMultipleCustom ref={this.to} identifiant="to" inputValue="" inputValues={to}
-													  placeholder="Saisir un email.."
-													  items={tos} {...params1}>À</SelectMultipleCustom>
+								<SelectComboboxMultiple identifiant="to" valeur={to} items={tos}
+														{...params1} toSort={true} withInput={true}>
+									À
+								</SelectComboboxMultiple>
 							</div>
 
 							{(!openCc || !openBcc) && <div className="flex items-center gap-2">
@@ -211,15 +197,17 @@ class Form extends Component {
 						</div>
 
 						{openCc && <div className="flex gap-2">
-							<SelectMultipleCustom ref={this.cc} identifiant="cc" inputValue="" inputValues={cc}
-												  placeholder="Saisir un email.."
-												  items={tos} {...params1}>Cc</SelectMultipleCustom>
+							<SelectComboboxMultiple identifiant="cc" valeur={cc} items={tos}
+													{...params1} toSort={true} withInput={true}>
+								Cc
+							</SelectComboboxMultiple>
 						</div>}
 
 						{openBcc && <div className="flex gap-2">
-							<SelectMultipleCustom ref={this.bcc} identifiant="bcc" inputValue="" inputValues={bcc}
-												  placeholder="Saisir un email.."
-												  items={tos} {...params1}>Cci</SelectMultipleCustom>
+							<SelectComboboxMultiple identifiant="bcc" valeur={bcc} items={tos}
+													{...params1} toSort={true} withInput={true}>
+								Cci
+							</SelectComboboxMultiple>
 						</div>}
 
 						<div>

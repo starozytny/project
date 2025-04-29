@@ -81,6 +81,12 @@ function textMoneyMinusInput (value, source) {
     return value;
 }
 
+function functionSelect (self, name, item) {
+    return self.state[name].some(v => v.value === item.value)
+        ? self.state[name].filter(v => v.value !== item.value)
+        : [...self.state[name], item];
+}
+
 module.exports = {
     getZipcodes,
     cityInput,
@@ -88,4 +94,5 @@ module.exports = {
     textNumericInput,
     textNumericWithMinusInput,
     textMoneyMinusInput,
+    functionSelect,
 }

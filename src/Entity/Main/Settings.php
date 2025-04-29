@@ -18,6 +18,9 @@ class Settings
     #[ORM\Column]
     private ?int $id = null;
 
+    #[ORM\Column]
+    private ?int $code = 0;
+
     #[ORM\Column(length: 255)]
     #[Groups(['settings_form'])]
     private ?string $websiteName = null;
@@ -52,6 +55,18 @@ class Settings
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getCode(): ?int
+    {
+        return $this->code;
+    }
+
+    public function setCode(int $code): static
+    {
+        $this->code = $code;
+
+        return $this;
     }
 
     public function getWebsiteName(): ?string

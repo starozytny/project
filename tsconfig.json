@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"],
+      "@shadcnComponents/*": ["./assets/theme/shadcn/js/components/*"],
+    },
+    "jsx": "react"
+  },
+  "exclude": [
+    "node_modules",
+    "vendor",
+  ]
+}
