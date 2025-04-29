@@ -42,8 +42,6 @@ security:
          - { path: ^/intern/api/users/password,             roles: PUBLIC_ACCESS }
          - { path: ^/intern/api/contacts/create,            roles: PUBLIC_ACCESS }
          - { path: ^/intern/api/immo/demandes/create,       roles: PUBLIC_ACCESS }
-         - { path: ^/intern/api/immo/estimations/create,    roles: PUBLIC_ACCESS }
-         - { path: ^/intern/api/immo/gestions/create,       roles: PUBLIC_ACCESS }
          - { path: ^/intern/api,                            roles: ROLE_USER }
          - { path: ^/api,                                   roles: ROLE_API }
          - { path: ^/espace-membre,                         roles: ROLE_USER }
