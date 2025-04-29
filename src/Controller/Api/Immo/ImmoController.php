@@ -3,6 +3,7 @@
 namespace App\Controller\Api\Immo;
 
 use App\Repository\Main\SocietyRepository;
+use App\Service\Api\ApiLotys;
 use App\Service\FileUploader;
 use App\Service\Immo\ImmoService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,8 +23,8 @@ class ImmoController extends AbstractController
      * @throws ClientExceptionInterface
      */
     #[Route('/import/{codeSociety}', name: 'import', methods: 'POST')]
-    public function import(Request      $request, $codeSociety, SocietyRepository $repository, ImmoService $immoService,
-                           FileUploader $fileUploader): Response
+    public function import(Request $request, $codeSociety, SocietyRepository $repository, ImmoService $immoService,
+                           FileUploader $fileUploader, ApiLotys $apiLotys): Response
     {
         $society = $repository->findOneBy(['code' => $codeSociety]);
 
@@ -48,7 +49,7 @@ class ImmoController extends AbstractController
 
         if ($this->getParameter('app_env') == "prod") {
             // download photos and logos
-            [$tmp, $photosAlive, $logosAlive] = $this->downloadFiles($fileUploader, $data, $directoryPhotos, $directoryLogos);
+            [$tmp, $photosAlive, $logosAlive] = $this->downloadFiles($apiLotys->getUrlLotys(), $fileUploader, $data, $directoryPhotos, $directoryLogos);
 
             // remove old photos and logos
             $this->removeOldFiles($photosAlive, $directoryPhotos);
@@ -78,10 +79,8 @@ class ImmoController extends AbstractController
         return $this->json('Données mise à jour.');
     }
 
-    private function downloadFiles(FileUploader $fileUploader, $data, $directoryPhotos, $directoryLogos): array
+    private function downloadFiles(string $baseUrl, FileUploader $fileUploader, $data, $directoryPhotos, $directoryLogos): array
     {
-        $baseUrl = "https://lotys.fr";
-
         $tmp = [];
         $photosAlive = [];
         $logosAlive = [];
