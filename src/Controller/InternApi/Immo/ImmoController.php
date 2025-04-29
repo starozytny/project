@@ -3,7 +3,7 @@
 namespace App\Controller\InternApi\Immo;
 
 use App\Repository\Main\SocietyRepository;
-use App\Service\ApiResponse;
+use App\Service\Api\ApiResponse;
 use App\Service\Immo\ImmoService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;

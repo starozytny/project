@@ -4,7 +4,7 @@
 namespace App\Service\Data;
 
 
-use App\Service\ApiResponse;
+use App\Service\Api\ApiResponse;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 

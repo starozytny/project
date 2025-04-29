@@ -5,7 +5,7 @@ namespace App\Controller\InternApi;
 use App\Entity\Main\Settings;
 use App\Entity\Main\Society;
 use App\Repository\Main\SocietyRepository;
-use App\Service\ApiResponse;
+use App\Service\Api\ApiResponse;
 use App\Service\CommandService;
 use App\Service\Data\DataMain;
 use App\Service\FileUploader;

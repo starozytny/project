@@ -4,7 +4,7 @@ namespace App\Controller\InternApi;
 
 use App\Entity\Main\Contact;
 use App\Repository\Main\ContactRepository;
-use App\Service\ApiResponse;
+use App\Service\Api\ApiResponse;
 use App\Service\Data\DataMain;
 use App\Service\MailerService;
 use App\Service\SettingsService;

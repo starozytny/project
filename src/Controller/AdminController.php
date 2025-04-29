@@ -10,7 +10,7 @@ use App\Repository\Main\MailRepository;
 use App\Repository\Main\SettingsRepository;
 use App\Repository\Main\SocietyRepository;
 use App\Repository\Main\UserRepository;
-use App\Service\ApiResponse;
+use App\Service\Api\ApiResponse;
 use App\Service\MultipleDatabase\MultipleDatabase;
 use App\Service\SanitizeData;
 use App\Service\SettingsService;

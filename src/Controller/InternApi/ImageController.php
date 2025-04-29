@@ -3,7 +3,7 @@
 namespace App\Controller\InternApi;
 
 use App\Repository\Main\ImageRepository;
-use App\Service\ApiResponse;
+use App\Service\Api\ApiResponse;
 use App\Service\FileUploader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

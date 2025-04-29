@@ -4,7 +4,7 @@ namespace App\Controller\InternApi\Immo;
 
 use App\Entity\Immo\ImDemande;
 use App\Repository\Immo\ImDemandeRepository;
-use App\Service\ApiResponse;
+use App\Service\Api\ApiResponse;
 use App\Service\Data\DataImmo;
 use App\Service\Data\DataMain;
 use App\Service\MailerService;
