@@ -14,9 +14,9 @@ class DataService
     {
     }
 
-    public function isSeenToTrue($obj, $groups): JsonResponse
+    public function seenToTrue($obj, $groups): JsonResponse
     {
-        $obj->setIsSeen(true);
+        $obj->setSeen(true);
 
         $this->em->flush();
         return $this->apiResponse->apiJsonResponse($obj, $groups);

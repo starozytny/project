@@ -2,14 +2,22 @@
 
 namespace App\Controller;
 
+use App\Entity\Main\Contact;
+use App\Entity\Main\User;
 use App\Repository\Main\SocietyRepository;
+use App\Repository\Main\UserRepository;
 use App\Service\Api\ApiLotys;
 use App\Service\Immo\ImmoService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 class AppController extends AbstractController
@@ -111,5 +119,25 @@ class AppController extends AbstractController
         }
 
         return $this->render('app/pages/ads/read.html.twig', ['elem' => $elem]);
+    }
+
+    /**
+     * @throws TransportExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ClientExceptionInterface
+     */
+    #[Route('/ajouter/prospect/{token}/{id}/{type}', name: 'app_create_prospect', methods: 'GET')]
+    public function createProspect($token, Contact $obj, $type, UserRepository $repository, ApiLotys $apiLotys): RedirectResponse|AccessDeniedException
+    {
+        $existe = $repository->findOneBy(['token' => $token]);
+
+        if(!$existe || $existe->getHighRoleCode() != User::CODE_ROLE_API){
+            return $this->createAccessDeniedException('Accès interdit.');
+        }
+
+        $id = $apiLotys->createProspectByContact($obj, $type);
+
+        return $this->redirect($apiLotys->getUrlLotys() . 'espace-membre/personnes/prospects/' . ($type == 0 ? "acquereurs" : "locataires") . '?h=' . $id);
     }
 }

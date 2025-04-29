@@ -25,7 +25,7 @@ class NotificationController extends AbstractController
     #[Route(path: '/{id}/is-seen', name: 'isSeen', options: ['expose' => true], methods: ['POST'])]
     public function isSeen(Notification $obj, DataService $dataService): JsonResponse
     {
-        return $dataService->isSeenToTrue($obj, Notification::LIST);
+        return $dataService->seenToTrue($obj, Notification::LIST);
     }
 
     #[Route(path: '/all/seen', name: 'isSeen_all', options: ['expose' => true], methods: ['POST'])]

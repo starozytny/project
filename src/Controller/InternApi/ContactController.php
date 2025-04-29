@@ -13,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/intern/api/contacts', name: 'intern_api_contacts_')]
@@ -44,12 +45,24 @@ class ContactController extends AbstractController
 
         $repository->save($obj, true);
 
+        $userApi = $userRepository->findOneBy(['username' => 'api']);
+
+        $urlCreateProspectLoc = null;
+        $urlCreateProspectVen = null;
+        if($userApi){
+            $urlCreateProspectLoc = $this->generateUrl('app_create_prospect', ['token' => $userApi->getToken(), 'id' => $obj->getId(), 'type' => 1], UrlGeneratorInterface::ABSOLUTE_URL);
+            $urlCreateProspectVen = $this->generateUrl('app_create_prospect', ['token' => $userApi->getToken(), 'id' => $obj->getId(), 'type' => 0], UrlGeneratorInterface::ABSOLUTE_URL);
+        }
+
         if(!$mailerService->sendMail(
             [$settingsService->getEmailContact()],
             "Demande de contact",
             "Demande de contact",
             'app/email/contact/contact.html.twig',
-            ['contact' => $obj, 'settings' => $settingsService->getSettings()],
+            [
+                'contact' => $obj, 'settings' => $settingsService->getSettings(),
+                'urlCreateProspectLoc' => $urlCreateProspectLoc, 'urlCreateProspectVen' => $urlCreateProspectVen
+            ],
             [], [], $obj->getEmail()
         )) {
             return $apiResponse->apiJsonResponseValidationFailed([[
