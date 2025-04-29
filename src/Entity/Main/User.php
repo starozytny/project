@@ -23,6 +23,7 @@ class User extends DataEntity implements UserInterface, PasswordAuthenticatedUse
     const CODE_ROLE_USER = 0;
     const CODE_ROLE_DEVELOPER = 1;
     const CODE_ROLE_ADMIN = 2;
+    const CODE_ROLE_API = 3;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -138,8 +139,6 @@ class User extends DataEntity implements UserInterface, PasswordAuthenticatedUse
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
 
         return $this->isBlocked() ? ['ROLE_BLOCKED'] : array_unique($roles);
     }
@@ -147,8 +146,8 @@ class User extends DataEntity implements UserInterface, PasswordAuthenticatedUse
     #[Groups(['user_list'])]
     public function getHighRole(): string
     {
-        $rolesSortedByImportance = ['ROLE_DEVELOPER', 'ROLE_ADMIN', 'ROLE_USER'];
-        $rolesLabel = ['Développeur', 'Administrateur', 'Utilisateur'];
+        $rolesSortedByImportance = ['ROLE_DEVELOPER', 'ROLE_ADMIN', 'ROLE_API', 'ROLE_USER'];
+        $rolesLabel = ['Développeur', 'Administrateur', 'Api', 'Utilisateur'];
         $i = 0;
         foreach ($rolesSortedByImportance as $role)
         {
@@ -165,6 +164,7 @@ class User extends DataEntity implements UserInterface, PasswordAuthenticatedUse
         return match ($this->getHighRole()) {
             'Développeur' => self::CODE_ROLE_DEVELOPER,
             'Administrateur' => self::CODE_ROLE_ADMIN,
+            'Api' => self::CODE_ROLE_API,
             default => self::CODE_ROLE_USER,
         };
     }

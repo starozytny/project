@@ -83,6 +83,12 @@ class AdminCreateUsersCommand extends Command
                 'email' => 'shanks@hotmail.fr',
                 'roles' => ['ROLE_USER']
             ],
+            [
+                'username' => 'api',
+                'firstname' => 'Shanbo', 'lastname' => 'Api',
+                'email' => 'chanbora@logilink.fr',
+                'roles' => ['ROLE_API']
+            ],
         ];
 
         $password = password_hash("azerty", PASSWORD_ARGON2I);
