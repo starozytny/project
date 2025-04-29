@@ -13,12 +13,21 @@
             <div>Reférence : {{ dm.reference}}</div>
         </div>
 
-        <div style="margin-top: 24px;">Demande de contact pour un bien réalisé par : <b>{{ dm.name }}</b>, le {{ dm.createdAt | date('d/m/Y \\à H:i') }}</div>
+        <div style="margin-top: 24px;">Demande de contact pour un bien réalisé par : <b>{{ dm.name }} {{ dm.firstname }}</b>, le {{ dm.createdAt | date('d/m/Y \\à H:i') }}</div>
         <div>Email de contact : {{ dm.email }}</div>
-        <div>Téléphone de contact : {{ dm.phone }}</div>
+        <div>Téléphone de contact : {{ dm.phone ? dm.phone : "N.C" }}</div>
         <p style="width: 540px;">
             Message : <br>
             {{ dm.message }}
         </p>
+
+        {% if urlManage is defined %}
+            <div style="margin-top: 24px;">
+                <div style="font-weight: bold;">Voir la gestion des demandes sur Lotys : </div>
+                <div>
+                    <a href="{{ urlManage }}">Lien vers la demande sur Lotys</a>
+                </div>
+            </div>
+        {% endif %}
     </div>
 {% endblock %}
