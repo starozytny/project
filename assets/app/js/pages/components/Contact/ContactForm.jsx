@@ -22,6 +22,7 @@ export class ContactFormulaire extends Component {
 			success: null,
 			critere: "",
 			name: "",
+			firstname: "",
 			email: "",
 			message: ""
 		}
@@ -59,6 +60,7 @@ export class ContactFormulaire extends Component {
 						let data = response.data;
 						self.setState({
 							name: "",
+							firstname: "",
 							email: "",
 							message: "",
 							errors: [],
@@ -77,7 +79,7 @@ export class ContactFormulaire extends Component {
 	}
 
 	render () {
-		const { errors, success, critere, name, email, message } = this.state;
+		const { errors, success, critere, name, firstname, email, message } = this.state;
 
 		let params0 = { errors: errors, onChange: this.handleChange };
 
@@ -89,8 +91,11 @@ export class ContactFormulaire extends Component {
 						<Input identifiant="name" valeur={name} {...params0}>Nom / Raison sociale</Input>
 					</div>
 					<div className="w-full">
-						<Input identifiant="email" valeur={email} {...params0} type="email">Adresse e-mail</Input>
+						<Input identifiant="firstname" valeur={firstname} {...params0}>Prénom (facultatif)</Input>
 					</div>
+				</div>
+				<div>
+					<Input identifiant="email" valeur={email} {...params0} type="email">Adresse e-mail</Input>
 				</div>
 				<div>
 					<TextArea identifiant="message" valeur={message} {...params0}>Message</TextArea>

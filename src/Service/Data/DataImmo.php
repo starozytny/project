@@ -15,6 +15,7 @@ class DataImmo
     {
         return ($obj)
             ->setName($this->sanitizeData->trimData($data->name))
+            ->setFirstname($this->sanitizeData->trimData($data->firstname))
             ->setEmail($this->sanitizeData->trimData($data->email))
             ->setPhone($this->sanitizeData->trimData($data->phone))
             ->setMessage($this->sanitizeData->trimData($data->message))

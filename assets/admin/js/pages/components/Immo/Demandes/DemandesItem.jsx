@@ -48,7 +48,7 @@ export function DemandesItem ({ elem, onModal })
             <div className="item-infos">
                 <div className="col-1">
                     <div className="font-medium">
-                        <span>{elem.name}</span>
+                        <span>{elem.name} {elem.firstname}</span>
                     </div>
                     <div className="text-gray-600 text-xs">{elem.email}</div>
                     <div className="text-gray-600 text-xs">{Sanitaze.toFormatPhone(elem.phone)}</div>

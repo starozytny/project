@@ -37,7 +37,7 @@ export function ContactsItem ({ elem, onModal })
             <div className="item-infos">
                 <div className="col-1">
                     <div className="font-medium">
-                        <span>{elem.name}</span>
+                        <span>{elem.name} {elem.firstname}</span>
                     </div>
                     <div class="text-gray-600 text-xs">{elem.email}</div>
                 </div>

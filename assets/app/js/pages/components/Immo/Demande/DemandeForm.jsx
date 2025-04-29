@@ -33,6 +33,7 @@ export class DemandeFormulaire extends Component {
 			success: null,
 			critere: "",
 			name: "",
+			firstname: "",
 			email: "",
 			phone: "",
 			message: ""
@@ -78,6 +79,7 @@ export class DemandeFormulaire extends Component {
 						let data = response.data;
 						self.setState({
 							name: "",
+							firstname: "",
 							email: "",
 							phone: "",
 							message: "",
@@ -97,7 +99,7 @@ export class DemandeFormulaire extends Component {
 	}
 
 	render () {
-		const { errors, success, critere, name, email, phone, message } = this.state;
+		const { errors, success, critere, name, firstname, email, phone, message } = this.state;
 
 		let params0 = { errors: errors, onChange: this.handleChange };
 
@@ -105,8 +107,13 @@ export class DemandeFormulaire extends Component {
 			<div className="flex flex-col gap-4">
 				{success && <div><Alert type="blue" icon="check1">{success}</Alert></div>}
 
-				<div className="w-full">
-					<Input identifiant="name" valeur={name} {...params0}>Nom / Raison sociale</Input>
+				<div class="flex gap-4">
+					<div className="w-full">
+						<Input identifiant="name" valeur={name} {...params0}>Nom</Input>
+					</div>
+					<div className="w-full">
+						<Input identifiant="firstname" valeur={firstname} {...params0}>Prénom (facultatif)</Input>
+					</div>
 				</div>
 
 				<div className="flex gap-4">
@@ -114,7 +121,7 @@ export class DemandeFormulaire extends Component {
 						<Input identifiant="email" valeur={email} {...params0} type="email">Adresse e-mail</Input>
 					</div>
 					<div className="w-full">
-						<Input identifiant="phone" valeur={phone} {...params0}>Téléphone</Input>
+						<Input identifiant="phone" valeur={phone} {...params0}>Téléphone (facultatif)</Input>
 					</div>
 				</div>
 				<div>
