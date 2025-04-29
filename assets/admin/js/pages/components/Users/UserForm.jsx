@@ -128,8 +128,8 @@ class Form extends Component {
 		if (!validate.code) {
 			Formulaire.showErrors(this, validate);
 		} else {
-			Formulaire.loader(true);
 			let self = this;
+			Formulaire.loader(true);
 
 			let formData = new FormData();
 			formData.append("data", JSON.stringify(this.state));
@@ -141,7 +141,7 @@ class Form extends Component {
 
 			axios({ method: "POST", url: url, data: formData, headers: { 'Content-Type': 'multipart/form-data' } })
 				.then(function (response) {
-					location.href = Routing.generate(URL_INDEX_ELEMENTS, { 'h': response.data.id });
+					location.href = Routing.generate(URL_INDEX_ELEMENTS, { h: response.data.id });
 				})
 				.catch(function (error) {
 					Formulaire.displayErrors(self, error);
