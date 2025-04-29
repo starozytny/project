@@ -23,6 +23,10 @@ class ImDemande extends DataEntity
     #[Groups(['demande_list'])]
     private ?string $name = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['demande_list'])]
+    private ?string $firstname = null;
+
     #[ORM\Column(length: 255)]
     #[Groups(['demande_list'])]
     private ?string $email = null;
@@ -99,6 +103,18 @@ class ImDemande extends DataEntity
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getFirstname(): ?string
+    {
+        return $this->firstname;
+    }
+
+    public function setFirstname(?string $firstname): static
+    {
+        $this->firstname = $firstname;
 
         return $this;
     }

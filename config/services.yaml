@@ -34,6 +34,8 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
-    App\Service\ApiConnect:
+    App\Service\Api\ApiLotys:
         arguments:
             $urlLotys: '%env(resolve:API_LOTYS_URL)%'
+            $username: '%env(resolve:API_LOTYS_USERNAME)%'
+            $password: '%env(resolve:API_LOTYS_PASSWORD)%'

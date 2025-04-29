@@ -18,6 +18,11 @@ framework:
     php_errors:
         log: true
 
+    http_client:
+        scoped_clients:
+            api_lotys:
+                base_uri: '%env(API_LOTYS_URL)%'
+
 when@test:
     framework:
         test: true

@@ -23,6 +23,10 @@ class Contact extends DataEntity
     #[Groups(['contact_list'])]
     private ?string $name = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['contact_list'])]
+    private ?string $firstname = null;
+
     #[ORM\Column(length: 255)]
     #[Groups(['contact_list'])]
     private ?string $email = null;
@@ -57,6 +61,18 @@ class Contact extends DataEntity
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getFirstname(): ?string
+    {
+        return $this->firstname;
+    }
+
+    public function setFirstname(?string $firstname): static
+    {
+        $this->firstname = $firstname;
 
         return $this;
     }

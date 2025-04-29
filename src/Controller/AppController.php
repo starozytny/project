@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\Main\SocietyRepository;
-use App\Service\ApiConnect;
+use App\Service\Api\ApiLotys;
 use App\Service\Immo\ImmoService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Cookie;
@@ -11,7 +11,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class AppController extends AbstractController
 {
@@ -69,8 +68,7 @@ class AppController extends AbstractController
      * @throws TransportExceptionInterface
      */
     #[Route('/biens-immobiliers/annonce/{typeA}/{typeB}-{zipcode}/{city}/{ref}-{slug}', name: 'app_ad', options: ['expose' => true])]
-    public function ad($typeA, $slug, Request $request, SocietyRepository $repository, ImmoService $immoService,
-                       HttpClientInterface $api_lotys, ApiConnect $apiConnect): Response
+    public function ad($typeA, $slug, Request $request, SocietyRepository $repository, ImmoService $immoService, ApiLotys $apiLotys): Response
     {
         $code = "997";
         $cookieExisted = "HGPCookie";
@@ -104,7 +102,8 @@ class AppController extends AbstractController
         if($request->cookies->has($cookieExisted)){
             if($request->cookies->get($cookieExisted) == "true"){
                 $isNew = $request->cookies->has($cookieVisited) ? 0 : 1;
-                $api_lotys->request("POST", $apiConnect->getUrlLotys() . 'api/immo/histories/seen/' . $code . '/' . $elem->id . '/' . $isNew . '/website');
+
+                $apiLotys->callSeenAd($code, $elem->id, $isNew);;
 
                 $response = new Response();
                 $response->headers->setCookie(new Cookie($cookieVisited, '1', time() + 86400));
