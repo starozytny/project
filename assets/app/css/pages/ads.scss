@@ -1,7 +1,7 @@
-@import "../vars/vars";
+@use "../vars/vars";
 
 .ad-photos{
-  @include scrollbar();
+  @include vars.scrollbar();
 
   @media (min-width:1024px) {
     padding-right: 50%;
@@ -128,7 +128,7 @@ $colorsGES: (
 }
 
 .diag-line{
-  @include flex(row, stretch, flex-start);
+  @include vars.flex(row, stretch, flex-start);
 
   &:not(:last-child){
     margin-bottom: 3px;
@@ -146,7 +146,7 @@ $colorsGES: (
   }
 
   .diag-letter{
-    @include flex(row, center, flex-start);
+    @include vars.flex(row, center, flex-start);
     font-weight: 600;
     width: calc(100% - 100px - 16px - 4px);
     padding: 5px 8px 2px 8px;
@@ -172,7 +172,7 @@ $colorsGES: (
 
   &.active{
     .number{
-      @include flex(column, center, center);
+      @include vars.flex(column, center, center);
       padding: 8px 8px 7px 8px;
       border-color: #000000;
       opacity: 1;
