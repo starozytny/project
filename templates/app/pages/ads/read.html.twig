@@ -28,11 +28,11 @@
     {% set contactEmail = elem.isLocation ? elem.agency.emailLocation : elem.agency.emailVente %}
 
     {% if elem.confidential.inform == 1 %}
-        {% set contactPhone = elem.negotiator.phone1 ? elem.negotiator.phone1 : (elem.negotiator.phone2 ? elem.negotiator.phone2 : contactPhone) %}
-        {% set contactEmail = elem.negotiator.email ? elem.negotiator.email : contactEmail %}
+        {% set contactPhone = elem.negotiator.phone1 is defined and elem.negotiator.phone1 ? elem.negotiator.phone1 : (elem.negotiator.phone2 ? elem.negotiator.phone2 : contactPhone) %}
+        {% set contactEmail = elem.negotiator.email is defined and elem.negotiator.email ? elem.negotiator.email : contactEmail %}
     {% elseif elem.confidential.inform == 2 %}
-        {% set contactPhone = elem.confidential.phone1 ? elem.confidential.phone1 : contactPhone %}
-        {% set contactEmail = elem.confidential.email ? elem.confidential.email : contactEmail %}
+        {% set contactPhone = elem.confidential.phone1 is defined and elem.confidential.phone1 ? elem.confidential.phone1 : contactPhone %}
+        {% set contactEmail = elem.confidential.email is defined and elem.confidential.email ? elem.confidential.email : contactEmail %}
     {% endif %}
 
     <div>
@@ -202,7 +202,7 @@
                         {% if advantage.hasCalme == 1 or advantage.hasTerrace == 1 or advantage.hasLift == 1
                             or advantage.hasCave == 1 or advantage.hasDigicode == 1 or advantage.hasInterphone == 1
                             or advantage.hasGuardian == 1 or advantage.hasAlarme == 1 or advantage.hasClim == 1
-                            or advantage.hasPool == 1 or advantage.hasView == 1 or advantage.hasOpposite == 1
+                            or advantage.hasPool == 1 or advantage.hasView == 1 or advantage.hasVis == 1
                             or advantage.hasInternet == 1 or advantage.hasHandi == 1
                         %}
                             <div class="mt-4">
@@ -243,7 +243,7 @@
                                     {% if advantage.hasView == 1 %}
                                         <div>Vue dégagée</div>
                                     {% endif %}
-                                    {% if advantage.hasOpposite == 1 %}
+                                    {% if advantage.hasVis == 1 %}
                                         <div>Vis à vis</div>
                                     {% endif %}
                                     {% if advantage.hasInternet == 1 %}
@@ -306,6 +306,24 @@
                                         </div>
                                     {% endif %}
                                 {% else %}
+                                    <div>Honoraire à la charge {{ financial.honoraireChargeDeString == "Vendeur" ? "du" : "de l'" }} {{ financial.honoraireChargeDeString | lower }}</div>
+                                    {% if financial.chargesMensuelles and financial.chargesMensuelles != 0 %}
+                                        <div>
+                                            Charges mensuelles : {{ financial.chargesMensuelles | price }} €
+                                        </div>
+                                    {% endif %}
+                                    {% if financial.isCopro %}
+                                        {% if financial.nbLot and financial.nbLot != 0 %}
+                                            <div>
+                                                Nombre de lots : {{ financial.nbLot }}
+                                            </div>
+                                        {% endif %}
+                                    {% endif %}
+                                    {% if financial.nbLot and financial.nbLot != 0 %}
+                                        <div>
+                                            Procédure en cours : {{ financial.isSyndicProcedure ? 'Oui' : 'Non' }}
+                                        </div>
+                                    {% endif %}
                                 {% endif %}
                             </div>
                             <div class="mt-4">

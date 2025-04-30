@@ -96,7 +96,7 @@ class ImmoController extends AbstractController
                 $photo->photoFile = "/" . $directoryPhotos . $filename;
                 $tmpPhotos[] = $photo;
 
-                if ($photo->rank == 1) {
+                if ($photo->rankPhoto == 1) {
                     $mainPhotoFile = $photo->photoFile;
                 }
             }
