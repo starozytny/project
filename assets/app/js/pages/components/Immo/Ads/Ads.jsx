@@ -71,7 +71,7 @@ export class Ads extends Component {
     }
 
     handleFilter = (typeBien) => {
-        const { filters } = this.state;
+        const { filters, display, initMap } = this.state;
 
         let nFilters = [];
 
@@ -90,7 +90,7 @@ export class Ads extends Component {
         }
 
         this.setState({ filters: nFilters });
-        this.handleFilters(nFilters);
+        let newData = this.handleFilters(nFilters);
 
         if(parseInt(display) === 1){
             updateMarkers(initMap, newData);
