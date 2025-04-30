@@ -52,7 +52,6 @@ class AppController extends AbstractController
         return $this->render('app/pages/legales/cookies.html.twig');
     }
 
-
     #[Route('/gestion-locative', name: 'app_gestion')]
     public function gestion(): Response
     {
