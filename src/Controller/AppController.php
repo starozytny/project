@@ -106,7 +106,7 @@ class AppController extends AbstractController
             return $this->redirectToRoute('app_ads', ['type' => $typeA]);
         }
 
-        if($request->cookies->has($cookieExisted)){
+        if($request->cookies->has($cookieExisted) && $this->getParameter('app_env') == "prod"){
             if($request->cookies->get($cookieExisted) == "true"){
                 $isNew = $request->cookies->has($cookieVisited) ? 0 : 1;
 
