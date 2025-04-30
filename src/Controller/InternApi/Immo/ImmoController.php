@@ -24,16 +24,15 @@ class ImmoController extends AbstractController
     public function list($type, SocietyRepository $repository, ApiResponse $apiResponse, ImmoService $immoService): Response
     {
         $data = [];
-        foreach($repository->findAll() as $society){
-            if($type == "locations"){
-                $file = $immoService->getSocietyImmoFileLocations($society);
-            }else{
-                $file = $immoService->getSocietyImmoFileVentes($society);
-            }
-            if(file_exists($file)){
-                $items = json_decode(file_get_contents($file));
-                $data = [...$data, ...$items];
-            }
+        $society = $repository->findOneBy(['code' => $this->getParameter('lotys_code_society')]);
+        if($type == "locations"){
+            $file = $immoService->getSocietyImmoFileLocations($society);
+        }else{
+            $file = $immoService->getSocietyImmoFileVentes($society);
+        }
+        if(file_exists($file)){
+            $items = json_decode(file_get_contents($file));
+            $data = [...$data, ...$items];
         }
 
         return $apiResponse->apiJsonResponseCustom($data);
