@@ -442,7 +442,9 @@ export function SelectCombobox (props) {
 }
 
 export function SelectComboboxMultiple (props) {
-	const { identifiant, valeur, items, errors, onSelect, onChange, children, placeholder, toSort, withInput, withItems = true } = props;
+	const {
+		identifiant, valeur, items, errors, onSelect, onChange, children, placeholder, toSort, withInput,
+		withItems = true, onlyValue = false, btnClassName } = props;
 
 	let error = getError(errors, identifiant);
 
@@ -456,8 +458,8 @@ export function SelectComboboxMultiple (props) {
 		</label>
 		<div className="w-full relative rounded-md">
 			<ComboboxMultiple identifiant={identifiant} items={items} valeurs={valeur} onSelect={onSelect} onChange={onChange}
-							  placeholder={placeholder} withInput={withInput} withItems={withItems}
-							  btnClassName={error ? "border-red-500" : "border-gray-300"} />
+							  placeholder={placeholder} withInput={withInput} withItems={withItems} onlyValue={onlyValue}
+							  btnClassName={cn(error ? "border-red-500" : "border-gray-300", btnClassName)} />
 		</div>
 		<ErrorContent error={error} />
 	</>
