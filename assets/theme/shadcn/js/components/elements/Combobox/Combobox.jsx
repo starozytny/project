@@ -121,7 +121,7 @@ export function ComboboxSimple({ identifiant, valeur, items, onSelect, placehold
     )
 }
 
-export function ComboboxMultiple({ identifiant, valeurs, items, onSelect, placeholder, btnClassName, onChange, withInput, withItems }) {
+export function ComboboxMultiple({ identifiant, valeurs, items, onSelect, placeholder, btnClassName, onChange, withInput, withItems, onlyValue }) {
     const [inputValue, setInputValue] = React.useState("")
     const [open, setOpen] = React.useState(false)
 
@@ -166,21 +166,32 @@ export function ComboboxMultiple({ identifiant, valeurs, items, onSelect, placeh
                     aria-expanded={open}
                     className={cn(
                         "w-full justify-between min-h-9 h-auto font-normal px-3 hover:bg-gray-50 text-sm focus-visible:ring-0"
+                        , valeurs && valeurs.length > 0 ? "" : "h-9"
                         , btnClassName
                     )}
                 >
-                    {valeurs
+                    {valeurs && valeurs.length > 0
                         ? <div className="flex flex-wrap gap-1">
                             {valeurs.map((val, index) => {
+
+                                let valeurLabel = onlyValue ? val : val.inputName ? val.inputName : val.label;
+                                let valeurItem = null;
+                                items.forEach(it => {
+                                    if(it.value === (onlyValue ? val : val.value)){
+                                        valeurLabel = it.label;
+                                        valeurItem = it;
+                                    }
+                                })
+
                                 return <div className="flex items-stretch border border-color1-o-4 rounded-md" key={index}>
-                                    <span className="bg-color1-o-4/20 rounded-l-sm py-0.5 pl-2 pr-1.5">{val.inputName ? val.inputName : val.label}</span>
-                                    <div onClick={(e) => handleDel(e, val)} className="flex items-center justify-center bg-color1-o-4/20 rounded-r-sm  py-0.5 px-1.5 hover:bg-color1-o-4/10 transition-colors">
+                                    <span className="bg-white rounded-l-sm py-0.5 pl-2 pr-1.5">{valeurLabel}</span>
+                                    <div onClick={(e) => handleDel(e, onlyValue ? valeurItem : val)} className="flex items-center justify-center bg-red-50 hover:bg-red-100 rounded-r-sm py-0.5 px-1.5 transition-colors">
                                         <span className="icon-close !text-xs"></span>
                                     </div>
                                 </div>
                             })}
                         </div>
-                        : (placeholder ? placeholder : <span>&nbsp;</span>)
+                        : (placeholder ? <span className="text-sm text-gray-400">{placeholder}</span> : <span>&nbsp;</span>)
                     }
                     <ChevronsUpDown className="opacity-50" />
                 </Button>
@@ -220,7 +231,7 @@ export function ComboboxMultiple({ identifiant, valeurs, items, onSelect, placeh
                                         <Check
                                             className={cn(
                                                 "ml-auto",
-                                                valeurs.some(v => v.value === choice.value) ? "opacity-100" : "opacity-0",
+                                                valeurs.some(v => (onlyValue ? v : v.value) === choice.value) ? "opacity-100" : "opacity-0",
                                             )}
                                         />
                                     </CommandItem>
@@ -229,7 +240,6 @@ export function ComboboxMultiple({ identifiant, valeurs, items, onSelect, placeh
                         </CommandList>
                         : null
                     }
-
                 </Command>
             </PopoverContent>
         </Popover>
