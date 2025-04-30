@@ -203,7 +203,10 @@
                             or advantage.hasCave == 1 or advantage.hasDigicode == 1 or advantage.hasInterphone == 1
                             or advantage.hasGuardian == 1 or advantage.hasAlarme == 1 or advantage.hasClim == 1
                             or advantage.hasPool == 1 or advantage.hasView == 1 or advantage.hasVis == 1
-                            or advantage.hasInternet == 1 or advantage.hasHandi == 1
+                            or advantage.hasInternet == 1 or advantage.hasHandi == 1 or advantage.hasEntree == 1
+                            or advantage.hasParquet == 1 or advantage.hasPlacard == 1 or advantage.hasCheminee == 1
+                            or advantage.hasDining == 1 or advantage.hasLiving == 1 or advantage.hasGarden == 1
+                            or advantage.hasFibre == 1 or advantage.hasBalcony == 1
                         %}
                             <div class="mt-4">
                                 <div class="flex gap-2 items-center mb-2">
@@ -251,6 +254,33 @@
                                     {% endif %}
                                     {% if advantage.hasHandi == 1 %}
                                         <div>Accès PMR</div>
+                                    {% endif %}
+                                    {% if advantage.hasEntree == 1 %}
+                                        <div>Entrée</div>
+                                    {% endif %}
+                                    {% if advantage.hasParquet == 1 %}
+                                        <div>Parquet</div>
+                                    {% endif %}
+                                    {% if advantage.hasPlacard == 1 %}
+                                        <div>Placards</div>
+                                    {% endif %}
+                                    {% if advantage.hasCheminee == 1 %}
+                                        <div>Cheminée</div>
+                                    {% endif %}
+                                    {% if advantage.hasDining == 1 %}
+                                        <div>Salle à manger</div>
+                                    {% endif %}
+                                    {% if advantage.hasLiving == 1 %}
+                                        <div>Séjour</div>
+                                    {% endif %}
+                                    {% if advantage.hasGarden == 1 %}
+                                        <div>Jardin</div>
+                                    {% endif %}
+                                    {% if advantage.hasFibre == 1 %}
+                                        <div>Internet fibré</div>
+                                    {% endif %}
+                                    {% if advantage.hasBalcony == 1 %}
+                                        <div>Balcon</div>
                                     {% endif %}
                                 </div>
                             </div>
@@ -307,9 +337,9 @@
                                     {% endif %}
                                 {% else %}
                                     <div>Honoraire à la charge {{ financial.honoraireChargeDeString == "Vendeur" ? "du" : "de l'" }} {{ financial.honoraireChargeDeString | lower }}</div>
-                                    {% if financial.chargesMensuelles and financial.chargesMensuelles != 0 %}
+                                    {% if financial.chargesLot and financial.chargesLot != 0 %}
                                         <div>
-                                            Charges mensuelles : {{ financial.chargesMensuelles | price }} €
+                                            Charges annuelles : {{ financial.chargesLot | price }} €
                                         </div>
                                     {% endif %}
                                     {% if financial.isCopro %}
