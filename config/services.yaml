@@ -9,6 +9,7 @@ parameters:
     config_directory: '%kernel.project_dir%/config/'
     env_file: '%kernel.project_dir%/.env.local'
     app_env: '%env(APP_ENV)%'
+    lotys_code_society: '%env(API_LOTYS_CODE_SOCIETY)%'
 
 services:
     # default configuration for services in *this* file

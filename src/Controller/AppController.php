@@ -78,7 +78,7 @@ class AppController extends AbstractController
     #[Route('/biens-immobiliers/annonce/{typeA}/{typeB}-{zipcode}/{city}/{ref}-{slug}', name: 'app_ad', options: ['expose' => true])]
     public function ad($typeA, $slug, Request $request, SocietyRepository $repository, ImmoService $immoService, ApiLotys $apiLotys): Response
     {
-        $code = "997";
+        $code = $this->getParameter('lotys_code_society');
         $cookieExisted = "HGPCookie";
         $cookieVisited = "hgp_visited";
 
