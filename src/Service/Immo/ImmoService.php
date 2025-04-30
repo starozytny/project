@@ -15,16 +15,16 @@ class ImmoService
 
     public function getSocietyImmoFileFolder(Society $society): string
     {
-        return $this->privateDirectory . $society->getImmoFileFolder();
+        return $this->privateDirectory . Society::FOLDER_IMMO . '/' . $society->getCode() . '/';
     }
 
     public function getSocietyImmoFileLocations(Society $society): string
     {
-        return $this->privateDirectory . $society->getImmoFileLocations();
+        return $this->privateDirectory . Society::FOLDER_IMMO . '/' . $society->getCode() . '/locations.json';
     }
 
     public function getSocietyImmoFileVentes(Society $society): string
     {
-        return $this->privateDirectory . $society->getImmoFileVentes();
+        return $this->privateDirectory . Society::FOLDER_IMMO . '/' . $society->getCode() . '/ventes.json';
     }
 }

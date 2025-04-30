@@ -181,21 +181,6 @@ class Society extends DataEntity
         return $this;
     }
 
-    public function getImmoFileFolder(): string
-    {
-        return self::FOLDER_IMMO . '/' . $this->code . '/';
-    }
-
-    public function getImmoFileLocations(): string
-    {
-        return self::FOLDER_IMMO . '/' . $this->code . '/locations.json';
-    }
-
-    public function getImmoFileVentes(): string
-    {
-        return self::FOLDER_IMMO . '/' . $this->code . '/ventes.json';
-    }
-
     #[Groups(['society_list', 'society_form'])]
     public function getLogoFile(): string
     {
