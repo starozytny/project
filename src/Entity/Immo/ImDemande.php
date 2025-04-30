@@ -13,6 +13,9 @@ class ImDemande extends DataEntity
 {
     const LIST = ['demande_list'];
 
+    const TYPE_LOCATIONS = 1;
+    const TYPE_VENTES = 2;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

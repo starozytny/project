@@ -2,6 +2,7 @@
 
 namespace App\Controller\InternApi;
 
+use App\Entity\Immo\ImDemande;
 use App\Entity\Main\Contact;
 use App\Repository\Main\ContactRepository;
 use App\Repository\Main\UserRepository;
@@ -51,8 +52,8 @@ class ContactController extends AbstractController
         $urlCreateProspectLoc = null;
         $urlCreateProspectVen = null;
         if($userApi){
-            $urlCreateProspectLoc = $this->generateUrl('app_create_prospect', ['token' => $userApi->getToken(), 'id' => $obj->getId(), 'type' => 1], UrlGeneratorInterface::ABSOLUTE_URL);
-            $urlCreateProspectVen = $this->generateUrl('app_create_prospect', ['token' => $userApi->getToken(), 'id' => $obj->getId(), 'type' => 0], UrlGeneratorInterface::ABSOLUTE_URL);
+            $urlCreateProspectLoc = $this->generateUrl('app_create_prospect', ['token' => $userApi->getToken(), 'id' => $obj->getId(), 'type' => ImDemande::TYPE_LOCATIONS], UrlGeneratorInterface::ABSOLUTE_URL);
+            $urlCreateProspectVen = $this->generateUrl('app_create_prospect', ['token' => $userApi->getToken(), 'id' => $obj->getId(), 'type' => ImDemande::TYPE_VENTES], UrlGeneratorInterface::ABSOLUTE_URL);
         }
 
         if(!$mailerService->sendMail(
