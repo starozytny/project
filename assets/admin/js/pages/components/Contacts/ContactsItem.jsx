@@ -39,7 +39,7 @@ export function ContactsItem ({ elem, onModal })
                     <div className="font-medium">
                         <span>{elem.name} {elem.firstname}</span>
                     </div>
-                    <div class="text-gray-600 text-xs">{elem.email}</div>
+                    <div className="text-gray-600 text-xs">{elem.email}</div>
                 </div>
                 <div className="col-2">
                     <div className="text-gray-600 text-sm">{Sanitaze.toFormatCalendar(elem.createdAt)}</div>

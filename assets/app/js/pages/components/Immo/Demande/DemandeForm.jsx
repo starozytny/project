@@ -107,7 +107,7 @@ export class DemandeFormulaire extends Component {
 			<div className="flex flex-col gap-4">
 				{success && <div><Alert type="blue" icon="check1">{success}</Alert></div>}
 
-				<div class="flex gap-4">
+				<div className="flex gap-4">
 					<div className="w-full">
 						<Input identifiant="name" valeur={name} {...params0}>Nom</Input>
 					</div>
