@@ -7,12 +7,12 @@ import { Ads } from "@appPages/Immo/Ads/Ads";
 import { Diag } from "@appPages/Immo/Diag/Diag";
 import { DemandeFormulaire } from "@appPages/Immo/Demande/DemandeForm";
 
-let el = document.getElementById("ads");
+let el = document.getElementById("ads_list");
 if(el){
 	createRoot(el).render(<Ads {...el.dataset} />)
 }
 
-let diag = document.getElementById("diagnostic");
+let diag = document.getElementById("diagnostic_read");
 if(diag){
 	createRoot(diag).render(<Diag elem={JSON.parse(diag.dataset.elem)} />)
 }
