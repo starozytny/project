@@ -4,6 +4,7 @@ namespace App\Controller\InternApi;
 
 use App\Entity\Main\Contact;
 use App\Repository\Main\ContactRepository;
+use App\Repository\Main\UserRepository;
 use App\Service\Api\ApiResponse;
 use App\Service\Data\DataMain;
 use App\Service\MailerService;
@@ -28,7 +29,7 @@ class ContactController extends AbstractController
 
     #[Route('/create', name: 'create', options: ['expose' => true], methods: 'POST')]
     public function create(Request $request, ApiResponse $apiResponse, ValidatorService $validator,
-                           DataMain $dataEntity, ContactRepository $repository,
+                           DataMain $dataEntity, ContactRepository $repository, UserRepository $userRepository,
                            MailerService $mailerService, SettingsService $settingsService): Response
     {
         $data = json_decode($request->getContent());
