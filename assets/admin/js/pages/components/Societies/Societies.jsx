@@ -14,7 +14,7 @@ import { Modal } from "@tailwindComponents/Elements/Modal";
 import { Search } from "@tailwindComponents/Elements/Search";
 import { Button } from "@tailwindComponents/Elements/Button";
 import { ModalDelete } from "@tailwindComponents/Shortcut/Modal";
-import { LoaderElements } from "@tailwindComponents/Elements/Loader";
+import { LoaderElements, LoaderTxt } from "@tailwindComponents/Elements/Loader";
 import { Pagination, TopSorterPagination } from "@tailwindComponents/Elements/Pagination";
 
 const URL_GET_DATA = "intern_api_societies_list";
@@ -227,7 +227,7 @@ export class Societies extends Component {
 
 function modalActivationDefault (self) {
 	self.activate.current.handleUpdateContent(<p>Avant de procéder à l'activation, veuillez vérifier que la base de donnée a été créé dans le CPANEL.</p>);
-	self.activate.current.handleUpdateFooter(<Button onClick={self.handleActivate} type="blue">Confirmer l'activation</Button>);
+	self.activate.current.handleUpdateFooter(<Button type="blue" onClick={self.handleActivate}>Confirmer l'activation</Button>);
 	self.activate.current.handleUpdateCloseTxt("Annuler");
 }
 
@@ -237,6 +237,6 @@ function modalGenerationDefault (self) {
 		<br /><br />
 		Ensuite, vous pourrez activer la société et l'utiliser.
 	</p>);
-	self.generate.current.handleUpdateFooter(<Button onClick={self.handleGenerate} type="blue">Confirmer la génération</Button>);
+	self.generate.current.handleUpdateFooter(<Button type="blue" onClick={self.handleGenerate}>Confirmer la génération</Button>);
 	self.generate.current.handleUpdateCloseTxt("Annuler");
 }

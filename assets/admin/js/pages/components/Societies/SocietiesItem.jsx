@@ -37,8 +37,8 @@ export function SocietiesItem ({ elem, highlight, settings, onModal })
 					{!settings.multipleDatabase || elem.isActivated
 						? <Badge type="blue">Activée</Badge>
 						: (elem.isGenerated
-                            ? <Badge type="gray" onClick={() => onModal("activate", elem)}>Cliquez pour activer</Badge>
-                            : <Badge type="gray" onClick={() => onModal("generate", elem)}>Cliquez pour générer</Badge>
+                            ? <div className="cursor-pointer"><Badge type="gray" onClick={() => onModal("activate", elem)}>Cliquez pour activer</Badge></div>
+                            : <div className="cursor-pointer"><Badge type="gray" onClick={() => onModal("generate", elem)}>Cliquez pour générer</Badge></div>
 						)
 					}
 				</div>

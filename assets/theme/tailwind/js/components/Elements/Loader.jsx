@@ -8,3 +8,10 @@ export function LoaderElements ({ text = "Chargement des données" }) {
 		</div>
 	</div>
 }
+
+export function LoaderTxt ({ text = "Chargement des données" }) {
+	return <div>
+		<span className="icon-chart-3 inline-block animate-spin"></span>
+		<span className="ml-2">{text}...</span>
+	</div>
+}
