@@ -227,7 +227,7 @@ export class Societies extends Component {
 
 function modalActivationDefault (self) {
 	self.activate.current.handleUpdateContent(<p>Avant de procéder à l'activation, veuillez vérifier que la base de donnée a été créé dans le CPANEL.</p>);
-	self.activate.current.handleUpdateFooter(<Button onClick={self.handleActivate} type="primary">Confirmer l'activation</Button>);
+	self.activate.current.handleUpdateFooter(<Button onClick={self.handleActivate} type="blue">Confirmer l'activation</Button>);
 	self.activate.current.handleUpdateCloseTxt("Annuler");
 }
 
@@ -237,6 +237,6 @@ function modalGenerationDefault (self) {
 		<br /><br />
 		Ensuite, vous pourrez activer la société et l'utiliser.
 	</p>);
-	self.generate.current.handleUpdateFooter(<Button onClick={self.handleGenerate} type="primary">Confirmer la génération</Button>);
+	self.generate.current.handleUpdateFooter(<Button onClick={self.handleGenerate} type="blue">Confirmer la génération</Button>);
 	self.generate.current.handleUpdateCloseTxt("Annuler");
 }
