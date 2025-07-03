@@ -144,6 +144,44 @@ ButtonIconA.propTypes = {
 	]),
 }
 
+
+function getStyleButtonDropdown () {
+	return "relative flex gap-2 select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none cursor-pointer [&:first-child]:rounded-t-md [&:last-child]:rounded-b-md hover:bg-gray-100";
+}
+
+export function DropdownItem ({ icon, children, onClick }) {
+	return <div className={getStyleButtonDropdown()} onClick={onClick ? onClick : null}>
+		{icon
+			? <span className={`icon-${icon}`}></span>
+			: null
+		}
+		<span>{children}</span>
+	</div>
+}
+
+DropdownItem.propTypes = {
+	icon: PropTypes.string.isRequired,
+	onClick: PropTypes.oneOfType([
+		PropTypes.node,
+		PropTypes.func,
+	]),
+}
+
+export function DropdownItemA ({ icon, children, onClick, target = "" }) {
+	return <a className={getStyleButtonDropdown()} href={onClick ? onClick : null} target={target}>
+		{icon
+			? <span className={`icon-${icon}`}></span>
+			: null
+		}
+		<span>{children}</span>
+	</a>
+}
+
+DropdownItemA.propTypes = {
+	icon: PropTypes.string.isRequired,
+	target: PropTypes.string
+}
+
 export function ButtonIconDropdown ({ items, icon, direction = "right-0" }) {
 	return <div className="relative inline-block">
 		<div className="dropdown-btn cursor-pointer">
@@ -217,4 +255,26 @@ ButtonIconDropdownHorizontal.propTypes = {
 		PropTypes.node,
 		PropTypes.func,
 	]),
+}
+
+export function ButtonDropdown ({ items, icon, children, direction = "right-0", width = "" }) {
+	return <div className="relative inline-block">
+		<div className="dropdown-btn cursor-pointer">
+			<Button type="default" iconLeft={icon}>{children}</Button>
+		</div>
+
+		<div className={`dropdown-items absolute ${direction} -z-10 w-56 ${width} origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none transform opacity-0 scale-95`}
+			 role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex="-1"
+		>
+			<div className="py-2" role="none">
+				{items.map((item, index) => {
+					if (item && item.data) {
+						return <div className="w-full" key={index}>
+							{item.data}
+						</div>
+					}
+				})}
+			</div>
+		</div>
+	</div>
 }

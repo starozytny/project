@@ -7,8 +7,8 @@ import 'moment/locale/fr';
 
 import { setHighlightClass, useHighlight } from "@commonHooks/item";
 
-import { ButtonIcon, ButtonIconA, ButtonIconDropdown } from "@tailwindComponents/Elements/Button";
 import { Badge } from "@tailwindComponents/Elements/Badge";
+import { ButtonIcon, ButtonIconA, ButtonIconDropdown, DropdownItem, DropdownItemA } from "@tailwindComponents/Elements/Button";
 
 const URL_UPDATE_PAGE   = "admin_users_update";
 const URL_READ_PAGE     = "admin_users_read";
@@ -26,25 +26,19 @@ export function UsersItem ({ elem, highlight, onModal })
 
     let lastLoginAt = elem.lastLoginAt ? moment(elem.lastLoginAt) : null;
 
-    let styleItemDropdown = "w-full inline-block px-2 py-1.5 cursor-pointer hover:bg-gray-100";
-
     let menu = [
-        { data: <a className={styleItemDropdown} onClick={() => onModal("reinit", elem)}>
-                <span className="icon-refresh" />
-                <span className="pl-1">Générer un nouveau mot de passe</span>
-        </a> },
-        { data: <a className={styleItemDropdown} href={urlPass}>
-                <span className="icon-lock-1" />
-                <span className="pl-1">Modifier son mot de passe</span>
-        </a> },
-        { data: <a className={styleItemDropdown} onClick={() => onModal("mail", elem)}>
-                <span className="icon-email-edit" />
-                <span className="pl-1">Envoyer un mail</span>
-        </a> },
-        { data: <a className={styleItemDropdown} onClick={() => onModal("blocked", elem)}>
-                <span className={"icon-" + (elem.blocked ? "unlock" : "disabled")} />
-                <span className="pl-1">{elem.blocked ? "Débloquer" : "Bloquer"}</span>
-        </a> }
+        { data: <DropdownItem icon="refresh" onClick={() => onModal("reinit", elem)}>
+                Générer un nouveau mot de passe
+        </DropdownItem> },
+        { data: <DropdownItemA icon="lock-1" onClick={urlPass}>
+                Modifier son mot de passe
+        </DropdownItemA> },
+        { data: <DropdownItem icon="email-edit" onClick={() => onModal("mail", elem)}>
+                Envoyer un mail
+        </DropdownItem> },
+        { data: <DropdownItem icon={elem.blocked ? "unlock" : "disabled"} onClick={() => onModal("blocked", elem)}>
+                {elem.blocked ? "Débloquer" : "Bloquer"}
+        </DropdownItem> },
     ]
 
     return <div className={`item${setHighlightClass(nHighlight)} border-t hover:bg-slate-50`} ref={refItem}>

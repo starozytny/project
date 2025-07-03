@@ -19,7 +19,7 @@ export function ChangelogFormulaire ({ context, element }) {
 	let url = Routing.generate(URL_CREATE_ELEMENT);
 
 	if (context === "update") {
-		url = Routing.generate(URL_UPDATE_GROUP, { 'id': element.id });
+		url = Routing.generate(URL_UPDATE_GROUP, { id: element.id });
 	}
 
 	return <Form
@@ -135,7 +135,7 @@ class Form extends Component {
 
             <div className="mt-4 flex justify-end gap-2">
                 <Button type="blue" isSubmit={true}>
-                {context === "create" ? "Enregistrer" : "Enregistrer les modifications"}
+                	{context === "create" ? "Enregistrer" : "Enregistrer les modifications"}
                 </Button>
             </div>
         </form>

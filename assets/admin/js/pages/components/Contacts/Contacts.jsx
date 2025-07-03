@@ -51,7 +51,7 @@ export class Contacts extends Component {
 
 	handleSearch = (search) => {
 		const { perPage, sorter, dataImmuable, filters } = this.state;
-		List.search(this, 'contact', search, dataImmuable, perPage, sorter, true, filters, this.handleFilters)
+		List.search(this, 'name', search, dataImmuable, perPage, sorter, true, filters, this.handleFilters)
 	}
 
 	handleFilters = (filters, nData = null) => {
@@ -108,9 +108,9 @@ export class Contacts extends Component {
                                 perPage={perPage} onUpdate={this.handleUpdateData} onChangeCurrentPage={this.handleChangeCurrentPage} />
 
                     <ModalDelete refModal={this.delete} element={element} routeName={URL_DELETE_ELEMENT}
-                                 title="Supprimer ce message" msgSuccess="Message supprimé"
+                                 title="Supprimer ce message" msgSuccess="Message supprimé."
                                  onUpdateList={this.handleUpdateList}>
-                        Etes-vous sûr de vouloir supprimer définitivement ce message ?
+                        Êtes-vous sûr de vouloir supprimer définitivement ce message ?
                     </ModalDelete>
                 </>
             }
