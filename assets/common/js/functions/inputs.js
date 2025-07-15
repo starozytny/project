@@ -10,7 +10,7 @@ function processData(allText)
     for (let i=1; i<allTextLines.length; i++) {
         let data = allTextLines[i].split(';');
 
-        lines.push({"zipcode": data[2], "city": data[1]});
+        lines.push({zipcode: data[2], city: data[1], identifiant: i, label: data[1], value: data[1]});
     }
 
     return lines;
@@ -34,7 +34,7 @@ function cityInput(self, e, source, zipcodes, nameStateCity = "city")
         self.setState({ [name]: source, openCities: "", triggerInput: true })
     }else{
         if(value.length <= 5){
-            self.setState({ [name]: value, openCities: "", triggerInput: true })
+            self.setState({ [name]: value, cities: [], openCities: "", triggerInput: true })
 
             let v = ""
             if(zipcodes.length !== 0){
@@ -53,7 +53,7 @@ function cityInput(self, e, source, zipcodes, nameStateCity = "city")
                 }else{
                     if(values.length > 1){
                         values.sort(Sort.compareCity)
-                        self.setState({ cities: values, openCities: nameStateCity })
+                        self.setState({ [nameStateCity]: '', cities: values, openCities: nameStateCity })
                     }
                 }
             }

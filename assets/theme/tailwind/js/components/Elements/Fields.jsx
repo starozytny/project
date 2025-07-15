@@ -178,12 +178,21 @@ Input.propTypes = {
 export function InputCity (props) {
 	const { identifiant, valeur, errors, onChange, children, placeholder = "", autocomplete = "on", cities, openCities, onSelectCity } = props;
 
+	const [city, setCity] = useState(valeur);
 	const [isOpen, setIsOpen] = useState(openCities === identifiant);
 
 	useEffect(() => {
 		setIsOpen(openCities === identifiant)
 	}, [props.openCities]);
 
+	useEffect(() => {
+		setCity("")
+	}, [props.cities]);
+
+	let handleChange = (identifiant, value) => {
+		setCity(value);
+		onSelectCity(identifiant, value);
+	}
 
 	let error = getError(errors, identifiant);
 
@@ -194,26 +203,14 @@ export function InputCity (props) {
 			{children}
 		</label>
 		<div className="relative rounded-md">
-			<div className={`fixed top-0 left-0 w-full h-full inset-0 bg-gray-500 bg-opacity-75 transition-opacity ease-out duration-300 ${isOpen ? "opacity-100 z-10" : "opacity-0 -z-10"}`}
-				 onClick={() => setIsOpen(false)}></div>
-			<input type="text" name={identifiant} id={identifiant} value={valeur}
-				   placeholder={placeholder} onChange={onChange} autoComplete={autocomplete}
-				   className={styleInput + " w-full " + (error ? "ring-red-400" : "ring-gray-300")}
-			/>
-			{cities && <div className={`relative ${isOpen ? "z-10" : ""}`}>
-				<div className={isOpen ? "absolute block top-0 left-0 z-10" : "hidden"}>
-					<div className="w-64 max-h-64 overflow-y-auto origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-						<div className="py-2">
-							{cities.map((ci, index) => {
-								return <div className="w-full flex px-2 py-1.5 cursor-pointer hover:bg-gray-100"
-											key={index} onClick={() => onSelectCity(identifiant, ci.city)}>
-									{ci.city}
-								</div>
-							})}
-						</div>
-					</div>
-				</div>
-			</div>}
+			{cities && cities.length > 1
+				? <SelectShadcn identifiant="city" valeur={city} items={cities}
+								errors={[]} onSelect={handleChange} noEmpty={true} open={isOpen} onOpenChange={setIsOpen} />
+				: <input type="text" name={identifiant} id={identifiant} value={valeur}
+						 placeholder={placeholder} onChange={onChange} autoComplete={autocomplete}
+						 className={styleInput + " w-full " + (error ? "ring-red-400" : "ring-gray-300")}
+				/>
+			}
 		</div>
 		<ErrorContent error={error} />
 	</>
@@ -401,7 +398,7 @@ Radiobox.propTypes = {
  * SELECT Custom
  ***************************************/
 export function SelectShadcn (props) {
-	const { identifiant, valeur, items, errors, onSelect, children, placeholder, withGroup, noEmpty } = props;
+	const { identifiant, valeur, items, errors, onSelect, children, placeholder, withGroup, noEmpty, open, onOpenChange } = props;
 
 	let error = getError(errors, identifiant);
 
@@ -411,11 +408,22 @@ export function SelectShadcn (props) {
 		</label>
 		<div className="relative rounded-md">
 			<SelectSimple identifiant={identifiant} items={items} valeur={valeur} onSelect={onSelect}
-						  placeholder={placeholder} withGroup={withGroup} noEmpty={noEmpty}
+						  placeholder={placeholder} withGroup={withGroup} noEmpty={noEmpty} open={open} onOpenChange={onOpenChange}
 						  btnClassName={error ? "border-red-500" : "border-gray-300"} />
 		</div>
 		<ErrorContent error={error} />
 	</>
+}
+
+SelectShadcn.propTypes = {
+	items: PropTypes.array.isRequired,
+	identifiant: PropTypes.string.isRequired,
+	valeur: PropTypes.node.isRequired,
+	errors: PropTypes.array.isRequired,
+	onSelect: PropTypes.func.isRequired,
+	children: PropTypes.node,
+	noEmpty: PropTypes.bool,
+	withGroup: PropTypes.bool,
 }
 
 export function SelectCombobox (props) {
@@ -441,6 +449,16 @@ export function SelectCombobox (props) {
 	</>
 }
 
+SelectCombobox.propTypes = {
+	items: PropTypes.array.isRequired,
+	identifiant: PropTypes.string.isRequired,
+	valeur: PropTypes.node.isRequired,
+	errors: PropTypes.array.isRequired,
+	onSelect: PropTypes.func.isRequired,
+	children: PropTypes.node,
+	toSort: PropTypes.bool,
+}
+
 export function SelectComboboxMultiple (props) {
 	const {
 		identifiant, valeur, items, errors, onSelect, onChange, children, placeholder, toSort, withInput,
@@ -463,6 +481,16 @@ export function SelectComboboxMultiple (props) {
 		</div>
 		<ErrorContent error={error} />
 	</>
+}
+
+SelectComboboxMultiple.propTypes = {
+	items: PropTypes.array.isRequired,
+	identifiant: PropTypes.string.isRequired,
+	valeur: PropTypes.node.isRequired,
+	errors: PropTypes.array.isRequired,
+	onSelect: PropTypes.func.isRequired,
+	children: PropTypes.node,
+	toSort: PropTypes.bool,
 }
 
 /***************************************
