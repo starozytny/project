@@ -373,7 +373,7 @@ export function Radiobox ({
 				{styleType === "box" && isChecked
 					? <div className="absolute -top-[14px] -right-[14px]">
 						<div className="bg-blue-600 w-10 h-8 rotate-[40deg] flex justify-center items-end pb-1">
-							<span class="icon-check1 inline-block translate-y-0.5 text-xs text-white -rotate-[28deg]"></span>
+							<span className="icon-check1 inline-block translate-y-0.5 text-xs text-white -rotate-[28deg]"></span>
 						</div>
 					</div>
 					: null
