@@ -357,15 +357,27 @@ export function Radiobox ({
 			styleLabel = "block text-sm font-medium leading-6 cursor-pointer px-3 py-2 rounded-full ring-1 ring-inset "
 				+ (isChecked ? "bg-blue-700 ring-blue-700 text-slate-50" : "bg-white hover:bg-gray-50 ring-gray-300 text-gray-900")
 				+ " " + labelClass
+		}else if(styleType === "box"){
+			styleLabel = "relative overflow-hidden block text-sm font-medium cursor-pointer px-6 py-2 rounded-md bg-white ring-1 ring-inset "
+				+ (isChecked ? "ring-blue-700" : "hover:bg-gray-50 ring-gray-300 text-gray-900")
+				+ " " + labelClass
 		}
 
 		return <div className="flex items-center gap-2" key={index}>
 			<input type="radio" id={elem.identifiant} name={identifiant} value={elem.value} onClick={onChange} defaultChecked={isChecked}
-				   className={styleType === "fat" ? "hidden" : "h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"} />
+				   className={styleType === "fat" || styleType === "box" ? "hidden" : "h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-600"} />
 			<label htmlFor={elem.identifiant}
 				   className={`${styleLabel}`}
 			>
 				{elem.label}
+				{styleType === "box" && isChecked
+					? <div className="absolute -top-[14px] -right-[14px]">
+						<div className="bg-blue-600 w-10 h-8 rotate-[40deg] flex justify-center items-end pb-1">
+							<span class="icon-check1 inline-block translate-y-0.5 text-xs text-white -rotate-[28deg]"></span>
+						</div>
+					</div>
+					: null
+				}
 			</label>
 		</div>
 	})
