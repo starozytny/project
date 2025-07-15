@@ -1,5 +1,4 @@
 function validateDate(value) {
-    console.log(value);
     let regex = /^\d{4}-\d{2}-\d{2}$/;
 
     if (!regex.test(value)) {
@@ -61,7 +60,7 @@ function validateText($value) {
 }
 
 function validateEmail($value){
-    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test($value)){
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,10})+$/.test($value)){
         return {'code': true};
     }
     return {
@@ -71,7 +70,7 @@ function validateEmail($value){
 }
 
 function validateEmailConfirm($value, $valueCheck){
-    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test($value)){
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,10})+$/.test($value)){
 
         if($value !== $valueCheck){
             return {
@@ -127,11 +126,11 @@ function validateArray($value){
     return {'code': true};
 }
 
-function validateAtLeastOne($value, $valueCheck) {
+function validateAtLeastOne($value, $valueCheck, $message) {
     if($value === "" && $valueCheck === ""){
         return {
             'code': false,
-            'message': 'Au moins un champ doit être renseigné.'
+            'message': $message ? $message : 'Au moins un champ doit être renseigné.'
         };
     }
     return {'code': true};
@@ -188,7 +187,7 @@ function switchCase(element){
             validate = validatePassword(element.value, element.valueCheck);
             break;
         case 'atLeastOne':
-            validate = validateAtLeastOne(element.value, element.valueCheck);
+            validate = validateAtLeastOne(element.value, element.valueCheck, element.message);
             break;
         case 'minMax':
             validate = validateMinMax(element.value, element.valueCheck);
