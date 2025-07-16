@@ -39,6 +39,7 @@ export function TinyMCE (props){
             {children}
         </label>
         <Editor
+            licenseKey='gpl'
             tinymceScriptSrc={location.origin + '/tinymce/tinymce.min.js'}
             onInit={(evt, editor) => editorRef.current = editor}
             id={identifiant}

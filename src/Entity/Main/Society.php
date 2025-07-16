@@ -50,6 +50,10 @@ class Society extends DataEntity
     #[Groups(['society_list'])]
     private ?bool $isGenerated = false;
 
+    #[ORM\Column]
+    #[Groups(['society_list'])]
+    private ?bool $blocked = false;
+
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $logo = null;
 
@@ -64,6 +68,24 @@ class Society extends DataEntity
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    #[Groups(['society_list', 'society_form'])]
+    public function getLogoFile(): string
+    {
+        return $this->getFileOrDefault($this->logo, self::FOLDER);
+    }
+
+    #[Groups(['society_select'])]
+    public function getValue(): ?int
+    {
+        return $this->id;
+    }
+
+    #[Groups(['society_select'])]
+    public function getLabel(): ?string
+    {
+        return $this->code . " - " . $this->name;
     }
 
     public function getName(): ?string
@@ -138,6 +160,18 @@ class Society extends DataEntity
         return $this;
     }
 
+    public function isBlocked(): ?bool
+    {
+        return $this->blocked;
+    }
+
+    public function setBlocked(bool $blocked): static
+    {
+        $this->blocked = $blocked;
+
+        return $this;
+    }
+
     public function getLogo(): ?string
     {
         return $this->logo;
@@ -178,23 +212,5 @@ class Society extends DataEntity
         }
 
         return $this;
-    }
-
-    #[Groups(['society_list', 'society_form'])]
-    public function getLogoFile(): string
-    {
-        return $this->getFileOrDefault($this->logo, self::FOLDER);
-    }
-
-    #[Groups(['society_select'])]
-    public function getValue(): ?int
-    {
-        return $this->id;
-    }
-
-    #[Groups(['society_select'])]
-    public function getLabel(): ?string
-    {
-        return $this->code . " - " . $this->name;
     }
 }
