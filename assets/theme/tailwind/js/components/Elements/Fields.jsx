@@ -498,7 +498,7 @@ export function SelectComboboxMultiple (props) {
 SelectComboboxMultiple.propTypes = {
 	items: PropTypes.array.isRequired,
 	identifiant: PropTypes.string.isRequired,
-	valeur: PropTypes.node.isRequired,
+	valeur: PropTypes.array.isRequired,
 	errors: PropTypes.array.isRequired,
 	onSelect: PropTypes.func.isRequired,
 	children: PropTypes.node,

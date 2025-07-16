@@ -87,8 +87,10 @@ class SocietyController extends AbstractController
                 $multipleDatabase->createManager($settings, $obj->getCode(), false);
                 $obj->setIsGenerated(true);
             }else{
-                $multipleDatabase->updateManager($settings, $oldCode, $obj->getCode());
-                $obj->setIsActivated(false);
+                if(!$obj->isIsGenerated()){
+                    $multipleDatabase->updateManager($settings, $oldCode, $obj->getCode());
+                    $obj->setIsActivated(false);
+                }
             }
         }
 
