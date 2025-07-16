@@ -47,8 +47,8 @@ export function SocietiesItem ({ elem, highlight, settings, onModal })
 				<div className="col-4 actions">
 					<ButtonIconA type="default" icon="pencil" onClick={urlUpdate}>Modifier</ButtonIconA>
 					<ButtonIcon type="default" icon="trash" onClick={() => onModal("delete", elem)}>Supprimer</ButtonIcon>
-					<ButtonIcon type="default" icon={elem.blocked ? "unlock" : "disabled"} onClick={() => onModal("blocked", elem)}>
-						{elem.blocked ? "Débloquer" : "Bloquer"}
+					<ButtonIcon type="default" icon={elem.isBlocked ? "unlock" : "disabled"} onClick={() => onModal("blocked", elem)}>
+						{elem.isBlocked ? "Débloquer" : "Bloquer"}
 					</ButtonIcon>
 				</div>
 			</div>

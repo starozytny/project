@@ -195,7 +195,7 @@ export class Societies extends Component {
 		let self = this;
 		let instance = axios.create();
 		instance.interceptors.request.use((config) => {
-			self.blocked.current.handleUpdateFooter(<ButtonIcon type={element.blocked ? "blue" : "red"} icon="chart-3" />);
+			self.blocked.current.handleUpdateFooter(<ButtonIcon type={element.isBlocked ? "blue" : "red"} icon="chart-3" />);
 			return config;
 		}, function (error) {
 			modalBlocked(self, element);
@@ -204,7 +204,7 @@ export class Societies extends Component {
 		instance({ method: "PUT", url: Routing.generate(URL_SWITCH_BLOCKED, { id: element.id }), data: {} })
 			.then(function (response) {
 				let elem = response.data;
-				Toastr.toast('info', elem.blocked ? "Société bloquée." : "Société débloquée.");
+				Toastr.toast('info', elem.isBlocked ? "Société bloquée." : "Société débloquée.");
 				self.handleUpdateList(elem, "update")
 				instance.interceptors.request.clear();
 				self.blocked.current.handleClose();
@@ -270,7 +270,7 @@ export class Societies extends Component {
 
 					{createPortal(
 						<Modal ref={this.blocked} identifiant="blocked" maxWidth={414}
-							   title={element ? (element.blocked ? "Déblocage" : "Blocage") + " de " + element.name : ""}
+							   title={element ? (element.isBlocked ? "Déblocage" : "Blocage") + " de " + element.name : ""}
 							   content={null} footer={null} />,
 						document.body
 					)}
@@ -301,8 +301,8 @@ function modalBlocked (self, element) {
 		Le blocage d'une société interdit l'accès au site par tous les utilisateurs de cette société. <br /><br />
 		Le déblocage d'une société redonne l'accès au site par tous les utilisateurs de cette société.
 	</p>);
-	self.blocked.current.handleUpdateFooter(<Button type={element.blocked ? "blue" : "red"} onClick={self.handleBlocked}>
-		{element.blocked ? "Débloquer" : "Bloquer"}
+	self.blocked.current.handleUpdateFooter(<Button type={element.isBlocked ? "blue" : "red"} onClick={self.handleBlocked}>
+		{element.isBlocked ? "Débloquer" : "Bloquer"}
 	</Button>);
 	self.blocked.current.handleUpdateCloseTxt("Annuler");
 }

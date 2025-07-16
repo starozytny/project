@@ -90,7 +90,7 @@ class User extends DataEntity implements UserInterface, PasswordAuthenticatedUse
 
     #[ORM\Column]
     #[Groups(['user_list'])]
-    private ?bool $blocked = false;
+    private ?bool $isBlocked = false;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Mail::class)]
     private Collection $mails;
@@ -141,7 +141,7 @@ class User extends DataEntity implements UserInterface, PasswordAuthenticatedUse
         // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
 
-        return $this->isBlocked() ? ['ROLE_BLOCKED'] : array_unique($roles);
+        return $this->isIsBlocked() ? ['ROLE_BLOCKED'] : array_unique($roles);
     }
 
     #[Groups(['user_list'])]
@@ -156,7 +156,7 @@ class User extends DataEntity implements UserInterface, PasswordAuthenticatedUse
             $i++;
         }
 
-        return $this->isBlocked() ? "Bloqué" : "Utilisateur";
+        return $this->isIsBlocked() ? "Bloqué" : "Utilisateur";
     }
 
     #[Groups(['user_list'])]
@@ -344,14 +344,14 @@ class User extends DataEntity implements UserInterface, PasswordAuthenticatedUse
         return $this;
     }
 
-    public function isBlocked(): ?bool
+    public function isIsBlocked(): ?bool
     {
-        return $this->blocked;
+        return $this->isBlocked;
     }
 
-    public function setBlocked(bool $blocked): self
+    public function setIsBlocked(bool $isBlocked): self
     {
-        $this->blocked = $blocked;
+        $this->isBlocked = $isBlocked;
 
         return $this;
     }

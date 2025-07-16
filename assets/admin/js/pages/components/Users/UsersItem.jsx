@@ -36,8 +36,8 @@ export function UsersItem ({ elem, highlight, onModal })
         { data: <DropdownItem icon="email-edit" onClick={() => onModal("mail", elem)}>
                 Envoyer un mail
         </DropdownItem> },
-        { data: <DropdownItem icon={elem.blocked ? "unlock" : "disabled"} onClick={() => onModal("blocked", elem)}>
-                {elem.blocked ? "Débloquer" : "Bloquer"}
+        { data: <DropdownItem icon={elem.isBlocked ? "unlock" : "disabled"} onClick={() => onModal("blocked", elem)}>
+                {elem.isBlocked ? "Débloquer" : "Bloquer"}
         </DropdownItem> },
     ]
 
@@ -54,21 +54,21 @@ export function UsersItem ({ elem, highlight, onModal })
                         }
                     </a>
                     <div className="leading-4">
-                        <div className={"font-medium mb-1" + (elem.blocked ? " blocked" : "")}>
+                        <div className={"font-medium mb-1" + (elem.isBlocked ? " blocked" : "")}>
                             <span>{elem.lastname} {elem.firstname}</span>
-                            {elem.blocked ? <span className="icon-disabled" title="Bloqué" /> : null}
+                            {elem.isBlocked ? <span className="icon-disabled" title="Bloqué" /> : null}
                         </div>
                         <div className="text-gray-600">{elem.society.code} - {elem.society.name}</div>
                         <div className="text-gray-600 text-sm mt-1">{lastLoginAt ? "connecté " + lastLoginAt.fromNow() : ""}</div>
                     </div>
                 </div>
                 <div className="col-2 leading-5">
-                    <div className={elem.blocked ? "blocked" : ""}>{elem.username}</div>
+                    <div className={elem.isBlocked ? "blocked" : ""}>{elem.username}</div>
                     <div className="text-gray-600 text-sm">{elem.email}</div>
                 </div>
                 <div className="col-3">
-                    <Badge type={elem.blocked ? "red" : getBadgeType(elem.highRoleCode)}>
-                        {elem.highRole} {elem.blocked ? <span className="icon-disabled pl-1" title="Bloqué" /> : ""}
+                    <Badge type={elem.isBlocked ? "red" : getBadgeType(elem.highRoleCode)}>
+                        {elem.highRole} {elem.isBlocked ? <span className="icon-disabled pl-1" title="Bloqué" /> : ""}
                     </Badge>
                 </div>
                 <div className="col-4 actions">

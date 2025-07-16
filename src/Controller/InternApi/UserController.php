@@ -222,7 +222,7 @@ class UserController extends AbstractController
             return $apiResponse->apiJsonResponseBadRequest("Vous n'avez pas l'autorisation de bloquer cet utilisateur.");
         }
 
-        $user->setBlocked(!$user->isBlocked());
+        $user->setIsBlocked(!$user->isIsBlocked());
 
         $repository->save($user, true);
         return $apiResponse->apiJsonResponse($user, User::LIST);
