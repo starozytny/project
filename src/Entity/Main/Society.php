@@ -51,8 +51,7 @@ class Society extends DataEntity
     private ?bool $isGenerated = false;
 
     #[ORM\Column]
-    #[Groups(['society_list'])]
-    #[Groups(['user_list'])]
+    #[Groups(['society_list', 'user_list'])]
     private ?bool $isBlocked = false;
 
     #[ORM\Column(length: 255, nullable: true)]
