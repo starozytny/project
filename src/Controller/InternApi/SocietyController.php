@@ -163,5 +163,19 @@ class SocietyController extends AbstractController
         return $apiResponse->apiJsonResponse($obj, Society::LIST);
     }
 
+    #[Route('/switch/blocked/{id}', name: 'switch_blocked', options: ['expose' => true], methods: ['PUT'])]
+    public function switchBlocked($id, SocietyRepository $repository, ApiResponse $apiResponse): JsonResponse
+    {
+        $obj = $repository->findOneBy(['id' => $id]);
 
+        if($obj->getCode() == 999){
+            return $apiResponse->apiJsonResponseBadRequest("Vous ne pouvez pas bloquer cette société.");
+        }
+
+        $obj->setIsBlocked(!$obj->isIsBlocked());
+
+        $repository->save($obj, true);
+
+        return $apiResponse->apiJsonResponse($obj, Society::LIST);
+    }
 }

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { createPortal } from "react-dom";
 
 import axios from "axios";
 import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
@@ -12,7 +13,7 @@ import { SocietiesList } from "@adminPages/Societies/SocietiesList";
 
 import { Modal } from "@tailwindComponents/Elements/Modal";
 import { Search } from "@tailwindComponents/Elements/Search";
-import { Button } from "@tailwindComponents/Elements/Button";
+import { Button, ButtonIcon } from "@tailwindComponents/Elements/Button";
 import { ModalDelete } from "@tailwindComponents/Shortcut/Modal";
 import { LoaderElements, LoaderTxt } from "@tailwindComponents/Elements/Loader";
 import { Pagination, TopSorterPagination } from "@tailwindComponents/Elements/Pagination";
@@ -21,6 +22,7 @@ const URL_GET_DATA = "intern_api_societies_list";
 const URL_DELETE_ELEMENT = "intern_api_societies_delete";
 const URL_ACTIVATE_ELEMENT = "intern_api_societies_activate";
 const URL_GENERATE_ELEMENT = "intern_api_societies_generate";
+const URL_SWITCH_BLOCKED = "intern_api_societies_switch_blocked";
 
 let sorters = [
 	{ value: 0, label: 'Code', identifiant: 'sorter-code' },
@@ -50,6 +52,7 @@ export class Societies extends Component {
 		this.delete = React.createRef();
 		this.activate = React.createRef();
 		this.generate = React.createRef();
+		this.blocked = React.createRef();
 	}
 
 	componentDidMount = () => {
@@ -119,6 +122,8 @@ export class Societies extends Component {
 			modalActivationDefault(this);
 		} else if (identifiant === "generate") {
 			modalGenerationDefault(this);
+		} else if (identifiant === "blocked") {
+			modalBlocked(this, elem);
 		}
 
 		this[identifiant].current.handleClick();
@@ -185,6 +190,34 @@ export class Societies extends Component {
 		;
 	}
 
+	handleBlocked = (e) => {
+		const { element } = this.state;
+		let self = this;
+		let instance = axios.create();
+		instance.interceptors.request.use((config) => {
+			self.blocked.current.handleUpdateFooter(<ButtonIcon type={element.blocked ? "blue" : "red"} icon="chart-3" />);
+			return config;
+		}, function (error) {
+			modalBlocked(self, element);
+			return Promise.reject(error);
+		});
+		instance({ method: "PUT", url: Routing.generate(URL_SWITCH_BLOCKED, { id: element.id }), data: {} })
+			.then(function (response) {
+				let elem = response.data;
+				Toastr.toast('info', elem.blocked ? "Société bloquée." : "Société débloquée.");
+				self.handleUpdateList(elem, "update")
+				instance.interceptors.request.clear();
+				self.blocked.current.handleClose();
+			})
+			.catch(function (error) {
+				Formulaire.displayErrors(self, error);
+			})
+			.then(function () {
+				modalBlocked(self, element);
+			})
+		;
+	}
+
 	render () {
 		const { highlight } = this.props;
 		const { data, currentData, element, loadingData, perPage, currentPage, settings, nbSorter } = this.state;
@@ -209,16 +242,38 @@ export class Societies extends Component {
 					<ModalDelete refModal={this.delete} element={element} routeName={URL_DELETE_ELEMENT}
 								 title="Supprimer cette société" msgSuccess="Société supprimée."
 								 onUpdateList={this.handleUpdateList}>
-						Êtes-vous sûr de vouloir supprimer définitivement cette société ?
+						Êtes-vous sûr de vouloir supprimer définitivement cette société : <b>{element ? element.code + " " + element.name : ""}</b> ?
+						{settings.multipleDatabase
+							? <>
+								<br/><br/>
+								<span class="text-red-500 font-medium">
+									Avant de continuer, assurez-vous d'avoir supprimer les lignes de codes dans le .env et doctrine.yaml.
+								</span>
+							</>
+							: null
+						}
 					</ModalDelete>
 
-					<Modal ref={this.activate} identifiant="activate" maxWidth={414} title="Activer la société"
-						   content={null} footer={null}
-					/>
+					{createPortal(
+						<Modal ref={this.activate} identifiant="activate" maxWidth={414} title="Activer la société"
+							   content={null} footer={null}
+						/>,
+						document.body
+					)}
 
-					<Modal ref={this.generate} identifiant="generate" maxWidth={414} title="Générer la société"
-						   content={null} footer={null}
-					/>
+					{createPortal(
+						<Modal ref={this.generate} identifiant="generate" maxWidth={414} title="Générer la société"
+							   content={null} footer={null}
+						/>,
+						document.body
+					)}
+
+					{createPortal(
+						<Modal ref={this.blocked} identifiant="blocked" maxWidth={414}
+							   title={element ? (element.blocked ? "Déblocage" : "Blocage") + " de " + element.name : ""}
+							   content={null} footer={null} />,
+						document.body
+					)}
 				</>
 			}
 		</>
@@ -239,4 +294,15 @@ function modalGenerationDefault (self) {
 	</p>);
 	self.generate.current.handleUpdateFooter(<Button type="blue" onClick={self.handleGenerate}>Confirmer la génération</Button>);
 	self.generate.current.handleUpdateCloseTxt("Annuler");
+}
+
+function modalBlocked (self, element) {
+	self.blocked.current.handleUpdateContent(<p>
+		Le blocage d'une société interdit l'accès au site par tous les utilisateurs de cette société. <br /><br />
+		Le déblocage d'une société redonne l'accès au site par tous les utilisateurs de cette société.
+	</p>);
+	self.blocked.current.handleUpdateFooter(<Button type={element.blocked ? "blue" : "red"} onClick={self.handleBlocked}>
+		{element.blocked ? "Débloquer" : "Bloquer"}
+	</Button>);
+	self.blocked.current.handleUpdateCloseTxt("Annuler");
 }

@@ -49,7 +49,7 @@ class SecurityListener
 
             $society = $user->getSociety();
 
-            if($society->isBlocked()){
+            if($society->isIsBlocked()){
                 $session->invalidate(1);
                 $this->tokenStorage->setToken();
 

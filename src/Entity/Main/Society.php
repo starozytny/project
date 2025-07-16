@@ -52,7 +52,7 @@ class Society extends DataEntity
 
     #[ORM\Column]
     #[Groups(['society_list'])]
-    private ?bool $blocked = false;
+    private ?bool $isBlocked = false;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $logo = null;
@@ -160,14 +160,14 @@ class Society extends DataEntity
         return $this;
     }
 
-    public function isBlocked(): ?bool
+    public function isIsBlocked(): ?bool
     {
-        return $this->blocked;
+        return $this->isBlocked;
     }
 
-    public function setBlocked(bool $blocked): static
+    public function setIsBlocked(bool $isBlocked): static
     {
-        $this->blocked = $blocked;
+        $this->isBlocked = $isBlocked;
 
         return $this;
     }
