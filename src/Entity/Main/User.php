@@ -110,6 +110,61 @@ class User extends DataEntity implements UserInterface, PasswordAuthenticatedUse
         return $this->id;
     }
 
+    #[Groups(['user_list'])]
+    public function getHighRole(): string
+    {
+        $rolesSortedByImportance = ['ROLE_DEVELOPER', 'ROLE_ADMIN', 'ROLE_USER'];
+        $rolesLabel = ['Développeur', 'Administrateur', 'Utilisateur'];
+        $i = 0;
+        foreach ($rolesSortedByImportance as $role)
+        {
+            if (in_array($role, $this->roles)) return $rolesLabel[$i];
+            $i++;
+        }
+
+        return $this->isIsBlocked() ? "Bloqué" : "Utilisateur";
+    }
+
+    #[Groups(['user_list'])]
+    public function getHighRoleCode(): int
+    {
+        return match ($this->getHighRole()) {
+            'Développeur' => self::CODE_ROLE_DEVELOPER,
+            'Administrateur' => self::CODE_ROLE_ADMIN,
+            default => self::CODE_ROLE_USER,
+        };
+    }
+
+    public function getHiddenEmail(): string
+    {
+        $email = $this->getEmail();
+        $at = strpos($email, "@");
+        $domain = substr($email, $at, strlen($email));
+        $firstLetter = substr($email, 0, 1);
+        $etoiles = "";
+        for($i=1 ; $i < $at ; $i++){
+            $etoiles .= "*";
+        }
+        return $firstLetter . $etoiles . $domain;
+    }
+
+    #[Groups(['user_list', 'user_form'])]
+    public function getAvatarFile(): ?string
+    {
+        return $this->getFileOrDefault($this->avatar, self::FOLDER, null);
+    }
+
+    #[Groups(['user_list'])]
+    public function getIsAdmin(): bool
+    {
+        return $this->getHighRoleCode() == User::CODE_ROLE_DEVELOPER || $this->getHighRoleCode() == User::CODE_ROLE_ADMIN;
+    }
+
+    public function getIsDev(): bool
+    {
+        return $this->getHighRoleCode() == User::CODE_ROLE_DEVELOPER;
+    }
+
     public function getUsername(): ?string
     {
         return $this->username;
@@ -142,31 +197,6 @@ class User extends DataEntity implements UserInterface, PasswordAuthenticatedUse
         $roles[] = 'ROLE_USER';
 
         return $this->isIsBlocked() ? ['ROLE_BLOCKED'] : array_unique($roles);
-    }
-
-    #[Groups(['user_list'])]
-    public function getHighRole(): string
-    {
-        $rolesSortedByImportance = ['ROLE_DEVELOPER', 'ROLE_ADMIN', 'ROLE_USER'];
-        $rolesLabel = ['Développeur', 'Administrateur', 'Utilisateur'];
-        $i = 0;
-        foreach ($rolesSortedByImportance as $role)
-        {
-            if (in_array($role, $this->roles)) return $rolesLabel[$i];
-            $i++;
-        }
-
-        return $this->isIsBlocked() ? "Bloqué" : "Utilisateur";
-    }
-
-    #[Groups(['user_list'])]
-    public function getHighRoleCode(): int
-    {
-        return match ($this->getHighRole()) {
-            'Développeur' => self::CODE_ROLE_DEVELOPER,
-            'Administrateur' => self::CODE_ROLE_ADMIN,
-            default => self::CODE_ROLE_USER,
-        };
     }
 
     public function setRoles(array $roles): self
@@ -384,34 +414,5 @@ class User extends DataEntity implements UserInterface, PasswordAuthenticatedUse
         }
 
         return $this;
-    }
-
-    public function getHiddenEmail(): string
-    {
-        $email = $this->getEmail();
-        $at = strpos($email, "@");
-        $domain = substr($email, $at, strlen($email));
-        $firstLetter = substr($email, 0, 1);
-        $etoiles = "";
-        for($i=1 ; $i < $at ; $i++){
-            $etoiles .= "*";
-        }
-        return $firstLetter . $etoiles . $domain;
-    }
-
-    #[Groups(['user_list', 'user_form'])]
-    public function getAvatarFile(): ?string
-    {
-        return $this->getFileOrDefault($this->avatar, self::FOLDER, null);
-    }
-
-    public function getIsAdmin(): bool
-    {
-        return $this->getHighRoleCode() == User::CODE_ROLE_DEVELOPER || $this->getHighRoleCode() == User::CODE_ROLE_ADMIN;
-    }
-
-    public function getIsDev(): bool
-    {
-        return $this->getHighRoleCode() == User::CODE_ROLE_DEVELOPER;
     }
 }

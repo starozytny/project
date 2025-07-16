@@ -52,6 +52,7 @@ class Society extends DataEntity
 
     #[ORM\Column]
     #[Groups(['society_list'])]
+    #[Groups(['user_list'])]
     private ?bool $isBlocked = false;
 
     #[ORM\Column(length: 255, nullable: true)]
