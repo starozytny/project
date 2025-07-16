@@ -57,16 +57,18 @@ export function UsersItem ({ elem, highlight, onModal })
                                 : <div className="h-full w-full rounded-md bg-gray-300 flex items-center justify-center font-semibold">
                                     {elem.lastname.slice(0, 1) + elem.firstname.slice(0, 1)}
                                 </div>
-
                         }
                     </a>
-                    <div className={`leading-4 ${blocked ? "blocked" : ""}`}>
-                        <div className={"font-medium mb-1" + (blocked ? " blocked" : "")}>
-                            <span>{elem.lastname} {elem.firstname}</span>
-                            {blocked ? <span className="icon-disabled" title="Bloqué" /> : null}
+                    <div className="leading-4">
+                        <div className={blocked ? "blocked" : ""}>
+                            <div className={"font-medium mb-1" + (blocked ? " blocked" : "")}>
+                                <span>{elem.lastname} {elem.firstname}</span>
+                                {blocked ? <span className="icon-disabled" title="Bloqué" /> : null}
+                            </div>
+                            <div className="text-gray-600">{elem.society.code} - {elem.society.name}</div>
+                            <div className="text-gray-600 text-sm mt-1">{lastLoginAt ? "connecté " + lastLoginAt.fromNow() : ""}</div>
                         </div>
-                        <div className="text-gray-600">{elem.society.code} - {elem.society.name}</div>
-                        <div className="text-gray-600 text-sm mt-1">{lastLoginAt ? "connecté " + lastLoginAt.fromNow() : ""}</div>
+                        {elem.society.isBlocked ? <span className="text-xs text-red-500 font-medium">(Société bloquée)</span> : ""}
                     </div>
                 </div>
                 <div className={`col-2 leading-5 ${blocked ? "blocked" : ""}`}>
