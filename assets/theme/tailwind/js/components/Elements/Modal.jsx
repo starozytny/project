@@ -30,7 +30,7 @@ export class Modal extends Component {
 	}
 
 	handleClick = (e) => {
-		const { identifiant, canCloseOutside = true } = this.props;
+		const { identifiant, canCloseOutside = false } = this.props;
 
 		let [body, modal, modalContent, btns] = ModalFunctions.getElements(identifiant);
 
