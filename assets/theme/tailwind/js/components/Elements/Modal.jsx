@@ -30,15 +30,17 @@ export class Modal extends Component {
 	}
 
 	handleClick = (e) => {
-		const { identifiant } = this.props;
+		const { identifiant, canCloseOutside = true } = this.props;
 
 		let [body, modal, modalContent, btns] = ModalFunctions.getElements(identifiant);
 
 		ModalFunctions.openM(body, modal, modalContent);
 
-		window.onclick = (e) => {
-			if (e.target === modal) {
-				ModalFunctions.closeM(body, modal, modalContent);
+		if(canCloseOutside){
+			window.onmousedown = (e) => {
+				if (e.target === modal) {
+					ModalFunctions.closeM(body, modal, modalContent);
+				}
 			}
 		}
 
