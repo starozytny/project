@@ -87,7 +87,7 @@ export function ButtonIcon ({ type, icon, onClick, children, tooltipWidth, toolt
 				   className={`relative inline-flex items-center justify-center rounded-md text-lg px-2 py-2 shadow-sm ${colorVariants[type]} ${customBtn}`}>
 		<span className={`icon-${icon} ${iconColorVariants[type]}`}></span>
 		{children
-			? <span className={`tooltip bg-gray-300 py-1 px-2 rounded absolute ${tooltipPos} text-xs hidden`}
+			? <span className={`tooltip bg-gray-800 text-slate-50 py-1 px-2 rounded absolute ${tooltipPos} text-xs hidden`}
 					style={divStyle}>
 				{children}
 		</span>
