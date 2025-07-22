@@ -352,28 +352,26 @@ export function Radiobox ({
 			isChecked = true
 		}
 
-		let styleLabel = "block text-sm font-medium leading-6 " + labelClass;
-		if (styleType === "fat") {
-			styleLabel = "block text-sm font-medium leading-6 cursor-pointer px-3 py-2 rounded-full ring-1 ring-inset "
-				+ (isChecked ? "bg-blue-700 ring-blue-700 text-slate-50" : "bg-white hover:bg-gray-50 ring-gray-300 text-gray-900")
-				+ " " + labelClass
-		}else if(styleType === "box"){
-			styleLabel = "relative overflow-hidden block text-sm font-medium cursor-pointer px-6 py-2 rounded-md bg-white ring-1 ring-inset "
-				+ (isChecked ? "ring-blue-700" : "hover:bg-gray-50 ring-gray-300 text-gray-900")
-				+ " " + labelClass
-		}
-
-		return <div className="flex items-center gap-2" key={index}>
+		return <div className={cn("flex items-center gap-2", styleType === "box-icon" && "w-full")} key={index}>
 			<input type="radio" id={elem.identifiant} name={identifiant} value={elem.value} onClick={onChange} defaultChecked={isChecked}
-				   className={styleType === "fat" || styleType === "box" ? "hidden" : "h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-600"} />
+				   className={styleType ? "hidden" : "h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-600"} />
 			<label htmlFor={elem.identifiant}
-				   className={`${styleLabel}`}
+				   className={cn("block text-sm font-medium leading-6",
+					   styleType === "fat" && "cursor-pointer px-3 py-2 rounded-full ring-1 ring-inset bg-white ring-gray-300 text-gray-900 hover:bg-gray-50",
+					   (styleType === "fat" && isChecked) && "bg-blue-700 ring-blue-700 text-slate-50 hover:bg-blue-700",
+					   styleType === "box" && "relative overflow-hidden leading-normal cursor-pointer px-6 py-2 rounded-md bg-white ring-1 ring-inset ring-gray-300 hover:bg-gray-50 text-gray-900",
+					   (styleType === "box" && isChecked) && "ring-blue-700",
+					   styleType === "box-icon" && "relative w-full overflow-hidden flex flex-col gap-2 items-center justify-center cursor-pointer p-6 rounded-md bg-white ring-1 ring-inset ring-gray-300 hover:bg-gray-50 text-gray-900 text-base",
+					   (styleType === "box-icon" && isChecked) && "ring-blue-700",
+					   labelClass
+				   )}
 			>
+				{styleType === "box-icon" && <span className={`icon-${elem.icon} text-xl`}></span>}
 				{elem.label}
-				{styleType === "box" && isChecked
+				{(styleType === "box" || styleType === "box-icon") && isChecked
 					? <div className="absolute -top-[14px] -right-[14px]">
 						<div className="bg-blue-600 w-10 h-8 rotate-[40deg] flex justify-center items-end pb-1">
-							<span className="icon-check1 inline-block translate-y-0.5 text-xs text-white -rotate-[28deg]"></span>
+							<span className="icon-check1 inline-block translate-y-0.5 text-xs text-white -rotate-[38deg]"></span>
 						</div>
 					</div>
 					: null
