@@ -104,7 +104,10 @@ export function ComboboxSimple({ identifiant, valeur, items, onSelect, placehold
                                         setOpen(false)
                                     }}
                                 >
-                                    {choice.label}
+                                    {choice.customLabelList
+                                        ? <div dangerouslySetInnerHTML={{ __html: choice.customLabelList }}></div>
+                                        : choice.label
+                                    }
                                     <Check
                                         className={cn(
                                             "ml-auto",
