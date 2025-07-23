@@ -206,7 +206,7 @@ export function InputCity (props) {
 		</label>
 		<div className="relative rounded-md">
 			{cities && cities.length > 1
-				? <SelectShadcn identifiant="city" valeur={city} items={cities}
+				? <SelectShadcn identifiant={identifiant} valeur={city} items={cities}
 								errors={[]} onSelect={handleChange} noEmpty={true} open={isOpen} onOpenChange={setIsOpen} />
 				: <input type="text" name={identifiant} id={identifiant} value={valeur}
 						 placeholder={placeholder} onChange={onChange} autoComplete={autocomplete}
