@@ -16,11 +16,9 @@ import { ComboboxMultiple, ComboboxSimple } from "@shadcnComponents/elements/Com
  * INPUT View
  ***************************************/
 export function InputView (props) {
-	const { identifiant, valeur, errors, children } = props;
+	const { identifiant, valeur, errors, children, bgColor = "bg-gray-100" } = props;
 
 	let error = getError(errors, identifiant);
-
-	let styleInput = "block bg-gray-100 w-full rounded-md border-0 py-2 px-3 text-sm text-gray-900 ring-1 ring-inset placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-gray-500";
 
 	return <>
 		<label htmlFor={identifiant} className="block text-sm font-medium leading-6 text-gray-900">
@@ -28,7 +26,11 @@ export function InputView (props) {
 		</label>
 		<div className="relative rounded-md shadow-sm">
 			<input type="text" name={identifiant} id={identifiant} value={valeur === null ? "" : valeur} disabled={true}
-				   className={styleInput + " " + (error ? "ring-red-400" : "ring-gray-300")} />
+				   className={cn(
+					   'block bg-gray-100 w-full rounded-md border-0 py-2 px-3 text-sm text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-gray-500',
+					   bgColor,
+					   error && "ring-red-400"
+				   )} />
 		</div>
 		<ErrorContent error={error} />
 	</>
