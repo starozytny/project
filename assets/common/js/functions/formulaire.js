@@ -49,8 +49,8 @@ function setValue (value, defaultValue = "") {
     return value === null ? defaultValue : value;
 }
 
-function setValueDate (value, defaultValue = "") {
-    return value === null ? defaultValue : moment(value).format('YYYY-MM-DD');
+function setValueDate (value, defaultValue = "", format = "YYYY-MM-DD") {
+    return value === null ? defaultValue : moment(value).format(format);
 }
 
 function setValueTime (value, defaultValue = "") {

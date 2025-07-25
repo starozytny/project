@@ -170,7 +170,7 @@ Input.propTypes = {
 	autocomplete: PropTypes.string,
 	placeholder: PropTypes.string,
 	password: PropTypes.bool,
-	min: PropTypes.number,
+	min: PropTypes.any,
 	max: PropTypes.number,
 }
 
