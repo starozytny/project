@@ -24,9 +24,9 @@ export function SocietiesItem ({ elem, highlight, settings, onModal })
 			<div className="item-infos">
 				<div className="col-1 flex flex-row gap-4">
 					<a href={urlRead} className="w-32 h-24 rounded-md overflow-hidden">
-						<img src={elem.logoFile} alt="logo" className="w-full h-full object-cover" />
+						<img src={elem.logoFile} alt="logo" className="min-w-32 h-full object-cover" />
 					</a>
-					<div className={elem.isBlocked ? "line-through text-gray-600" : ""}>
+					<div className={`w-[calc(100%-128px)] ${elem.isBlocked ? "line-through text-gray-600" : ""}`}>
 						<div className="font-semibold">{elem.code} - {elem.name}</div>
 					</div>
 				</div>

@@ -246,7 +246,7 @@ export class Societies extends Component {
 						{settings.multipleDatabase
 							? <>
 								<br/><br/>
-								<span class="text-red-500 font-medium">
+								<span className="text-red-500 font-medium">
 									Avant de continuer, assurez-vous d'avoir supprimer les lignes de codes dans le .env et doctrine.yaml.
 								</span>
 							</>

@@ -2,7 +2,7 @@
 
 .items-societies{
   .item-infos{
-    $col2: 170px; $col3: 138px; $col4: 64px; $colGap: 24px;
+    $col2: 130px; $col3: 168px; $col4: 64px; $colGap: 24px;
     @media (min-width:768px) {
       & > .col-1{ width: calc(100% - $col2 - $col3 - $col4 - $colGap); }
       & > .col-2{ width: $col2; }
