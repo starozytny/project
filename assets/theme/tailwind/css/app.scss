@@ -6,7 +6,7 @@ html, body{
   scroll-behavior: smooth;
 }
 
-a:hover, button:hover{
+a:hover, button:hover, .tooltip-btn:hover{
   .tooltip{
     display: block;
   }
