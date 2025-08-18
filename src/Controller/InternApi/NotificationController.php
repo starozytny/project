@@ -5,11 +5,9 @@ namespace App\Controller\InternApi;
 use App\Entity\Main\Notification;
 use App\Repository\Main\NotificationRepository;
 use App\Service\ApiResponse;
-use App\Service\Data\DataService;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route(path: '/intern/api/notifications', name: 'intern_api_notifications_')]
@@ -23,9 +21,14 @@ class NotificationController extends AbstractController
     }
 
     #[Route(path: '/{id}/is-seen', name: 'isSeen', options: ['expose' => true], methods: ['POST'])]
-    public function isSeen(Notification $obj, DataService $dataService): JsonResponse
+    public function isSeen(ManagerRegistry $registry, Notification $obj, ApiResponse $apiResponse): JsonResponse
     {
-        return $dataService->seenToTrue($obj, Notification::LIST);
+        $em = $registry->getManager();
+
+        $obj->setSeen(true);
+
+        $em->flush();
+        return $apiResponse->apiJsonResponse($obj, Notification::LIST);
     }
 
     #[Route(path: '/all/seen', name: 'isSeen_all', options: ['expose' => true], methods: ['POST'])]
@@ -45,14 +48,35 @@ class NotificationController extends AbstractController
     }
 
     #[Route(path: '/{id}', name: 'delete', options: ['expose' => true], methods: ['DELETE'])]
-    public function delete(Notification $obj, DataService $dataService): JsonResponse
+    public function delete(ManagerRegistry $registry, Notification $obj, ApiResponse $apiResponse): JsonResponse
     {
-        return $dataService->delete($obj);
+        $em = $registry->getManager();
+        if (!$obj->isSeen()) {
+            return $apiResponse->apiJsonResponseBadRequest("Vous n'avez pas lu ce message.");
+        }
+
+        $em->remove($obj);
+        $em->flush();
+        return $apiResponse->apiJsonResponseSuccessful("Suppression réussie !");
     }
 
-    #[Route(path: '/', name: 'delete_group', options: ['expose' => true], methods: ['DELETE'])]
-    public function deleteSelected(Request $request, DataService $dataService): JsonResponse
+    #[Route(path: '/', name: 'delete_all', options: ['expose' => true], methods: ['DELETE'])]
+    public function deleteAll(ManagerRegistry $registry, ApiResponse $apiResponse): JsonResponse
     {
-        return $dataService->deleteSelected(Notification::class, json_decode($request->getContent()));
+        $em = $registry->getManager();
+        $objs = $em->getRepository(Notification::class)->findAll();
+
+        if ($objs) {
+            foreach ($objs as $obj) {
+                if (!$obj->isSeen()) {
+                    return $apiResponse->apiJsonResponseBadRequest('Vous n\'avez pas lu ce message.');
+                }
+
+                $em->remove($obj);
+            }
+        }
+
+        $em->flush();
+        return $apiResponse->apiJsonResponseSuccessful("Suppression réussie !");
     }
 }
