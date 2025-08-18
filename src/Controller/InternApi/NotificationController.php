@@ -20,7 +20,7 @@ class NotificationController extends AbstractController
         return $apiResponse->apiJsonResponse($objs, Notification::LIST);
     }
 
-    #[Route(path: '/{id}/is-seen', name: 'isSeen', options: ['expose' => true], methods: ['POST'])]
+    #[Route(path: '/{id}/is-seen', name: 'seen', options: ['expose' => true], methods: ['POST'])]
     public function isSeen(ManagerRegistry $registry, Notification $obj, ApiResponse $apiResponse): JsonResponse
     {
         $em = $registry->getManager();
@@ -31,7 +31,7 @@ class NotificationController extends AbstractController
         return $apiResponse->apiJsonResponse($obj, Notification::LIST);
     }
 
-    #[Route(path: '/all/seen', name: 'isSeen_all', options: ['expose' => true], methods: ['POST'])]
+    #[Route(path: '/all/seen', name: 'seen_all', options: ['expose' => true], methods: ['POST'])]
     public function allSeen(ManagerRegistry $registry, NotificationRepository $notificationRepository, ApiResponse $apiResponse): JsonResponse
     {
         $em = $registry->getManager();

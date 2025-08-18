@@ -11,8 +11,8 @@ import Formulaire from "@commonFunctions/formulaire";
 import { ButtonIcon } from "@tailwindComponents/Elements/Button";
 
 const URL_NOTIFICATIONS = "intern_api_notifications_index";
-const URL_NOTIFICATIONS_SEEN = "intern_api_notifications_isSeen";
-const URL_NOTIFICATIONS_SEEN_ALL = "intern_api_notifications_isSeen_all";
+const URL_NOTIFICATIONS_SEEN = "intern_api_notifications_seen";
+const URL_NOTIFICATIONS_SEEN_ALL = "intern_api_notifications_seen_all";
 const URL_NOTIFICATIONS_DELETE = "intern_api_notifications_delete";
 const URL_NOTIFICATIONS_DELETE_ALL = "intern_api_notifications_delete_all";
 
