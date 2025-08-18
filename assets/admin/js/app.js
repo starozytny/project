@@ -16,7 +16,7 @@ Menu.menuListener();
 
 const notifications = document.getElementById("notifications");
 if(notifications){
-    createRoot(notifications).render(<Notifications {...notifications.dataset} isImmo={false} />)
+    createRoot(notifications).render(<Notifications {...notifications.dataset} />)
 }
 
 
