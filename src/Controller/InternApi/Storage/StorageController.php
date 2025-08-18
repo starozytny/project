@@ -2,7 +2,7 @@
 
 namespace App\Controller\InternApi\Storage;
 
-use App\Service\ApiResponse;
+use App\Service\Api\ApiResponse;
 use App\Service\StorageService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Finder\Finder;

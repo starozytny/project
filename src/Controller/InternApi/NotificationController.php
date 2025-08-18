@@ -4,7 +4,7 @@ namespace App\Controller\InternApi;
 
 use App\Entity\Main\Notification;
 use App\Repository\Main\NotificationRepository;
-use App\Service\ApiResponse;
+use App\Service\Api\ApiResponse;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;

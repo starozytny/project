@@ -4,7 +4,7 @@ namespace App\Controller\InternApi;
 
 use App\Entity\Main\Agenda\AgEvent;
 use App\Repository\Main\Agenda\AgEventRepository;
-use App\Service\ApiResponse;
+use App\Service\Api\ApiResponse;
 use App\Service\Data\DataMain;
 use App\Service\ValidatorService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

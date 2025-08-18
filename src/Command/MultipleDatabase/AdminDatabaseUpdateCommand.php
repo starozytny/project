@@ -38,6 +38,7 @@ class AdminDatabaseUpdateCommand extends Command
                 $arguments = [
                     'command' => 'do:sc:up',
                     '--force' => true,
+                    '--complete' => true,
                     '--em' => $society->getManager()
                 ];
                 $greetInput = new ArrayInput($arguments);

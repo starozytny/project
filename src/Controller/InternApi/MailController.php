@@ -4,7 +4,7 @@ namespace App\Controller\InternApi;
 
 use App\Entity\Main\Mail;
 use App\Repository\Main\MailRepository;
-use App\Service\ApiResponse;
+use App\Service\Api\ApiResponse;
 use App\Service\Data\DataMain;
 use App\Service\FileUploader;
 use App\Service\MailerService;
