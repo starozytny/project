@@ -30,7 +30,7 @@
                     {% else %}
                         <div class="h-12 w-12 rounded-full bg-gray-500 flex items-center justify-center font-semibold">
                             <div>
-                                {{ elem.lastname | slice(0, 1) }}{{ elem.firstname | slice(0,1) }}
+                                {{ elem.lastname | slice(0, 2) | upper}}
                             </div>
                         </div>
                     {% endif %}
