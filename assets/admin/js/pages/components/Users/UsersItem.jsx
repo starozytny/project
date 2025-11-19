@@ -43,6 +43,8 @@ export function UsersItem ({ elem, highlight, onModal })
         </DropdownItem> },
     ]
 
+    console.log(elem);
+
     return <div className={`item${setHighlightClass(nHighlight)} border-t hover:bg-slate-50`} ref={refItem}>
         <div className="item-content">
             <div className="item-infos">
@@ -55,7 +57,7 @@ export function UsersItem ({ elem, highlight, onModal })
                             : elem.avatarFile
                                 ? <img src={elem.avatarFile} alt="avatar" className="w-full h-full object-cover" />
                                 : <div className="h-full w-full rounded-md bg-gray-300 flex items-center justify-center font-semibold">
-                                    {elem.lastname.slice(0, 1) + elem.firstname.slice(0, 1)}
+                                    {elem.lastname.slice(0, 2)}
                                 </div>
                         }
                     </a>
@@ -66,7 +68,10 @@ export function UsersItem ({ elem, highlight, onModal })
                                 {blocked ? <span className="icon-disabled" title="Bloqué" /> : null}
                             </div>
                             <div className="text-gray-600">{elem.society.code} - {elem.society.name}</div>
-                            <div className="text-gray-600 text-sm mt-1">{lastLoginAt ? "connecté " + lastLoginAt.fromNow() : ""}</div>
+                            {!elem.isAdmin
+                                ? <div className="text-gray-600 text-sm mt-1">{lastLoginAt ? "connecté " + lastLoginAt.fromNow() : ""}</div>
+                                : null
+                            }
                         </div>
                         {elem.society.isBlocked ? <span className="text-xs text-red-500 font-medium">(Société bloquée)</span> : ""}
                     </div>

@@ -26,7 +26,7 @@
             </div>
         </div>
 
-        <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <div class="grid gap-4 sm:grid-cols-2 2xl:grid-cols-4">
             <div class="bg-white shadow p-4 rounded-md">
                 <div class="flex items-center">
                     <div class="text-lg"><span class="icon-bank"></span></div>
@@ -64,9 +64,9 @@
                             <div class="flex flex-col gap-1">
                                 {% for user in users %}
                                     {% if user.isDev == false %}
-                                        <div class="text-sm grid grid-cols-3">
-                                            <div class="col-span-2">{{ user.firstname }} <span class="text-xs text-gray-500">({{ user.username }})</span></div>
-                                            <div>{{ user.lastLoginAt | date('d/m/Y H:i') }}</div>
+                                        <div class="text-sm grid grid-cols-2 qhd:grid-cols-3">
+                                            <div class="qhd:col-span-2">{{ user.lastname }} <span class="text-xs text-gray-500">({{ user.username }})</span></div>
+                                            <div class="text-right">{{ user.lastLoginAt | date('d/m/Y H:i') }}</div>
                                         </div>
                                     {% endif %}
                                 {% endfor %}

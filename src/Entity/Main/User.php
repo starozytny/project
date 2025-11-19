@@ -52,7 +52,7 @@ class User extends DataEntity implements UserInterface, PasswordAuthenticatedUse
     #[Groups(['user_list', 'user_form'])]
     private ?string $lastname = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     #[Groups(['user_list', 'user_form'])]
     private ?string $firstname = null;
 
@@ -259,7 +259,7 @@ class User extends DataEntity implements UserInterface, PasswordAuthenticatedUse
         return $this->firstname;
     }
 
-    public function setFirstname(string $firstname): self
+    public function setFirstname(?string $firstname): self
     {
         $this->firstname = $firstname;
 
