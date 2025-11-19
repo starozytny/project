@@ -43,7 +43,7 @@
                             {% else %}
                                 <div class="h-8 w-8 rounded-full bg-gray-500 flex items-center justify-center font-semibold">
                                     <div>
-                                        {{ app.user.lastname | slice(0, 1) }}{{ app.user.firstname | slice(0,1) }}
+                                        {{ app.user.lastname | slice(0, 2) | upper }}
                                     </div>
                                 </div>
                             {% endif %}
