@@ -33,7 +33,7 @@ class Notification extends DataEntity
 
     #[ORM\Column]
     #[Groups(['notif_list'])]
-    private ?bool $seen = false;
+    private ?bool $isSeen = false;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups(['notif_list'])]
@@ -90,12 +90,12 @@ class Notification extends DataEntity
 
     public function isSeen(): ?bool
     {
-        return $this->seen;
+        return $this->isSeen;
     }
 
-    public function setSeen(bool $seen): self
+    public function setIsSeen(bool $isSeen): self
     {
-        $this->seen = $seen;
+        $this->isSeen = $isSeen;
 
         return $this;
     }

@@ -25,7 +25,7 @@ class NotificationController extends AbstractController
     {
         $em = $registry->getManager();
 
-        $obj->setSeen(true);
+        $obj->setIsSeen(true);
 
         $em->flush();
         return $apiResponse->apiJsonResponse($obj, Notification::LIST);
@@ -38,7 +38,7 @@ class NotificationController extends AbstractController
         $objs = $notificationRepository->findBy(['seen' => false]);
 
         foreach($objs as $obj){
-            $obj->setSeen(true);
+            $obj->setIsSeen(true);
         }
 
         $objs = $notificationRepository->findAll();

@@ -31,7 +31,7 @@ class AdminDatabaseUpdateCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $societies = $this->em->getRepository(Society::class)->findAll();
+        $societies = $this->em->getRepository(Society::class)->findBy(['isActivated' => true]);
         foreach($societies as $society){
             if($society->isIsActivated()){
                 $command = $this->getApplication()->find('do:sc:up');

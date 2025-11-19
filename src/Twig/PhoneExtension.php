@@ -22,7 +22,7 @@ class PhoneExtension extends AbstractExtension
         $arg1 = str_replace(' ', '', $arg1);
         $arg1 = preg_replace("/[a-zA-Z:()]/", "", $arg1);
         if(strlen($arg1) < 10){
-            return "";
+            return $arg1;
         }
         $arg1 = substr($arg1,0,10);
         $a = substr($arg1,0,2);
