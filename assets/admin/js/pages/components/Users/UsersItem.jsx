@@ -57,7 +57,7 @@ export function UsersItem ({ elem, highlight, onModal })
                             : elem.avatarFile
                                 ? <img src={elem.avatarFile} alt="avatar" className="w-full h-full object-cover" />
                                 : <div className="h-full w-full rounded-md bg-gray-300 flex items-center justify-center font-semibold">
-                                    {elem.lastname.slice(0, 2)}
+                                    {elem.lastname.slice(0, 2).toUpperCase()}
                                 </div>
                         }
                     </a>
