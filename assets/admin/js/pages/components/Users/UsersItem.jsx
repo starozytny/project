@@ -43,8 +43,6 @@ export function UsersItem ({ elem, highlight, onModal })
         </DropdownItem> },
     ]
 
-    console.log(elem);
-
     return <div className={`item${setHighlightClass(nHighlight)} border-t hover:bg-slate-50`} ref={refItem}>
         <div className="item-content">
             <div className="item-infos">
