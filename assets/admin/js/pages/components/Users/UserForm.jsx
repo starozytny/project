@@ -102,13 +102,12 @@ class Form extends Component {
 		e.preventDefault();
 
 		const { url } = this.props;
-		const { username, firstname, lastname, email, roles, society } = this.state;
+		const { username, lastname, email, roles, society } = this.state;
 
 		this.setState({ errors: [] });
 
 		let paramsToValidate = [
 			{ type: "text", id: 'username', value: username },
-			{ type: "text", id: 'firstname', value: firstname },
 			{ type: "text", id: 'lastname', value: lastname },
 			{ type: "email", id: 'email', value: email },
 			{ type: "array", id: 'roles', value: roles },
@@ -165,32 +164,13 @@ class Form extends Component {
 							{context === "create" ? <span><br /><br />Attention, le nom d'utilisateur ne pourra plus être modifié.</span> : ""}
 						</div>
 					</div>
-					<div className="bg-white p-4 rounded-md ring-1 ring-inset ring-gray-200 xl:col-span-2">
+					<div className="flex flex-col gap-4 bg-white p-4 rounded-md ring-1 ring-inset ring-gray-200 xl:col-span-2">
 						<div className="flex gap-4">
 							<div className="w-full">
 								<Input valeur={username} identifiant="username" {...params0}>Nom utilisateur</Input>
 							</div>
 							<div className="w-full">
 								<Input valeur={email} identifiant="email" {...params0} type="email">Adresse e-mail</Input>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div className="grid gap-2 xl:grid-cols-3 xl:gap-6">
-					<div>
-						<div className="font-medium text-lg">Profil utilisateur</div>
-						<div className="text-gray-600 text-sm">
-							Personnalisation du profil.
-						</div>
-					</div>
-					<div className="flex flex-col gap-4 bg-white p-4 rounded-md ring-1 ring-inset ring-gray-200 xl:col-span-2">
-						<div className="flex gap-4">
-							<div className="w-full">
-								<Input identifiant="firstname" valeur={firstname} {...params0}>Prénom</Input>
-							</div>
-							<div className="w-full">
-								<Input identifiant="lastname" valeur={lastname} {...params0}>Nom</Input>
 							</div>
 						</div>
 
@@ -211,6 +191,25 @@ class Form extends Component {
 									Société
 								</SelectCombobox>
 							}
+						</div>
+					</div>
+				</div>
+
+				<div className="grid gap-2 xl:grid-cols-3 xl:gap-6">
+					<div>
+						<div className="font-medium text-lg">Profil utilisateur</div>
+						<div className="text-gray-600 text-sm">
+							Personnalisation du profil.
+						</div>
+					</div>
+					<div className="flex flex-col gap-4 bg-white p-4 rounded-md ring-1 ring-inset ring-gray-200 xl:col-span-2">
+						<div className="flex gap-4">
+							<div className="w-full">
+								<Input identifiant="firstname" valeur={firstname} {...params0}>Prénom <span className="text-xs text-gray-600">(facultatif)</span></Input>
+							</div>
+							<div className="w-full">
+								<Input identifiant="lastname" valeur={lastname} {...params0}>Nom / Désignation</Input>
+							</div>
 						</div>
 
 						<div>
