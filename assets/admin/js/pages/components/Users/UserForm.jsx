@@ -22,7 +22,7 @@ export function UserFormulaire ({ context, element }) {
 	let url = Routing.generate(URL_CREATE_ELEMENT);
 
 	if (context === "update") {
-		url = Routing.generate(URL_UPDATE_ELEMENT, { 'id': element.id });
+		url = Routing.generate(URL_UPDATE_ELEMENT, { id: element.id });
 	}
 
 	return  <Form
@@ -102,7 +102,7 @@ class Form extends Component {
 		e.preventDefault();
 
 		const { url } = this.props;
-		const { username, firstname, lastname, email, roles, society, } = this.state;
+		const { username, firstname, lastname, email, roles, society } = this.state;
 
 		this.setState({ errors: [] });
 
