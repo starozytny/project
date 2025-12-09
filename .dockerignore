@@ -1,0 +1,15 @@
+.git
+.gitignore
+.env.local
+.env.*.local
+.DS_Store
+*.log
+.idea/
+.vscode/
+node_modules/
+var/
+vendor/
+public/bundles/
+public/build/
+public/immo/
+documents/

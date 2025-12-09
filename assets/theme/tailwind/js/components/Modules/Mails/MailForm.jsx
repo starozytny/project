@@ -26,7 +26,7 @@ export function MailFormulaire ({ identifiant, element, tos, from, fromName, onU
 		})
 	}
 
-	return <Form
+	return <MailForm
 		identifiant={identifiant}
 		url={Routing.generate(URL_CREATE_ELEMENT)}
 		tos={nTos}
@@ -46,7 +46,7 @@ MailFormulaire.propTypes = {
 	element: PropTypes.object,
 }
 
-class Form extends Component {
+class MailForm extends Component {
 	constructor (props) {
 		super(props);
 
