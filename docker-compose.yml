@@ -13,7 +13,7 @@ services:
       db_default:
         condition: service_healthy
     networks:
-      - project
+      - symfony
 
   nginx:
     image: nginx:alpine
@@ -26,7 +26,7 @@ services:
     depends_on:
       - php
     networks:
-      - project
+      - symfony
 
   db_default:
     image: mariadb:11.4.9
@@ -41,7 +41,7 @@ services:
     volumes:
       - db_default:/var/lib/mysql
     networks:
-      - project
+      - symfony
     healthcheck:
       test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
       interval: 5s
@@ -57,10 +57,10 @@ services:
       - node_modules:/var/www/project/node_modules
     command: sh -c "yarn install && yarn watch"
     networks:
-      - project
+      - symfony
 
 networks:
-  project:
+  symfony:
     driver: bridge
 
 volumes:
