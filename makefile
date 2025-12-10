@@ -37,21 +37,6 @@ down: ## Arrête les conteneurs
 
 restart: down up ## Redémarre les conteneurs
 
-logs: ## Affiche les logs
-	docker-compose logs -f
-
-logs-php: ## Affiche les logs PHP
-	docker-compose logs -f php
-
-logs-nginx: ## Affiche les logs Nginx
-	docker-compose logs -f nginx
-
-shell: ## Ouvre un shell dans le conteneur PHP
-	docker-compose exec php bash
-
-shell-node: ## Ouvre un shell dans le conteneur Node
-	docker-compose exec node sh
-
 composer: ## Exécute composer install
 	docker-compose exec php composer install
 
@@ -73,11 +58,11 @@ db-create: ## Crée la base de données
 db-drop: ## Supprime la base de données
 	docker-compose exec php php bin/console doctrine:database:drop --force
 
+db-make-migrate: ## Exécute les migrations
+	docker-compose exec php php bin/console make:migration
+
 db-migrate: ## Exécute les migrations
 	docker-compose exec php php bin/console doctrine:migrations:migrate --no-interaction
-
-db-fixtures: ## Charge les fixtures
-	docker-compose exec php php bin/console doctrine:fixtures:load --no-interaction
 
 cache-clear: ## Vide le cache
 	docker-compose exec php php bin/console cache:clear
@@ -85,7 +70,15 @@ cache-clear: ## Vide le cache
 permissions: ## Fixe les permissions
 	docker-compose exec php chown -R www-data:www-data /var/www/html/var
 
-install: build up composer yarn db-create db-migrate ## Installation complète du projet
+install: build up composer yarn db-create db-make-migrate db-migrate ## Installation complète du projet
 
-reset: down build up composer yarn db-drop db-create db-migrate db-fixtures cache-clear ## Reset complet du projet
+reset: down build up composer yarn db-drop db-create db-make-migrate db-migrate cache-clear ## Reset complet du projet
 
+logs: ## Affiche les logs
+	docker-compose logs -f
+
+logs-php: ## Affiche les logs PHP
+	docker-compose logs -f php
+
+logs-nginx: ## Affiche les logs Nginx
+	docker-compose logs -f nginx
