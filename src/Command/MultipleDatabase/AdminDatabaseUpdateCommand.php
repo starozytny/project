@@ -42,7 +42,7 @@ class AdminDatabaseUpdateCommand extends Command
 
         $isTest = $input->getOption('test');
 
-        $societies = $this->em->getRepository(Society::class)->findBy(['isActivated' => true]);
+        $societies = $this->em->getRepository(Society::class)->findBy(['isGenerated' => true]);
         foreach($societies as $society){
             if(!$isTest || $society->getCode() == 999){
                 $command = $this->getApplication()->find('doctrine:schema:update');

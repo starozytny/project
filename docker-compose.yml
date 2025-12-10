@@ -1,5 +1,6 @@
 services:
   php:
+    user: "${UID:-1000}:${GID:-1000}"
     build:
       context: .
       dockerfile: docker/php/Dockerfile
@@ -49,6 +50,7 @@ services:
       retries: 10
 
   node:
+    user: "${UID:-1000}:${GID:-1000}"
     image: node:20.19.4-alpine
     container_name: project_node
     working_dir: /var/www/project

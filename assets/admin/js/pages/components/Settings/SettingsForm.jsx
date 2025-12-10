@@ -25,8 +25,7 @@ export class SettingsFormulaire extends Component {
 			emailContact: element ? Formulaire.setValue(element.emailContact) : "",
 			emailRgpd: element ? Formulaire.setValue(element.emailRgpd) : "",
 			logoMail: element ? Formulaire.setValue(element.logoMail) : "",
-			multipleDatabase: element ? [element.multipleDatabase ? 1 : 0] : [0],
-			prefixDatabase: element ? Formulaire.setValue(element.prefixDatabase) : "",
+			multipleDatabase: element ? [element.multipleDatabase ? 1 : 0] : [0]
 		}
 
 		this.file = React.createRef();
@@ -46,7 +45,7 @@ export class SettingsFormulaire extends Component {
 	handleSubmit = (e) => {
 		e.preventDefault();
 
-		const { websiteName, emailGlobal, emailContact, emailRgpd, multipleDatabase, prefixDatabase } = this.state;
+		const { websiteName, emailGlobal, emailContact, emailRgpd } = this.state;
 
 		this.setState({ errors: [] });
 
@@ -57,11 +56,6 @@ export class SettingsFormulaire extends Component {
 			{ type: "email", id: 'emailRgpd', value: emailRgpd },
 		];
 
-		if (multipleDatabase[0] === 1) {
-			paramsToValidate = [...paramsToValidate, ...[{ type: "text", id: 'prefixDatabase', value: prefixDatabase }]];
-		}
-
-		// validate global
 		let validate = Validateur.validateur(paramsToValidate)
 		if (!validate.code) {
 			Formulaire.showErrors(this, validate);
@@ -93,7 +87,7 @@ export class SettingsFormulaire extends Component {
 	}
 
 	render () {
-		const { errors, websiteName, emailGlobal, emailContact, emailRgpd, logoMail, multipleDatabase, prefixDatabase } = this.state;
+		const { errors, websiteName, emailGlobal, emailContact, emailRgpd, logoMail, multipleDatabase } = this.state;
 
 		let multipleItems = [{ value: 1, label: "Oui", identifiant: "oui" }];
 
@@ -154,18 +148,10 @@ export class SettingsFormulaire extends Component {
 							l'utilisation et la semi automatisation d'une base de donnée par société.
 						</div>
 					</div>
-					<div className="flex gap-2 bg-white p-4 rounded-md ring-1 ring-inset ring-gray-200 xl:col-span-2">
-						<div className="w-full">
-							<Switcher items={multipleItems} identifiant="multipleDatabase" valeur={multipleDatabase} {...params0}>
-								Multiple base de données
-							</Switcher>
-						</div>
-						{multipleDatabase[0]
-							? <div className="w-full">
-								<Input valeur={prefixDatabase} identifiant="prefixDatabase" {...params0}>Prefix</Input>
-							</div>
-							: null
-						}
+					<div className="bg-white p-4 rounded-md ring-1 ring-inset ring-gray-200 xl:col-span-2">
+						<Switcher items={multipleItems} identifiant="multipleDatabase" valeur={multipleDatabase} {...params0}>
+							Multiple base de données
+						</Switcher>
 					</div>
 				</div>
 			</div>

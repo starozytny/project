@@ -2,7 +2,6 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Main\Settings;
 use App\Entity\Main\Society;
 use App\Service\SettingsService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,23 +20,17 @@ class SocietyController extends AbstractController
     }
 
     #[Route('/societe/ajouter', name: 'create', options: ['expose' => true])]
-    public function create(SettingsService $settingsService, SerializerInterface $serializer): Response
+    public function create(): Response
     {
-        $settings = $settingsService->getSettings();
-        $settings = $serializer->serialize($settings, 'json', ['groups' => Settings::IS_MULTIPLE_DB]);
-
-        return $this->render('admin/pages/societies/create.html.twig', ['settings' => $settings]);
+        return $this->render('admin/pages/societies/create.html.twig');
     }
 
     #[Route('/societe/modifier/{id}', name: 'update', options: ['expose' => true])]
-    public function update(Society $elem, SettingsService $settingsService, SerializerInterface $serializer): Response
+    public function update(Society $elem, SerializerInterface $serializer): Response
     {
-        $settings = $settingsService->getSettings();
+        $obj = $serializer->serialize($elem, 'json', ['groups' => Society::FORM]);
 
-        $settings = $serializer->serialize($settings, 'json', ['groups' => Settings::IS_MULTIPLE_DB]);
-        $obj      = $serializer->serialize($elem,     'json', ['groups' => Society::FORM]);
-
-        return $this->render('admin/pages/societies/update.html.twig', ['elem' => $elem, 'obj' => $obj, 'settings' => $settings]);
+        return $this->render('admin/pages/societies/update.html.twig', ['elem' => $elem, 'obj' => $obj]);
     }
 
     #[Route('/societe/consulter/{id}', name: 'read', options: ['expose' => true])]

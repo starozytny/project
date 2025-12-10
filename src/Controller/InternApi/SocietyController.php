@@ -84,10 +84,10 @@ class SocietyController extends AbstractController
 
         if($settings->isMultipleDatabase()){
             if($type == "create"){
-                $multipleDatabase->createManager($settings, $obj->getCode(), false);
+                $multipleDatabase->createManager($obj->getCode(), false);
                 $obj->setIsGenerated(true);
             }else{
-                $multipleDatabase->updateManager($settings, $oldCode, $obj->getCode());
+                $multipleDatabase->updateManager($oldCode, $obj->getCode());
 
                 if(!$obj->isIsGenerated()){
                     $obj->setIsActivated(false);
@@ -128,11 +128,10 @@ class SocietyController extends AbstractController
      * @throws Exception
      */
     #[Route('/generate/{id}', name: 'generate', options: ['expose' => true], methods: 'PUT')]
-    public function generate(Society $obj, SocietyRepository $repository, ApiResponse $apiResponse,
-                             MultipleDatabase $multipleDatabase, SettingsService $settingsService): Response
+    public function generate(Society $obj, SocietyRepository $repository, ApiResponse $apiResponse, MultipleDatabase $multipleDatabase): Response
     {
         if(!$obj->isIsGenerated()){
-            $multipleDatabase->createManager($settingsService->getSettings(), $obj->getCode(), true);
+            $multipleDatabase->createManager($obj->getCode(), true);
 
             $obj->setIsGenerated(true);
             $repository->save($obj, true);

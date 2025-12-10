@@ -8,7 +8,7 @@ import Inputs from "@commonFunctions/inputs";
 import Formulaire from "@commonFunctions/formulaire";
 import Validateur from "@commonFunctions/validateur";
 
-import { Input, InputFile, InputView } from "@tailwindComponents/Elements/Fields";
+import { Input, InputFile } from "@tailwindComponents/Elements/Fields";
 import { Button, ButtonA } from "@tailwindComponents/Elements/Button";
 
 const URL_INDEX_ELEMENTS = "admin_societies_index";
@@ -17,7 +17,7 @@ const URL_UPDATE_GROUP = "intern_api_societies_update";
 const TEXT_CREATE = "Ajouter la société";
 const TEXT_UPDATE = "Enregistrer les modifications";
 
-export function SocietyFormulaire ({ context, element, settings }) {
+export function SocietyFormulaire ({ context, element }) {
 	let url = Routing.generate(URL_CREATE_ELEMENT);
 
 	if (context === "update") {
@@ -27,7 +27,6 @@ export function SocietyFormulaire ({ context, element, settings }) {
 	return <Form
 		context={context}
 		url={url}
-		settings={settings}
 		code={element ? Formulaire.setValue(element.code) : ""}
 		name={element ? Formulaire.setValue(element.name) : ""}
 		logoFile={element ? Formulaire.setValue(element.logoFile) : null}
@@ -36,8 +35,7 @@ export function SocietyFormulaire ({ context, element, settings }) {
 
 SocietyFormulaire.propTypes = {
 	context: PropTypes.string.isRequired,
-	element: PropTypes.object,
-	settings: PropTypes.object,
+	element: PropTypes.object
 }
 
 class Form extends Component {
@@ -105,11 +103,10 @@ class Form extends Component {
 	}
 
 	render () {
-		const { context, logoFile, settings } = this.props;
+		const { context, logoFile } = this.props;
 		const { errors, code, name } = this.state;
 
 		let params = { errors: errors, onChange: this.handleChange }
-		let prefix = settings.multipleDatabase ? settings.prefixDatabase : "default";
 
 		return <>
 			<form onSubmit={this.handleSubmit}>
@@ -122,17 +119,12 @@ class Form extends Component {
 								Il sert dans l'utilisation de plusieurs base données lié au site.
 							</div>
 						</div>
-						<div className="bg-white p-4 rounded-md ring-1 ring-inset ring-gray-200 xl:col-span-2">
+						<div className="flex flex-col gap-4 bg-white p-4 rounded-md ring-1 ring-inset ring-gray-200 xl:col-span-2">
 							<div>
 								<Input identifiant="name" valeur={name} {...params}>Nom de la société</Input>
 							</div>
-							<div className="grid grid-cols-2 gap-2 mt-2">
-								<div>
-									<Input identifiant="code" valeur={code} {...params} placeholder="XXX">Code Société</Input>
-								</div>
-								<div>
-									<InputView valeur={prefix + (code ? code : 'XXX')} errors={errors}>Manager</InputView>
-								</div>
+							<div>
+								<Input identifiant="code" valeur={code} {...params} placeholder="XXX">Code Société</Input>
 							</div>
 						</div>
 					</div>

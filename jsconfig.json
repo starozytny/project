@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@publicFolder/*": ["public/*"],
+      "@tailwindFolder/*": ["assets/theme/tailwind/js/*"],
+      "@tailwindComponents/*": ["assets/theme/tailwind/js/components/*"],
+      "@tailwindFunctions/*": ["assets/theme/tailwind/js/functions/*"],
+      "@shadcnComponents/*": ["assets/theme/shadcn/js/components/*"],
+      "@commonFolder/*": ["assets/common/js/*"],
+      "@commonComponents/*": ["assets/common/js/components/*"],
+      "@commonFunctions/*": ["assets/common/js/functions/*"],
+      "@commonHooks/*": ["assets/common/js/hooks/*"],
+      "@appFolder/*": ["assets/app/js/*"],
+      "@adminPages/*": ["assets/admin/js/pages/components/*"],
+      "@nodeModulesFolder/*": ["node_modules/*"]
+    }
+  },
+  "exclude": ["node_modules", "vendor", "var"]
+}

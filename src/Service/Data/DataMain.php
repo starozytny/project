@@ -34,7 +34,7 @@ class DataMain
 
     public function setDataSociety(Society $obj, $data, Settings $settings): Society
     {
-        $prefix = $settings->isMultipleDatabase() ? $settings->getPrefixDatabase() : "default";
+        $prefix = $settings->isMultipleDatabase() ? $_ENV['DATABASE_NAME_MANAGER'] : "default";
 
         return ($obj)
             ->setName($this->sanitizeData->trimData($data->name))

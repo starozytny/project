@@ -68,8 +68,6 @@ class AdminController extends AbstractController
             }
 
             $isMultipleDatabase = (int) $data->multipleDatabase[0];
-            $prefix = $isMultipleDatabase ? $sanitizeData->trimData($data->prefixDatabase) : "";
-            $prefix = $prefix ? strtolower($prefix) : "";
 
             $settings = ($settings)
                 ->setWebsiteName($sanitizeData->trimData($data->websiteName))
@@ -79,13 +77,12 @@ class AdminController extends AbstractController
                 ->setLogoMail($logo)
                 ->setUrlHomepage($this->generateUrl('app_homepage', [], UrlGeneratorInterface::ABSOLUTE_URL))
                 ->setMultipleDatabase($isMultipleDatabase)
-                ->setPrefixDatabase($prefix)
             ;
 
             if($isMultipleDatabase){
                 foreach($societyRepository->findAll() as $society){
-                    $manager = $prefix . $society->getCode();
-                    $multipleDatabase->updateManager($settings, $society->getCode(), $society->getCode());
+                    $manager = $_ENV['DATABASE_NAME_MANAGER'] . $society->getCode();
+                    $multipleDatabase->updateManager($society->getCode(), $society->getCode());
 
                     $society->setManager($manager);
                     $society->setIsActivated(false);
@@ -94,6 +91,17 @@ class AdminController extends AbstractController
                         $user->setManager($manager);
                     }
                 }
+            }else{
+                foreach($societyRepository->findAll() as $society){
+                    $society->setManager("default");
+                    $society->setIsGenerated(false);
+                    $society->setIsActivated(false);
+
+                    foreach($society->getUsers() as $user){
+                        $user->setManager("default");
+                    }
+                }
+
             }
 
             $noErrors = $validator->validate($settings);
