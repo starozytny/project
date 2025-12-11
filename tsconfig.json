@@ -3,7 +3,7 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./*"],
-      "@shadcnComponents/*": ["./assets/theme/shadcn/js/components/*"],
+      "@shadcnComponents/*": ["./assets/theme/shadcn/js/components/*"]
     },
     "jsx": "react"
   },

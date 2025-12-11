@@ -18,6 +18,7 @@ class PhoneExtension extends AbstractExtension
 
     public function formatPhone($arg1): string
     {
+        if(!$arg1) { return ""; }
         $arg1 = str_replace('.', '', $arg1);
         $arg1 = str_replace(' ', '', $arg1);
         $arg1 = preg_replace("/[a-zA-Z:()]/", "", $arg1);

@@ -18,6 +18,13 @@ class PriceExtension extends AbstractExtension
 
     public function formatPrice($arg1)
     {
+        if($arg1 == null){
+            return "";
+        }
+        if(is_string($arg1)){
+            $arg1 = (float) $arg1;
+        }
+
         $arg1 = number_format($arg1, 2, ",", ' ');
         $arg1 = str_replace('.00','', $arg1);
 

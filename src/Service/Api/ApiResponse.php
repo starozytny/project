@@ -16,13 +16,17 @@ class ApiResponse
         $this->serializer = $serializer;
     }
 
-    public function apiJsonResponse($data, $groups = [], $code = 200): JsonResponse
+    public function apiJsonResponse($data, $groups = [], $code = 200, $format = null): JsonResponse
     {
         $data = $this->serializer->serialize($data, "json", ['groups' => $groups]);
 
         $response = new JsonResponse();
         $response->setContent($data);
         $response->setStatusCode($code);
+
+        if($format == 'json'){
+            $response->headers->set('Content-Type', 'application/json');
+        }
 
         return $response;
     }
@@ -47,9 +51,9 @@ class ApiResponse
         return new JsonResponse(['message' => $message], 400);
     }
 
-    public function apiJsonResponseForbidden(): JsonResponse
+    public function apiJsonResponseForbidden($message = 'Vous n\'êtes pas autorisé à réaliser cette action.'): JsonResponse
     {
-        return new JsonResponse(['message' => 'Vous n\'êtes pas autorisé à réaliser cette action.'], 403);
+        return new JsonResponse(['message' => $message], 403);
     }
 
     public function apiJsonResponseValidationFailed($errors): JsonResponse
