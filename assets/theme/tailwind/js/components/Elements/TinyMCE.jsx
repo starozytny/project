@@ -38,31 +38,35 @@ export function TinyMCE (props){
         <label htmlFor={identifiant} className="block text-sm font-medium leading-6 text-gray-800">
             {children}
         </label>
-        <Editor
-            licenseKey='gpl'
-            tinymceScriptSrc={location.origin + '/tinymce/tinymce.min.js'}
-            onInit={(evt, editor) => editorRef.current = editor}
-            id={identifiant}
-            initialValue={val}
-            init={{
-                menubar: false,
-                plugins: [
-                    'advlist', 'autolink', 'lists', 'link', 'image', 'charmap',
-                    'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-                    'insertdatetime', 'media', 'table', 'help', 'wordcount',
-                    'image', 'autoresize', 'emoticons'
-                ],
-                toolbar: 'undo redo | blocks | ' +
-                    'bold italic forecolor | ' + (type === 99 ? '' : 'image') + ' emoticons | ' +
-                    'alignleft aligncenter alignright alignjustify | ' +
-                    'bullist numlist outdent indent | ' +
-                    'removeformat | help',
-                content_style: 'body { font-family:Barlow,Helvetica,Arial,sans-serif; font-size:14px }',
-                automatic_uploads: true,
-                images_upload_url: Routing.generate(URL_UPLOAD_IMAGE, parametres),
-            }}
-            onChange={handleChange}
-        />
+        <div className={`border rounded-md ${error ? 'border-red-500' : 'border-gray-300'}`}>
+            <Editor
+                licenseKey='gpl'
+                tinymceScriptSrc={location.origin + '/tinymce/tinymce.min.js'}
+                onInit={(evt, editor) => editorRef.current = editor}
+                id={identifiant}
+                initialValue={val}
+                init={{
+                    menubar: false,
+                    licenseKey: 'gpl',
+                    plugins: [
+                        'advlist', 'autolink', 'lists', 'link', 'image', 'charmap',
+                        'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+                        'insertdatetime', 'media', 'table', 'help', 'wordcount',
+                        'image', 'autoresize', 'emoticons'
+                    ],
+                    toolbar_mode: 'sliding',
+                    toolbar: 'undo redo | blocks | ' +
+                        'bold italic forecolor | ' + (type === 99 ? '' : 'image') + ' emoticons | ' +
+                        'alignleft aligncenter alignright alignjustify | ' +
+                        'bullist numlist outdent indent | ' +
+                        'removeformat | help',
+                    content_style: 'body { font-family:Barlow,Helvetica,Arial,sans-serif; font-size:14px; }',
+                    automatic_uploads: true,
+                    images_upload_url: Routing.generate(URL_UPLOAD_IMAGE, parametres),
+                }}
+                onChange={handleChange}
+            />
+        </div>
         <ErrorContent error={error} />
     </>
 }

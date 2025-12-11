@@ -7,19 +7,19 @@ import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 import Formulaire from "@commonFunctions/formulaire";
 import Validateur from "@commonFunctions/validateur";
 
-import { Input, Radiobox } from "@tailwindComponents/Elements/Fields";
 import { Button } from "@tailwindComponents/Elements/Button";
 import { TinyMCE } from "@tailwindComponents/Elements/TinyMCE";
+import { Input, Radiobox } from "@tailwindComponents/Elements/Fields";
 
 const URL_INDEX_ELEMENTS = "admin_changelogs_index";
 const URL_CREATE_ELEMENT = "intern_api_changelogs_create";
-const URL_UPDATE_GROUP = "intern_api_changelogs_update";
+const URL_UPDATE_ELEMENT = "intern_api_changelogs_update";
 
 export function ChangelogFormulaire ({ context, element }) {
 	let url = Routing.generate(URL_CREATE_ELEMENT);
 
 	if (context === "update") {
-		url = Routing.generate(URL_UPDATE_GROUP, { id: element.id });
+		url = Routing.generate(URL_UPDATE_ELEMENT, { id: element.id });
 	}
 
 	return <Form
@@ -55,6 +55,7 @@ class Form extends Component {
 	}
 
     handleChangeTinyMCE = (name, html) => {
+		html = html.replaceAll(/[^"]*(?:\btw-\w+-\w+\b)[^"]*/g, '')
         this.setState({ [name]: { value: this.state[name].value, html: html } })
     }
 
@@ -80,7 +81,7 @@ class Form extends Component {
 			Formulaire.loader(true);
 			axios({ method: context === "update" ? "PUT" : "POST", url: url, data: this.state })
 				.then(function (response) {
-					location.href = Routing.generate(URL_INDEX_ELEMENTS, { 'h': response.data.id });
+					location.href = Routing.generate(URL_INDEX_ELEMENTS, { h: response.data.id });
 				})
 				.catch(function (error) {
 					Formulaire.displayErrors(self, error);
@@ -126,7 +127,7 @@ class Form extends Component {
                         <div className="font-medium text-lg">Contenu</div>
                     </div>
                     <div className="bg-white p-4 rounded-md ring-1 ring-inset ring-gray-200 xl:col-span-2">
-                        <TinyMCE type={0} identifiant='content' valeur={content.value}{...params1}>
+                        <TinyMCE type={0} identifiant='content' valeur={content.value} {...params1}>
                             Description
                         </TinyMCE>
                     </div>

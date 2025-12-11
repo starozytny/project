@@ -2,9 +2,12 @@
 
 namespace App\Service;
 
+use App\Entity\Main\Society;
+use App\Entity\Main\User;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class DatabaseService
 {
@@ -18,6 +21,16 @@ class DatabaseService
     public function getDefaultManager(): ObjectManager
     {
         return $this->registry->getManager();
+    }
+
+    public function getManagerByUser(User|UserInterface $user): ObjectManager
+    {
+        return $this->registry->getManager($user->getManager());
+    }
+
+    public function getManagerBySociety(Society $society): ObjectManager
+    {
+        return $this->registry->getManager($society->getManager());
     }
 
     public function resetTable(SymfonyStyle $io, $manager, $list): void

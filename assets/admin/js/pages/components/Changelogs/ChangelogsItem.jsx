@@ -4,8 +4,8 @@ import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
 import axios from "axios";
 
-import Formulaire from "@commonFunctions/formulaire";
 import Sanitaze from "@commonFunctions/sanitaze";
+import Formulaire from "@commonFunctions/formulaire";
 
 import { setHighlightClass, useHighlight } from "@commonHooks/item";
 
@@ -31,7 +31,7 @@ export function ChangelogsItem ({ elem, highlight, onModal }) {
 		if (!loadSwitch) {
 			setLoadSwitch(true);
 			setIsPublished(checked ? [parseInt(value)] : []);
-			axios({ method: "PUT", url: Routing.generate(URL_UPDATE_PUBLISH, { 'id': elem.id }), data: {} })
+			axios({ method: "PUT", url: Routing.generate(URL_UPDATE_PUBLISH, { id: elem.id }), data: {} })
 				.then(function (response) {
 					setLoadSwitch(false);
 					setIsPublished([response.data.isPublished ? 1 : 0]);

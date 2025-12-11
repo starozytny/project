@@ -13,7 +13,7 @@ import { Button, ButtonA } from "@tailwindComponents/Elements/Button";
 
 const URL_INDEX_ELEMENTS = "admin_societies_index";
 const URL_CREATE_ELEMENT = "intern_api_societies_create";
-const URL_UPDATE_GROUP = "intern_api_societies_update";
+const URL_UPDATE_ELEMENT = "intern_api_societies_update";
 const TEXT_CREATE = "Ajouter la société";
 const TEXT_UPDATE = "Enregistrer les modifications";
 
@@ -21,7 +21,7 @@ export function SocietyFormulaire ({ context, element }) {
 	let url = Routing.generate(URL_CREATE_ELEMENT);
 
 	if (context === "update") {
-		url = Routing.generate(URL_UPDATE_GROUP, { 'id': element.id });
+		url = Routing.generate(URL_UPDATE_ELEMENT, { 'id': element.id });
 	}
 
 	return <Form

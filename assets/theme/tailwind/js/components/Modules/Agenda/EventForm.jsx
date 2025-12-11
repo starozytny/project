@@ -11,7 +11,7 @@ import { Input, Switcher } from "@tailwindComponents/Elements/Fields";
 
 const URL_INDEX_ELEMENTS = "admin_agenda_index";
 const URL_CREATE_ELEMENT = "intern_api_agenda_events_create";
-const URL_UPDATE_GROUP = "intern_api_agenda_events_update";
+const URL_UPDATE_ELEMENT = "intern_api_agenda_events_update";
 const TEXT_CREATE = "Ajouter l'évènement";
 const TEXT_UPDATE = "Enregistrer les modifications";
 
@@ -19,7 +19,7 @@ export function EventFormulaire ({ context, element }) {
     let url = Routing.generate(URL_CREATE_ELEMENT);
 
     if (context === "update") {
-        url = Routing.generate(URL_UPDATE_GROUP, { 'id': element.id });
+        url = Routing.generate(URL_UPDATE_ELEMENT, { 'id': element.id });
     }
 
     return <Form
