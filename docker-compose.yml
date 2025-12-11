@@ -50,14 +50,13 @@ services:
       retries: 10
 
   node:
-    user: "${UID:-1000}:${GID:-1000}"
     image: node:20.19.4-alpine
     container_name: project_node
     working_dir: /var/www/project
     volumes:
       - ./:/var/www/project:cached
       - node_modules:/var/www/project/node_modules
-    command: sh -c "yarn install && yarn watch"
+    command: sh -c "yarn install && chown -R ${UID:-1000}:${GID:-1000} /var/www/lotys/node_modules && yarn watch"
     networks:
       - symfony
 
