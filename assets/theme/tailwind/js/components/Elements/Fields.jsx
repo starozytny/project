@@ -123,7 +123,7 @@ export function Input ({
 						 className={styleInput
 							 + " w-full " + dateClasses
 							 + " " + (error ? "ring-red-400" : "ring-gray-300")} />
-	}  else {
+	} else {
 		content = <input type={nType} name={nName} id={identifiant} value={valeur}
 						 placeholder={nPlaceholder} onChange={onChange} autoComplete={nAutocomplete}
 						 disabled={disabled}
@@ -295,17 +295,14 @@ export function Checkbox ({ items, identifiant, valeur, errors, onChange, childr
 			}
 		})
 
-		let styleLabel = "block text-sm font-medium leading-6 text-gray-800";
-		if (styleType === "fat") {
-			styleLabel = "block text-sm font-medium leading-6 cursor-pointer px-3 py-2 rounded-md ring-1 ring-inset "
-				+ (isChecked ? "bg-blue-700 ring-blue-700 text-slate-50" : "bg-white hover:bg-gray-50 ring-gray-300 text-gray-900")
-		}
-
 		return <div className="flex items-center gap-x-2" key={index}>
 			<input type="checkbox" id={elem.identifiant} name={identifiant} value={elem.value} onChange={onChange} defaultChecked={isChecked}
 				   className={styleType === "fat" ? "hidden" : "h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"} />
 			<label htmlFor={elem.identifiant}
-				   className={`${styleLabel}`}
+				   className={cn("block text-sm font-medium leading-6 text-gray-800",
+					   styleType === "fat" ? "block text-sm font-medium leading-6 cursor-pointer px-3 py-2 rounded-md ring-1 ring-inset" : "",
+					   styleType === "fat" && isChecked ? "bg-color1-o-4 ring-ring-color1-o-4 text-slate-50" : "bg-white hover:bg-gray-50 ring-gray-300 text-gray-900"
+				   )}
 			>
 				{withIcon ? <span className={`icon-${elem.icon} inline-block mr-1`}></span> : null}
 				<span>{elem.label}</span>
@@ -474,7 +471,8 @@ SelectCombobox.propTypes = {
 export function SelectComboboxMultiple (props) {
 	const {
 		identifiant, valeur, items, errors, onSelect, onChange, children, placeholder, toSort, withInput,
-		withItems = true, onlyValue = false, btnClassName } = props;
+		withItems = true, onlyValue = false, btnClassName
+	} = props;
 
 	let error = getError(errors, identifiant);
 
@@ -681,9 +679,9 @@ function getError (errors, identifiant) {
 
 export function ErrorContent ({ error }) {
 	return (error
-			? <div className="text-red-500 mt-1 text-sm">
-				<span className="icon-error inline-block translate-y-0.5" />
-				<span className="ml-1">{error}</span>
+			? <div className="text-red-500 mt-1 text-xs">
+				<span className="icon-error !font-semibold" />
+				<span className="ml-1 font-medium">{error}</span>
 			</div>
 			: null
 	)

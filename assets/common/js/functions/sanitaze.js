@@ -73,22 +73,22 @@ function toFormatPhone(elem){
     }
 }
 
-function toFormatCurrency(number)
+function toFormatCurrency(number, noSymbole = false)
 {
     if(number){
         let num = new Intl.NumberFormat("de-DE", {style: "currency", currency: "EUR"}).format(number)
 
-        let main = num.slice(0, num.length - 5);
-        let decimale = num.slice(num.length - 5, num.length - 2);
+        let main = num.substring(0, num.length - 5);
+        let decimale = num.substring(num.length - 5, num.length - 2);
         if(decimale === ",00"){
             decimale = "";
         }
-        num = main + decimale + " €";
+        num = main + decimale + (noSymbole ? "" : " €");
 
         return num.replaceAll('.', ' ');
     }
 
-    return "0,00 €";
+    return "0,00" + (noSymbole ? "" : "€");
 }
 
 function toFormatBytesToSize(bytes) {
@@ -117,11 +117,11 @@ function toDateFormat(date, format = 'LLL', retour = "", replaceHours = true) {
 module.exports = {
     sanitizeString,
     addZeroToNumber,
+    capitalize,
+    removeAccents,
     toFormatPhone,
     toFormatCurrency,
     toFormatBytesToSize,
     toFormatCalendar,
-    capitalize,
-    removeAccents,
     toDateFormat,
 }

@@ -135,12 +135,9 @@ export class TopSorterPagination extends Component {
                 <div className="flex justify-between gap-2 sm:justify-between sm:w-full">
                     <div className="flex flex-row items-center gap-1">
                         {sorters && sorters.length > 1 && <>
-                            <label htmlFor="sorter" className="block text-sm leading-6 text-gray-900">
-                                Trier par
-                            </label>
                             <div className="relative rounded-md shadow-sm">
                                 <select value={sorter} id="sorter" name="sorter" onChange={this.handleChange}
-                                        className={`max-w-[80px] ${maxWidth} py-2 pl-2 rounded-md border-0 text-sm text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-gray-500`}
+                                        className={`max-w-[80px] ${maxWidth} py-2 pl-2 rounded-md border-0 text-sm text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-xs placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-gray-500`}
                                 >
                                     {choicesSorters}
                                 </select>
@@ -148,12 +145,12 @@ export class TopSorterPagination extends Component {
                         </>}
                     </div>
                     <div className="flex flex-row items-center gap-1">
-                        <label htmlFor="perPage" className="block text-sm leading-6 text-gray-900">
+                        <label htmlFor="perPage" className="block text-xs lg:text-sm leading-6 text-gray-900">
                             {taille} Résultat{taille > 1 ? "s" : ""} par
                         </label>
                         <div className="relative rounded-md shadow-sm">
                             <select value={perPage} id="perPage" name="perPage" onChange={this.handleChange}
-                                    className="py-2 pl-2 rounded-md border-0 text-sm text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-gray-500 "
+                                    className="py-2 pl-2 rounded-md border-0 text-sm text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-xs placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-gray-500 "
                             >
                                 {choicesPerPage}
                             </select>

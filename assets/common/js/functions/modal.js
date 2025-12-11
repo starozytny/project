@@ -1,3 +1,7 @@
+const React = require("react");
+
+const { LoaderElements } = require("@tailwindComponents/Elements/Loader");
+
 function getElements (identifiant)
 {
 	let body = document.querySelector("body");
@@ -28,8 +32,17 @@ function closeM (body, modal, modalContent)
 	modalContent.style.scale = "0.95";
 }
 
+function retryWhenDataLoaded (self, identifiant, elem) {
+	self[identifiant].current.handleUpdateContent(<LoaderElements />);
+
+	setTimeout(() => {
+		self.handleModal(identifiant, elem, true);
+	}, 500);
+}
+
 module.exports = {
 	getElements,
 	openM,
-	closeM
+	closeM,
+	retryWhenDataLoaded
 }

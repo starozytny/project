@@ -123,7 +123,7 @@ function updateDataMuta (element, context, data, sorter, nameProperty = "id") {
         case "update":
             nData = data.map(el => {
                 if (el[nameProperty] === element[nameProperty]) {
-                    return { ...element, ...element };
+                    return { ...el, ...element };
                 } else {
                     return el;
                 }
@@ -181,7 +181,7 @@ function updateData (element, context, data, sorter) {
     return newData;
 }
 
-function updateListPagination (self, element, context, data, dataImmuable, currentData, sorter, toHighlight = false, nameHighlight, perPage) {
+function updateListPagination (self, element, context, data, dataImmuable, currentData, sorter, toHighlight = false, perPage, nameHighlight = "id") {
     let newData = updateData(element, context, data, sorter);
     let newDataImmuable = updateData(element, context, dataImmuable, sorter);
     let newCurrentData = updateData(element, context, currentData, sorter);

@@ -145,7 +145,6 @@ ButtonIconA.propTypes = {
 	]),
 }
 
-
 function getStyleButtonDropdown () {
 	return "relative flex gap-2 select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none cursor-pointer [&:first-child]:rounded-t-md [&:last-child]:rounded-b-md hover:bg-gray-100";
 }
@@ -217,7 +216,6 @@ ButtonIconDropdown.propTypes = {
 	]),
 }
 
-
 export function ButtonIconDropdownHorizontal ({ items, icon, direction = "right-0", width = "" }) {
 	return <div className="relative inline-block">
 		<div className="dropdown-btn cursor-pointer">
@@ -229,7 +227,7 @@ export function ButtonIconDropdownHorizontal ({ items, icon, direction = "right-
 		<div className={`dropdown-items absolute ${direction} -z-10 w-56 ${width} origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none transform opacity-0 scale-95`}
 			 role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex="-1"
 		>
-			<div className="py-2 divide-y md:flex md:flex-row-reverse sm:divide-x sm:divide-x-reverse sm:divide-y-0 sm:py-0" role="none">
+			<div className="py-2 divide-y lg:flex lg:flex-row-reverse lg:divide-x lg:divide-x-reverse lg:divide-y-0 lg:py-0" role="none">
 				{items.map((itemP, index) => {
 					if (itemP && itemP.length > 0) {
 						return <div className="w-full" key={index}>

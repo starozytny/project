@@ -45,18 +45,6 @@ function loader(status){
     }
 }
 
-function setValue (value, defaultValue = "") {
-    return value === null ? defaultValue : value;
-}
-
-function setValueDate (value, defaultValue = "", format = "YYYY-MM-DD") {
-    return value === null ? defaultValue : moment(value).format(format);
-}
-
-function setValueTime (value, defaultValue = "") {
-    return value === null ? defaultValue : moment(value).format('HH[:]mm');
-}
-
 function showErrors(self, validate, text="Veuillez vérifier les informations transmises.", toTop = false)
 {
     if(toTop){
@@ -86,14 +74,26 @@ function updateValueCheckbox(e, items, value){
     return (e.currentTarget.checked) ? [...items, ...[value]] : items.filter(v => v !== value)
 }
 
+function setValue (value, defaultValue = "") {
+    return value === null ? defaultValue : value;
+}
+
+function setValueDate (value, defaultValue = "", format = "YYYY-MM-DD") {
+    return value === null ? defaultValue : moment(value).format(format);
+}
+
+function setValueTime (value, defaultValue = "") {
+    return value === null ? defaultValue : moment(value).format('HH[:]mm');
+}
+
 module.exports = {
     generiqueSendForm,
     axiosGetData,
     loader,
+    showErrors,
+    displayErrors,
+    updateValueCheckbox,
     setValue,
     setValueDate,
     setValueTime,
-    showErrors,
-    displayErrors,
-    updateValueCheckbox
 }

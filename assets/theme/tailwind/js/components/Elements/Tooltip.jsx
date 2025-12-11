@@ -1,21 +1,12 @@
 import React from "react";
-import PropTypes from 'prop-types';
 
-export function Tooltip ({ info, children, width, position }) {
-	let divStyle = width ? { width: width + "px" } : null;
+import { cn } from "@shadcnComponents/lib/utils";
 
-	let tooltipPos = position ? position : "-top-7 right-0"
+import Classnames from "@commonFunctions/classnames";
 
-	return <div className="relative tooltip-btn">
+export function Tooltip ({ children, content, classname, onClick, tooltipClass = "group-hover:opacity-100 group-hover:z-10" }) {
+	return <div className={cn("relative group", classname)} onClick={onClick}>
 		{children}
-		<span className={`tooltip bg-gray-800 text-slate-50 py-1 px-2 rounded absolute ${tooltipPos} text-xs hidden`} style={divStyle}>
-			{info}
-		</span>
+		<div className={Classnames.getTooltipClass(tooltipClass)}>{content}</div>
 	</div>
-}
-
-Tooltip.propTypes = {
-	info: PropTypes.string.isRequired,
-	width: PropTypes.number,
-	position: PropTypes.string
 }

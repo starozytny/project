@@ -36,13 +36,12 @@ export class Selector extends Component {
         const { isChecked } = this.state;
 
         let id = elem.id;
-        let identifiant = 'item-selector-' + elem.id;
+        let identifiant = 'item-selector item-selector-' + elem.id;
 
-        let styleInput = "group-hover/item:ring-blue-700 relative w-5 h-5 cursor-pointer py-2 pl-2 rounded-md border-0 text-gray-900 ring-1 ring-inset placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-gray-500"
+        let styleInput = "group-hover/item:ring-blue-700 relative w-5 h-5 cursor-pointer py-2 pl-2 rounded-md border-0 text-gray-900 ring-1 ring-inset placeholder:text-xs placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-gray-500"
         let styleCheck = "absolute top-0.5 left-0.5 w-4 h-4 opacity-0 rounded bg-blue-700 flex items-center justify-center"
 
         return <div>
-
             <label htmlFor={identifiant} className="cursor-pointer flex items-center text-gray-900 group/item">
                 <div className={`${styleInput} ${isChecked ? "ring-blue-700" : "ring-gray-300"}`}>
                     <div className={`${styleCheck} ${isChecked ? "opacity-100" : "opacity-0"}`}>

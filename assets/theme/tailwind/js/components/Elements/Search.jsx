@@ -30,7 +30,7 @@ export class Search extends Component {
             </div>
             <input type="search" name="search" id="search" value={search}
                    onChange={this.handleChange} placeholder={placeholder}
-                   className={`block w-full ${radius} border-0 py-2 pl-9 pr-3 text-sm text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-gray-500`}
+                   className={`block w-full ${radius} border-0 py-2 pl-9 pr-3 text-sm text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-xs placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-gray-500`}
             />
         </div>
     }

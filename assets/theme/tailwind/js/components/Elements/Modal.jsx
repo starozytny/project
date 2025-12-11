@@ -83,13 +83,13 @@ export class Modal extends Component {
 			nContent = <div dangerouslySetInnerHTML={{ __html: nContent }} />;
 		}
 
-		return <div id={identifiant} className="modal fixed top-0 left-0 w-full h-full -z-10 opacity-0 bg-gray-500/75 overflow-y-auto" role="dialog" aria-modal="true">
+		return <div id={identifiant} className="modal fixed top-0 left-0 w-full h-full -z-10 opacity-0 bg-gray-800/80 overflow-y-auto" role="dialog" aria-modal="true">
 			<div className="modal-content relative w-screen bg-white rounded-lg text-left shadow-xl transition-all ease-out duration-300 opacity-0 sm:my-8 sm:w-full" style={divStyle}>
 				<div className={`${bgColor} px-4 pt-5 sm:px-6 rounded-t-lg`}>
 					<div className="text-center sm:text-left">
 						<div className="flex flex-row justify-between gap-1">
 							<h3 className="text-base font-semibold leading-6 text-gray-900" id="modal-title">{title ? title : ""}</h3>
-							<div className="close-modal cursor-pointer"><span className="icon-cancel" /></div>
+							<div className="close-modal cursor-pointer"><span className="icon-close inline-block hover:rotate-180 transition-transform" /></div>
 						</div>
 					</div>
 				</div>
