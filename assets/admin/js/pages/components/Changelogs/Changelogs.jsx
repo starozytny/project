@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { createPortal } from "react-dom";
 
 import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
@@ -109,11 +110,14 @@ export class Changelogs extends Component {
 					<Pagination ref={this.pagination} items={data} taille={data.length} currentPage={currentPage}
 								perPage={perPage} onUpdate={this.handleUpdateData} onChangeCurrentPage={this.handleChangeCurrentPage} />
 
-					<ModalDelete refModal={this.delete} element={element} routeName={URL_DELETE_ELEMENT}
-								 title="Supprimer ce changelog" msgSuccess="Changelog supprimé."
-								 onUpdateList={this.handleUpdateList}>
-						Êtes-vous sûr de vouloir supprimer définitivement ce changelog ?
-					</ModalDelete>
+					{createPortal(
+						<ModalDelete refModal={this.delete} element={element} routeName={URL_DELETE_ELEMENT}
+									 title="Supprimer ce changelog" msgSuccess="Changelog supprimé."
+									 onUpdateList={this.handleUpdateList}>
+							Êtes-vous sûr de vouloir supprimer définitivement ce changelog : <b>{element ? element.name : ""}</b> ?
+						</ModalDelete>,
+						document.body
+					)}
 				</>
 			}
 		</>
