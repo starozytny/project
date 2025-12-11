@@ -42,8 +42,16 @@ ul{
 
 .mail-message{
   a{
-    color: var(--primary);
+    color: #1e87f0;
   }
+}
+
+.tox.tox-tinymce .tox-edit-area::before{
+  border: none;
+}
+
+.tox.tox-tinymce.tox-edit-focus{
+  border: none;
 }
 
 input::-webkit-outer-spin-button,

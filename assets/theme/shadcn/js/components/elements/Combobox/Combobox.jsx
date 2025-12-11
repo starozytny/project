@@ -9,7 +9,7 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
 
 function BtnValue ({ valeur, items, placeholder, withInput }) {
     return <>
-        {valeur
+        {valeur !== "" && valeur !== null
             ? (items.find((choice) => choice.value === valeur)?.label) ?? (withInput ? valeur : <span>Erreur</span>)
             : (placeholder ? <span className="text-gray-400 text-xs">{placeholder}</span> : <span>&nbsp;</span>)
         }
