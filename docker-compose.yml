@@ -56,7 +56,7 @@ services:
     volumes:
       - ./:/var/www/project:cached
       - node_modules:/var/www/project/node_modules
-    command: sh -c "yarn install && chown -R ${UID:-1000}:${GID:-1000} /var/www/lotys/node_modules && yarn watch"
+    command: sh -c "yarn install && chown -R ${UID:-1000}:${GID:-1000} /var/www/project/node_modules && yarn watch"
     networks:
       - symfony
 
