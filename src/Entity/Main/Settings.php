@@ -48,6 +48,11 @@ class Settings
     #[Groups(['settings_form', 'settings_multiple_db'])]
     private ?bool $multipleDatabase = false;
 
+    public function __construct()
+    {
+        $this->multipleDatabase = false;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

@@ -3,6 +3,10 @@
 {% set page_title %}Modifier les paramètres du site internet{% endset %}
 {% set page_subtitle %}Modifier les informations globales du site.{% endset %}
 
+{% set breadcrumbs = [
+    { icon: 'settings', text: "Paramètres" }
+] %}
+
 {% block main_content %}
     <div id="settings_update"
          data-obj="{{ obj }}"
