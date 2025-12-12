@@ -4,7 +4,9 @@
 {% set page_subtitle %}Gestion des demandes de contacts.{% endset %}
 
 {% block main_content %}
-    <div id="contacts_list">
+    <div id="contacts_list"
+         data-highlight="{{ app.request.query.get('h') }}"
+    >
         {% include "layout/components/tailwind/loaders/loader.html.twig" %}
     </div>
 {% endblock %}

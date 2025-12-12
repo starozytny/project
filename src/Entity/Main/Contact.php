@@ -27,6 +27,10 @@ class Contact extends DataEntity
     #[Groups(['contact_list'])]
     private ?string $email = null;
 
+    #[ORM\Column(length: 50, nullable: true)]
+    #[Groups(['contact_list'])]
+    private ?string $phone = null;
+
     #[ORM\Column(type: Types::TEXT)]
     #[Groups(['contact_list'])]
     private ?string $message = null;
@@ -69,6 +73,18 @@ class Contact extends DataEntity
     public function setEmail(string $email): self
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(?string $phone): static
+    {
+        $this->phone = $phone;
 
         return $this;
     }

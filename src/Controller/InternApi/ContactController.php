@@ -46,8 +46,8 @@ class ContactController extends AbstractController
 
         if(!$mailerService->sendMail(
             [$settingsService->getEmailContact()],
-            "Demande de contact",
-            "Demande de contact",
+            "[" . $settingsService->getWebsiteName() . "] Demande de contact",
+            "Demande de contact réalisé à partir de " . $settingsService->getWebsiteName(),
             'app/email/contact/contact.html.twig',
             ['contact' => $obj, 'settings' => $settingsService->getSettings()],
             [], [], $obj->getEmail()
@@ -63,6 +63,7 @@ class ContactController extends AbstractController
     }
 
     #[Route('/delete/{id}', name: 'delete', options: ['expose' => true], methods: 'DELETE')]
+    #[IsGranted("ROLE_ADMIN")]
     public function delete(Contact $obj, ContactRepository $repository, ApiResponse $apiResponse): Response
     {
         $repository->remove($obj, true);
@@ -71,6 +72,7 @@ class ContactController extends AbstractController
     }
 
     #[Route('/switch/seen/{id}', name: 'switch_seen', options: ['expose' => true], methods: 'PUT')]
+    #[IsGranted("ROLE_ADMIN")]
     public function switchPublish(Contact $obj, ContactRepository $repository, ApiResponse $apiResponse): Response
     {
         $obj->setSeen(!$obj->isSeen());

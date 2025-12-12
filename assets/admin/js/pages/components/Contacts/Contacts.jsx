@@ -24,11 +24,11 @@ export class Contacts extends Component {
 		super(props);
 
 		this.state = {
-            perPage: List.getSessionPerpage(SESSION_PERPAGE, 20),
+			perPage: List.getSessionPerpage(SESSION_PERPAGE, 20),
 			currentPage: 0,
 			sorter: Sort.compareCreatedAtInverse,
 			loadingData: true,
-            filters: List.getSessionFilters(SESSION_FILTERS, [], props.highlight),
+			filters: List.getSessionFilters(SESSION_FILTERS, [], props.highlight),
 			element: null,
 		}
 
@@ -82,6 +82,7 @@ export class Contacts extends Component {
 	}
 
 	render () {
+		const { highlight } = this.props;
 		const { data, currentData, element, loadingData, perPage, currentPage, filters } = this.state;
 
 		let filtersItems = [
@@ -102,7 +103,7 @@ export class Contacts extends Component {
                                          onClick={this.handlePaginationClick}
                                          onPerPage={this.handlePerPage} />
 
-                    <ContactsList data={currentData} onDelete={this.handleModal} />
+					<ContactsList data={currentData} highlight={parseInt(highlight)} onModal={this.handleModal} />
 
                     <Pagination ref={this.pagination} items={data} taille={data.length} currentPage={currentPage}
                                 perPage={perPage} onUpdate={this.handleUpdateData} onChangeCurrentPage={this.handleChangeCurrentPage} />

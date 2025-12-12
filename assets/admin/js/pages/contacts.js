@@ -6,5 +6,5 @@ import { Contacts }   from "@adminPages/Contacts/Contacts";
 
 let el = document.getElementById("contacts_list");
 if(el){
-    createRoot(el).render(<Contacts />)
+    createRoot(el).render(<Contacts {...el.dataset} />)
 }
