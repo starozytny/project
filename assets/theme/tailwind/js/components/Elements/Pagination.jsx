@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 
 import ReactPaginate from 'react-paginate';
 
+import { SelectShadcn } from "@tailwindComponents/Elements/Fields";
+
 function updateData(self, selectedPage, offset, items, perPage)
 {
     self.setState({ currentPage: selectedPage, offset: offset })
@@ -32,6 +34,9 @@ export class Pagination extends Component {
 
         if(items !== null){
             updateData(this, selectedPage, offset, items, perPage);
+
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
         }
     }
 
@@ -80,10 +85,7 @@ export class TopSorterPagination extends Component {
         }
     }
 
-    handleChange = (e) => {
-        let name = e.currentTarget.name;
-        let value = parseInt(e.currentTarget.value);
-
+    handleSelect = (name, value) => {
         if(name === "perPage"){
             this.props.onPerPage(value)
         }
@@ -92,14 +94,14 @@ export class TopSorterPagination extends Component {
             this.props.onSorter(value);
         }
 
-        this.setState({ [name]: value })
+        this.setState({ [name]: value });
     }
 
     render () {
         const { taille, currentPage, onClick, sorters, maxWidth } = this.props;
         const { sorter, perPage } = this.state;
 
-        let items = [
+        let perPageItems = [
             { value: 5,  label: '5',  identifiant: 'perpage-5' },
             { value: 10, label: '10', identifiant: 'perpage-10' },
             { value: 15, label: '15', identifiant: 'perpage-15' },
@@ -114,46 +116,27 @@ export class TopSorterPagination extends Component {
 
         let pageCount = Math.ceil(taille / perPage);
 
-        let choicesPerPage = items.map((item, index) =>
-            <option key={index} value={item.value} className="text-base">
-                {item.label}
-            </option>
-        )
-
-        let choicesSorters = [];
-        if(sorters && sorters.length > 1){
-            choicesSorters = sorters.map((item, index) =>
-                <option key={index} value={item.value} className="text-base">
-                    {item.label}
-                </option>
-            )
-        }
-
-
         return <>
             <div className="flex flex-col justify-end gap-2 text-sm sm:flex-row sm:items-center">
                 <div className="flex justify-between gap-2 sm:justify-between sm:w-full">
                     <div className="flex flex-row items-center gap-1">
                         {sorters && sorters.length > 1 && <>
-                            <div className="relative rounded-md shadow-sm">
-                                <select value={sorter} id="sorter" name="sorter" onChange={this.handleChange}
-                                        className={`max-w-[80px] ${maxWidth} py-2 pl-2 rounded-md border-0 text-sm text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-xs placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-gray-500`}
-                                >
-                                    {choicesSorters}
-                                </select>
+                            <label htmlFor="sorter" className="block text-xs leading-6 text-gray-900">
+                                Trier par
+                            </label>
+                            <div className={`relative rounded-md shadow-sm max-w-[80px] ${maxWidth}`}>
+                                <SelectShadcn items={sorters} identifiant="sorter" valeur={sorter} errors={[]}
+                                              onSelect={this.handleSelect} noEmpty={true} />
                             </div>
                         </>}
                     </div>
                     <div className="flex flex-row items-center gap-1">
-                        <label htmlFor="perPage" className="block text-xs lg:text-sm leading-6 text-gray-900">
+                        <label htmlFor="perPage" className="block text-xs leading-6 text-gray-900">
                             {taille} Résultat{taille > 1 ? "s" : ""} par
                         </label>
                         <div className="relative rounded-md shadow-sm">
-                            <select value={perPage} id="perPage" name="perPage" onChange={this.handleChange}
-                                    className="py-2 pl-2 rounded-md border-0 text-sm text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-xs placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-gray-500 "
-                            >
-                                {choicesPerPage}
-                            </select>
+                            <SelectShadcn items={perPageItems} identifiant="perPage" valeur={perPage} errors={[]}
+                                          onSelect={this.handleSelect} noEmpty={true} />
                         </div>
                     </div>
                 </div>

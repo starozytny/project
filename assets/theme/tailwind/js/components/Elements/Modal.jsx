@@ -38,6 +38,19 @@ export class Modal extends Component {
 
 		if(canCloseOutside){
 			window.onmousedown = (e) => {
+				const modal = e.target.closest('.modal');
+				if (!modal) return;
+
+				const clickX = e.clientX;
+
+				const { clientWidth, scrollWidth, clientHeight, scrollHeight } = modal;
+
+				const scrollbarThickness = 20;
+
+				const isOnVerticalScrollbar = scrollHeight > clientHeight && clickX >= clientWidth - scrollbarThickness;
+
+				if (isOnVerticalScrollbar) return;
+
 				if (e.target === modal) {
 					ModalFunctions.closeM(body, modal, modalContent);
 				}
