@@ -6,5 +6,4 @@ enum ImageType: int
 {
     const Changelog = 0;
     const AgEvent = 1;
-    const Mail = 2;
 }
