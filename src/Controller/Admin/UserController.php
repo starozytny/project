@@ -19,9 +19,9 @@ use Symfony\Component\Serializer\SerializerInterface;
 class UserController extends AbstractController
 {
     #[Route('/', name: 'index', options: ['expose' => true])]
-    public function index(Request $request): Response
+    public function index(): Response
     {
-        return $this->render('admin/pages/users/index.html.twig', ['highlight' => $request->query->get('h')]);
+        return $this->render('admin/pages/users/index.html.twig');
     }
 
     #[Route('/utilisateur/ajouter', name: 'create', options: ['expose' => true])]

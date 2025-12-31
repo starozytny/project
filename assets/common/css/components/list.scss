@@ -45,6 +45,10 @@
       }
     }
 
+    & > [class^="col-"]{
+      width: 100%;
+    }
+
     & > [class^="col-"].actions{
       @include vars.flex(row, flex-end, flex-end, 4px);
       width: 100%;
