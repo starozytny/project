@@ -18,6 +18,10 @@ class DataEntity
      */
     public function crypt($action, $data)
     {
+        if($data == null || $data == ""){
+            return $data;
+        }
+
         $data = trim($data);
         $data = preg_replace('/\s+/', '', $data);
 
