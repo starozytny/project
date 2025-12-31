@@ -14,7 +14,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[UniqueEntity("code", "Ce code est déjà utilisé.")]
 class Society extends DataEntity
 {
-    const FOLDER = "logos";
+    const FOLDER = "societies/logos";
 
     const SELECT = ['society_select'];
     const LIST = ['society_list'];
@@ -32,11 +32,11 @@ class Society extends DataEntity
 
     #[ORM\Column(length: 255)]
     #[Groups(['society_list'])]
-    private ?string $manager = "default";
+    private ?string $manager = null;
 
     #[ORM\Column(length: 255)]
     #[Groups(['society_list'])]
-    private ?string $dirname = "default";
+    private ?string $dirname = null;
 
     #[ORM\Column(length: 20)]
     #[Groups(['society_list', 'society_form', 'user_list'])]
@@ -44,15 +44,15 @@ class Society extends DataEntity
 
     #[ORM\Column]
     #[Groups(['society_list'])]
-    private ?bool $isActivated = false;
+    private ?bool $isActivated = null;
 
     #[ORM\Column]
     #[Groups(['society_list'])]
-    private ?bool $isGenerated = false;
+    private ?bool $isGenerated = null;
 
     #[ORM\Column]
     #[Groups(['society_list', 'user_list'])]
-    private ?bool $isBlocked = false;
+    private ?bool $isBlocked = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $logo = null;
@@ -62,6 +62,11 @@ class Society extends DataEntity
 
     public function __construct()
     {
+        $this->manager = "default";
+        $this->dirname = "default";
+        $this->isActivated = false;
+        $this->isGenerated = false;
+        $this->isBlocked = false;
         $this->users = new ArrayCollection();
     }
 

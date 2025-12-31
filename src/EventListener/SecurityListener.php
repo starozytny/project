@@ -33,20 +33,6 @@ class SecurityListener
 
             $session = $this->requestStack->getSession();
 
-//            $tokenSession = $session->get('user_session_' . $user->getId());
-//
-//            if($tokenSession && $user->getTokenSession() != $tokenSession){
-//                $session->invalidate(1);
-//                $this->tokenStorage->setToken();
-//
-//                $url = $this->router->generate('app_homepage');
-//
-//                $response = new RedirectResponse($url);
-//
-//                $session->getFlashBag()->add('same', 'Une seule connexion active est autorisée par compte.');
-//                $event->setResponse($response);
-//            }
-
             $society = $user->getSociety();
 
             if($society->isIsBlocked()){
