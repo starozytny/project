@@ -10,7 +10,6 @@ use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
@@ -52,7 +51,7 @@ class SecurityController extends AbstractController
     /**
      * @throws Exception
      */
-    #[Route('/logout', name: 'app_logout', methods: ['GET'])]
+    #[Route('/logout', name: 'app_logout', options: ['expose' => true], methods: ['GET'])]
     public function logout()
     {
         // controller can be blank: it will never be called!
@@ -64,7 +63,7 @@ class SecurityController extends AbstractController
     {
         $user = $repository->findOneBy(['token' => $token]);
         if(!$user){
-            throw new NotFoundHttpException("Cet utilisateur n'existe pas.");
+            throw $this->createNotFoundException("Cet utilisateur n'existe pas.");
         }
 
         if((!$user->getLostAt() || !$user->getLostCode())
