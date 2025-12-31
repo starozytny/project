@@ -75,6 +75,14 @@ class Mail extends DataEntity
         return $this->id;
     }
 
+    #[Groups(['mail_list'])]
+    public function getThemeString(): string
+    {
+        $values = ["simple"];
+
+        return $values[$this->theme];
+    }
+
     public function getExpeditor(): ?string
     {
         return $this->expeditor;
@@ -157,14 +165,6 @@ class Mail extends DataEntity
         $this->theme = $theme;
 
         return $this;
-    }
-
-    #[Groups(['mail_list'])]
-    public function getThemeString(): string
-    {
-        $values = ["simple"];
-
-        return $values[$this->theme];
     }
 
     public function isIsTrash(): ?bool

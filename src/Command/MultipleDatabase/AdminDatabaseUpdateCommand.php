@@ -48,6 +48,7 @@ class AdminDatabaseUpdateCommand extends Command
                 $command = $this->getApplication()->find('doctrine:schema:update');
 
                 $arguments = [
+                    'command' => 'do:sc:up',
                     '--em' => $society->getManager(),
                     '--force' => true,
                     '--complete' => true,
@@ -63,11 +64,7 @@ class AdminDatabaseUpdateCommand extends Command
                 try {
                     $returnCode = $command->run($input, $bufferedOutput);
 
-                    if ($returnCode === 0) {
-                        $io->text($bufferedOutput->fetch());
-                    } else {
-                        $io->text($bufferedOutput->fetch());
-                    }
+                    $io->text($bufferedOutput->fetch());
                 } catch (\Exception $e) {
                     $io->error('Erreur mise à jour schéma : ' . $e->getMessage());
                 } catch (ExceptionInterface $e) {
