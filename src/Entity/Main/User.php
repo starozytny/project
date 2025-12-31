@@ -81,7 +81,7 @@ class User extends DataEntity implements UserInterface, PasswordAuthenticatedUse
 
     #[ORM\Column(length: 40)]
     #[Groups(['user_list'])]
-    private ?string $manager = "default";
+    private ?string $manager = null;
 
     #[ORM\ManyToOne(inversedBy: 'users')]
     #[ORM\JoinColumn(nullable: false)]
@@ -90,7 +90,7 @@ class User extends DataEntity implements UserInterface, PasswordAuthenticatedUse
 
     #[ORM\Column]
     #[Groups(['user_list'])]
-    private ?bool $isBlocked = false;
+    private ?bool $isBlocked = null;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Mail::class)]
     private Collection $mails;
@@ -102,6 +102,8 @@ class User extends DataEntity implements UserInterface, PasswordAuthenticatedUse
     {
         $this->createdAt = new \DateTimeImmutable();
         $this->token = bin2hex(random_bytes(32));
+        $this->manager = "default";
+        $this->isBlocked = false;
         $this->mails = new ArrayCollection();
     }
 
@@ -151,7 +153,10 @@ class User extends DataEntity implements UserInterface, PasswordAuthenticatedUse
     #[Groups(['user_list', 'user_form'])]
     public function getAvatarFile(): ?string
     {
-        return $this->getFileOrDefault($this->avatar, self::FOLDER, null);
+        return $this->getFileOrDefault(
+            $this->avatar,
+            self::FOLDER, "https://ui-avatars.com/api/?bold=true&background=E19F3D&name=" . substr($this->username, 0, 1)
+        );
     }
 
     #[Groups(['user_list'])]

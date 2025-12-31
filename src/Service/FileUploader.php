@@ -8,6 +8,7 @@ use App\Entity\Enum\Image\ImageType;
 use App\Entity\Main\Agenda\AgEvent;
 use App\Entity\Main\Changelog;
 use App\Entity\Main\Image;
+use App\Entity\Main\Mail;
 use App\Repository\Main\ImageRepository;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -106,7 +107,8 @@ class FileUploader
         if($file){
             $folder = match ($type){
                 ImageType::Changelog => Changelog::FOLDER_EDITOR,
-                ImageType::AgEvent => AgEvent::FOLDER,
+                ImageType::AgEvent => AgEvent::FOLDER_EDITOR,
+                ImageType::Mail => Mail::FOLDER_EDITOR,
             };
 
             $fileName = $this->replaceFile($file, $folder);

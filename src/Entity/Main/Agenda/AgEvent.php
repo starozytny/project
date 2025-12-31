@@ -11,7 +11,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: AgEventRepository::class)]
 class AgEvent extends DataEntity
 {
-    const FOLDER = "images/editor/events";
+    const FOLDER_EDITOR = "images/editor/events";
 
     const LIST = ["agenda_list"];
     const FORM = ["agenda_form"];
