@@ -105,7 +105,7 @@ class FileUploader
         $file = $request->files->get('file');
         if($file){
             $folder = match ($type){
-                ImageType::Changelog => Changelog::FOLDER,
+                ImageType::Changelog => Changelog::FOLDER_EDITOR,
                 ImageType::AgEvent => AgEvent::FOLDER,
             };
 
