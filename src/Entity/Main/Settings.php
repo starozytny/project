@@ -46,7 +46,7 @@ class Settings
 
     #[ORM\Column]
     #[Groups(['settings_form', 'settings_multiple_db'])]
-    private ?bool $multipleDatabase = false;
+    private ?bool $multipleDatabase = null;
 
     public function __construct()
     {
