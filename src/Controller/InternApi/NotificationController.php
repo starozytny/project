@@ -10,17 +10,17 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route(path: '/intern/api/notifications', name: 'intern_api_notifications_')]
+#[Route('/intern/api/notifications', name: 'intern_api_notifications_')]
 class NotificationController extends AbstractController
 {
-    #[Route(path: '/', name: 'index', options: ['expose' => true], methods: ['GET'])]
+    #[Route('/', name: 'index', options: ['expose' => true], methods: ['GET'])]
     public function index(NotificationRepository $repository, ApiResponse $apiResponse): JsonResponse
     {
         $objs = $repository->findAll();
         return $apiResponse->apiJsonResponse($objs, Notification::LIST);
     }
 
-    #[Route(path: '/{id}/is-seen', name: 'seen', options: ['expose' => true], methods: ['POST'])]
+    #[Route('/{id}/is-seen', name: 'seen', options: ['expose' => true], methods: ['POST'])]
     public function isSeen(ManagerRegistry $registry, Notification $obj, ApiResponse $apiResponse): JsonResponse
     {
         $em = $registry->getManager();
@@ -31,7 +31,7 @@ class NotificationController extends AbstractController
         return $apiResponse->apiJsonResponse($obj, Notification::LIST);
     }
 
-    #[Route(path: '/all/seen', name: 'seen_all', options: ['expose' => true], methods: ['POST'])]
+    #[Route('/all/seen', name: 'seen_all', options: ['expose' => true], methods: ['POST'])]
     public function allSeen(ManagerRegistry $registry, NotificationRepository $notificationRepository, ApiResponse $apiResponse): JsonResponse
     {
         $em = $registry->getManager();
@@ -47,7 +47,7 @@ class NotificationController extends AbstractController
         return $apiResponse->apiJsonResponse($objs, Notification::LIST);
     }
 
-    #[Route(path: '/{id}', name: 'delete', options: ['expose' => true], methods: ['DELETE'])]
+    #[Route('/{id}', name: 'delete', options: ['expose' => true], methods: ['DELETE'])]
     public function delete(ManagerRegistry $registry, Notification $obj, ApiResponse $apiResponse): JsonResponse
     {
         $em = $registry->getManager();
@@ -60,7 +60,7 @@ class NotificationController extends AbstractController
         return $apiResponse->apiJsonResponseSuccessful("Suppression réussie !");
     }
 
-    #[Route(path: '/', name: 'delete_all', options: ['expose' => true], methods: ['DELETE'])]
+    #[Route('/', name: 'delete_all', options: ['expose' => true], methods: ['DELETE'])]
     public function deleteAll(ManagerRegistry $registry, ApiResponse $apiResponse): JsonResponse
     {
         $em = $registry->getManager();

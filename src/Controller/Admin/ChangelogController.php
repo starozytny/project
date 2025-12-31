@@ -4,7 +4,6 @@ namespace App\Controller\Admin;
 
 use App\Entity\Main\Changelog;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -13,9 +12,9 @@ use Symfony\Component\Serializer\SerializerInterface;
 class ChangelogController extends AbstractController
 {
     #[Route('/', name: 'index', options: ['expose' => true])]
-    public function index(Request $request): Response
+    public function index(): Response
     {
-        return $this->render('admin/pages/changelogs/index.html.twig', ['highlight' => $request->query->get('h')]);
+        return $this->render('admin/pages/changelogs/index.html.twig');
     }
 
     #[Route('/changelog/ajouter', name: 'create', options: ['expose' => true])]

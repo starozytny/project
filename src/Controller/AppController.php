@@ -11,7 +11,7 @@ class AppController extends AbstractController
     #[Route('/', name: 'app_homepage')]
     public function index(): Response
     {
-        return $this->render('app/pages/index.html.twig', [ 'controller_name' => 'AppController' ]);
+        return $this->render('app/pages/index.html.twig');
     }
 
     #[Route('/contact', name: 'app_contact')]
@@ -26,13 +26,13 @@ class AppController extends AbstractController
         return $this->render('app/pages/legales/mentions.html.twig');
     }
 
-    #[Route('/legales/politique-confidentialite', name: 'app_politique', options: ['expose' => true])]
+    #[Route('/legales/politique-confidentialite', name: 'app_politique', options: ['expose' => true], methods: ['GET'])]
     public function politique(): Response
     {
         return $this->render('app/pages/legales/politique.html.twig');
     }
 
-    #[Route('/legales/cookies', name: 'app_cookies', options: ['expose' => true])]
+    #[Route('/legales/cookies', name: 'app_cookies', options: ['expose' => true], methods: ['GET'])]
     public function cookies(): Response
     {
         return $this->render('app/pages/legales/cookies.html.twig');
