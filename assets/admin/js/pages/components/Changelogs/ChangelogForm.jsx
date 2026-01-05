@@ -40,7 +40,7 @@ class Form extends Component {
 	constructor (props) {
 		super(props);
 
-		let content = props.content ? props.content : ""
+		let content = props.content ? props.content : "";
 
 		this.state = {
 			name: props.name,

@@ -1,16 +1,16 @@
 import React, { useRef, useState } from "react";
 import PropTypes from 'prop-types';
-import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
 import axios from "axios";
+import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
 import Sanitaze from "@commonFunctions/sanitaze";
 import Formulaire from "@commonFunctions/formulaire";
 
 import { setHighlightClass, useHighlight } from "@commonHooks/item";
 
-import { ButtonIcon, ButtonIconA } from "@tailwindComponents/Elements/Button";
 import { Switcher } from "@tailwindComponents/Elements/Fields";
+import { ButtonIcon, ButtonIconA } from "@tailwindComponents/Elements/Button";
 
 const URL_UPDATE_PAGE = "admin_changelogs_update";
 const URL_UPDATE_PUBLISH = "intern_api_changelogs_switch_publish";
@@ -43,7 +43,7 @@ export function ChangelogsItem ({ elem, highlight, onModal }) {
 		}
 	}
 
-	let urlUpdate = Routing.generate(URL_UPDATE_PAGE, { 'id': elem.id });
+	let urlUpdate = Routing.generate(URL_UPDATE_PAGE, { id: elem.id });
 	let publishedItems = [{ value: 1, identifiant: "oui-" + elem.id }]
 
 	let icons = ["icon-question", "icon-warning", "icon-error"];

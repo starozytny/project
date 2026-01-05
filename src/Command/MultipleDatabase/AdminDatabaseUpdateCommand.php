@@ -9,14 +9,12 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\ExceptionInterface;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(
     name: 'admin:database:update',
-    description: 'Update databases when multiple databases',
+    description: 'Updates databases',
 )]
 class AdminDatabaseUpdateCommand extends Command
 {
@@ -29,47 +27,30 @@ class AdminDatabaseUpdateCommand extends Command
         $this->em = $entityManager;
     }
 
-    protected function configure(): void
-    {
-        $this
-            ->addOption('test', "t", InputOption::VALUE_NONE, 'For test')
-        ;
-    }
-
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return int
+     * @throws ExceptionInterface
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
 
-        $isTest = $input->getOption('test');
-
         $societies = $this->em->getRepository(Society::class)->findBy(['isGenerated' => true]);
         foreach($societies as $society){
-            if(!$isTest || $society->getCode() == 999){
-                $command = $this->getApplication()->find('doctrine:schema:update');
-
-                $arguments = [
-                    'command' => 'do:sc:up',
-                    '--em' => $society->getManager(),
-                    '--force' => true,
-                    '--complete' => true,
-                ];
-
-                if ($isTest) {
-                    $arguments['--env'] = 'test';
-                }
-
-                $input = new ArrayInput($arguments);
-                $bufferedOutput = new BufferedOutput();
-
-                try {
-                    $returnCode = $command->run($input, $bufferedOutput);
-
-                    $io->text($bufferedOutput->fetch());
-                } catch (\Exception $e) {
-                    $io->error('Erreur mise à jour schéma : ' . $e->getMessage());
-                } catch (ExceptionInterface $e) {
-                    $io->error("Erreur: {$e->getMessage()}");
-                }
+            $command = $this->getApplication()->find('do:sc:up');
+            $arguments = [
+                'command' => 'do:sc:up',
+                '--force' => true,
+                '--complete' => true,
+                '--em' => $society->getManager()
+            ];
+            $greetInput = new ArrayInput($arguments);
+            try {
+                $command->run($greetInput, $output);
+            } catch (\Exception $e) {
+                $io->error('Erreur run do:sc:up : ' . $e);
             }
         }
 
