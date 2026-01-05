@@ -180,7 +180,7 @@ export function Mails ({ context, totalS, totalT, donnees, from, fromName }) {
                         ? <div>
                             <div className="flex justify-between gap-2">
                                 <div>
-                                    <div className="text-gray-600 text-sm">{Sanitaze.toDateFormat(element.createdAt)}</div>
+                                    <div className="text-gray-600 text-sm">{Sanitaze.toFormatDate(element.createdAt)}</div>
                                 </div>
                                 <div className="flex gap-2">
                                     {context === "corbeille"
@@ -301,7 +301,7 @@ function Item ({ data, setElement, selection, selections, onSelect }) {
                     </div>
                 </div>
                 <div className="text-xs text-gray-600 xl:text-right">
-                    <div>{Sanitaze.toDateFormat(elem.createdAt)}</div>
+                    <div>{Sanitaze.toFormatDate(elem.createdAt)}</div>
                 </div>
             </div>
         })

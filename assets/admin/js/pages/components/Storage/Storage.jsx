@@ -182,7 +182,7 @@ function File ({ elem, directory, deep }) {
 					<div className="text-gray-600 text-sm">{Sanitaze.toFormatBytesToSize(elem.size)}</div>
 				</div>
 				<div className="col-3">
-					<div className="text-gray-600 text-sm">{Sanitaze.toDateFormat(new Date(elem.dateAt.date), 'L LT', "", false)}</div>
+					<div className="text-gray-600 text-sm">{Sanitaze.toFormatDate(new Date(elem.dateAt.date), 'L LT', "", false)}</div>
 				</div>
 				<div className="col-4 actions">
 					<ButtonIcon type="default" icon={loadData ? icon : "download"} onClick={handleDownload}>Télécharger</ButtonIcon>

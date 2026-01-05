@@ -60,8 +60,8 @@ export function ChangelogsItem ({ elem, highlight, onModal }) {
 						</div>
 						<div className="text-gray-600 text-sm">
 							{elem.updatedAt
-								? "Modifié : " + Sanitaze.toDateFormat(elem.updatedAt)
-								: Sanitaze.toDateFormat(elem.createdAt)
+								? "Modifié : " + Sanitaze.toFormatDate(elem.updatedAt)
+								: Sanitaze.toFormatDate(elem.createdAt)
 							}
 						</div>
 					</div>

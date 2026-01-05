@@ -26,7 +26,7 @@ function getData (self, url, perPage, sorter, highlight = null, filters = null, 
     ;
 }
 
-function setCurrentPage (highlight, data, perPage, nameHighlight)
+function setCurrentPage (highlight, data, perPage, nameHighlight = "id")
 {
     let offset = 0, currentPage = 0;
     if(highlight){
@@ -142,34 +142,34 @@ function updateDataMuta (element, context, data, sorter, nameProperty = "id") {
 }
 
 function update (context, data, element, nameProperty = "id") {
-    let newData = [];
+    let nData = [];
 
     switch (context) {
         case "delete_group":
             data.forEach(el => {
                 if (!element.includes(el[nameProperty])) {
-                    newData.push(el);
+                    nData.push(el);
                 }
             })
             break;
         case "delete":
-            newData = data.filter(el => el[nameProperty] !== element[nameProperty]);
+            nData = data.filter(el => el[nameProperty] !== element[nameProperty]);
             break;
         case "update":
             data.forEach(el => {
                 if (el[nameProperty] === element[nameProperty]) {
                     el = element;
                 }
-                newData.push(el);
+                nData.push(el);
             })
             break;
         default:
-            newData = data ? data : [];
-            newData.push(element);
+            nData = data ? data : [];
+            nData.push(element);
             break;
     }
 
-    return newData;
+    return nData;
 }
 
 function updateData (element, context, data, sorter) {
