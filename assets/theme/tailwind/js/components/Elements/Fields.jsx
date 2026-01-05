@@ -78,7 +78,7 @@ export function Input ({
 						   type = "text", identifiant, name, valeur, errors, onChange, children, placeholder = "", autocomplete = "on", disabled = false,
 						   onBlur = null, min = "", max = "", step = 1,
 						   options = { numeral: true, numeralDecimalScale: 10, numeralThousandsGroupStyle: 'thousand', delimiter: ' ' },
-						   prefix
+						   prefix, onKeyDown
 					   }) {
 	const [showValue, setShowValue] = useState(false);
 
@@ -129,7 +129,8 @@ export function Input ({
 						 disabled={disabled}
 						 className={styleInput
 							 + " " + (error ? "ring-red-400" : "ring-gray-300")
-							 + " " + (type === "color" ? "bg-white h-8.5 w-16" : "w-full")} />
+							 + " " + (type === "color" ? "bg-white h-8.5 w-16" : "w-full")}
+						 onKeyDown={onKeyDown ? onKeyDown : null} />
 	}
 
 	return <>
@@ -255,7 +256,7 @@ export function Switcher ({ items, identifiant, valeur, errors, onChange, childr
 				</div>
 			</div>
 			<input type="checkbox" name={identifiant} className="hidden"
-				   id={elem.identifiant} value={elem.value} defaultChecked={isChecked} onChange={onChange} />
+				   id={elem.identifiant} value={elem.value} checked={isChecked} onChange={onChange} />
 		</label>
 	})
 
@@ -351,9 +352,13 @@ export function Radiobox ({
 			isChecked = true
 		}
 
-		return <div className={cn("flex items-center gap-2", styleType === "box-icon" && "w-full")} key={index}>
+		return <div className={cn("flex items-center gap-2",
+				styleType === "box-icon" && "w-full"
+			)} key={index}>
+
 			<input type="radio" id={elem.identifiant} name={identifiant} value={elem.value} onClick={onChange} defaultChecked={isChecked}
-				   className={styleType ? "hidden" : "h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-600"} />
+				   className={styleType !== "" ? "hidden" : "h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-600"} />
+
 			<label htmlFor={elem.identifiant}
 				   className={cn("block text-sm font-medium leading-6",
 					   styleType === "fat" && "cursor-pointer px-3 py-2 rounded-full ring-1 ring-inset bg-white ring-gray-300 text-gray-900 hover:bg-gray-50",
@@ -366,7 +371,7 @@ export function Radiobox ({
 				   )}
 			>
 				{styleType === "box-icon" && <span className={`icon-${elem.icon} text-xl`}></span>}
-				{elem.label}
+				<span>{elem.label}</span>
 				{(styleType === "box" || styleType === "box-icon") && isChecked
 					? <div className="absolute -top-[14px] -right-[14px]">
 						<div className="bg-blue-600 w-10 h-8 rotate-[40deg] flex justify-center items-end pb-1">
@@ -518,16 +523,17 @@ export class InputFile extends Component {
 	}
 
 	handleFileInput = (e) => {
-		const { type, max = 1, maxSize = 5330000 } = this.props;
+		const { type, max = 1, maxSize = 5330000, onDirectSubmit } = this.props;
 		const { files } = this.state;
 
+		let sendFiles = [];
 		const file = e.target.files[0];
 		if (file) {
 			if (type === "simple") {
 				if (file.size > maxSize) {
 					Toastr.toast('error', "Le fichier est trop volumineux.");
 				} else {
-					this.setState({ files: [file] })
+					sendFiles = [file];
 				}
 			} else {
 				let nFiles = [];
@@ -541,7 +547,13 @@ export class InputFile extends Component {
 					}
 				});
 
-				this.setState({ files: [...files, ...nFiles] })
+				sendFiles = [...files, ...nFiles];
+			}
+
+			if(onDirectSubmit){
+				onDirectSubmit(sendFiles);
+			}else{
+				this.setState({ files: sendFiles })
 			}
 		}
 	}
@@ -562,9 +574,12 @@ export class InputFile extends Component {
 		let error = getError(errors, identifiant);
 
 		return <>
-			<label htmlFor={identifiant} className="block text-sm font-medium leading-6 text-gray-800">
-				{children}
-			</label>
+			{children
+				? <label htmlFor={identifiant} className="block text-sm font-medium leading-6 text-gray-800">
+					{children}
+				</label>
+				: null
+			}
 			<div className="flex items-start gap-x-3">
 				<div className="hidden">
 					<input type='file' ref={this.fileInput} name={identifiant} id={identifiant} onChange={this.handleFileInput}
