@@ -18,6 +18,10 @@ export function CloseModalBtn ({ identifiant, children = "Annuler" })
 	return <div className="close-modal"><Button type="default" onClick={handleCloseModal}>{children}</Button></div>
 }
 
+CloseModalBtn.propTypes = {
+	identifiant: PropTypes.string.isRequired,
+}
+
 export class Modal extends Component {
 	constructor (props) {
 		super(props);

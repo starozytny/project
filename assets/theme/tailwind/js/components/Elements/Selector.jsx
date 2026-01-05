@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import Toastr from "@tailwindFunctions/toastr";
+
 export class Selector extends Component {
     constructor(props) {
         super(props);
@@ -18,17 +20,21 @@ export class Selector extends Component {
 
     // from fo uncheck via toolbar filter checked
     handleChange = (e) => {
-        const { elem } = this.props;
+        const { elem, elements, max = 999999 } = this.props;
 
         let isChecked = !!(e.currentTarget.checked)
 
         if(isChecked){
-            this.props.onSelectors(elem, "create")
+            if(elements.length >= max){
+                Toastr.toast('warning', 'Sélection max atteinte ('+ max + ').');
+            }else{
+                this.props.onSelectors(elem, "create")
+                this.setState({ isChecked })
+            }
         }else{
             this.props.onSelectors(elem, "delete")
+            this.setState({ isChecked })
         }
-
-        this.setState({ isChecked })
     }
 
     render () {
@@ -48,7 +54,7 @@ export class Selector extends Component {
                         <span className="icon-check1 text-slate-50 text-xs"></span>
                     </div>
                 </div>
-                <input type="checkbox" name="filters" className="hidden"
+                <input type="checkbox" name="filters" className="hidden" checked={isChecked ? 'checked' : ''}
                        id={identifiant} value={id} onChange={this.handleChange} />
             </label>
         </div>

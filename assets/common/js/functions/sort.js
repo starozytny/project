@@ -1,5 +1,35 @@
 const Sanitaze = require('@commonFunctions/sanitaze')
 
+function compareWithoutAccent(aVal, bVal) {
+    let aName = null, bName = null;
+    if(aVal){
+        aName = Sanitaze.removeAccents(aVal);
+        aName = aName.toLowerCase();
+    }
+
+    if(bVal){
+        bName = Sanitaze.removeAccents(bVal);
+        bName = bName.toLowerCase();
+    }
+
+    return comparison(aName, bName);
+}
+
+function comparison (objA, objB){
+    if(objA === objB){
+        return 0;
+    }
+
+    if(objA === null){
+        return 1;
+    }
+    if(objB === null){
+        return -1;
+    }
+
+    return objA < objB ? -1 : 1;
+}
+
 function compareFirstname(a, b){
     return compareWithoutAccent(a.firstname, b.firstname);
 }
@@ -40,23 +70,12 @@ function compareCity(a,b){
     return compareWithoutAccent(a.city, b.city);
 }
 
-function compareWithoutAccent(aVal, bVal) {
-    let aName = null, bName = null;
-    if(aVal){
-        aName = Sanitaze.removeAccents(aVal);
-        aName = aName.toLowerCase();
-    }
-
-    if(bVal){
-        bName = Sanitaze.removeAccents(bVal);
-        bName = bName.toLowerCase();
-    }
-
-    return comparison(aName, bName);
-}
-
 function compareCode(a, b){
     return comparison(a.code, b.code);
+}
+
+function compareLabel(a, b){
+    return comparison(a.label, b.label);
 }
 
 function compareRankThenLabel(a, b){
@@ -66,25 +85,6 @@ function compareRankThenLabel(a, b){
         return -1;
     }
     return comparison(a.label, b.label);
-}
-
-function compareLabel(a, b){
-    return comparison(a.label, b.label);
-}
-
-function comparison (objA, objB){
-    if(objA === objB){
-        return 0;
-    }
-
-    if(objA === null){
-        return 1;
-    }
-    if(objB === null){
-        return -1;
-    }
-
-    return objA < objB ? -1 : 1;
 }
 
 module.exports = {

@@ -129,7 +129,7 @@ export function ButtonIconA ({ type, icon, onClick, children, target = "", toolt
 	return <a href={onClick} target={target}
 			  className={`relative inline-flex justify-center rounded-md text-lg px-2 py-2 shadow-sm ${colorVariants[type]}`}>
 		<span className={`icon-${icon} ${iconColorVariants[type]}`}></span>
-		<span className="tooltip bg-gray-300 py-1 px-2 rounded absolute -top-7 right-0 text-xs hidden"
+		<span className="tooltip bg-gray-800 text-slate-50 py-1 px-2 rounded absolute -top-7 right-0 text-xs hidden"
 			  style={divStyle}>
 			{children}
 		</span>

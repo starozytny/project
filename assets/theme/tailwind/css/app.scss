@@ -52,6 +52,10 @@ ul{
   border: none;
 }
 
+.tox-statusbar__help-text, .tox-statusbar__branding, .tox-statusbar__right-container > button{
+  display: none;
+}
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;

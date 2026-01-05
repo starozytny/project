@@ -112,13 +112,14 @@ export class Notifications extends Component {
     }
 
     handleDeleteAll = () => {
+        const self = this;
         Formulaire.loader(true)
         axios.post(Routing.generate(URL_NOTIFICATIONS_DELETE_ALL), {})
             .then(function (response) {
                 location.reload();
             })
             .catch(function (error) {
-                Formulaire.displayErrors(this, error)
+                Formulaire.displayErrors(self, error)
             })
             .then(function () {
                 Formulaire.loader(false)

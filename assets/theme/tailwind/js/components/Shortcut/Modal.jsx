@@ -7,14 +7,30 @@ import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 import Toastr from "@tailwindFunctions/toastr";
 import Formulaire from "@commonFunctions/formulaire";
 
-import { Button } from "@tailwindComponents/Elements/Button";
 import { Modal } from "@tailwindComponents/Elements/Modal";
+import { Button } from "@tailwindComponents/Elements/Button";
 
 export class ModalDelete extends Component {
+	constructor (props) {
+		super(props);
+
+		this.state = {
+			loadingForm: false
+		}
+	}
+
 	handleDelete = () => {
 		const { refModal, element, routeName, msgSuccess, onUpdateList } = this.props;
+		const { loadingForm } = this.state;
+
+		if(loadingForm){
+			return;
+		}
+
+		this.setState({ loadingForm: true });
 
 		let self = this;
+		refModal.current.handleUpdateFooter(<Button type="red" iconLeft="chart-3">Confirmer la suppression</Button>)
 		axios({ method: "DELETE", url: Routing.generate(routeName, { id: element.id }), data: {} })
 			.then(function (response) {
 				Toastr.toast('info', msgSuccess);
@@ -27,6 +43,10 @@ export class ModalDelete extends Component {
 			})
 			.catch(function (error) {
 				Formulaire.displayErrors(self, error);
+			})
+			.then(function () {
+				refModal.current.handleUpdateFooter(<Button type="red" onClick={self.handleDelete}>Confirmer la suppression</Button>)
+				self.setState({ loadingForm: false });
 			})
 		;
 	}
