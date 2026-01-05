@@ -22,6 +22,10 @@ export function ContactsList ({ data, highlight, onModal }) {
 
                 {data.length > 0
                     ? data.map((elem) => {
+                        if(elem.isDeletedForList){
+                            return;
+                        }
+
                         return <ContactsItem key={elem.id} elem={elem} highlight={highlight} onModal={onModal} />;
                     })
                     : <div className="item border-t">

@@ -22,6 +22,10 @@ export function UsersList ({ data, highlight, onModal }) {
 
                 {data.length > 0
                     ? data.map((elem) => {
+                        if(elem.isDeletedForList){
+                            return;
+                        }
+
                         return <UsersItem key={elem.id} elem={elem} highlight={highlight} onModal={onModal} />;
                     })
                     : <div className="item border-t">

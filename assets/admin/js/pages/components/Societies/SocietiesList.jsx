@@ -22,6 +22,10 @@ export function SocietiesList ({ data, highlight, settings, onModal }) {
 
                 {data.length > 0
                     ? data.map((elem) => {
+                        if(elem.isDeletedForList){
+                            return;
+                        }
+
                         return <SocietiesItem key={elem.id} elem={elem} highlight={highlight} settings={settings} onModal={onModal} />;
                     })
                     : <div className="item border-t">

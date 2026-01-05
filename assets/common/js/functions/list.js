@@ -153,7 +153,12 @@ function update (context, data, element, nameProperty = "id") {
             })
             break;
         case "delete":
-            nData = data.filter(el => el[nameProperty] !== element[nameProperty]);
+            data.forEach(el => {
+                if (el[nameProperty] === element[nameProperty]) {
+                    el.isDeletedForList = true;
+                }
+                nData.push(el);
+            })
             break;
         case "update":
             data.forEach(el => {
