@@ -10,7 +10,7 @@
       position: relative;
       padding: 12px;
 
-      &.highlight{
+      &.highlight, &.highlight-expanded{
         &:before{
           content: "";
           position: absolute;
@@ -23,11 +23,6 @@
 
       &.highlight-expanded{
         &:before{
-          content: "";
-          position: absolute;
-          top: 0; left: 0;
-          display: block;
-          width: 4px; height: 100%;
           background-color: #272a4b;
         }
       }
