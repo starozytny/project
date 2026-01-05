@@ -39,5 +39,5 @@ export function ContactsList ({ data, highlight, onModal }) {
 
 ContactsList.propTypes = {
     data: PropTypes.array.isRequired,
-    onDelete: PropTypes.func.isRequired,
+    onModal: PropTypes.func.isRequired,
 }

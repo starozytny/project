@@ -41,10 +41,11 @@ class Contact extends DataEntity
 
     #[ORM\Column]
     #[Groups(['contact_list'])]
-    private ?bool $seen = false;
+    private ?bool $seen = null;
 
     public function __construct()
     {
+        $this->seen = false;
         $this->createdAt = new \DateTimeImmutable();
     }
 

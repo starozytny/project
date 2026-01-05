@@ -14,7 +14,10 @@
                 <div class="mt-2 pt-4 leading-5 border-t">
                     {% if settings %}
                         <div>{{ settings.websiteName }}</div>
-                        <div>{{ settings.emailGlobal }}</div>
+                        <div class="text-sm text-gray-600 mt-1">
+                            <div>Email contact : {{ settings.emailContact }}</div>
+                            <div>Email global : {{ settings.emailGlobal }}</div>
+                        </div>
                     {% endif %}
                     <div class="mt-2">
                         <a class="text-blue-600 hover:text-blue-700 hover:underline"

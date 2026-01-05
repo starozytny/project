@@ -13,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/intern/api/contacts', name: 'intern_api_contacts_')]
@@ -58,7 +59,13 @@ class ContactController extends AbstractController
             ]]);
         }
 
-        $dataEntity->createDataNotification("Demande de contact", "chat", $this->getUser());
+        $dataEntity->createDataNotification(
+            "Demande de contact",
+            "chat",
+            $this->getUser(),
+            $this->generateUrl('admin_contacts_index', ['h' => $obj->getId()], UrlGeneratorInterface::ABSOLUTE_URL)
+        );
+
         return $apiResponse->apiJsonResponseSuccessful("Demande envoyée.");
     }
 

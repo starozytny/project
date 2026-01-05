@@ -23,6 +23,7 @@ export class ContactFormulaire extends Component {
 			critere: "",
 			name: "",
 			email: "",
+			phone: "",
 			message: ""
 		}
 	}
@@ -60,6 +61,7 @@ export class ContactFormulaire extends Component {
 						self.setState({
 							name: "",
 							email: "",
+							phone: "",
 							message: "",
 							errors: [],
 							success: data.message

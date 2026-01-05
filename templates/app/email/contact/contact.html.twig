@@ -8,6 +8,7 @@
     <div>
         <div>Demande de contact réalisé par : {{ contact.name }}, le {{ contact.createdAt | date('d/m/Y \\à H:i') }}</div>
         <div>Email  de contact : {{ contact.email }}</div>
+        <div>Téléphone de contact : {{ contact.phone }}</div>
         <p style="width: 540px;">
             Message : <br>
             {{ contact.message }}
