@@ -35,7 +35,7 @@ class NotificationController extends AbstractController
     public function allSeen(ManagerRegistry $registry, NotificationRepository $notificationRepository, ApiResponse $apiResponse): JsonResponse
     {
         $em = $registry->getManager();
-        $objs = $notificationRepository->findBy(['seen' => false]);
+        $objs = $notificationRepository->findBy(['isSeen' => false]);
 
         foreach($objs as $obj){
             $obj->setIsSeen(true);
@@ -51,6 +51,7 @@ class NotificationController extends AbstractController
     public function delete(ManagerRegistry $registry, Notification $obj, ApiResponse $apiResponse): JsonResponse
     {
         $em = $registry->getManager();
+
         if (!$obj->isSeen()) {
             return $apiResponse->apiJsonResponseBadRequest("Vous n'avez pas lu ce message.");
         }
