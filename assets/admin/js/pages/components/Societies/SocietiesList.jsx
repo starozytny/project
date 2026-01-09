@@ -26,7 +26,7 @@ export function SocietiesList ({ data, highlight, settings, onModal }) {
                             return;
                         }
 
-                        return <SocietiesItem key={elem.id} elem={elem} highlight={highlight} settings={settings} onModal={onModal} />;
+                        return <SocietiesItem key={elem.id} elem={elem} highlight={highlight} settings={settings} onModal={onModal} />
                     })
                     : <div className="item border-t">
                         <Alert type="gray">Aucun résultat.</Alert>

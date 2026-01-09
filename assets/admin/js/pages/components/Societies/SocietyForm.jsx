@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
 import axios from 'axios';
+import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
 import Inputs from "@commonFunctions/inputs";
 import Formulaire from "@commonFunctions/formulaire";
@@ -14,14 +14,12 @@ import { Button, ButtonA } from "@tailwindComponents/Elements/Button";
 const URL_INDEX_ELEMENTS = "admin_societies_index";
 const URL_CREATE_ELEMENT = "intern_api_societies_create";
 const URL_UPDATE_ELEMENT = "intern_api_societies_update";
-const TEXT_CREATE = "Ajouter la société";
-const TEXT_UPDATE = "Enregistrer les modifications";
 
 export function SocietyFormulaire ({ context, element }) {
 	let url = Routing.generate(URL_CREATE_ELEMENT);
 
 	if (context === "update") {
-		url = Routing.generate(URL_UPDATE_ELEMENT, { 'id': element.id });
+		url = Routing.generate(URL_UPDATE_ELEMENT, { id: element.id });
 	}
 
 	return <Form
@@ -79,8 +77,8 @@ class Form extends Component {
 		if (!validate.code) {
 			Formulaire.showErrors(this, validate);
 		} else {
-			Formulaire.loader(true);
 			let self = this;
+			Formulaire.loader(true);
 
 			let formData = new FormData();
 			formData.append("data", JSON.stringify(this.state));
@@ -92,7 +90,7 @@ class Form extends Component {
 
 			axios({ method: "POST", url: url, data: formData, headers: { 'Content-Type': 'multipart/form-data' } })
 				.then(function (response) {
-					location.href = Routing.generate(URL_INDEX_ELEMENTS, { 'h': response.data.id });
+					location.href = Routing.generate(URL_INDEX_ELEMENTS, { h: response.data.id });
 				})
 				.catch(function (error) {
 					Formulaire.displayErrors(self, error);
@@ -106,7 +104,7 @@ class Form extends Component {
 		const { context, logoFile } = this.props;
 		const { errors, code, name } = this.state;
 
-		let params = { errors: errors, onChange: this.handleChange }
+		let params0 = { errors: errors, onChange: this.handleChange }
 
 		return <>
 			<form onSubmit={this.handleSubmit}>
@@ -121,10 +119,10 @@ class Form extends Component {
 						</div>
 						<div className="flex flex-col gap-4 bg-white p-4 rounded-md ring-1 ring-inset ring-gray-200 xl:col-span-2">
 							<div>
-								<Input identifiant="name" valeur={name} {...params}>Nom de la société</Input>
+								<Input identifiant="name" valeur={name} {...params0}>Nom de la société</Input>
 							</div>
 							<div>
-								<Input identifiant="code" valeur={code} {...params} placeholder="XXX">Code Société</Input>
+								<Input identifiant="code" valeur={code} {...params0} placeholder="XXX">Code Société</Input>
 							</div>
 						</div>
 					</div>
@@ -138,7 +136,7 @@ class Form extends Component {
 						</div>
 						<div className="bg-white p-4 rounded-md ring-1 ring-inset ring-gray-200 xl:col-span-2">
 							<div className="line">
-								<InputFile ref={this.file} type="simple" identifiant="logo" valeur={logoFile}{...params}>
+								<InputFile ref={this.file} type="simple" identifiant="logo" valeur={logoFile} {...params0}>
 									Logo <span className="text-sm text-gray-600">(facultatif)</span>
 								</InputFile>
 							</div>
@@ -149,7 +147,7 @@ class Form extends Component {
 				<div className="mt-4 flex justify-end gap-2">
 					<ButtonA type="default" onClick={Routing.generate(URL_INDEX_ELEMENTS)}>Annuler</ButtonA>
 					<Button type="blue" isSubmit={true}>
-						{context === "create" ? TEXT_CREATE : TEXT_UPDATE}
+						{context === "create" ? "Enregistrer" : "Enregistrer les modifications"}
 					</Button>
 				</div>
 			</form>

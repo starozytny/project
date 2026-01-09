@@ -26,7 +26,6 @@ if(el){
                                              element={null} />)
 }
 
-
 el = document.getElementById("societies_users");
 if(el){
     createRoot(el).render(<Users userEmail={el.dataset.userEmail} urlGetData={Routing.generate(URL_GET_USERS, {'society': el.dataset.id})} />)

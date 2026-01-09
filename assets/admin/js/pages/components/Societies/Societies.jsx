@@ -144,7 +144,7 @@ export class Societies extends Component {
 			modalActivationDefault(self);
 			return Promise.reject(error);
 		});
-		instance({ method: "PUT", url: Routing.generate(URL_ACTIVATE_ELEMENT, { 'id': element.id }), data: {} })
+		instance({ method: "PUT", url: Routing.generate(URL_ACTIVATE_ELEMENT, { id: element.id }), data: {} })
 			.then(function (response) {
 				Toastr.toast('info', "Société activée.");
 				self.activate.current.handleUpdateContent("<p>La société a été activée avec succès.</p>");
@@ -174,7 +174,7 @@ export class Societies extends Component {
 			modalGenerationDefault(self);
 			return Promise.reject(error);
 		});
-		instance({ method: "PUT", url: Routing.generate(URL_GENERATE_ELEMENT, { 'id': element.id }), data: {} })
+		instance({ method: "PUT", url: Routing.generate(URL_GENERATE_ELEMENT, { id: element.id }), data: {} })
 			.then(function (response) {
 				Toastr.toast('info', "Société générée.");
 				self.generate.current.handleUpdateContent("<p>La société a été générée avec succès.</p>");
@@ -239,20 +239,23 @@ export class Societies extends Component {
 					<Pagination ref={this.pagination} items={data} taille={data.length} currentPage={currentPage}
 								perPage={perPage} onUpdate={this.handleUpdateData} onChangeCurrentPage={this.handleChangeCurrentPage} />
 
-					<ModalDelete refModal={this.delete} element={element} routeName={URL_DELETE_ELEMENT}
-								 title="Supprimer cette société" msgSuccess="Société supprimée."
-								 onUpdateList={this.handleUpdateList}>
-						Êtes-vous sûr de vouloir supprimer définitivement cette société : <b>{element ? element.code + " " + element.name : ""}</b> ?
-						{settings.multipleDatabase
-							? <>
-								<br/><br/>
-								<span className="text-red-500 font-medium">
+					{createPortal(
+						<ModalDelete refModal={this.delete} element={element} routeName={URL_DELETE_ELEMENT}
+									 title="Supprimer cette société" msgSuccess="Société supprimée."
+									 onUpdateList={this.handleUpdateList}>
+							Êtes-vous sûr de vouloir supprimer définitivement cette société : <b>{element ? element.code + " - " + element.name : ""}</b> ?
+							{settings.multipleDatabase
+								? <>
+									<br/><br/>
+									<span className="text-red-500 font-medium">
 									Avant de continuer, assurez-vous d'avoir supprimer les lignes de codes dans le .env et doctrine.yaml.
 								</span>
-							</>
-							: null
-						}
-					</ModalDelete>
+								</>
+								: null
+							}
+						</ModalDelete>,
+						document.body
+					)}
 
 					{createPortal(
 						<Modal ref={this.activate} identifiant="activate" maxWidth={414} title="Activer la société"
@@ -298,8 +301,8 @@ function modalGenerationDefault (self) {
 
 function modalBlocked (self, element) {
 	self.blocked.current.handleUpdateContent(<p>
-		Le blocage d'une société interdit l'accès au site par tous les utilisateurs de cette société. <br /><br />
-		Le déblocage d'une société redonne l'accès au site par tous les utilisateurs de cette société.
+		Le blocage d'une société interdit l'accès au site pour tous les utilisateurs de cette société. <br /><br />
+		Le déblocage d'une société redonne l'accès au site pour tous les utilisateurs de cette société.
 	</p>);
 	self.blocked.current.handleUpdateFooter(<Button type={element.isBlocked ? "blue" : "red"} onClick={self.handleBlocked}>
 		{element.isBlocked ? "Débloquer" : "Bloquer"}

@@ -53,7 +53,7 @@ class SocietyController extends AbstractController
 
         $settings = $settingsService->getSettings();
 
-        $existe = $repository->findOneBy(['code' => (int) $data->code]);
+        $existe = $repository->findOneBy(['code' => $data->code]);
         if($existe && $existe->getId() != $obj->getId()){
             return $apiResponse->apiJsonResponseValidationFailed([[
                 'name' => 'code',
@@ -104,7 +104,10 @@ class SocietyController extends AbstractController
                            DataMain $dataEntity, SocietyRepository $repository, FileUploader $fileUploader,
                            SettingsService $settingsService, MultipleDatabase $multipleDatabase): Response
     {
-        return $this->submitForm("create", $repository, new Society(), $request, $apiResponse, $validator, $dataEntity, $fileUploader, $settingsService, $multipleDatabase);
+        return $this->submitForm(
+            "create", $repository, new Society(), $request, $apiResponse, $validator, $dataEntity, $fileUploader,
+            $settingsService, $multipleDatabase
+        );
     }
 
     #[Route('/update/{id}', name: 'update', options: ['expose' => true], methods: 'POST')]
@@ -112,7 +115,10 @@ class SocietyController extends AbstractController
                            DataMain $dataEntity, SocietyRepository $repository, FileUploader $fileUploader,
                            SettingsService $settingsService, MultipleDatabase $multipleDatabase): Response
     {
-        return $this->submitForm("update", $repository, $obj, $request, $apiResponse, $validator, $dataEntity, $fileUploader, $settingsService, $multipleDatabase);
+        return $this->submitForm(
+            "update", $repository, $obj, $request, $apiResponse, $validator, $dataEntity, $fileUploader,
+            $settingsService, $multipleDatabase
+        );
     }
 
     #[Route('/delete/{id}', name: 'delete', options: ['expose' => true], methods: 'DELETE')]
@@ -120,7 +126,7 @@ class SocietyController extends AbstractController
     {
         $repository->remove($obj, true);
 
-        $fileUploader->deleteFile($obj->getLogo(), Society::FOLDER);
+        $fileUploader->deleteFile($obj->getLogo(), Society::FOLDER_LOGOS);
         return $apiResponse->apiJsonResponseSuccessful("ok");
     }
 
