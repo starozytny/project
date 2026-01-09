@@ -124,7 +124,7 @@ class AdminController extends AbstractController
         return $this->render('admin/pages/storage/index.html.twig');
     }
 
-    #[Route('/mails/{type}', name: 'mails_index', options: ['expose' => true])]
+    #[Route('/mails/{type}', name: 'mails_index', options: ['expose' => true], methods: ['GET'])]
     public function mails(Request $request, $type, MailRepository $repository, SerializerInterface $serializer,
                           PaginatorInterface $paginator, SettingsService $settingsService): Response
     {
