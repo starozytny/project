@@ -74,6 +74,7 @@ class MailForm extends Component {
 	}
 
 	handleChangeTinyMCE = (name, html) => {
+		html = html.replaceAll(/[^"]*(?:\btw-\w+-\w+\b)[^"]*/g, '')
 		this.setState({ [name]: { value: this.state[name].value, html: html } })
 	}
 
@@ -215,7 +216,7 @@ class MailForm extends Component {
 						</div>
 
 						<div>
-							<TinyMCE type={1} identifiant='message' valeur={message.value}
+							<TinyMCE type={2} identifiant='message' valeur={message.value}
 									 errors={errors} onUpdateData={this.handleChangeTinyMCE} key={resetTextArea}>
 								Message
 							</TinyMCE>

@@ -108,6 +108,7 @@ class FileUploader
             $folder = match ($type){
                 ImageType::Changelog => Changelog::FOLDER_EDITOR,
                 ImageType::AgEvent => AgEvent::FOLDER_EDITOR,
+                ImageType::Mail => Mail::FOLDER_EDITOR,
             };
 
             $fileName = $this->replaceFile($file, $folder);

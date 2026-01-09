@@ -12,6 +12,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: MailRepository::class)]
 class Mail extends DataEntity
 {
+    const FOLDER_EDITOR = "images/editor/mails";
     const FOLDER_FILES = "emails";
 
     const LIST = ['mail_list'];
