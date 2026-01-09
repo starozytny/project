@@ -78,7 +78,7 @@ class SocietyController extends AbstractController
 
         $file = $request->files->get('logo');
         if ($file) {
-            $fileName = $fileUploader->replaceFile($file, Society::FOLDER, $obj->getLogo());
+            $fileName = $fileUploader->replaceFile($file, Society::FOLDER_LOGOS, $obj->getLogo());
             $obj->setLogo($fileName);
         }
 

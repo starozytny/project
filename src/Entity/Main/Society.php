@@ -14,7 +14,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[UniqueEntity("code", "Ce code est déjà utilisé.")]
 class Society extends DataEntity
 {
-    const FOLDER = "societies/logos";
+    const FOLDER_LOGOS = "societies/logos";
 
     const SELECT = ['society_select'];
     const LIST = ['society_list'];
@@ -78,7 +78,7 @@ class Society extends DataEntity
     #[Groups(['society_list', 'society_form'])]
     public function getLogoFile(): string
     {
-        return $this->getFileOrDefault($this->logo, self::FOLDER);
+        return $this->getFileOrDefault($this->logo, self::FOLDER_LOGOS);
     }
 
     #[Groups(['society_select'])]
